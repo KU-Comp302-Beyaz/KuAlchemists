@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author zulaldemirtas
- *
- */
-module kuaclchemists {
-}
