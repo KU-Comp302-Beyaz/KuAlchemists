@@ -14,16 +14,20 @@ import ui.MenuWindowDisplay.ImageListCellRenderer;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.ScrollPane;
+
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JScrollBar;
 
 public class MenuWindowDisplay extends JFrame {
@@ -110,15 +114,16 @@ public class MenuWindowDisplay extends JFrame {
 			avatarPanels[i] = new JPanel();
 			avatarPanels[i].add(avatarIcons[i]);
 		}
-				
+						
 		JList avatarList = new JList();
 		avatarList.setCellRenderer(new ImageListCellRenderer());
-		avatarList.setListData(avatarPanels);	
+		avatarList.setListData(avatarPanels);
 		avatarList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		avatarList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		avatarList.setBounds(165,215,128,280);
 		avatarList.setFixedCellHeight(140);
-		avatarList.setFixedCellWidth(128);		
+		avatarList.setFixedCellWidth(128);	
+		avatarList.setSelectedIndex(0);
 		
 		JScrollPane avatarScrollPane = new JScrollPane();
 		avatarScrollPane.setBounds(360,215,150,280);
@@ -131,11 +136,15 @@ public class MenuWindowDisplay extends JFrame {
 				String username = usernameText.getText();
 				System.out.println("Username 1" + username);
 				usernameText.setText("");
-				//token alınacak
+				
+				int chosenAvatarIndex = avatarList.getSelectedIndex();
+				System.out.println("Avatar 1 is number " + chosenAvatarIndex);
+
 				//Player player1 = new Player(username1, token1)
 				//game.players.add(player1)
 				
 				//Disabling player1 panel and enabling player2 panel
+				
 				playerUsername.setVisible(false);
 				playerUsername2.setVisible(true);
 				
@@ -150,7 +159,9 @@ public class MenuWindowDisplay extends JFrame {
 				String username2 = usernameText.getText();
 				System.out.println("Username 2" + username2);
 
-				//token alınacak
+				int chosenAvatarIndex = avatarList.getSelectedIndex();
+				System.out.println("Avatar 2 is number " + chosenAvatarIndex);
+				
 				//Player player2 = new Player(username2, token2)
 				//game.players.add(player2)
 				
