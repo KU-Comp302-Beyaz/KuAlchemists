@@ -1,21 +1,45 @@
 package ui;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+
+import ui.MenuWindowDisplay.ImageListCellRenderer;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JList;
+import javax.swing.ListSelectionModel;
+import javax.swing.AbstractListModel;
+import javax.swing.JScrollBar;
 
 public class MenuWindowDisplay extends JFrame {
+
+	public class ImageListCellRenderer implements ListCellRenderer {
+
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+		      Component component = (Component) value;
+		      component.setForeground(Color.white);
+		      component.setBackground(isSelected ? UIManager.getColor("Table.focusCellForeground") : Color.white);
+		      return component;
+		}
+
+	}
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
@@ -40,10 +64,10 @@ public class MenuWindowDisplay extends JFrame {
 	 * Create the frame.
 	 */
 	public MenuWindowDisplay() {
-		setBounds(0, 0, 971, 440);
+		setBounds(0, 0, 971, 720);
 		getContentPane().setLayout(null);
 		JPanel playerPanel1 = new JPanel();
-		playerPanel1.setBounds(0, 0, 971, 412);
+		playerPanel1.setBounds(0, 0, 971, 720);
 		playerPanel1.setLayout(null);
 		
 		JLabel gameTitle = new JLabel("KU ALCHEMISTS");
@@ -73,11 +97,33 @@ public class MenuWindowDisplay extends JFrame {
 		JButton loginButton2 = new JButton("LOGIN");
 		loginButton2.setVisible(false);
 		
-		loginButton.setBounds(381, 284, 117, 29);
-		loginButton2.setBounds(381, 284, 117, 29);
+		loginButton.setBounds(370, 517, 117, 29);
+		loginButton2.setBounds(370, 517, 117, 29);
 
 		playerPanel1.add(loginButton);
 		playerPanel1.add(loginButton2);
+		
+		JLabel[] avatarIcons = new JLabel[6];
+		JPanel[] avatarPanels = new JPanel[6];
+		for (int i = 0; i < 6; i++) {
+			avatarIcons[i] = new JLabel("", new ImageIcon("Images/avatar-icons/avatar"+(i+1)+".png"), JLabel.CENTER);
+			avatarPanels[i] = new JPanel();
+			avatarPanels[i].add(avatarIcons[i]);
+		}
+				
+		JList avatarList = new JList();
+		avatarList.setCellRenderer(new ImageListCellRenderer());
+		avatarList.setListData(avatarPanels);	
+		avatarList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		avatarList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		avatarList.setBounds(165,215,128,280);
+		avatarList.setFixedCellHeight(140);
+		avatarList.setFixedCellWidth(128);		
+		
+		JScrollPane avatarScrollPane = new JScrollPane();
+		avatarScrollPane.setBounds(360,215,150,280);
+		avatarScrollPane.setViewportView(avatarList);
+		playerPanel1.add(avatarScrollPane);
 
 		
 		loginButton.addActionListener(new ActionListener() {
