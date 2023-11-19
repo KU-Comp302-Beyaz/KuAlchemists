@@ -1,5 +1,8 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ingredients.Ingredient;
 import potion.Potion;
 import theorydeduction.AlchemyMarker;
@@ -11,14 +14,17 @@ public class Player {
 	private Token token;
 	private int goldBalance; 
 	private int turnNumber;
-	private Ingredient[] ingredientCards;
+	private List<Ingredient> ingredientCards = new ArrayList<Ingredient>(); 
 	// private Artifact[] artifactCards;
 	private int sicknessLevel;
 	private int reputationPoints;
 	private int scorePoints;
-	private Potion[] potions;
-	private Theory[] theories;
+	private List<Potion> potions = new ArrayList<Potion>();
+	private List<Theory> theories = new ArrayList<Theory>();
 	private AlchemyMarker alchemyMarker; // ??? array?
+	//neden alchemymarker var?
+	//Arrayleri mutable olmaları için liste çevirdim
+	
 	// ingredientType: IngredientType
 
 	
@@ -66,10 +72,10 @@ public class Player {
 		this.turnNumber = turnNumber;
 	}
 
-	public Ingredient[] getIngredientCards() {
+	public List<Ingredient> getIngredientCards() {
 		return ingredientCards;
 	}
-	public void setIngredientCards(Ingredient[] ingredientCards) {
+	public void setIngredientCards(List<Ingredient> ingredientCards) {
 		this.ingredientCards = ingredientCards;
 	}
 
@@ -94,17 +100,17 @@ public class Player {
 		this.scorePoints = scorePoints;
 	}
 
-	public Potion[] getPotions() {
+	public List<Potion> getPotions() {
 		return potions;
 	}
-	public void setPotions(Potion[] potions) {
+	public void setPotions(List<Potion> potions) {
 		this.potions = potions;
 	}
 
-	public Theory[] getTheories() {
+	public List<Theory> getTheories() {
 		return theories;
 	}
-	public void setTheories(Theory[] theories) {
+	public void setTheories(List<Theory> theories) {
 		this.theories = theories;
 	}
 
