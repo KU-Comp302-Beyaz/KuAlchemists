@@ -21,11 +21,6 @@ public class Player {
 	private int scorePoints;
 	private List<Potion> potions = new ArrayList<Potion>();
 	private List<Theory> theories = new ArrayList<Theory>();
-	private AlchemyMarker alchemyMarker; // ??? array?
-	//neden alchemymarker var?
-	//Arrayleri mutable olmaları için liste çevirdim
-	
-	// ingredientType: IngredientType
 
 	
 	// constructor
@@ -33,8 +28,8 @@ public class Player {
 		
 		this.username = username;
 		this.token = token;
-		this.goldBalance = 0; //?
-		this.turnNumber = 0; //?
+		this.goldBalance = 10; //?
+		this.turnNumber = 3; // azalacak şekilde güncellenir
 		this.sicknessLevel = 0;
 		this.reputationPoints = 0;
 		this.scorePoints = 0;
@@ -114,17 +109,12 @@ public class Player {
 		this.theories = theories;
 	}
 
-	public AlchemyMarker getAlchemyMarker() {
-		return alchemyMarker;
-	}
-	public void setAlchemyMarker(AlchemyMarker alchemyMarker) {
-		this.alchemyMarker = alchemyMarker;
-	}
 
 
 	// other methods
-	public void updatePlayerTurn() { // boolean mı dönsün? eğer 3e ulaşırsa false döner ve diğer oyuncuya veya etaba geçilir?
+	public int updatePlayerTurn() { // boolean mı dönsün? eğer 3e ulaşırsa false döner ve diğer oyuncuya veya etaba geçilir?
 		this.turnNumber ++;
+		return turnNumber;
 	}
 	
 	public void updateGoldBalance(int amount) {
