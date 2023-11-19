@@ -17,7 +17,7 @@ public class PotionController {
 		this.potion = potion;
 	}
 	
-		
+
 	public int initializePotionSale() {
 		
 		PotionBrewingAreaDisplay pbad = new PotionBrewingAreaDisplay();
