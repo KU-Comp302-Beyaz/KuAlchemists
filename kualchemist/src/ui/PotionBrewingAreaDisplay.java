@@ -5,11 +5,18 @@ import ingredients.Ingredient;
 public class PotionBrewingAreaDisplay {
 
 	
-	
+	// UI ın en üst class'ı bunu içersin !!
 	public void display() {
 		//pba sayfası açılacak
 		//direkt create edildiğinde açılmasın
 	}
+	
+	public void close() {
+		//pba sayfası kapanacak
+		//direkt create edildiğinde açılmasın
+	}
+	//////////////////////////
+	
 	
 	public boolean displayChoiceBox() {
 		//random bir potion isteyecek
@@ -24,7 +31,7 @@ public class PotionBrewingAreaDisplay {
 		return "positive";
 	}
 	
-	public Ingredient[] displayExperimentSteup() {
+	public Ingredient[] displayExperimentSetup() {
 		//butonla yapılabilir
 		//fotoya tıklayınca ingredient yaratacak
 		//2 ingredient seçilmiş olacak
@@ -35,4 +42,17 @@ public class PotionBrewingAreaDisplay {
 		Ingredient[] ingredients = {i1, i2};
 		return ingredients;
 	}
+	
+	public String displayTestMethodBox() { // Student üzerinde mi kendi üzerinde mi test edilecek
+		//
+		
+		//
+		if(true) {
+			return "Student";
+		} else {
+			return "Player";
+		}
+	}
+	
+	
 }
