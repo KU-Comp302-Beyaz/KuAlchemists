@@ -5,7 +5,6 @@ import java.util.List;
 
 import ingredients.Ingredient;
 import potion.Potion;
-import theorydeduction.AlchemyMarker;
 import theorydeduction.Theory;
 
 public class Player {
@@ -119,5 +118,12 @@ public class Player {
 	
 	public void updateGoldBalance(int amount) {
 		setGoldBalance(goldBalance + amount);
+	}
+	
+	public AlchemyMarker testOnPlayer(Potion p) {
+		//////
+		
+		AlchemyMarker a = null;
+		return a;
 	}
 }
