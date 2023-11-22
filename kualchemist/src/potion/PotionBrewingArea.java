@@ -1,17 +1,33 @@
 package potion;
 
+import domain.AlchemyMarker;
+import domain.Player;
+import domain.Student;
 import ingredients.Ingredient;
 
 public class PotionBrewingArea {
 
 	public Potion makePotion(Ingredient ing_1, Ingredient ing_2) {
 		
-		Potion p = null;
+		Potion p = new Potion(ing_1, ing_2);
 		
 		return p;
 	}
 	
-	// public ? testPotion(??) {}
+	public AlchemyMarker testPotion(String testMethod, Potion p, Player player) {
+		
+		AlchemyMarker alchemyMarker = null;
+		if(testMethod.equals("Student")) {
+			Student student = new Student();
+			alchemyMarker = student.testOnStudent(p);
+		} else if (testMethod.equals("Player")) {
+			alchemyMarker = player.testOnPlayer(p);
+		} else {
+			// error;
+		}
+		
+		return alchemyMarker;
+	}
 	
 	
 	
