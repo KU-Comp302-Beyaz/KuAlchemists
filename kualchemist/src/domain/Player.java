@@ -10,7 +10,7 @@ import theorydeduction.Theory;
 public class Player {
 
 	private String username;
-	private Token token;
+	private int token;
 	private int goldBalance; 
 	private int turnNumber;
 	private List<Ingredient> ingredientCards = new ArrayList<Ingredient>(); 
@@ -23,10 +23,10 @@ public class Player {
 
 	
 	// constructor
-	public Player (String username, Token token) {
+	public Player (String username, int chosenAvatarIndex) {
 		
 		this.username = username;
-		this.token = token;
+		this.token = chosenAvatarIndex;
 		this.goldBalance = 10; //?
 		this.turnNumber = 3; // azalacak şekilde güncellenir
 		this.sicknessLevel = 0;
@@ -45,10 +45,10 @@ public class Player {
 		this.username = username;
 	}
 
-	public Token getToken() {
+	public int getToken() {
 		return token;
 	}
-	public void setToken(Token token) {
+	public void setToken(int token) {
 		this.token = token;
 	}
 
