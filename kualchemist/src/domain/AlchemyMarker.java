@@ -1,4 +1,4 @@
-package theorydeduction;
+package domain;
 
 public class AlchemyMarker {
 
