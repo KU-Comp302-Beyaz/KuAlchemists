@@ -1,4 +1,4 @@
-package publication;
+package domain.publication;
 
 public class PublicationTrack {
 

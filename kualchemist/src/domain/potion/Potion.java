@@ -1,6 +1,6 @@
-package potion;
+package domain.potion;
 
-import ingredients.Ingredient;
+import domain.ingredients.Ingredient;
 
 public class Potion {
 	

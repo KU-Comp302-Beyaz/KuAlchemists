@@ -1,4 +1,4 @@
-package theorydeduction;
+package domain.theorydeduction;
 
 import domain.Alchemical;
 import domain.Player;
