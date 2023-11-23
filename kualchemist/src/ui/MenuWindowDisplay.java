@@ -8,32 +8,29 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
 
 import domain.Game;
 import domain.Player;
-import ui.MenuWindowDisplay.ImageListCellRenderer;
+import ui.MenuWindowDisplay.ImageListCellRenderer; //necessary
 
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.ScrollPane;
-
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
-import javax.swing.AbstractListModel;
-import javax.swing.DefaultListModel;
-import javax.swing.JScrollBar;
+
 
 public class MenuWindowDisplay extends JFrame {
 
+	/**
+	 * Needed for the Avatar jlist - it contains jpanels with imageicons instead of a list
+	 */
 	public class ImageListCellRenderer implements ListCellRenderer {
 
 		@Override
@@ -110,6 +107,9 @@ public class MenuWindowDisplay extends JFrame {
 		playerPanel1.add(loginButton);
 		playerPanel1.add(loginButton2);
 		
+		/**
+		 * Taking the avatar images from the /Images/avatar-icons folder 
+		 */
 		JLabel[] avatarIcons = new JLabel[6];
 		JPanel[] avatarPanels = new JPanel[6];
 		for (int i = 0; i < 6; i++) {
@@ -133,7 +133,9 @@ public class MenuWindowDisplay extends JFrame {
 		avatarScrollPane.setViewportView(avatarList);
 		playerPanel1.add(avatarScrollPane);
 
-		
+		/**
+		 * Player 1 Login
+		 */
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String username1 = usernameText.getText();
@@ -150,7 +152,6 @@ public class MenuWindowDisplay extends JFrame {
 				System.out.println("Player 1's username: " + player1_username);
 				
 				//Disabling player1 panel and enabling player2 panel
-				
 				playerUsername.setVisible(false);
 				playerUsername2.setVisible(true);
 				
@@ -160,6 +161,9 @@ public class MenuWindowDisplay extends JFrame {
 			}
 		});
 		
+		/**
+		 * Player 2 Login
+		 */
 		loginButton2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String username2 = usernameText.getText();
