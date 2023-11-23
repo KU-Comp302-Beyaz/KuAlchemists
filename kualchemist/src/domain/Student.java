@@ -1,6 +1,6 @@
 package domain;
 
-import potion.Potion;
+import domain.potion.Potion;
 
 public class Student {
 	

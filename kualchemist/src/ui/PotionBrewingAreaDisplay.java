@@ -1,6 +1,6 @@
 package ui;
 
-import ingredients.Ingredient;
+import domain.ingredients.Ingredient;
 
 public class PotionBrewingAreaDisplay {
 

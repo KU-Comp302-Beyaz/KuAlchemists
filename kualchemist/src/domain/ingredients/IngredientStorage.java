@@ -1,4 +1,4 @@
-package ingredients;
+package domain.ingredients;
 
 public class IngredientStorage {
 

@@ -1,4 +1,4 @@
-package potion;
+package domain.potion;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.Map;
 import domain.AlchemyMarker;
 import domain.Player;
 import domain.Student;
-import ingredients.Ingredient;
+import domain.ingredients.Ingredient;
 import ui.PotionBrewingAreaDisplay;
 
 public class PotionController {

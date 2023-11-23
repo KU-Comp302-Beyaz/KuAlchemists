@@ -3,9 +3,9 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import ingredients.Ingredient;
-import potion.Potion;
-import theorydeduction.Theory;
+import domain.ingredients.Ingredient;
+import domain.potion.Potion;
+import domain.theorydeduction.Theory;
 
 public class Player {
 
