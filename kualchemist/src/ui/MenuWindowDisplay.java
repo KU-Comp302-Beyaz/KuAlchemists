@@ -68,6 +68,7 @@ public class MenuWindowDisplay extends JFrame {
 	 * Create the frame.
 	 */
 	public MenuWindowDisplay() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 971, 720);
 		getContentPane().setLayout(null);
 		JPanel playerPanel1 = new JPanel();
