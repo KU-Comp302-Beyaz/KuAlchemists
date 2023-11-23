@@ -46,24 +46,14 @@ public class MenuWindowDisplay extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
+	private String username1;
+	private String username2;
+	private int selectedToken1;
+	private int selectedToken2;
+	private boolean loginCompleted = false;
+
 	
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MenuWindowDisplay frame = new MenuWindowDisplay();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the frame.
 	 */
@@ -139,18 +129,14 @@ public class MenuWindowDisplay extends JFrame {
 		 */
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String username1 = usernameText.getText();
+				
+				//Username of Player1
+				username1 = usernameText.getText();
 				usernameText.setText("");
-				
-				int chosenAvatarIndex = avatarList.getSelectedIndex();
-				System.out.println("Avatar 1 is number " + chosenAvatarIndex);
 
-				Player player1 = new Player(username1, chosenAvatarIndex);
-				Game.setPlayer1(player1);
-				
-				//For controlling of the correct creation of Players
-				String player1_username = Game.getPlayer1().getUsername();
-				System.out.println("Player 1's username: " + player1_username);
+				//Avatar index of Player1
+				selectedToken1 = avatarList.getSelectedIndex();
+
 				
 				//Disabling player1 panel and enabling player2 panel
 				playerUsername.setVisible(false);
@@ -167,18 +153,10 @@ public class MenuWindowDisplay extends JFrame {
 		 */
 		loginButton2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String username2 = usernameText.getText();
-				System.out.println("Username 2: " + username2);
-
-				int chosenAvatarIndex = avatarList.getSelectedIndex();
-				System.out.println("Avatar 2 is number " + chosenAvatarIndex);
 				
-				Player player2 = new Player(username2, chosenAvatarIndex);
-				Game.setPlayer2(player2);
-				
-				//For controlling of the correct creation of Players
-				String player2_username = Game.getPlayer2().getUsername();
-				System.out.println("Player 2's username: " + player2_username);
+				username2 = usernameText.getText();
+				selectedToken2 = avatarList.getSelectedIndex();				
+				loginCompleted = true;
 				
 				BoardWindow board = new BoardWindow();
 				board.initialize();
@@ -189,4 +167,26 @@ public class MenuWindowDisplay extends JFrame {
 		
 
 	}
+	
+	public void displayMenuWindow() {
+		MenuWindowDisplay frame = new MenuWindowDisplay();
+		frame.setVisible(true);
+	}
+	
+	public String getFirstUsername() {
+		return username1;
+	}
+	
+	public String getSecondUsername() {
+		return username2;
+	}
+	
+	public int getFirstAvatarIndex() {
+		return selectedToken1;
+	}
+	
+	public int getSecondAvatarIndex() {
+		return selectedToken2;
+	}
+	
 }
