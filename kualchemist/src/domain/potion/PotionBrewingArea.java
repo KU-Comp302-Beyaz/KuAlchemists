@@ -2,7 +2,6 @@ package domain.potion;
 
 import domain.AlchemyMarker;
 import domain.Player;
-import domain.Student;
 import domain.ingredients.Ingredient;
 
 public class PotionBrewingArea {

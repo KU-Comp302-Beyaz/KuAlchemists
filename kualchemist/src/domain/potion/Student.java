@@ -1,6 +1,6 @@
-package domain;
+package domain.potion;
 
-import domain.potion.Potion;
+import domain.AlchemyMarker;
 
 public class Student {
 	
