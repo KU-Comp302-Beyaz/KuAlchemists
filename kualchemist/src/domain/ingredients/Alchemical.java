@@ -1,6 +1,8 @@
-package domain;
+package domain.ingredients;
 
 import java.util.List;
+
+import domain.theorydeduction.AlchemyMarker;
 
 public class Alchemical {
 	

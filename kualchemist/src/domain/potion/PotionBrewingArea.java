@@ -1,8 +1,8 @@
 package domain.potion;
 
-import domain.AlchemyMarker;
 import domain.Player;
 import domain.ingredients.Ingredient;
+import domain.theorydeduction.AlchemyMarker;
 
 public class PotionBrewingArea {
 

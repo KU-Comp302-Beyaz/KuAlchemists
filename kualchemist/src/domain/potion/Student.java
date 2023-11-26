@@ -1,6 +1,6 @@
 package domain.potion;
 
-import domain.AlchemyMarker;
+import domain.theorydeduction.AlchemyMarker;
 
 public class Student {
 	
