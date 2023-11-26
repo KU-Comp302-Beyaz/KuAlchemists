@@ -3,9 +3,9 @@ package domain.potion;
 import java.util.HashMap;
 import java.util.Map;
 
-import domain.AlchemyMarker;
 import domain.Player;
 import domain.ingredients.Ingredient;
+import domain.theorydeduction.AlchemyMarker;
 import ui.PotionBrewingAreaDisplay;
 
 public class PotionController {

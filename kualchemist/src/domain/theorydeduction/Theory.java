@@ -1,7 +1,7 @@
 package domain.theorydeduction;
 
-import domain.Alchemical;
 import domain.Player;
+import domain.ingredients.Alchemical;
 
 public class Theory {
 
