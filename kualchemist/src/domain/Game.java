@@ -1,7 +1,7 @@
 package domain;
 
 import ui.BoardWindow;
-import ui.MenuWindowDisplay;
+import ui.MenuWindow;
 
 public class Game {
 
@@ -10,7 +10,8 @@ public class Game {
 	
 	public static void main(String[] args) {
 		
-		MenuWindowDisplay menuWindow = new MenuWindowDisplay();
+		//Displaying the Login Window:
+		MenuWindow menuWindow = new MenuWindow();
 		menuWindow.displayMenuWindow();
 		
 		//Creation of player1:

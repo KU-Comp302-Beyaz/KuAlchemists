@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 
 import domain.Game;
 import domain.Player;
-import ui.MenuWindowDisplay.ImageListCellRenderer; //necessary
+import ui.MenuWindow.ImageListCellRenderer; //necessary
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -26,8 +26,18 @@ import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 
 
-public class MenuWindowDisplay extends JFrame {
+public class MenuWindow extends JFrame {
 
+	
+	private static final long serialVersionUID = 1L;
+	private JTextField textField;
+	private String username1;
+	private String username2;
+	private int selectedToken1;
+	private int selectedToken2;
+	private boolean loginCompleted = false;
+
+	
 	/**
 	 * Needed for the Avatar jlist - it contains jpanels with imageicons instead of a list
 	 */
@@ -43,21 +53,12 @@ public class MenuWindowDisplay extends JFrame {
 		}
 
 	}
-
-	private static final long serialVersionUID = 1L;
-	private JTextField textField;
-	private String username1;
-	private String username2;
-	private int selectedToken1;
-	private int selectedToken2;
-	private boolean loginCompleted = false;
-
 	
 	
 	/**
 	 * Create the frame.
 	 */
-	public MenuWindowDisplay() {
+	public MenuWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 971, 720);
 		getContentPane().setLayout(null);
@@ -65,22 +66,26 @@ public class MenuWindowDisplay extends JFrame {
 		playerPanel1.setBounds(0, 0, 971, 720);
 		playerPanel1.setLayout(null);
 		
+		//Game title
 		JLabel gameTitle = new JLabel("KU ALCHEMISTS");
 		gameTitle.setFont(new Font("Cochin", Font.PLAIN, 50));
 		gameTitle.setBounds(241, 22, 439, 64);
 		playerPanel1.add(gameTitle);
 		getContentPane().add(playerPanel1);
 		
+		//Taking input for username1
 		JTextField usernameText = new JTextField();
 		usernameText.setBounds(313, 151, 257, 32);
 		playerPanel1.add(usernameText);
 		usernameText.setColumns(10);
 		
+		//Player Username 1 title
 		JLabel playerUsername = new JLabel("PLAYER 1 USERNAME:");
 		playerUsername.setFont(new Font("Cochin", Font.PLAIN, 20));
 		playerUsername.setBounds(322, 115, 315, 32);
 		playerPanel1.add(playerUsername);
 		
+		//Player Username 2 title
 		JLabel playerUsername2 = new JLabel("PLAYER 2 USERNAME:");
 		playerUsername2.setFont(new Font("Cochin", Font.PLAIN, 20));
 		playerUsername2.setBounds(322, 115, 315, 32);
@@ -88,6 +93,7 @@ public class MenuWindowDisplay extends JFrame {
 		
 		playerUsername2.setVisible(false);
 		
+		//Login Buttons for Player 1 login and Player 2 login
 		JButton loginButton = new JButton("LOGIN");
 		JButton loginButton2 = new JButton("LOGIN");
 		loginButton2.setVisible(false);
@@ -164,27 +170,30 @@ public class MenuWindowDisplay extends JFrame {
 				
 			}
 		});
-		
-
 	}
 	
+	//Displays the frame
 	public void displayMenuWindow() {
-		MenuWindowDisplay frame = new MenuWindowDisplay();
+		MenuWindow frame = new MenuWindow();
 		frame.setVisible(true);
 	}
 	
+	//Returns Player 1's username
 	public String getFirstUsername() {
 		return username1;
 	}
-	
+
+	//Returns Player 2's username
 	public String getSecondUsername() {
 		return username2;
 	}
 	
+	//Returns Player 1's token number
 	public int getFirstAvatarIndex() {
 		return selectedToken1;
 	}
 	
+	//Returns Player 2's token number
 	public int getSecondAvatarIndex() {
 		return selectedToken2;
 	}
