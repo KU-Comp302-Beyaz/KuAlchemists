@@ -35,8 +35,8 @@ public class PotionBrewingAreaDisplay {
 		//butonla yapılabilir
 		//fotoya tıklayınca ingredient yaratacak
 		//2 ingredient seçilmiş olacak
-		Ingredient i1 = new Ingredient();
-		Ingredient i2 = new Ingredient();
+		Ingredient i1 = new Ingredient(null, null, null);
+		Ingredient i2 = new Ingredient(null, null, null);
 		//Eğer 2den fazla basmaya çalışırsa hata versin
 		
 		Ingredient[] ingredients = {i1, i2};
