@@ -1,45 +1,126 @@
 package ui;
 
-import java.awt.EventQueue;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.Font;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class BoardWindow extends JFrame {
 
-	private JPanel contentPane;
+    private JPanel contentPane;
 
-	/**
-	 * Create the frame.
-	 */
-	public BoardWindow() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 971, 412);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(0, 0, 971, 412));
+    /**
+     * Create the frame.
+     */
+    public BoardWindow() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(971, 412);
 
-		contentPane.setLayout(null);
-		setContentPane(contentPane);
-		
-		JPanel boardDisplay = new JPanel();
-		boardDisplay.setBounds(0, 0, 971, 384);
-		contentPane.add(boardDisplay);
-		boardDisplay.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("BOARD");
-		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 50));
-		lblNewLabel.setBounds(394, 157, 204, 60);
-		boardDisplay.add(lblNewLabel);
-		
-	}
-	
-	public void initialize() {
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setLayout(new BorderLayout());
+        setContentPane(contentPane);
+
+        // Menu bar
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+
+        JMenu fileMenu = new JMenu("Menu");
+        menuBar.add(fileMenu);
+
+        JMenuItem openDialogMenuItem = new JMenuItem("Open Menu");
+        fileMenu.add(openDialogMenuItem);
+
+        // Add ActionListener to open the dialog when the menu item is clicked
+        openDialogMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openDialog();
+            }
+        });
+
+        // Board display panel
+        JPanel boardDisplay = new JPanel(new GridBagLayout());
+        contentPane.add(boardDisplay, BorderLayout.CENTER);
+
+        // Deduction Board in the middle as a button
+        JButton deductionBoardButton = new JButton("Deduction Board");
+        deductionBoardButton.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        GridBagConstraints gbcDeductionBoard = new GridBagConstraints();
+        gbcDeductionBoard.gridx = 1;
+        gbcDeductionBoard.gridy = 1;
+        boardDisplay.add(deductionBoardButton, gbcDeductionBoard);
+
+        // Buttons in the corners
+        addButton(boardDisplay, "Ingredient Storage", 0, 0, GridBagConstraints.NORTHWEST, 0.2);
+        addButton(boardDisplay, "Artifact Storage", 2, 0, GridBagConstraints.NORTHEAST, 0.2);
+        addButton(boardDisplay, "Potion Brewing Area", 0, 2, GridBagConstraints.SOUTHWEST, 0.2);
+        addButton(boardDisplay, "Publication Track", 2, 2, GridBagConstraints.SOUTHEAST, 0.2);
+    }
+
+    private void addButton(JPanel panel, String text, int gridx, int gridy, int anchor, double weight) {
+        JButton button = new JButton(text);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = gridx;
+        gbc.gridy = gridy;
+        gbc.anchor = anchor;
+        gbc.weightx = weight; // Spread out horizontally
+        gbc.weighty = weight; // Spread out vertically
+        gbc.insets = new Insets(5, 5, 5, 5); // Adjust padding
+        button.setPreferredSize(new Dimension(150, 50)); // Set preferred size
+        panel.add(button, gbc);
+    }
+
+    private void openDialog() {
+        // Create a small dialog
+        JDialog dialog = new JDialog(this, "In Game Menu", true);
+        dialog.setSize(300, 150);
+
+        // Panel for the buttons in the dialog
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+
+        // Buttons in the dialog
+        JButton helpButton = new JButton("Help");
+        JButton pauseButton = new JButton("Pause");
+        JButton exitButton = new JButton("Exit");
+
+        // Add ActionListener to the "Exit" button to close the dialog
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose();
+            }
+        });
+
+        // Add buttons to the panel
+        buttonPanel.add(helpButton);
+        buttonPanel.add(pauseButton);
+        buttonPanel.add(exitButton);
+
+        // Add the panel to the dialog
+        dialog.add(buttonPanel);
+
+        // Set the dialog location relative to the main frame
+        dialog.setLocationRelativeTo(this);
+
+        // Make the dialog visible
+        dialog.setVisible(true);
+    }
+    
+    public void initialize() {
 		
 		setVisible(true);
 	}
 
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                BoardWindow frame = new BoardWindow();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }
