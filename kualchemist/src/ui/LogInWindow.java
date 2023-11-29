@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 
 import domain.Game;
 import domain.Player;
-import ui.MenuWindow.ImageListCellRenderer; //necessary
+import ui.LogInWindow.ImageListCellRenderer; //necessary
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -26,7 +26,7 @@ import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 
 
-public class MenuWindow extends JFrame {
+public class LogInWindow extends JFrame {
 
 	
 	private static final long serialVersionUID = 1L;
@@ -58,7 +58,7 @@ public class MenuWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MenuWindow() {
+	public LogInWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 971, 720);
 		getContentPane().setLayout(null);
@@ -174,7 +174,7 @@ public class MenuWindow extends JFrame {
 	
 	//Displays the frame
 	public void displayMenuWindow() {
-		MenuWindow frame = new MenuWindow();
+		LogInWindow frame = new LogInWindow();
 		frame.setVisible(true);
 	}
 	
