@@ -6,7 +6,7 @@ import java.util.Map;
 import domain.Player;
 import domain.ingredients.Ingredient;
 import domain.theorydeduction.AlchemyMarker;
-import ui.PotionBrewingAreaDisplay;
+import ui.PotionBrewingAreaDisplayHelp;
 
 public class PotionController {
 	
@@ -14,7 +14,7 @@ public class PotionController {
 	private Potion potion;
 	
 	// ?! Her fonksiyon için ayrı açılması yerine ortak bir tane olsun (Yoksa make experimentta iki kez iç içe açılır)
-	PotionBrewingAreaDisplay pbad = new PotionBrewingAreaDisplay(); 
+	PotionBrewingAreaDisplayHelp pbad = new PotionBrewingAreaDisplayHelp(); 
 	PotionBrewingArea pba = new PotionBrewingArea();
 	
 	public PotionController(Player player, Potion potion){

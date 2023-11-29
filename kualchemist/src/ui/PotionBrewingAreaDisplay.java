@@ -1,58 +1,42 @@
 package ui;
 
-import domain.ingredients.Ingredient;
+import java.awt.EventQueue;
 
-public class PotionBrewingAreaDisplay {
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
-	
-	// UI ın en üst class'ı bunu içersin !!
-	public void display() {
-		//pba sayfası açılacak
-		//direkt create edildiğinde açılmasın
+public class PotionBrewingAreaDisplay extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PotionBrewingAreaDisplay frame = new PotionBrewingAreaDisplay();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
-	
-	public void close() {
-		//pba sayfası kapanacak
-		//direkt create edildiğinde açılmasın
+
+	/**
+	 * Create the frame.
+	 */
+	public PotionBrewingAreaDisplay() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
 	}
-	//////////////////////////
-	
-	
-	public boolean displayChoiceBox() {
-		//random bir potion isteyecek
-		//eğer yes'e tıklarsa true dönecek
-		return true;
-	}
-	
-	public String displayGuaranteeBox() {
-		//1: Positive
-		//2: Positive or neutral
-		//3: No guarantee
-		return "positive";
-	}
-	
-	public Ingredient[] displayExperimentSetup() {
-		//butonla yapılabilir
-		//fotoya tıklayınca ingredient yaratacak
-		//2 ingredient seçilmiş olacak
-		Ingredient i1 = new Ingredient(null, null, null);
-		Ingredient i2 = new Ingredient(null, null, null);
-		//Eğer 2den fazla basmaya çalışırsa hata versin
-		
-		Ingredient[] ingredients = {i1, i2};
-		return ingredients;
-	}
-	
-	public String displayTestMethodBox() { // Student üzerinde mi kendi üzerinde mi test edilecek
-		//
-		
-		//
-		if(true) {
-			return "Student";
-		} else {
-			return "Player";
-		}
-	}
-	
-	
+
 }
