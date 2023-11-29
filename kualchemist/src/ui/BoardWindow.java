@@ -15,8 +15,9 @@ public class BoardWindow extends JFrame {
      */
     public BoardWindow() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(971, 412);
-
+        //setSize(971, 412);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
+        
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout());
@@ -53,14 +54,34 @@ public class BoardWindow extends JFrame {
         boardDisplay.add(deductionBoardButton, gbcDeductionBoard);
 
         // Buttons in the corners
-        addButton(boardDisplay, "Ingredient Storage", 0, 0, GridBagConstraints.NORTHWEST, 0.2);
-        addButton(boardDisplay, "Artifact Storage", 2, 0, GridBagConstraints.NORTHEAST, 0.2);
-        addButton(boardDisplay, "Potion Brewing Area", 0, 2, GridBagConstraints.SOUTHWEST, 0.2);
-        addButton(boardDisplay, "Publication Track", 2, 2, GridBagConstraints.SOUTHEAST, 0.2);
+        JButton ingredientStorageButton = new JButton("Ingredient Storage");
+  		JButton artifactStorageButton = new JButton("Artifact Storage");
+  		JButton potionBrewingAreaButton = new JButton("Potion Brewing Area");
+  		
+  		potionBrewingAreaButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				
+				PotionBrewingAreaDisplay pbdDisplay = new PotionBrewingAreaDisplay();
+				pbdDisplay.initialize();
+				dispose(); //closes BoardWindow
+
+			}
+		});
+	
+  		
+  		JButton publicationTrackButton = new JButton("Publication Track");
+  		
+  		
+        addButton(ingredientStorageButton, boardDisplay, "Ingredient Storage", 0, 0, GridBagConstraints.NORTHWEST, 0.2);
+        addButton(artifactStorageButton, boardDisplay, "Artifact Storage", 2, 0, GridBagConstraints.NORTHEAST, 0.2);
+        addButton(potionBrewingAreaButton, boardDisplay, "Potion Brewing Area", 0, 2, GridBagConstraints.SOUTHWEST, 0.2);
+        addButton(publicationTrackButton, boardDisplay, "Publication Track", 2, 2, GridBagConstraints.SOUTHEAST, 0.2);
+        
+     
     }
 
-    private void addButton(JPanel panel, String text, int gridx, int gridy, int anchor, double weight) {
-        JButton button = new JButton(text);
+    private void addButton(JButton button,JPanel panel, String text, int gridx, int gridy, int anchor, double weight) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = gridx;
         gbc.gridy = gridy;

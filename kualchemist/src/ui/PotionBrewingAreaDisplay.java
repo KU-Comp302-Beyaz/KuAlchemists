@@ -14,6 +14,8 @@ public class PotionBrewingAreaDisplay extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	
+	/*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -25,18 +27,24 @@ public class PotionBrewingAreaDisplay extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
 	 */
 	public PotionBrewingAreaDisplay() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		//setBounds(100, 100, 450, 300);
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
+	}
+	
+    public void initialize() {
+		
+		setVisible(true);
 	}
 
 }

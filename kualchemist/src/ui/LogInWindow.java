@@ -60,7 +60,8 @@ public class LogInWindow extends JFrame {
 	 */
 	public LogInWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 971, 720);
+		//setBounds(0, 0, 971, 720);
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
 		getContentPane().setLayout(null);
 		JPanel playerPanel1 = new JPanel();
 		playerPanel1.setBounds(0, 0, 971, 720);
