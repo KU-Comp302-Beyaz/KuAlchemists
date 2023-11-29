@@ -15,7 +15,7 @@ public class BoardWindow extends JFrame {
      */
     public BoardWindow() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setSize(971, 412);
+		setBounds(300, 300, 1550, 900);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
         
         contentPane = new JPanel();
