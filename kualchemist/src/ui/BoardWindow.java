@@ -92,6 +92,19 @@ public class BoardWindow extends JFrame {
                 dialog.dispose();
             }
         });
+        
+        pauseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(dialog, "Game Paused");
+                 showResumePausePage();
+                    //  Hide the "Pause Game" button and show the "Resume Game" button
+                    pauseButton.setVisible(false);
+                    //resumeButton.setVisible(true);
+                    dialog.dispose();
+                
+            }
+        });
 
         // Add buttons to the panel
         buttonPanel.add(helpButton);
@@ -106,6 +119,46 @@ public class BoardWindow extends JFrame {
 
         // Make the dialog visible
         dialog.setVisible(true);
+    }
+    
+    
+private void showResumePausePage() {
+        
+        
+        JDialog dialog = new JDialog(this, "In Game Menu", true);
+        dialog.setSize(300, 150);
+
+        // Panel for the buttons in the dialog
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+
+        // Buttons in the dialog
+        JButton resumeButton = new JButton("Resume Game");
+        
+        resumeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //JOptionPane.showMessageDialog(dialog, "Game Resumed");
+               // Hide the "Resume Game" button and show the "Pause Game" button
+                resumeButton.setVisible(false);
+              // pauseButton.setVisible(true);
+                                        
+                dialog.dispose();
+
+            }
+        });
+        
+        // Add buttons to the panel
+        buttonPanel.add(resumeButton);
+
+        // Add the panel to the dialog
+        dialog.getContentPane().add(buttonPanel);
+
+        // Set the dialog location relative to the main frame
+        dialog.setLocationRelativeTo(this);
+
+        // Make the dialog visible
+        dialog.setVisible(true);
+  
     }
     
     public void initialize() {
