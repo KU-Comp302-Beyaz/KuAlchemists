@@ -8,11 +8,11 @@ public class Alchemical {
 	
 	private List<AlchemyMarker> aspects;
 	
-	public Alchemical (AlchemyMarker m1, AlchemyMarker m2, AlchemyMarker m3) {
+	public Alchemical (AlchemyMarker red, AlchemyMarker green, AlchemyMarker blue) {
 		
-		this.aspects.add(m1);
-		this.aspects.add(m2);
-		this.aspects.add(m3);
+		this.aspects.add(red);
+		this.aspects.add(green);
+		this.aspects.add(blue);
 	}
 
 	public List<AlchemyMarker> getAspects() {

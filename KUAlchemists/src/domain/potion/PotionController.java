@@ -46,7 +46,7 @@ public class PotionController {
 			potion = pba.makePotion(recipe[0], recipe[1]);
 			
 			//Daha sonra düzelt
-			if (potion.sign.equals(guaranteedPotionNature)) {
+			if (potion.getAlchemyMarker().getSign().equals(guaranteedPotionNature)) {
 				player.updateGoldBalance(1);
 				
 			}
@@ -76,17 +76,18 @@ public class PotionController {
 		potion = pba.makePotion(ing_1, ing_2);
 		initializeTestPotion(potion);
 		
-		//player.updateGoldBalance(amount);
-		//player.updatePlayerTurn();
+		
+		player.updatePlayerTurn();
 	}
 
 
 	public void initializeTestPotion(Potion p) {
 
-		pbad.display();
+		// pbad.display(); // ???
 		String testMethod = pbad.displayTestMethodBox(); // Player Choose TestMethod (Test on Student / Test on Player)
 		
 		AlchemyMarker alchemyMarker = pba.testPotion(testMethod, p, player);
+		
 		
 	}
 

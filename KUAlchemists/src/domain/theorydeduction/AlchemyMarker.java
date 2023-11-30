@@ -9,17 +9,26 @@ public class AlchemyMarker {
 	
 	public AlchemyMarker (String sign, String color, String size) {
 		
-		this.sign = sign;
-		this.color = color;
-		this.size = size;
+		this.sign = sign;	// (+ / -)
+		this.color = color;	// (red / green / blue)
+		this.size = size;	// (S / L)
+	}
+	
+	
+	public AlchemyMarker () { // nötr
+
 	}
 
-
+	public AlchemyMarker (String sign, String color) { // resutToken for the result of potion making
+		
+		this.sign = sign;	// (+ / -)
+		this.color = color;	// (red / green / blue)
+		this.size = size;	// (S / L)
+	}
+	
 	public String getSign() {
 		return sign;
 	}
-
-
 	public void setSign(String sign) {
 		this.sign = sign;
 	}
@@ -28,8 +37,6 @@ public class AlchemyMarker {
 	public String getColor() {
 		return color;
 	}
-
-
 	public void setColor(String color) {
 		this.color = color;
 	}
@@ -38,8 +45,6 @@ public class AlchemyMarker {
 	public String getSize() {
 		return size;
 	}
-
-
 	public void setSize(String size) {
 		this.size = size;
 	}

@@ -122,9 +122,17 @@ public class Player {
 	}
 	
 	public AlchemyMarker testOnPlayer(Potion p) {
-		//////
+
+		AlchemyMarker alchemyMarker = p.getAlchemyMarker();
+		if(alchemyMarker.getSign().equals("-")) {
+			sicknessLevel ++;
+		} else if (alchemyMarker.getSign().equals("+")){
+			// ou can use it to decrease your sickness level by 1? How ??
+		}
 		
-		AlchemyMarker a = null;
-		return a;
+		if(sicknessLevel == 3) { // sickness level increases to 3, e.g., you get sick 3 times, you lose all of your golds to have surgery and get well.
+			setGoldBalance(0);
+		}
+		return alchemyMarker;
 	}
 }
