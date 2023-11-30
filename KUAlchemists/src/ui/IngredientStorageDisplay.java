@@ -26,6 +26,7 @@ import java.awt.Insets;
 
 import domain.Game;
 import domain.Game.Controller;
+import domain.ingredients.Ingredient;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -58,20 +59,23 @@ public class IngredientStorageDisplay extends JFrame {
 		ingredientFramePanel.add(ingredientDeckPanel);
 		ingredientDeckPanel.setLayout(new BoxLayout(ingredientDeckPanel, BoxLayout.Y_AXIS));
 		
-		Component rigidArea = Box.createRigidArea(new Dimension(100, 100));
+		Component rigidArea = Box.createRigidArea(new Dimension(100, 50));
 		ingredientDeckPanel.add(rigidArea);
 		
 		JLabel ingredientDeckLabel = new JLabel("Ingredient Deck");
 		ingredientDeckLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		ingredientDeckLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 32));
 		ingredientDeckPanel.add(ingredientDeckLabel);
-		
+			
 		Component rigidArea_1 = Box.createRigidArea(new Dimension(100, 100));
 		ingredientDeckPanel.add(rigidArea_1);
 		
-		ingredientDisplayLabel = new JLabel("");
+		ingredientDisplayLabel = new JLabel("text");
 		ingredientDisplayLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		ingredientDisplayLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 32));
 		ingredientDeckPanel.add(ingredientDisplayLabel);
+		
+
 		
 		//-- buttonsPanel
 		JPanel buttonsPanel = new JPanel();
@@ -145,16 +149,16 @@ public class IngredientStorageDisplay extends JFrame {
 	}
 	
 	public void initialize() {
-		ingredientDisplayLabel.setText("");
+		ingredientDisplayLabel.setText("text");
 		setVisible(true);
 	}
 	
 	public void displayText() {
-		
+		ingredientDisplayLabel.setText("Ingredient transmuted.");
 	}
 	
-	public void displayCard() {
-		
+	public void displayCard(Ingredient ingredientCard) {
+		ingredientDisplayLabel.setText("chosen card here");
 	}
 	
 	//method for menu bar

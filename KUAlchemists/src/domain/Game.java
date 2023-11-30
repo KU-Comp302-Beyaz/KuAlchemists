@@ -1,14 +1,20 @@
 package domain;
 
+import domain.ingredients.Ingredient;
+import domain.ingredients.IngredientController;
 import ui.BoardWindow;
+import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
 
 public class Game {
 
 	private static Game gameSingleton = new Game();
-	public static Controller gameController = null;
+	public static Controller controller = null;
 	public static Player player1;
 	public static Player player2;
+	
+	//WE COULD ADD A currentPlayer TO USE FOR THE FUNCTIONS IN THE selectController()
+	//public Player currPlayer = player1;
 	
 	public enum Controller {
 		FORAGE_FOR_INGREDIENT,
@@ -42,11 +48,27 @@ public class Game {
 	}
 	
 	public void selectContoller(Controller controller) {
-		gameController = controller;
+		switch (controller) {
+		case FORAGE_FOR_INGREDIENT:
+			Ingredient ingredientCard = IngredientController.getIngredientController().addIngredientToPlayer();
+			IngredientStorageDisplay.getIngredientStorageDisplay().displayCard(ingredientCard);
+			break;
+		case TRANSMUTE_INGREDIENT:
+			IngredientController.getIngredientController().transmuteIngredient();
+			IngredientStorageDisplay.getIngredientStorageDisplay().displayText();
+			break;
+		default:
+			break;
+		}
+	}
+
+
+	public static void setController(Controller gameController) {
+		Game.controller = gameController;
 	}
 
 	public static Controller getController() {
-		return gameController;
+		return controller;
 	}
 
 
