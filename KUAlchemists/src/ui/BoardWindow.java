@@ -89,6 +89,13 @@ public class BoardWindow extends JFrame {
   		
   		JButton publicationTrackButton = new JButton("Publication Track");
   		
+  		publicationTrackButton.addActionListener( e -> {
+  			
+  			PublicationTrackDisplay.getIsDisplay().initialize();
+  			dispose();
+  			
+  		});
+  		
   		
         addButton(ingredientStorageButton, boardDisplay, "Ingredient Storage", 0, 0, GridBagConstraints.NORTHWEST, 0.2);
         addButton(artifactStorageButton, boardDisplay, "Artifact Storage", 2, 0, GridBagConstraints.NORTHEAST, 0.2);
