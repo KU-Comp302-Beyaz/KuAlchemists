@@ -62,6 +62,7 @@ public class LogInWindow extends JFrame {
 	 * Create the frame.
 	 */
 	public LogInWindow() {
+		setResizable(false);
 		//get screen height and width
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = dimension.height;
@@ -174,7 +175,7 @@ public class LogInWindow extends JFrame {
 				selectedToken2 = avatarList.getSelectedIndex();				
 				loginCompleted = true;
 				
-				BoardWindow board = new BoardWindow();
+				BoardWindow board = BoardWindow.getBoardWindow();
 				board.initialize();
 				dispose();
 				

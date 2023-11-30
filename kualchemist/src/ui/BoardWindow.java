@@ -7,13 +7,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class BoardWindow extends JFrame {
+	
+	private static BoardWindow boardWindow = new BoardWindow();
 
     private JPanel contentPane;
+    
+    public static BoardWindow getBoardWindow() {
+    	return boardWindow;
+    }
 
     /**
      * Create the frame.
      */
-    public BoardWindow() {
+    private BoardWindow() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(300, 300, 1550, 900);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
@@ -61,9 +67,8 @@ public class BoardWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				IngredientStorageDisplay isDisplay = IngredientStorageDisplay.getIngredientStorageDisplay();
-				setVisible(false);
 				isDisplay.initialize();
-				
+				setVisible(false);
 			}
 		});
         
@@ -89,6 +94,9 @@ public class BoardWindow extends JFrame {
         addButton(artifactStorageButton, boardDisplay, "Artifact Storage", 2, 0, GridBagConstraints.NORTHEAST, 0.2);
         addButton(potionBrewingAreaButton, boardDisplay, "Potion Brewing Area", 0, 2, GridBagConstraints.SOUTHWEST, 0.2);
         addButton(publicationTrackButton, boardDisplay, "Publication Track", 2, 2, GridBagConstraints.SOUTHEAST, 0.2);
+        
+        
+        setVisible(false);
         
      
     }
