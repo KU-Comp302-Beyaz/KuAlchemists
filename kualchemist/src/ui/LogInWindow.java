@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.ImageIcon;
@@ -15,6 +16,8 @@ import ui.LogInWindow.ImageListCellRenderer; //necessary
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.JTextField;
@@ -59,37 +62,43 @@ public class LogInWindow extends JFrame {
 	 * Create the frame.
 	 */
 	public LogInWindow() {
+		//get screen height and width
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+		int screenHeight = dimension.height;
+        int screenWidth = dimension.width;
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setBounds(0, 0, 971, 720);
+		setBounds(0, 0, 1440, 900);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
 		getContentPane().setLayout(null);
 		JPanel playerPanel1 = new JPanel();
-		playerPanel1.setBounds(0, 0, 971, 720);
+		playerPanel1.setBounds(0, 0, 1440, 900);
 		playerPanel1.setLayout(null);
 		
 		//Game title
 		JLabel gameTitle = new JLabel("KU ALCHEMISTS");
 		gameTitle.setFont(new Font("Cochin", Font.PLAIN, 50));
-		gameTitle.setBounds(241, 22, 439, 64);
+		gameTitle.setBounds((screenWidth-440)/2, 22, 440, 64);
 		playerPanel1.add(gameTitle);
 		getContentPane().add(playerPanel1);
 		
 		//Taking input for username1
 		JTextField usernameText = new JTextField();
-		usernameText.setBounds(313, 151, 257, 32);
+		usernameText.setBounds((screenWidth-260)/2, 151, 260, 32);
 		playerPanel1.add(usernameText);
 		usernameText.setColumns(10);
 		
 		//Player Username 1 title
 		JLabel playerUsername = new JLabel("PLAYER 1 USERNAME:");
+		playerUsername.setAlignmentX(Component.CENTER_ALIGNMENT);
 		playerUsername.setFont(new Font("Cochin", Font.PLAIN, 20));
-		playerUsername.setBounds(322, 115, 315, 32);
+		playerUsername.setBounds((screenWidth-235)/2, 115, 235, 32);
 		playerPanel1.add(playerUsername);
 		
 		//Player Username 2 title
 		JLabel playerUsername2 = new JLabel("PLAYER 2 USERNAME:");
 		playerUsername2.setFont(new Font("Cochin", Font.PLAIN, 20));
-		playerUsername2.setBounds(322, 115, 315, 32);
+		playerUsername2.setBounds((screenWidth-235)/2, 115, 235, 32);
 		playerPanel1.add(playerUsername2);
 		
 		playerUsername2.setVisible(false);
@@ -99,8 +108,8 @@ public class LogInWindow extends JFrame {
 		JButton loginButton2 = new JButton("LOGIN");
 		loginButton2.setVisible(false);
 		
-		loginButton.setBounds(370, 517, 117, 29);
-		loginButton2.setBounds(370, 517, 117, 29);
+		loginButton.setBounds((screenWidth-120)/2, 517, 120, 29);
+		loginButton2.setBounds((screenWidth-120)/2, 517, 120, 29);
 
 		playerPanel1.add(loginButton);
 		playerPanel1.add(loginButton2);
@@ -127,7 +136,7 @@ public class LogInWindow extends JFrame {
 		avatarList.setSelectedIndex(0);
 		
 		JScrollPane avatarScrollPane = new JScrollPane();
-		avatarScrollPane.setBounds(360,215,150,280);
+		avatarScrollPane.setBounds((screenWidth-150)/2,215,150,280);
 		avatarScrollPane.setViewportView(avatarList);
 		playerPanel1.add(avatarScrollPane);
 
