@@ -5,8 +5,16 @@ import ui.LogInWindow;
 
 public class Game {
 
+	private static Game gameSingleton = new Game();
+	
 	public static Player player1;
 	public static Player player2;
+	
+	private Game() {}
+	
+	public static Game getGame() {
+		return gameSingleton;
+	}
 	
 	public static void main(String[] args) {
 		
