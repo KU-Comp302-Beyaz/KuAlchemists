@@ -4,7 +4,7 @@ import domain.ingredients.Ingredient;
 
 public class PotionBrewingAreaDisplayHelp {
 
-	
+	/*
 	// UI ın en üst class'ı bunu içersin !!
 	public void display() {
 		//pba sayfası açılacak
@@ -52,7 +52,7 @@ public class PotionBrewingAreaDisplayHelp {
 		} else {
 			return "Player";
 		}
-	}
+	}*/
 	
 	
 }
