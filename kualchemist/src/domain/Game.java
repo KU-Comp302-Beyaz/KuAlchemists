@@ -6,9 +6,15 @@ import ui.LogInWindow;
 public class Game {
 
 	private static Game gameSingleton = new Game();
-	
+	public static Controller gameController = null;
 	public static Player player1;
 	public static Player player2;
+	
+	public enum Controller {
+		FORAGE_FOR_INGREDIENT,
+		TRANSMUTE_INGREDIENT
+		
+	}
 	
 	private Game() {}
 	
@@ -35,8 +41,14 @@ public class Game {
 
 	}
 	
-	public void selectContoller() {
-	
+	public void selectContoller(Controller controller) {
+		gameController = controller;
 	}
+
+	public static Controller getController() {
+		return gameController;
+	}
+
+
 	
 }
