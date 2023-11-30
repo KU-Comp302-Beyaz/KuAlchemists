@@ -27,11 +27,11 @@ public class Game {
 		int chosenAvatarIndex1 = menuWindow.getFirstAvatarIndex();
 		player1 = new Player(username1, chosenAvatarIndex1);
 
-		
 		//Creation of player2:
 		String username2 = menuWindow.getSecondUsername();
 		int chosenAvatarIndex2 = menuWindow.getSecondAvatarIndex();
 		player2 = new Player(username2, chosenAvatarIndex2);
+		
 
 	}
 	

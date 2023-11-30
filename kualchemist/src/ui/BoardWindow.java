@@ -55,6 +55,18 @@ public class BoardWindow extends JFrame {
 
         // Buttons in the corners
         JButton ingredientStorageButton = new JButton("Ingredient Storage");
+        
+        ingredientStorageButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				IngredientStorageDisplay isDisplay = IngredientStorageDisplay.getIngredientStorageDisplay();
+				setVisible(false);
+				isDisplay.initialize();
+				
+			}
+		});
+        
   		JButton artifactStorageButton = new JButton("Artifact Storage");
   		JButton potionBrewingAreaButton = new JButton("Potion Brewing Area");
   		
@@ -143,8 +155,7 @@ public class BoardWindow extends JFrame {
     }
     
     
-private void showResumePausePage() {
-        
+    private void showResumePausePage() {    
         
         JDialog dialog = new JDialog(this, "In Game Menu", true);
         dialog.setSize(300, 150);
