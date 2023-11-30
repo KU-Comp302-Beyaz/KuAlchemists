@@ -26,6 +26,9 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
+import domain.Game;
+import domain.Game.Controller;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import java.awt.Font;
@@ -35,8 +38,12 @@ public class IngredientStorageDisplay extends JFrame {
 	
 	private static IngredientStorageDisplay isDisplay = new IngredientStorageDisplay();
 	private JLabel ingredientDisplayLabel;
-	
 	private JPanel ingredientStoragePanel;
+	JButton forageForIngredientButton;
+	JButton transmuteIngredientButton;
+	
+	//private ActionEvent[] actionEvents = {new ActionEvent(forageForIngredientButton, ActionEvent.ACTION_PERFORMED, "FORAGE_FOR_INGREDIENT"), new ActionEvent(forageForIngredientButton, ActionEvent.ACTION_PERFORMED, "TRANSMUTE_INGREDIENT")};
+	
 	
 	private IngredientStorageDisplay() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,11 +82,12 @@ public class IngredientStorageDisplay extends JFrame {
 		//filler after panels
 		ingredientFramePanel.add(Box.createRigidArea(new Dimension(100,100)));
 		
-		JButton forageForIngredientButton = new JButton("Forage for Ingredient");
+		//button for forage for ingredient
+		forageForIngredientButton = new JButton("Forage for Ingredient");
 		forageForIngredientButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				ingredientDisplayLabel.setText("whee");
+				Game.getGame().selectContoller(Controller.FORAGE_FOR_INGREDIENT);
 			}
 		});
 		
@@ -89,7 +97,14 @@ public class IngredientStorageDisplay extends JFrame {
 		//filler between buttons
 		buttonsPanel.add(Box.createRigidArea(new Dimension(100,100)));
 		
-		JButton transmuteIngredientButton = new JButton("Transmute Ingredient");
+		//button for transmute ingredient
+		transmuteIngredientButton = new JButton("Transmute Ingredient");
+		transmuteIngredientButton.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				Game.getGame().selectContoller(Controller.TRANSMUTE_INGREDIENT);
+			}
+		});
 		transmuteIngredientButton.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		buttonsPanel.add(transmuteIngredientButton);
 
