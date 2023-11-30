@@ -1,7 +1,9 @@
 package domain;
 
+import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
 import ui.BoardWindow;
+import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
 
 public class Game {
@@ -48,10 +50,12 @@ public class Game {
 	public void selectContoller(Controller controller) {
 		switch (controller) {
 		case FORAGE_FOR_INGREDIENT:
-			IngredientController.getIngredientController().addIngredientToPlayer();
+			Ingredient ingredientCard = IngredientController.getIngredientController().addIngredientToPlayer();
+			IngredientStorageDisplay.getIngredientStorageDisplay().displayCard(ingredientCard);
 			break;
 		case TRANSMUTE_INGREDIENT:
 			IngredientController.getIngredientController().transmuteIngredient();
+			IngredientStorageDisplay.getIngredientStorageDisplay().displayText();
 			break;
 		default:
 			break;
