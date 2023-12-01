@@ -19,8 +19,11 @@ public class PublicationTrackDisplay extends JFrame {
 	
 	private PublicationTrackDisplay() {
 		
-		setBounds(100, 100, 800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(0, 0, 1920, 1080);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
+        setResizable(false);
+        
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();

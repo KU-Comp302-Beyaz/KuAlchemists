@@ -23,17 +23,17 @@ public class PotionController {
 	}
 	
 
-	public int initializePotionSale() {
+//	public int initializePotionSale() {
 		
 		// PotionBrewingAreaDisplay pbad = new PotionBrewingAreaDisplay();
 		// PotionBrewingArea pba = new PotionBrewingArea();
 		
-		Map<String, Integer> rewardTable= new HashMap<String, Integer>();
-		rewardTable.put("positive", 3);
-		rewardTable.put("positive_neutral", 2);
-		rewardTable.put("no_guarantee", 1);
+//		Map<String, Integer> rewardTable= new HashMap<String, Integer>();
+//		rewardTable.put("positive", 3);
+//		rewardTable.put("positive_neutral", 2);
+//		rewardTable.put("no_guarantee", 1);
 
-
+/*
 		pbad.display();
 		boolean choice = pbad.displayChoiceBox();
 		
@@ -60,7 +60,9 @@ public class PotionController {
 		//player.updateGoldBalance(amount);
 		//player.updatePlayerTurn();
 	}
-	
+	*/
+		
+		/*
 	
 	public void initializeMakeExperiment() {
 		
@@ -90,5 +92,6 @@ public class PotionController {
 		
 		
 	}
-
+*/
+	//}
 }

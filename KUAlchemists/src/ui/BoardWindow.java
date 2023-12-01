@@ -20,9 +20,10 @@ public class BoardWindow extends JFrame {
      * Create the frame.
      */
     private BoardWindow() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(300, 300, 1550, 900);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(0, 0, 1920, 1080);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
+        setResizable(false);
         
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

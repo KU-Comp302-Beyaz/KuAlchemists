@@ -69,9 +69,11 @@ public class LogInWindow extends JFrame {
         int screenWidth = dimension.width;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 1440, 900);
-		this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
-		getContentPane().setLayout(null);
+		setBounds(0, 0, 1920, 1080);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
+        setResizable(false);
+        
+        getContentPane().setLayout(null);
 		JPanel playerPanel1 = new JPanel();
 		playerPanel1.setBounds(0, 0, 1440, 900);
 		playerPanel1.setLayout(null);
