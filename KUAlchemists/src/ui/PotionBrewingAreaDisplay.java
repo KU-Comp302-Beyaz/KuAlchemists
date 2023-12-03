@@ -22,6 +22,8 @@ import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 
 import java.awt.GridLayout;
+import java.awt.Image;
+
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
@@ -140,29 +142,39 @@ public class PotionBrewingAreaDisplay extends JFrame {
         
         
         
+
+        JScrollPane scrollPane_ingredients = new JScrollPane();
+        scrollPane_ingredients.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane_ingredients.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        
+        
         /**
-		 * Taking the avatar images from the /Images/avatar-icons folder 
+		 * Taking the ingredients images from the Images/images-icons/ folder 
 		 */
-		JLabel[] avatarIcons = new JLabel[6];
-		JPanel[] avatarPanels = new JPanel[6];
-		for (int i = 0; i < 6; i++) {
-			avatarIcons[i] = new JLabel("", new ImageIcon("Images/avatar-icons/avatar"+(i+1)+".png"), JLabel.CENTER);
-			avatarPanels[i] = new JPanel();
-			avatarPanels[i].add(avatarIcons[i]);
+		JLabel[] ingredientsIcons = new JLabel[12];
+		JPanel[] ingredientPanels = new JPanel[12];
+		for (int i = 0; i < 12; i++) {
+			ingredientsIcons[i] = new JLabel("", new ImageIcon("src/images/images-icons/ingredient"+(i+1)+".jpg"), JLabel.CENTER);
+			ingredientPanels[i] = new JPanel();
+			//avatarPanels[i].setMaximumSize();
+			//avatarPanels[i].setLayout(new BoxLayout(avatarPanels[i], BoxLayout.X_AXIS));
+			//avatarPanels[i].setPreferredSize(new Dimension(avatarPanels[i].getPreferredSize().width, scrollPane_ingredients.getHeight()));
+		       
+			ingredientPanels[i].add(ingredientsIcons[i]);
 		}
 						
 		JList ingredientList = new JList();
 		ingredientList.setCellRenderer(new ImageListCellRenderer());
-		ingredientList.setListData(avatarPanels);
+		ingredientList.setListData(ingredientPanels);
 		ingredientList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		ingredientList.setBounds(165,215,128,280);
-		ingredientList.setFixedCellHeight(140);
-		ingredientList.setFixedCellWidth(128);	
-		ingredientList.setSelectedIndex(0);
-		
-        JScrollPane scrollPane_ingredients = new JScrollPane();
-        scrollPane_ingredients.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollPane_ingredients.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		//ingredientList.setFixedCellHeight(scrollPane_ingredients.getHeight());
+		//ingredientList.setFixedCellHeight(200);
+		//ingredientList.setFixedCellWidth(150);
+		ingredientList.setVisibleRowCount(1); // Set the visible row count to 1 for horizontal layout
+        ingredientList.setSelectedIndex(0);    
+		//ingredientList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+         
+        // add ingredientList to scrollPane_ingredients
         scrollPane_ingredients.setViewportView(ingredientList);
         ingredientPanel.add(scrollPane_ingredients, BorderLayout.CENTER);
         
@@ -200,9 +212,19 @@ public class PotionBrewingAreaDisplay extends JFrame {
         
         JButton btnMakePotion = new JButton("MAKE POTION");
         btnMakePotion.setFont(new Font("Cochin", Font.PLAIN, 20));
+        //ImageIcon icon = createImageIcon("path/to/your/image.jpg"); // Replace with the actual path to your image
+        ImageIcon icon = new ImageIcon("src/images/witchCauldron.jpg");
+        Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        icon = new ImageIcon(img);
+        
+        btnMakePotion.setIcon(icon);
+        // Use BoxLayout to arrange the components vertically
+        btnMakePotion.setLayout(new BoxLayout(btnMakePotion, BoxLayout.Y_AXIS));
+        
         makePotionPanel.add(btnMakePotion, BorderLayout.CENTER);
         
-        
+     
+
       
 
     
