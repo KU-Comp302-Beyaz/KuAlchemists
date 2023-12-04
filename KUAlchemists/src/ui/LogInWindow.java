@@ -133,13 +133,13 @@ public class LogInWindow extends JFrame {
 		avatarList.setListData(avatarPanels);
 		avatarList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		avatarList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		avatarList.setBounds(165,215,128,280);
 		avatarList.setFixedCellHeight(140);
-		avatarList.setFixedCellWidth(128);	
+		avatarList.setFixedCellWidth(128);
+		avatarList.setVisibleRowCount(2);
 		avatarList.setSelectedIndex(0);
 		
 		JScrollPane avatarScrollPane = new JScrollPane();
-		avatarScrollPane.setBounds((screenWidth-150)/2,215,150,280);
+		avatarScrollPane.setBounds((screenWidth-390)/2,215,390,290); 
 		avatarScrollPane.setViewportView(avatarList);
 		playerPanel1.add(avatarScrollPane);
 
