@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,43 +19,48 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JDesktopPane;
 import javax.swing.JToolBar;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListSelectionModel;
-
 import java.awt.GridLayout;
 import java.awt.Image;
 
 import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ListCellRenderer;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import net.miginfocom.swing.MigLayout;
-import ui.LogInWindow.ImageListCellRenderer;
-
-import java.awt.BorderLayout;
-import javax.swing.SwingConstants;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import com.jgoodies.forms.layout.FormSpecs;
-import javax.swing.SpringLayout;
-import java.awt.CardLayout;
 
 public class PotionBrewingAreaDisplay extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPanel;
-	private JPanel potionSalePanel;
-	private JLabel lblNewLabel;
+	private JPanel contentPane;
+	JPanel experimentPanel;
+	JPanel potionSalePanel;
+	
 
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PotionBrewingAreaDisplay frame = new PotionBrewingAreaDisplay();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 	
 	/**
 	 * Needed for the Avatar jlist - it contains jpanels with imageicons instead of a list
@@ -73,57 +79,31 @@ public class PotionBrewingAreaDisplay extends JFrame {
 	}
 	
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) { //lütfen silin main olmamalı burada
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PotionBrewingAreaDisplay frame = new PotionBrewingAreaDisplay();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public PotionBrewingAreaDisplay() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(300, 300, 1550, 900);
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
-
-        //Gridbag layout of content pane
-        contentPanel = new JPanel();
-        contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPanel);
-        GridBagLayout gbl_contentPanel = new GridBagLayout();
-        gbl_contentPanel.columnWidths = new int[]{0, 0};
-        gbl_contentPanel.rowHeights = new int[]{0};
-        gbl_contentPanel.columnWeights = new double[]{0.75, 0.25}; //Experiment panel: 0.75 of the main frame, PotionSale panel: 0.25 of the main frame
-        gbl_contentPanel.rowWeights = new double[]{1.0};
-        contentPanel.setLayout(gbl_contentPanel);
+		setBounds(0, 0, 1440, 900);
+        //this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
+        
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
         
         
         //Panel to make and test experiments 
-        JPanel experimentPanel = new JPanel();
-        experimentPanel.setBackground(Color.LIGHT_GRAY);
-        GridBagConstraints gbc_experimentPanel = new GridBagConstraints();
-        gbc_experimentPanel.insets = new Insets(0, 0, 5, 5);
-        gbc_experimentPanel.fill = GridBagConstraints.BOTH;
-        gbc_experimentPanel.gridwidth = 3;
-        gbc_experimentPanel.gridx = 0;
-        gbc_experimentPanel.gridy = 0;
-        contentPanel.add(experimentPanel, gbc_experimentPanel);
+        experimentPanel = new JPanel();
+        experimentPanel.setBounds(0, 0, 871, 1080);
+        experimentPanel.setBackground(SystemColor.scrollbar);
+        contentPane.add(experimentPanel);
         GridBagLayout gbl_experimentPanel = new GridBagLayout();
-        gbl_experimentPanel.columnWidths = new int[]{0, 0};
-        gbl_experimentPanel.rowHeights = new int[]{0, 0, 0, 0};
-        gbl_experimentPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gbl_experimentPanel.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+        gbl_experimentPanel.columnWidths = new int[]{0};
+        gbl_experimentPanel.rowHeights = new int[]{0};
+        gbl_experimentPanel.columnWeights = new double[]{Double.MIN_VALUE};
+        gbl_experimentPanel.rowWeights = new double[]{Double.MIN_VALUE};
         experimentPanel.setLayout(gbl_experimentPanel);
         
         JPanel ingredientPanel = new JPanel();
@@ -140,9 +120,6 @@ public class PotionBrewingAreaDisplay extends JFrame {
         lblIngredients.setHorizontalAlignment(SwingConstants.CENTER);
         ingredientPanel.add(lblIngredients, BorderLayout.NORTH);
         
-        
-        
-
         JScrollPane scrollPane_ingredients = new JScrollPane();
         scrollPane_ingredients.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane_ingredients.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -224,86 +201,80 @@ public class PotionBrewingAreaDisplay extends JFrame {
         makePotionPanel.add(btnMakePotion, BorderLayout.CENTER);
         
      
-
-      
-
-    
+        //////////////////////////////// 
         
-        
-        //////////////////////////////////////////
         
         //Panel for potion sale
-        JPanel potionSalePanel = new JPanel();
-        potionSalePanel.setBackground(Color.WHITE);
-        
-        //Gridbag constraints of potionsale panel
-        GridBagConstraints gbc_potionSalePanel = new GridBagConstraints();
-        gbc_potionSalePanel.insets = new Insets(0, 0, 5, 0);
-        gbc_potionSalePanel.fill = GridBagConstraints.BOTH;
-        gbc_potionSalePanel.gridx = 3;
-        gbc_potionSalePanel.gridy = 0;
-        contentPanel.add(potionSalePanel, gbc_potionSalePanel);
-        
-        
-        //Gridbag layout of the potion sale
-        GridBagLayout gbl_potionSalePanel = new GridBagLayout();
-        gbl_potionSalePanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-        gbl_potionSalePanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-        gbl_potionSalePanel.columnWeights = new double[]{0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2};
-        gbl_potionSalePanel.rowWeights = new double[]{0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2};
-        potionSalePanel.setLayout(gbl_potionSalePanel);
+        potionSalePanel = new JPanel();
+        potionSalePanel.setBounds(881, 0, 553, 866);
+        potionSalePanel.setBackground(SystemColor.textHighlight);
+        contentPane.add(potionSalePanel);
+        potionSalePanel.setLayout(null);
         
         //Panel for showing Adventurer's request
         JPanel requestPanel = new JPanel();
-        GridBagConstraints gbc_requestPanel = new GridBagConstraints();
-        gbc_requestPanel.gridheight = 4;
-        gbc_requestPanel.insets = new Insets(0, 0, 5, 0);
-        gbc_requestPanel.fill = GridBagConstraints.HORIZONTAL;
-        gbc_requestPanel.gridx = 1;
-        gbc_requestPanel.gridy = 1;
-        potionSalePanel.add(requestPanel, gbc_requestPanel);
+        requestPanel.setBounds(50, 63, 484, 596);
+        potionSalePanel.add(requestPanel);
+        requestPanel.setLayout(null);
         
-        //Gridbag layout of Adventurer's request panel
-        GridBagLayout gbl_adventurerPanel = new GridBagLayout();
-        gbl_adventurerPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-        gbl_adventurerPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-        gbl_adventurerPanel.columnWeights = new double[]{0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2};
-        gbl_adventurerPanel.rowWeights = new double[]{0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, Double.MIN_VALUE};
-        requestPanel.setLayout(gbl_adventurerPanel);     
-                
         //Title of the Adventurer's panel
         JLabel adventurerRequestTitle = new JLabel("ADVENTURER'S REQUEST");
-        adventurerRequestTitle.setFont(new Font("Cochin", Font.PLAIN, 36));
-        GridBagConstraints gbc_adventurerRequestTitle = new GridBagConstraints();
-        gbc_adventurerRequestTitle.gridwidth = 2;
-        gbc_adventurerRequestTitle.insets = new Insets(0, 0, 5, 5);
-        gbc_adventurerRequestTitle.gridx = 1;
-        gbc_adventurerRequestTitle.gridy = 1;
-        requestPanel.add(adventurerRequestTitle, gbc_adventurerRequestTitle);
-
+        adventurerRequestTitle.setBounds(81, 6, 325, 42);
+        adventurerRequestTitle.setFont(new Font("Cochin", Font.PLAIN, 24));
+        requestPanel.add(adventurerRequestTitle);
+                
+        JLabel potionIcon = new JLabel("", new ImageIcon("imagespotions/elixir-bottle-1.png"), JLabel.CENTER);
+        potionIcon.setBounds(81, 60, 325, 372);
+        requestPanel.add(potionIcon);
+        
         //Button for accepting Adventurer's request
         JButton acceptButton = new JButton("ACCEPT");
-        acceptButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-        GridBagConstraints gbc_acceptButton = new GridBagConstraints();
-        gbc_acceptButton.gridwidth = 3;
-        gbc_acceptButton.insets = new Insets(0, 0, 5, 5);
-        gbc_acceptButton.gridx = 3;
-        gbc_acceptButton.gridy = 10;
-        gbc_acceptButton.fill = GridBagConstraints.HORIZONTAL;
+        acceptButton.setBounds(81, 473, 325, 31);
         
-        requestPanel.add(acceptButton, gbc_acceptButton);
+        //Event handler of the accept button
+        acceptButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		//sell process başlayacak
+        		
+        	}
+        });
+        acceptButton.setFont(new Font("Cochin", Font.PLAIN, 20));
+        
+        requestPanel.add(acceptButton);
         
         //Button for declining Adventurer's request
         JButton declineButton = new JButton("DECLINE");
-        declineButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-        GridBagConstraints gbc_declineButton = new GridBagConstraints();
-        gbc_declineButton.insets = new Insets(0, 0, 0, 5);
-        gbc_declineButton.gridwidth = 3;
-        gbc_declineButton.gridx = 3;
-        gbc_declineButton.gridy = 11;
-        gbc_declineButton.fill = GridBagConstraints.HORIZONTAL;
+        declineButton.setBounds(81, 516, 325, 31);
         
-        requestPanel.add(declineButton, gbc_declineButton);
+        //Event handler of the DeclineButton
+        declineButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		//okay mesajı, turn number remains the same 
+        		//bir daha sell potionı seçemez
+        		
+        		
+        	}
+        });
+        declineButton.setFont(new Font("Cochin", Font.PLAIN, 20));
+        
+        requestPanel.add(declineButton);
+      
+        
+        JButton sellPotionButton = new JButton("SELL A POTION");
+        sellPotionButton.setBounds(90, 671, 420, 43);
+        potionSalePanel.add(sellPotionButton);
+        
+        //Event handler for Sell Potion button
+        sellPotionButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		potionIcon.setVisible(true);
+                acceptButton.setVisible(true);
+                declineButton.setVisible(true);
+        	}
+        });
+        
+        sellPotionButton.setFont(new Font("Cochin", Font.PLAIN, 30));
  
 	}
 	
