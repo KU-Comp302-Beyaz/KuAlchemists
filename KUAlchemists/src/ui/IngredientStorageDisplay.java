@@ -30,6 +30,8 @@ import domain.ingredients.Ingredient;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+
 import java.awt.Font;
 import java.awt.Component;
 
@@ -160,7 +162,8 @@ public class IngredientStorageDisplay extends JFrame {
 		ingredientDisplayLabel.setText("Ingredient transmuted.");
 	}
 	
-	public void displayCard(Ingredient ingredientCard) {
+	public void displayCard(ImageIcon ingredientCardImage) {
+		//not implemented yet
 		ingredientDisplayLabel.setText("chosen card here");
 	}
 	

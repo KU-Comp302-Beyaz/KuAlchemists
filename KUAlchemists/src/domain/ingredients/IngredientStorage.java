@@ -1,19 +1,32 @@
 package domain.ingredients;
 
+import java.util.Collections;
 import java.util.Stack;
 
 public class IngredientStorage {
 	
-	Stack<Ingredient> ingredientCards = new Stack();
+	//fields
+	//add ingredientCards here
+	Stack<Ingredient> ingredientCards = new Stack<Ingredient>();
 	
+	//Singleton implementation
+	private static IngredientStorage ingredientStorageSingleton = new IngredientStorage();
+	
+	private IngredientStorage() {
+		initializeIngredients();
+	}
+	
+	public static IngredientStorage getIngredientStorage() {
+		return ingredientStorageSingleton;
+	}
+	
+	//shuffles and returns ingredientCards
 	public Stack<Ingredient> initializeIngredients() {
-		
-		//use random to create ingredients in the 
-		//beginning of the game and put them in here
-		
+		Collections.shuffle(ingredientCards);
 		return ingredientCards;
 	}
 
+	//getter and setters
 	public Stack<Ingredient> getIngredientCards() {
 		return ingredientCards;
 	}

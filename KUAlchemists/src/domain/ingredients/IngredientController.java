@@ -1,9 +1,12 @@
 package domain.ingredients;
 
+import javax.swing.ImageIcon;
+
 import domain.Player;
 
 public class IngredientController {
 	
+	//Singleton implementation
 	private static IngredientController ingredientControllerSingleton = new IngredientController();
 	
 	private IngredientController() {
@@ -14,15 +17,24 @@ public class IngredientController {
 		return ingredientControllerSingleton;
 	}
 	
-	//NEED TO ADD THE PLAYER TO THE METHODS OR ELSE HOW WILL WE KNOW???
-	public Ingredient addIngredientToPlayer() {
-		Ingredient ingredientCard = null;
-		//not implemented yet
-		return ingredientCard;
+	/**
+	 * Adds ingredient to player
+	 * gets card from card deck, adds it to player cards, returns card image to display in ui
+	 * @param player
+	 * @return ingredintCardImage
+	 */
+	public ImageIcon addIngredientToPlayer(Player player) {
+		Ingredient newIngredient = IngredientStorage.getIngredientStorage().getIngredientCards().pop();
+		player.getIngredientCards().add(newIngredient);
+		ImageIcon ingredientCardImage = newIngredient.getIngredientCardImage();
+		return ingredientCardImage;
 	}
 	
-	//NEED TO ADD THE PLAYER TO THE METHODS OR ELSE HOW WILL WE KNOW???
-	public void transmuteIngredient() {
+	/**
+	 * Transmute ingredient
+	 * @param player
+	 */
+	public void transmuteIngredient(Player player) {
 		//not implemented yet
 		
 	}
