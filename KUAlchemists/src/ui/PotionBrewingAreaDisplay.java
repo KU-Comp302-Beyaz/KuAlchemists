@@ -96,7 +96,7 @@ public class PotionBrewingAreaDisplay extends JFrame {
         
         //Panel to make and test experiments 
         experimentPanel = new JPanel();
-        experimentPanel.setBounds(0, 0, 871, 1080);
+        experimentPanel.setBounds(0, 0, 871, 900);
         experimentPanel.setBackground(SystemColor.scrollbar);
         contentPane.add(experimentPanel);
         GridBagLayout gbl_experimentPanel = new GridBagLayout();
@@ -131,7 +131,12 @@ public class PotionBrewingAreaDisplay extends JFrame {
 		JLabel[] ingredientsIcons = new JLabel[12];
 		JPanel[] ingredientPanels = new JPanel[12];
 		for (int i = 0; i < 12; i++) {
-			ingredientsIcons[i] = new JLabel("", new ImageIcon("src/images/images-icons/ingredient"+(i+1)+".jpg"), JLabel.CENTER);
+			ImageIcon imageIcon = new ImageIcon("src/images/images-icons/ingredient"+(i+1)+".jpg");
+			Image image = imageIcon.getImage();
+			Image scaledImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+			imageIcon = new ImageIcon(scaledImage);
+			
+			ingredientsIcons[i] = new JLabel("", imageIcon, JLabel.CENTER);
 			ingredientPanels[i] = new JPanel();
 			//avatarPanels[i].setMaximumSize();
 			//avatarPanels[i].setLayout(new BoxLayout(avatarPanels[i], BoxLayout.X_AXIS));
