@@ -283,9 +283,10 @@ public class IngredientStorageDisplay extends JFrame {
 		ingredientList.setFixedCellHeight(IMAGE_HEIGHT+50);
 		ingredientList.setFixedCellWidth(IMAGE_WIDTH);
 		
-		int boxWidth = 1000; //ingredientScrollPane.getViewport().getSize().width;
-//		ingredientList.setVisibleRowCount(((IMAGE_NUMBER*IMAGE_WIDTH)/boxWidth)+1);
-		ingredientList.setVisibleRowCount(((player.getIngredientCards().size()*IMAGE_WIDTH)/boxWidth)+1);
+		int boxWidth = 800; //ingredientScrollPane.getViewport().getSize().width;
+		int numberOfImagesInRow = boxWidth/IMAGE_WIDTH;
+
+		ingredientList.setVisibleRowCount((player.getIngredientCards().size()+numberOfImagesInRow-1)/numberOfImagesInRow);
 		ingredientList.setSelectedIndex(0);
 		ingredientScrollPane.setViewportView(ingredientList);
 	}
