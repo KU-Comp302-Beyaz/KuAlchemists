@@ -2,6 +2,10 @@ package ui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import domain.Game;
+import domain.Game.Controller;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -68,7 +72,8 @@ public class BoardWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				IngredientStorageDisplay isDisplay = IngredientStorageDisplay.getIngredientStorageDisplay();
 				setVisible(false);
-				isDisplay.initialize();
+				isDisplay.initialize(Game.getGame().getCurrPlayer());
+				isDisplay.setVisible(true);
 				
 			}
 		});

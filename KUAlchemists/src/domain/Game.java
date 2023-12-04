@@ -4,11 +4,15 @@ import javax.swing.ImageIcon;
 
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
+import domain.ingredients.IngredientStorage;
 import ui.BoardWindow;
 import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
 
 public class Game {
+	
+	//WE SHOULD USE THE STATE PATTERN IN HEAD FIRST DESIGN PATTERNS CHAPTER 10
+	//states like: LOGIN_WINDOW, PLAYER1S_TURN, PLAYER2S_TURN, PLAYER1_WON, PLAYER2_WON, GAME_PAUSED etc.
 
 	//fields
 	public static Controller controller = null;
@@ -16,7 +20,7 @@ public class Game {
 	public static Player player2;
 	
 	//WE COULD ADD A currentPlayer TO USE FOR THE FUNCTIONS IN THE selectController()
-	public Player currPlayer = player1;
+	public static Player currPlayer;
 	
 	//Controller as enum
 	public enum Controller {
@@ -50,6 +54,11 @@ public class Game {
 		int chosenAvatarIndex2 = menuWindow.getSecondAvatarIndex();
 		player2 = new Player(username2, chosenAvatarIndex2);
 		
+		//just for now, will be implemented later
+		currPlayer = player1;
+		player1.getIngredientCards().put(IngredientStorage.getIngredientStorage().getIngredientCards().get(0).getIdentifier(),IngredientStorage.getIngredientStorage().getIngredientCards().get(0));
+		player1.getIngredientCards().put(IngredientStorage.getIngredientStorage().getIngredientCards().get(1).getIdentifier(),IngredientStorage.getIngredientStorage().getIngredientCards().get(1));
+		
 
 	}
 	
@@ -57,15 +66,19 @@ public class Game {
 	 * Selects which controller to use and function
 	 * @param controller
 	 */
-	public void selectContoller(Controller controller) {
+	public void selectController(Controller controller) {
 		switch (controller) {
 		case FORAGE_FOR_INGREDIENT:
-			ImageIcon ingredientCardImage = IngredientController.getIngredientController().addIngredientToPlayer(currPlayer);
-			IngredientStorageDisplay.getIngredientStorageDisplay().displayCard(ingredientCardImage);
+			Ingredient newIngredient = IngredientController.getIngredientController().addIngredientToPlayer(currPlayer);
+			ImageIcon newIngredientCardImageIcon = IngredientStorageDisplay.getIngredientStorageDisplay().getAllIngredientCardImageIcons().get(newIngredient.getIdentifier());
+			IngredientStorageDisplay.getIngredientStorageDisplay().displayCard(newIngredient, newIngredientCardImageIcon);
+			IngredientStorageDisplay.getIngredientStorageDisplay().initialize(currPlayer);
 			break;
 		case TRANSMUTE_INGREDIENT:
-			IngredientController.getIngredientController().transmuteIngredient(currPlayer);
-			IngredientStorageDisplay.getIngredientStorageDisplay().displayText();
+			int chosenIngredientIdentifier = IngredientStorageDisplay.getIngredientStorageDisplay().getChosenIngredient();
+			IngredientController.getIngredientController().transmuteIngredient(currPlayer, chosenIngredientIdentifier);
+			IngredientStorageDisplay.getIngredientStorageDisplay().displayText("<html>Ingredient transmuted.<br/>One gold added to Player.</html>");
+			IngredientStorageDisplay.getIngredientStorageDisplay().initialize(currPlayer);
 			break;
 		default:
 			break;

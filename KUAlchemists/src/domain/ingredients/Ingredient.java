@@ -1,27 +1,32 @@
 package domain.ingredients;
 
-import javax.swing.ImageIcon;
-
 import domain.theorydeduction.AlchemyMarker;
 
 public class Ingredient {
 	
 	//fields
-	int identifier; //must be unique ID // Bu ne için??
-	String name;
-	String properties; //Properties, including color, value, and other characteristics? // Bu ne için??
-	Alchemical alchemical;
-	ImageIcon ingredientCardImage; //BU BURADA MI OLACAK??? BAŞKA NEREDE OLABİLİR Kİ???
+	private int identifier; //must be unique ID // Bu ne için??
+	private String name;
+	private int iconID;
+	private String properties; //Properties, including color, value, and other characteristics? // Bu ne için??
+	private Alchemical alchemical;
 
 	//constructor
-	public Ingredient(int identifier, String name, String properties, Alchemical alchemical) {
+	public Ingredient(int identifier, String name, int iconID, String properties, Alchemical alchemical) {
+		super();
 		this.identifier = identifier;
 		this.name = name;
+		this.iconID = iconID;
 		this.properties = properties;
 		this.alchemical = alchemical;
-	
 	}
-	
+	public Ingredient(int identifier, String name, int iconID) {
+		super();
+		this.identifier = identifier;
+		this.iconID = iconID;
+		this.name = name;
+	}
+
 	//getters and setters
 	public Alchemical getAlchemical() {
 		return alchemical;
@@ -29,13 +34,29 @@ public class Ingredient {
 	public void setAlchemical(Alchemical alchemical) {
 		this.alchemical = alchemical;
 	}
-
-	public ImageIcon getIngredientCardImage() {
-		return ingredientCardImage;
+	public int getIdentifier() {
+		return identifier;
 	}
-
-	public void setIngredientCardImage(ImageIcon ingredientCardImage) {
-		this.ingredientCardImage = ingredientCardImage;
+	public void setIdentifier(int identifier) {
+		this.identifier = identifier;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getProperties() {
+		return properties;
+	}
+	public void setProperties(String properties) {
+		this.properties = properties;
+	}
+	public int getIconID() {
+		return iconID;
+	}
+	public void setIconID(int iconID) {
+		this.iconID = iconID;
 	}
 	
 	

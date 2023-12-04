@@ -9,8 +9,7 @@ public class IngredientController {
 	//Singleton implementation
 	private static IngredientController ingredientControllerSingleton = new IngredientController();
 	
-	private IngredientController() {
-		
+	private IngredientController() {	
 	}
 	
 	public static IngredientController getIngredientController() {
@@ -19,29 +18,27 @@ public class IngredientController {
 	
 	/**
 	 * Adds ingredient to player
-	 * gets card from card deck, adds it to player cards, returns card image to display in ui
+	 * gets random from card list, adds it to player cards, returns card image to display in ui
 	 * @param player
 	 * @return ingredintCardImage
 	 */
-	public ImageIcon addIngredientToPlayer(Player player) {
-		Ingredient newIngredient = IngredientStorage.getIngredientStorage().getIngredientCards().pop();
-		player.getIngredientCards().add(newIngredient);
-		ImageIcon ingredientCardImage = newIngredient.getIngredientCardImage();
-		return ingredientCardImage;
+	public Ingredient addIngredientToPlayer(Player player) {
+		int randomNumber = (int)(Math.random() * (IngredientStorage.getIngredientStorage().getIngredientCards().size()));
+		Ingredient newIngredient = IngredientStorage.getIngredientStorage().getIngredientCards().remove(randomNumber);
+		player.getIngredientCards().put(newIngredient.getIdentifier(), newIngredient);
+		return newIngredient;
 	}
 	
 	/**
 	 * Transmute ingredient
 	 * @param player
+	 * @return 
 	 */
-	public void transmuteIngredient(Player player) {
-		//not implemented yet
-		
+	public void transmuteIngredient(Player player, int chosenIngredientIdentifier) {
+		player.getIngredientCards().remove(chosenIngredientIdentifier); //remove chosen ingredient
+		player.updateGoldBalance(10);
 	}
 
-
-
-	
 	
 
 }

@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import domain.ingredients.Ingredient;
@@ -14,7 +15,7 @@ public class Player {
 	private int token;
 	private int goldBalance; 
 	private int turnNumber;
-	private List<Ingredient> ingredientCards = new ArrayList<Ingredient>(); 
+	private HashMap<Integer,Ingredient> ingredientCards = new HashMap<Integer,Ingredient>(2); 
 	// private Artifact[] artifactCards;
 	private int sicknessLevel;
 	private int reputationPoints;
@@ -67,10 +68,10 @@ public class Player {
 		this.turnNumber = turnNumber;
 	}
 
-	public List<Ingredient> getIngredientCards() {
+	public HashMap<Integer, Ingredient> getIngredientCards() {
 		return ingredientCards;
 	}
-	public void setIngredientCards(List<Ingredient> ingredientCards) {
+	public void setIngredientCards(HashMap<Integer, Ingredient> ingredientCards) {
 		this.ingredientCards = ingredientCards;
 	}
 
