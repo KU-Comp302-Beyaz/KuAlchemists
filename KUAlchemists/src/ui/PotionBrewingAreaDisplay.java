@@ -287,5 +287,6 @@ public class PotionBrewingAreaDisplay extends JFrame {
     public void initialize() {
 		
 		setVisible(true);
+		//aaaa
 	}
 }
