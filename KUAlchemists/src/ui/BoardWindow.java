@@ -62,6 +62,17 @@ public class BoardWindow extends JFrame {
         gbcDeductionBoard.gridx = 1;
         gbcDeductionBoard.gridy = 1;
         boardDisplay.add(deductionBoardButton, gbcDeductionBoard);
+        
+        deductionBoardButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				
+				DeductionBoardDisplay dbDisplay = new DeductionBoardDisplay();
+				dbDisplay.initialize();
+				dispose(); //closes BoardWindow
+
+			}
+		});
 
         // Buttons in the corners
         JButton ingredientStorageButton = new JButton("Ingredient Storage");
