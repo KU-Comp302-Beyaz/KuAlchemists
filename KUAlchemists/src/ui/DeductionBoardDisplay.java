@@ -57,9 +57,7 @@ public class DeductionBoardDisplay extends JFrame{
     		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
     		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
     		panel.setLayout(gbl_panel);
-    		
-	
-    		  
+
     		  		JButton btnNewButton = new JButton("Publish Theory");
     		  		btnNewButton.setForeground(new Color(139, 0, 0));
     		  		btnNewButton.setFont(new Font("Rockwell", Font.BOLD, 13));
@@ -69,13 +67,7 @@ public class DeductionBoardDisplay extends JFrame{
 
     		  			}
     		  		});
-    		  		
-    		  		   		
-    		  		   
-    		  		    	    	
-    		  		        
-    		  		             
-    		  		    		
+ 
     		  		    		JPanel deductionBoardPanel = new JPanel();
     		  		    		deductionBoardPanel.setBackground(new Color(224, 255, 255));
     		  		    		GridBagConstraints gbc_deductionBoardPanel = new GridBagConstraints();
