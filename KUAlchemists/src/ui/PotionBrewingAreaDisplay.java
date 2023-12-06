@@ -56,12 +56,14 @@ public class PotionBrewingAreaDisplay extends JFrame {
 	ImageIcon coinIcon;
 	
 	//Singleton implementation
-	private static PotionBrewingAreaDisplay isDisplay = new PotionBrewingAreaDisplay(); //for singleton
+    private static PotionBrewingAreaDisplay instance;
 	
-	public static PotionBrewingAreaDisplay getPotionBrewingAreaDisplay() {
-		return isDisplay;
-	}
-
+    public static PotionBrewingAreaDisplay getPotionBrewingAreaDisplay() {
+        if (instance == null) {
+            instance = new PotionBrewingAreaDisplay();
+        }
+        return instance;
+    }
 	/**
 	 * Needed for the Avatar jlist - it contains jpanels with imageicons instead of a list
 	 */
@@ -77,8 +79,6 @@ public class PotionBrewingAreaDisplay extends JFrame {
 		}
 
 	}
-	
-	
 
 	/**
 	 * Create the frame.
@@ -308,7 +308,10 @@ public class PotionBrewingAreaDisplay extends JFrame {
                 acceptButton.setVisible(false);
                 declineButton.setVisible(false);
                 requestedPotion.setVisible(false);
-        		
+      			goldPayment.setText(null);
+      			goldPayment.setIcon(coinIcon);
+
+
         		JOptionPane.showMessageDialog(contentPane,
         			    "Adventurer's request is declined. Player's turn count remains the same!",
         			    "Potion Request Decline",
