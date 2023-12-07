@@ -1,19 +1,25 @@
 package domain.ingredients;
 
+import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 
 import domain.Player;
 
 public class IngredientController {
 	
-	//Singleton implementation
-	private static IngredientController ingredientControllerSingleton = new IngredientController();
+	private static IngredientController ingredientControllerInstance;
 	
-	private IngredientController() {	
-	}
+	private IngredientController() {}
 	
-	public static IngredientController getIngredientController() {
-		return ingredientControllerSingleton;
+	/**
+	 * Singleton implementation
+	 * @return unique instance
+	 */
+	public static synchronized IngredientController getInstance() {
+		if (ingredientControllerInstance == null)
+			ingredientControllerInstance = new IngredientController();
+		return ingredientControllerInstance;
 	}
 	
 	/**
@@ -23,8 +29,8 @@ public class IngredientController {
 	 * @return ingredintCardImage
 	 */
 	public Ingredient addIngredientToPlayer(Player player) {
-		int randomNumber = (int)(Math.random() * (IngredientStorage.getIngredientStorage().getIngredientCards().size()));
-		Ingredient newIngredient = IngredientStorage.getIngredientStorage().getIngredientCards().remove(randomNumber);
+		int randomNumber = (int)(Math.random() * (IngredientStorage.getInstance().getIngredientCards().size()));
+		Ingredient newIngredient = IngredientStorage.getInstance().getIngredientCards().remove(randomNumber);
 		player.getIngredientCards().put(newIngredient.getIdentifier(), newIngredient);
 		return newIngredient;
 	}
@@ -32,11 +38,15 @@ public class IngredientController {
 	/**
 	 * Transmute ingredient
 	 * @param player
-	 * @return 
+	 * @param chosenIngredientIdentifier
 	 */
 	public void transmuteIngredient(Player player, int chosenIngredientIdentifier) {
 		player.getIngredientCards().remove(chosenIngredientIdentifier); //remove chosen ingredient
 		player.updateGoldBalance(10);
+	}
+	
+	public Ingredient[] giveAllCardsToIngredientStorageDisplay() {
+		return IngredientStorage.getInstance().getAllIngredientCardsArray();
 	}
 
 	

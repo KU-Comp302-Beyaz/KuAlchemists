@@ -81,7 +81,7 @@ public class BoardWindow extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IngredientStorageDisplay isDisplay = IngredientStorageDisplay.getIngredientStorageDisplay();
+				IngredientStorageDisplay isDisplay = IngredientStorageDisplay.getInstance();
 				setVisible(false);
 				isDisplay.initialize(Game.getGame().getCurrPlayer());
 				isDisplay.setVisible(true);
