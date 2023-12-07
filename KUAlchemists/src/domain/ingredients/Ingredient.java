@@ -7,18 +7,27 @@ public class Ingredient {
 	private int identifier; //must be unique ID //UNIQUE FOR EACH CARD TYPE OR UNIQUE FOR EVERY SINGLE INGREDIENT INSTANCE?
 	private String name;
 	private String properties; //Properties, including color, value, and other characteristics? // Bu ne için??
+	private String photo;
 	private Alchemical alchemical;
 
 	//constructor
-	public Ingredient(int identifier, String name, String properties, Alchemical alchemical) {
+	public Ingredient(int identifier, String name, int iconID, String photo, Alchemical alchemical) {
 		this.identifier = identifier;
 		this.name = name;
-		this.properties = properties;
+		this.iconID = iconID;
+		this.photo = photo;
 		this.alchemical = alchemical;
 	}
+	public Ingredient(int identifier, String name, int iconID,String photo) {
+		this.identifier = identifier;
+		this.iconID = iconID;
+		this.name = name;
+		this.photo = photo;
+
 	public Ingredient(String name) {
 		this.name = name;
 		this.identifier = ++counter;
+
 	}
 
 	//getters and setters
@@ -46,6 +55,21 @@ public class Ingredient {
 	public void setProperties(String properties) {
 		this.properties = properties;
 	}
+
+	public int getIconID() {
+		return iconID;
+	}
+	public void setIconID(int iconID) {
+		this.iconID = iconID;
+	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	
+
 	
 	
 }

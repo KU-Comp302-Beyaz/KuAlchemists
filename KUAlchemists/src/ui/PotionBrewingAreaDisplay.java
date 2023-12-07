@@ -14,11 +14,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import domain.Display;
 import domain.Game;
 import domain.Player;
 import domain.ingredients.Ingredient;
+import domain.ingredients.IngredientStorage;
 import domain.potion.PotionController;
 
 import javax.imageio.ImageIO;
@@ -166,12 +169,15 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 
 		JLabel[] ingredientsIcons = new JLabel[12];
 		JPanel[] ingredientPanels = new JPanel[12];
-		for (int i = 0; i < 12; i++) {
-			ImageIcon imageIcon = new ImageIcon("src/images/images-icons/ingredient"+(i+1)+".jpg");
+		
+
+		// add players ingredients
+		for (int i=0;i <12 ; i++) {
+			//ImageIcon imageIcon = new ImageIcon("src/images/images-icons/ingredient"+(i+1)+".jpg");
+			ImageIcon imageIcon = new ImageIcon(IngredientStorage.getAllingredientcardsarray()[i].getPhoto());
 			Image image = imageIcon.getImage();
 			Image scaledImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 			imageIcon = new ImageIcon(scaledImage);
-			
 			ingredientsIcons[i] = new JLabel("", imageIcon, JLabel.CENTER);
 			ingredientPanels[i] = new JPanel();
 		    ingredientListModel.addElement(ingredientPanels[i]);
@@ -181,6 +187,27 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		       
 			ingredientPanels[i].add(ingredientsIcons[i]);
 		}
+		
+		// add players existed ingredients
+		/*
+		int i = 0;
+		for (Ingredient ing: player.getIngredientCards().values()) {
+			//ImageIcon imageIcon = new ImageIcon("src/images/images-icons/ingredient"+(i+1)+".jpg");
+			ImageIcon imageIcon = new ImageIcon(ing.getPhoto());
+			Image image = imageIcon.getImage();
+			Image scaledImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+			imageIcon = new ImageIcon(scaledImage);
+			ingredientsIcons[i] = new JLabel("", imageIcon, JLabel.CENTER);
+			ingredientPanels[i] = new JPanel();
+		    ingredientListModel.addElement(ingredientPanels[i]);
+			//avatarPanels[i].setMaximumSize();
+			//avatarPanels[i].setLayout(new BoxLayout(avatarPanels[i], BoxLayout.X_AXIS));
+			//avatarPanels[i].setPreferredSize(new Dimension(avatarPanels[i].getPreferredSize().width, scrollPane_ingredients.getHeight()));
+		       
+			ingredientPanels[i].add(ingredientsIcons[i]);
+			i++;
+		}
+		*/
 		ingredientPanel.setLayout(null);
         ingredientPanel.add(scrollPane_ingredients);
         
@@ -188,6 +215,26 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		
 		//This model allows multiple selecting in a scroll pane
 		ingredientList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		
+		 // ListSelectionListener ekleyerek seçim olaylarını dinle
+		ingredientList.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    // Seçilen öğelerin dizisi
+                    Object[] selectedIng = ingredientList.getSelectedValues();
+                    ingredients = (Ingredient[]) ingredientList.getSelectedValues();
+
+                    // Seçilen öğeleri birleştir ve mesaj olarak göster
+                    StringBuilder message = new StringBuilder("Selected Ing: ");
+                    for (Object ing : selectedIng) {
+                        message.append(ing).append(" ");
+                    }
+
+                    JOptionPane.showMessageDialog(null, message.toString());
+                }
+            }
+        });
         
 		scrollPane_ingredients.setViewportView(ingredientList);
 		ingredientList.setCellRenderer(new ImageListCellRenderer());
