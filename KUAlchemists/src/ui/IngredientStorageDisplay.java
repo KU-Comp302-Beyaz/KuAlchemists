@@ -31,6 +31,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.ScrollPane;
 
+import domain.Display;
 import domain.Game;
 import domain.Game.Controller;
 import domain.Player;
@@ -47,7 +48,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.SwingConstants;
 
-public class IngredientStorageDisplay extends JFrame {
+public class IngredientStorageDisplay extends JFrame implements Display {
 
 	//fields
 	private final int IMAGE_WIDTH = 200, IMAGE_HEIGHT = 200, NUMBER_OF_IMAGES = 12, IMAGE_INTERVAL_START = 1;
@@ -341,7 +342,7 @@ public class IngredientStorageDisplay extends JFrame {
 	}
 	
 	//method for menu bar
-	protected void openDialog() {
+	public void openDialog() {
 		// Create a small dialog
         JDialog dialog = new JDialog(this, "In Game Menu", true);
         dialog.setSize(300, 150);
@@ -392,7 +393,7 @@ public class IngredientStorageDisplay extends JFrame {
 	}
 
 	//method for menu bar
-	protected void showResumePausePage() {
+	public void showResumePausePage() {
 		JDialog dialog = new JDialog(this, "In Game Menu", true);
         dialog.setSize(300, 150);
 
