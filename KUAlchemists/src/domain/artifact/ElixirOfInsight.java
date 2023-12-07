@@ -31,7 +31,7 @@ public class ElixirOfInsight extends Artifact{
 				+ IngredientStorage.getIngredientStorage().getIngredientCards().get(0).getName() + ", " 
 				+ IngredientStorage.getIngredientStorage().getIngredientCards().get(1).getName() + ", " 
 				+ IngredientStorage.getIngredientStorage().getIngredientCards().get(2).getName());
-		
+		// they cannot rearrange the cards just yet
 	}
 	
 	
