@@ -14,6 +14,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+
+import domain.Game;
+import domain.Player;
+import domain.ingredients.Ingredient;
+import domain.potion.PotionController;
+
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -54,7 +60,12 @@ public class PotionBrewingAreaDisplay extends JFrame {
 	JPanel potionSalePanel;
 	private boolean requestAccepted = false;
 	ImageIcon coinIcon;
-	
+	Player player = Game.getCurrPlayer();
+	String testMethod = null;
+	Ingredient[] ingredients; 	
+
+
+
 	//Singleton implementation
     private static PotionBrewingAreaDisplay instance;
 	
@@ -80,6 +91,8 @@ public class PotionBrewingAreaDisplay extends JFrame {
 
 	}
 
+	
+	
 	/**
 	 * Create the frame.
 	 */
@@ -173,9 +186,7 @@ public class PotionBrewingAreaDisplay extends JFrame {
 		JList ingredientList = new JList<>(ingredientListModel);
 		
 		//This model allows multiple selecting in a scroll pane
-        ListSelectionModel selectionModel = ingredientList.getSelectionModel();
-        selectionModel.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        ingredientList.setSelectionModel(selectionModel);
+		ingredientList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         
 		scrollPane_ingredients.setViewportView(ingredientList);
 		ingredientList.setCellRenderer(new ImageListCellRenderer());
@@ -185,7 +196,7 @@ public class PotionBrewingAreaDisplay extends JFrame {
 		//ingredientList.setFixedCellHeight(200);
 		//ingredientList.setFixedCellWidth(150);
 		ingredientList.setVisibleRowCount(1); // Set the visible row count to 1 for horizontal layout
-		ingredientList.setSelectedIndex(0);
+		//ingredientList.setSelectedIndex(0);
         
         
         
@@ -198,13 +209,20 @@ public class PotionBrewingAreaDisplay extends JFrame {
         lblTestOn.setFont(new Font("Cochin", Font.PLAIN, 45));
         lblTestOn.setHorizontalAlignment(SwingConstants.CENTER);
         testPanel.add(lblTestOn);
+        
         JButton btnTestOnPlayer = new JButton("Player");
+        btnTestOnPlayer.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		testMethod = "Player";
+        	}
+        });
         btnTestOnPlayer.setFont(new Font("Cochin", Font.PLAIN, 20));
         testPanel.add(btnTestOnPlayer);
         
         JButton btnTestOnStudent = new JButton("Student");
         btnTestOnStudent.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		testMethod = "Student";
         	}
         });
         btnTestOnStudent.setFont(new Font("Cochin", Font.PLAIN, 20));
@@ -222,7 +240,7 @@ public class PotionBrewingAreaDisplay extends JFrame {
         lblIngredients.setHorizontalAlignment(SwingConstants.CENTER);
         
      
-        //////////////////////////////// 
+        ///////////////////////////////////////////////// 
         
         
         //Panel for potion sale
@@ -345,6 +363,18 @@ public class PotionBrewingAreaDisplay extends JFrame {
           JButton btnMakePotion = new JButton("MAKE POTION");
           btnMakePotion.addActionListener(new ActionListener() {
           	public void actionPerformed(ActionEvent e) {
+          		
+          		// make potion 
+          		if ((ingredients == null) || (ingredients.length != 2)) {
+          			JOptionPane.showMessageDialog(contentPane,
+            			    "Choose 2 ingredients for making potion!");   
+          		}else if (testMethod == null) {
+          			JOptionPane.showMessageDialog(contentPane,
+            			    "Choose test method for making potion!");   
+          		} else {
+          			PotionController.initializeMakeExperiment();
+          		}
+          		
           		
           		//Action handler for Adventurer's Potion Reuqest
           		if (requestAccepted) {
@@ -586,5 +616,14 @@ public class PotionBrewingAreaDisplay extends JFrame {
         // Make the dialog visible
         dialog.setVisible(true);
 		
+	}
+
+
+	public String getTestMethod() {
+		return testMethod;
+	}
+	
+	public Ingredient[] getIngredients() {
+		return ingredients;
 	}
 }

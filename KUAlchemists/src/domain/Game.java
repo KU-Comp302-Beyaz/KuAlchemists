@@ -107,7 +107,8 @@ public class Game {
 		return controller;
 	}
 
-	public Player getCurrPlayer() {
+	// To get it in Other Classes
+	public static Player getCurrPlayer() {
 		return currPlayer;
 	}
 
