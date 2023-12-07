@@ -11,20 +11,25 @@ public class Ingredient {
 	private Alchemical alchemical;
 
 	//constructor
-	public Ingredient(int identifier, String name, int iconID, String photo, Alchemical alchemical) {
+	public Ingredient(int identifier, String name, String photo, Alchemical alchemical) {
 		this.identifier = identifier;
 		this.name = name;
-		this.iconID = iconID;
+
 		this.photo = photo;
 		this.alchemical = alchemical;
 	}
-	public Ingredient(int identifier, String name, int iconID,String photo) {
+	public Ingredient(int identifier, String name,String photo) {
 		this.identifier = identifier;
-		this.iconID = iconID;
+
 		this.name = name;
 		this.photo = photo;
 	}
-
+	public Ingredient(String name) {
+		this.name = name;
+		this.identifier = ++counter;
+		
+		
+	}
 	//getters and setters
 	public Alchemical getAlchemical() {
 		return alchemical;
@@ -51,12 +56,7 @@ public class Ingredient {
 		this.properties = properties;
 	}
 
-	public int getIconID() {
-		return iconID;
-	}
-	public void setIconID(int iconID) {
-		this.iconID = iconID;
-	}
+
 	public String getPhoto() {
 		return photo;
 	}
