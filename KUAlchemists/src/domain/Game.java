@@ -2,6 +2,9 @@ package domain;
 
 import javax.swing.ImageIcon;
 
+import domain.artifact.ArtifactController;
+import domain.artifact.ElixirOfInsight;
+import domain.artifact.TheRiver;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
 import domain.ingredients.IngredientStorage;
@@ -25,7 +28,9 @@ public class Game {
 	//Controller as enum
 	public enum Controller {
 		FORAGE_FOR_INGREDIENT,
-		TRANSMUTE_INGREDIENT
+		TRANSMUTE_INGREDIENT,
+		BUY_THE_RIVER,
+		BUY_EOI
 	}
 	
 	//Singleton implementation
@@ -80,6 +85,13 @@ public class Game {
 			IngredientStorageDisplay.getIngredientStorageDisplay().displayText("<html>Ingredient transmuted.<br/>One gold added to Player.</html>");
 			IngredientStorageDisplay.getIngredientStorageDisplay().initialize(currPlayer);
 			break;
+		case BUY_THE_RIVER:
+			ArtifactController.getArtifactController().buyArtifact(new TheRiver() , currPlayer);
+			break;
+		case BUY_EOI:
+			ArtifactController.getArtifactController().buyArtifact(new ElixirOfInsight() , currPlayer);
+			
+			
 		default:
 			break;
 		}

@@ -89,6 +89,17 @@ public class BoardWindow extends JFrame {
 		});
         
   		JButton artifactStorageButton = new JButton("Artifact Storage");
+  		
+  		artifactStorageButton.addActionListener(new ActionListener() {
+  			public void actionPerformed(ActionEvent e) {
+				ArtifactDeckDisplay isDisplay = ArtifactDeckDisplay.getArtifactDeckDisplay();
+				setVisible(false);
+				isDisplay.initialize(Game.getGame().getCurrPlayer());
+				isDisplay.setVisible(true);
+				
+			}
+		});
+  		
   		JButton potionBrewingAreaButton = new JButton("Potion Brewing Area");
   		
   		potionBrewingAreaButton.addActionListener(new ActionListener() {
