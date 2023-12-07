@@ -12,6 +12,7 @@ public class Ingredient {
 
 	//constructor
 	public Ingredient(int identifier, String name, int iconID, String photo, Alchemical alchemical) {
+		super();
 		this.identifier = identifier;
 		this.name = name;
 		this.iconID = iconID;
@@ -19,6 +20,7 @@ public class Ingredient {
 		this.alchemical = alchemical;
 	}
 	public Ingredient(int identifier, String name, int iconID,String photo) {
+		super();
 		this.identifier = identifier;
 		this.iconID = iconID;
 		this.name = name;
