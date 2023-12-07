@@ -115,6 +115,13 @@ public class BoardWindow extends JFrame {
 	
   		
   		JButton publicationTrackButton = new JButton("Publication Track");
+  		publicationTrackButton.addActionListener(e -> {
+  			
+  			PublicationTrackDisplay ptDisplay = PublicationTrackDisplay.getIsDisplay();
+  			setVisible(false);
+  			ptDisplay.initialize();
+  			
+  		});
   		
   		
         addButton(ingredientStorageButton, boardDisplay, "Ingredient Storage", 0, 0, GridBagConstraints.NORTHWEST, 0.2);
