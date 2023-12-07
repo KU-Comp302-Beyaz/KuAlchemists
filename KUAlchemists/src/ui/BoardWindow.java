@@ -66,7 +66,8 @@ public class BoardWindow extends JFrame {
         deductionBoardButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				DeductionBoardDisplay dbDisplay = new DeductionBoardDisplay();
+				DeductionBoardDisplay dbDisplay = DeductionBoardDisplay.getIsDisplay();
+				setVisible(false);
 				dbDisplay.initialize();
 				dispose(); //closes BoardWindow
 
