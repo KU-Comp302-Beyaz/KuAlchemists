@@ -274,7 +274,7 @@ public class IngredientStorageDisplay extends JFrame {
 	//initialize ui
 	//THIS METHOD IS WHERE THE INGREDIENTS CARD DECK SHOULD BE UPDATED
 	public void initialize(Player player) {
-		if (player.getIngredientCards().entrySet() == null)
+		if (player.getIngredientCards() == null)
 			return;
 		
 		JPanel[] ingredientCardPanelsArray = this.createIngredientArray(player);

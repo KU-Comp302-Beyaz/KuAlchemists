@@ -9,22 +9,24 @@ public class Ingredient {
 	private String name;
 	private int iconID;
 	private String properties; //Properties, including color, value, and other characteristics? // Bu ne için??
+	private String photo;
 	private Alchemical alchemical;
 
 	//constructor
-	public Ingredient(int identifier, String name, int iconID, String properties, Alchemical alchemical) {
-		super();
+	public Ingredient(int identifier, String name, int iconID, String photo, Alchemical alchemical) {
+		super();///???
 		this.identifier = identifier;
 		this.name = name;
 		this.iconID = iconID;
-		this.properties = properties;
+		this.photo = photo;
 		this.alchemical = alchemical;
 	}
-	public Ingredient(int identifier, String name, int iconID) {
-		super();
+	public Ingredient(int identifier, String name, int iconID,String photo) {
+		super(); ///???
 		this.identifier = identifier;
 		this.iconID = iconID;
 		this.name = name;
+		this.photo = photo;
 	}
 
 	//getters and setters
@@ -57,6 +59,12 @@ public class Ingredient {
 	}
 	public void setIconID(int iconID) {
 		this.iconID = iconID;
+	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 	
 	
