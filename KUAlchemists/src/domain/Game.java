@@ -61,9 +61,9 @@ public class Game {
 		
 		//just for now, will be implemented later
 		currPlayer = player1;
-		player1.getIngredientCards().put(IngredientStorage.getIngredientStorage().getIngredientCards().get(0).getIdentifier(),IngredientStorage.getIngredientStorage().getIngredientCards().get(0));
-		player1.getIngredientCards().put(IngredientStorage.getIngredientStorage().getIngredientCards().get(1).getIdentifier(),IngredientStorage.getIngredientStorage().getIngredientCards().get(1));
-		
+		player1.getIngredientCards().put(IngredientStorage.getInstance().getIngredientCards().get(0).getIdentifier(),IngredientStorage.getInstance().getIngredientCards().get(0));
+		player1.getIngredientCards().put(IngredientStorage.getInstance().getIngredientCards().get(1).getIdentifier(),IngredientStorage.getInstance().getIngredientCards().get(1));
+	
 
 	}
 	
@@ -74,16 +74,16 @@ public class Game {
 	public void selectController(Controller controller) {
 		switch (controller) {
 		case FORAGE_FOR_INGREDIENT:
-			Ingredient newIngredient = IngredientController.getIngredientController().addIngredientToPlayer(currPlayer);
-			ImageIcon newIngredientCardImageIcon = IngredientStorageDisplay.getIngredientStorageDisplay().getAllIngredientCardImageIcons().get(newIngredient.getIdentifier());
-			IngredientStorageDisplay.getIngredientStorageDisplay().displayCard(newIngredient, newIngredientCardImageIcon);
-			IngredientStorageDisplay.getIngredientStorageDisplay().initialize(currPlayer);
+			Ingredient newIngredient = IngredientController.getInstance().addIngredientToPlayer(currPlayer);
+			ImageIcon newIngredientCardImageIcon = IngredientStorageDisplay.getInstance().getAllIngredientCardImageIcons().get(newIngredient.getIdentifier());
+			IngredientStorageDisplay.getInstance().displayCard(newIngredient, newIngredientCardImageIcon);
+			IngredientStorageDisplay.getInstance().initialize(currPlayer);
 			break;
 		case TRANSMUTE_INGREDIENT:
-			int chosenIngredientIdentifier = IngredientStorageDisplay.getIngredientStorageDisplay().getChosenIngredient();
-			IngredientController.getIngredientController().transmuteIngredient(currPlayer, chosenIngredientIdentifier);
-			IngredientStorageDisplay.getIngredientStorageDisplay().displayText("<html>Ingredient transmuted.<br/>One gold added to Player.</html>");
-			IngredientStorageDisplay.getIngredientStorageDisplay().initialize(currPlayer);
+			int chosenIngredientIdentifier = IngredientStorageDisplay.getInstance().getChosenIngredient();
+			IngredientController.getInstance().transmuteIngredient(currPlayer, chosenIngredientIdentifier);
+			IngredientStorageDisplay.getInstance().displayText("<html>Ingredient transmuted.<br/>One gold added to Player.</html>");
+			IngredientStorageDisplay.getInstance().initialize(currPlayer);
 			break;
 		case BUY_THE_RIVER:
 			ArtifactController.getArtifactController().buyArtifact(new TheRiver() , currPlayer);
@@ -113,7 +113,7 @@ public class Game {
 	}
 
 	public void setCurrPlayer(Player currPlayer) {
-		this.currPlayer = currPlayer;
+		Game.currPlayer = currPlayer;
 	}
 
 
