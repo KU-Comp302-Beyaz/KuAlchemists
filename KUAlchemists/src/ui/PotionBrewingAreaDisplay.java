@@ -352,6 +352,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         acceptButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
+        		String guaranteeLevel = JOptionPane.showInputDialog("Enter your guarantee level (1: Positive 2: Positive or Neutral 3: No Guarantee)");
+        		
         		JOptionPane.showMessageDialog(contentPane,
         			    "Make potion for Adventurer's request!");   
         		
