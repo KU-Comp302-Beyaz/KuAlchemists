@@ -5,6 +5,7 @@ import java.util.Map;
 
 import domain.Player;
 import domain.ingredients.Ingredient;
+import domain.ingredients.IngredientController;
 import domain.theorydeduction.AlchemyMarker;
 import ui.PotionBrewingAreaDisplay;
 import ui.PotionBrewingAreaDisplayHelp;
@@ -13,6 +14,21 @@ public class PotionController {
 	
 	private static Player player;
 	private static Potion potion;
+	
+	private static PotionController potionControllerInstance;
+	
+	private PotionController() {}
+
+	/**
+	 * Singleton implementation
+	 * @return unique instance
+	 */
+	public static synchronized PotionController getInstance() {
+		if (potionControllerInstance == null)
+			potionControllerInstance = new PotionController();
+		return potionControllerInstance;
+	}
+	
 	
 	// ?! Her fonksiyon için ayrı açılması yerine ortak bir tane olsun (Yoksa make experimentta iki kez iç içe açılır)
 	static PotionBrewingAreaDisplay pbad = new PotionBrewingAreaDisplay(); 
@@ -24,8 +40,8 @@ public class PotionController {
 	}
 	
 
-//	public int initializePotionSale() {
-		
+	public void initializePotionSale() {
+		System.out.println("Potion sale initialized");
 		// PotionBrewingAreaDisplay pbad = new PotionBrewingAreaDisplay();
 		// PotionBrewingArea pba = new PotionBrewingArea();
 		
@@ -60,8 +76,9 @@ public class PotionController {
 		
 		//player.updateGoldBalance(amount);
 		//player.updatePlayerTurn();
-	}
 	*/
+	}
+	
 		
 		
 	

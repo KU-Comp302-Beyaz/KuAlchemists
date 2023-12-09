@@ -404,6 +404,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
                 acceptButton.setVisible(true);
                 declineButton.setVisible(true);
                 requestedPotion.setVisible(true);
+                
+                Game.setController(Game.controller.SELL_POTION);
           	}
           });
           
