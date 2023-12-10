@@ -60,13 +60,13 @@ public class PotionBrewingAreaDisplay extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	JPanel experimentPanel;
-	JPanel potionSalePanel;
+	private JPanel experimentPanel;
+	private JPanel potionSalePanel;
 	private boolean requestAccepted = false;
-	ImageIcon coinIcon;
-	Player player = Game.getCurrPlayer();
-	String testMethod = null;
-	Ingredient[] ingredients; 	
+	private ImageIcon coinIcon;
+	private Player player = Game.getCurrPlayer();
+	private String testMethod = null;
+	private Ingredient[] ingredients; 	
 
 
 
