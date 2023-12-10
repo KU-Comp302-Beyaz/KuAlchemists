@@ -276,6 +276,8 @@ public class IngredientStorageDisplay extends JFrame {
 		ingredientScrollPane.setViewportView(ingredientList);
 	}
 	
+	
+	// CAN BE USE IN POTIONBREWINGAREA TOO
 	public JPanel[] createIngredientArray(Player player) {
 		JLabel label;
 		JPanel panel;

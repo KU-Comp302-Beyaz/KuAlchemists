@@ -1,3 +1,4 @@
+
 package ui;
 
 import java.awt.EventQueue;
@@ -161,17 +162,20 @@ public class PotionBrewingAreaDisplay extends JFrame {
         scrollPane_ingredients.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         
         
+        
+         
+        
         /**
 		 * Taking the ingredients images from the Images/images-icons/ folder 
 		 */
 		DefaultListModel<JPanel> ingredientListModel = new DefaultListModel<>();
 
-		JLabel[] ingredientsIcons = new JLabel[12];
-		JPanel[] ingredientPanels = new JPanel[12];
+		JLabel[] ingredientsIcons = new JLabel[8];
+		JPanel[] ingredientPanels = new JPanel[8];
 		
 
 		// add players ingredients
-		for (int i=0;i <12 ; i++) {
+		for (int i=0;i <8 ; i++) {
 			//ImageIcon imageIcon = new ImageIcon("src/images/images-icons/ingredient"+(i+1)+".jpg");
 			ImageIcon imageIcon = new ImageIcon(IngredientStorage.getAllingredientcardsarray()[i].getPhoto());
 			Image image = imageIcon.getImage();
@@ -186,6 +190,8 @@ public class PotionBrewingAreaDisplay extends JFrame {
 		       
 			ingredientPanels[i].add(ingredientsIcons[i]);
 		}
+		
+		
 		
 		// add players existed ingredients
 		/*
@@ -229,8 +235,9 @@ public class PotionBrewingAreaDisplay extends JFrame {
                     for (Object ing : selectedIng) {
                         message.append(ing).append(" ");
                     }
-
-                    JOptionPane.showMessageDialog(null, message.toString());
+                    
+                    System.out.println(message);
+                    //JOptionPane.showMessageDialog(null, message.toString());
                 }
             }
         });

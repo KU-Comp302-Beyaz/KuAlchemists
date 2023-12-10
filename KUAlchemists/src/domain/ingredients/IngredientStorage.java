@@ -31,7 +31,7 @@ public class IngredientStorage {
 		return allIngredientCardsArray;
 	}
 
-
+/*
 	private final Ingredient[] allIngredientCardsArray =
 		{new Ingredient("Lamia Heart-Blood"),
 		new Ingredient("Witch's Tear"), 
@@ -47,7 +47,7 @@ public class IngredientStorage {
 		new Ingredient("Roc Claw")
 		}; //for testing purposes
 
-
+*/
 	private ArrayList<Ingredient> ingredientCards = new ArrayList<Ingredient>();
 	
 	//Singleton implementation

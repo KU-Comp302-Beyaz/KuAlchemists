@@ -9,6 +9,7 @@ public class Ingredient {
 	private String properties; //Properties, including color, value, and other characteristics? // Bu ne için??
 	private String photo;
 	private Alchemical alchemical;
+	private int iconID;
 
 	//constructor
 	public Ingredient(int identifier, String name, int iconID, String photo, Alchemical alchemical) {
@@ -23,10 +24,6 @@ public class Ingredient {
 		this.iconID = iconID;
 		this.name = name;
 		this.photo = photo;
-
-	public Ingredient(String name) {
-		this.name = name;
-		this.identifier = ++counter;
 
 	}
 
