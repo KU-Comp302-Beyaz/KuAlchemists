@@ -8,6 +8,7 @@ import domain.artifact.TheRiver;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
 import domain.ingredients.IngredientStorage;
+import domain.potion.PotionController;
 import ui.BoardWindow;
 import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
@@ -30,7 +31,8 @@ public class Game {
 		FORAGE_FOR_INGREDIENT,
 		TRANSMUTE_INGREDIENT,
 		BUY_THE_RIVER,
-		BUY_EOI
+		BUY_EOI,
+		MAKE_EXPERIMENT
 	}
 	
 	//Singleton implementation
@@ -90,6 +92,9 @@ public class Game {
 			break;
 		case BUY_EOI:
 			ArtifactController.getArtifactController().buyArtifact(new ElixirOfInsight() , currPlayer);
+			break;
+		case MAKE_EXPERIMENT:
+			PotionController.initializeMakeExperiment();
 			
 			
 		default:

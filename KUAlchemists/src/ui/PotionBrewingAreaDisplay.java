@@ -426,7 +426,8 @@ public class PotionBrewingAreaDisplay extends JFrame {
           			JOptionPane.showMessageDialog(contentPane,
             			    "Choose test method for making potion!");   
           		} else {
-          			PotionController.initializeMakeExperiment();
+          			//PotionController.initializeMakeExperiment();
+          			Game.setController(Game.Controller.MAKE_EXPERIMENT);
           		}
           		
           		
