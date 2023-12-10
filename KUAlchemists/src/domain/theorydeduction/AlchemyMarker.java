@@ -1,17 +1,28 @@
 package domain.theorydeduction;
 
+import javax.swing.ImageIcon;
+
 public class AlchemyMarker {
 
 	private String sign;
 	private String color;
 	private String size;
-	
+	private ImageIcon icon;
 	
 	public AlchemyMarker (String sign, String color, String size) {
 		
 		this.sign = sign;	// (+ / -)
 		this.color = color;	// (red / green / blue)
 		this.size = size;	// (S / L)
+
+	}
+	
+	public AlchemyMarker (String sign, String color, String size, ImageIcon icon) {
+		
+		this.sign = sign;	// (+ / -)
+		this.color = color;	// (red / green / blue)
+		this.size = size;	// (S / L)
+		this.icon = icon;  // The icon to put into DeductionBoardDisplay.
 	}
 	
 	
@@ -19,11 +30,11 @@ public class AlchemyMarker {
 
 	}
 
-	public AlchemyMarker (String sign, String color) { // resutToken for the result of potion making
+	public AlchemyMarker (String sign, String color) { // resultToken for the result of potion making
 		
 		this.sign = sign;	// (+ / -)
 		this.color = color;	// (red / green / blue)
-		this.size = size;	// (S / L)
+		
 	}
 	
 	public String getSign() {
@@ -48,6 +59,17 @@ public class AlchemyMarker {
 	public void setSize(String size) {
 		this.size = size;
 	}
+
+
+	public ImageIcon getIcon() {
+		return icon;
+	}
+
+
+	public void setIcon(ImageIcon icon) {
+		this.icon = icon;
+	}
+	
 	
 	
 	

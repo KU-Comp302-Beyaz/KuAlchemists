@@ -28,9 +28,9 @@ public class ElixirOfInsight extends Artifact{
 	public void applyEffect(Player player) {
 		// TODO Auto-generated method stub
 		System.out.println("The 3 next ingerdient cards are " 
-				+ IngredientStorage.getIngredientStorage().getIngredientCards().get(0).getName() + ", " 
-				+ IngredientStorage.getIngredientStorage().getIngredientCards().get(1).getName() + ", " 
-				+ IngredientStorage.getIngredientStorage().getIngredientCards().get(2).getName());
+				+ IngredientStorage.getInstance().getIngredientCards().get(0).getName() + ", " 
+				+ IngredientStorage.getInstance().getIngredientCards().get(1).getName() + ", " 
+				+ IngredientStorage.getInstance().getIngredientCards().get(2).getName());
 		// they cannot rearrange the cards just yet
 	}
 	

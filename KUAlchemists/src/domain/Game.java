@@ -8,6 +8,7 @@ import domain.artifact.TheRiver;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
 import domain.ingredients.IngredientStorage;
+import domain.potion.PotionController;
 import ui.BoardWindow;
 import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
@@ -30,7 +31,8 @@ public class Game {
 		FORAGE_FOR_INGREDIENT,
 		TRANSMUTE_INGREDIENT,
 		BUY_THE_RIVER,
-		BUY_EOI
+		BUY_EOI,
+		SELL_POTION
 	}
 	
 	//Singleton implementation
@@ -61,10 +63,15 @@ public class Game {
 		
 		//just for now, will be implemented later
 		currPlayer = player1;
-		player1.getIngredientCards().put(IngredientStorage.getIngredientStorage().getIngredientCards().get(0).getIdentifier(),IngredientStorage.getIngredientStorage().getIngredientCards().get(0));
-		player1.getIngredientCards().put(IngredientStorage.getIngredientStorage().getIngredientCards().get(1).getIdentifier(),IngredientStorage.getIngredientStorage().getIngredientCards().get(1));
-		
+		initializeBoard();
+		player1.getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(0));
+		player1.getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(1));
+	
 
+	}
+	
+	public static void initializeBoard() {
+		IngredientStorageDisplay.getInstance().constructAllImagesDeck(IngredientController.getInstance().giveAllCardsToIngredientStorageDisplay());
 	}
 	
 	/**
@@ -74,24 +81,24 @@ public class Game {
 	public void selectController(Controller controller) {
 		switch (controller) {
 		case FORAGE_FOR_INGREDIENT:
-			Ingredient newIngredient = IngredientController.getIngredientController().addIngredientToPlayer(currPlayer);
-			ImageIcon newIngredientCardImageIcon = IngredientStorageDisplay.getIngredientStorageDisplay().getAllIngredientCardImageIcons().get(newIngredient.getIdentifier());
-			IngredientStorageDisplay.getIngredientStorageDisplay().displayCard(newIngredient, newIngredientCardImageIcon);
-			IngredientStorageDisplay.getIngredientStorageDisplay().initialize(currPlayer);
+			Ingredient newIngredient = IngredientController.getInstance().addIngredientToPlayer(currPlayer);
+			ImageIcon newIngredientCardImageIcon = IngredientStorageDisplay.getInstance().getImage(newIngredient);
+			IngredientStorageDisplay.getInstance().displayCard(newIngredient, newIngredientCardImageIcon);
+			IngredientStorageDisplay.getInstance().initialize(currPlayer);
 			break;
 		case TRANSMUTE_INGREDIENT:
-			int chosenIngredientIdentifier = IngredientStorageDisplay.getIngredientStorageDisplay().getChosenIngredient();
-			IngredientController.getIngredientController().transmuteIngredient(currPlayer, chosenIngredientIdentifier);
-			IngredientStorageDisplay.getIngredientStorageDisplay().displayText("<html>Ingredient transmuted.<br/>One gold added to Player.</html>");
-			IngredientStorageDisplay.getIngredientStorageDisplay().initialize(currPlayer);
+			Ingredient chosenIngredient = IngredientStorageDisplay.getInstance().getChosenIngredient();
+			IngredientController.getInstance().transmuteIngredient(currPlayer, chosenIngredient);
+			IngredientStorageDisplay.getInstance().displayText("<html>Ingredient transmuted.<br/>One gold added to Player.</html>");
+			IngredientStorageDisplay.getInstance().initialize(currPlayer);
 			break;
 		case BUY_THE_RIVER:
 			ArtifactController.getArtifactController().buyArtifact(new TheRiver() , currPlayer);
 			break;
 		case BUY_EOI:
 			ArtifactController.getArtifactController().buyArtifact(new ElixirOfInsight() , currPlayer);
-			
-			
+		case SELL_POTION:
+			PotionController.getInstance().initializePotionSale();			
 		default:
 			break;
 		}
@@ -107,12 +114,13 @@ public class Game {
 		return controller;
 	}
 
-	public Player getCurrPlayer() {
+	// To get it in Other Classes
+	public static Player getCurrPlayer() {
 		return currPlayer;
 	}
 
 	public void setCurrPlayer(Player currPlayer) {
-		this.currPlayer = currPlayer;
+		Game.currPlayer = currPlayer;
 	}
 
 

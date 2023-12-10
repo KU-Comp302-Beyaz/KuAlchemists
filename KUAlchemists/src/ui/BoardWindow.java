@@ -25,7 +25,7 @@ public class BoardWindow extends JFrame {
      */
     private BoardWindow() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(300, 300, 1550, 900);
+		setBounds(0, 0, 1440, 800);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
         
         contentPane = new JPanel();
@@ -66,7 +66,8 @@ public class BoardWindow extends JFrame {
         deductionBoardButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				DeductionBoardDisplay dbDisplay = new DeductionBoardDisplay();
+				DeductionBoardDisplay dbDisplay = DeductionBoardDisplay.getIsDisplay();
+				setVisible(false);
 				dbDisplay.initialize();
 				dispose(); //closes BoardWindow
 
@@ -80,7 +81,7 @@ public class BoardWindow extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IngredientStorageDisplay isDisplay = IngredientStorageDisplay.getIngredientStorageDisplay();
+				IngredientStorageDisplay isDisplay = IngredientStorageDisplay.getInstance();
 				setVisible(false);
 				isDisplay.initialize(Game.getGame().getCurrPlayer());
 				isDisplay.setVisible(true);
@@ -115,6 +116,13 @@ public class BoardWindow extends JFrame {
 	
   		
   		JButton publicationTrackButton = new JButton("Publication Track");
+  		publicationTrackButton.addActionListener(e -> {
+  			
+  			PublicationTrackDisplay ptDisplay = PublicationTrackDisplay.getIsDisplay();
+  			setVisible(false);
+  			ptDisplay.initialize();
+  			
+  		});
   		
   		
         addButton(ingredientStorageButton, boardDisplay, "Ingredient Storage", 0, 0, GridBagConstraints.NORTHWEST, 0.2);
