@@ -54,8 +54,6 @@ public class ArtifactDeckDisplay extends JFrame {
     
     
     
-    private ArrayList<JLabel> artifactCardLabels;
-    private ArrayList<JPanel> artifactCardPanels;
     
     private static final int IMAGE_WIDTH = 200, IMAGE_HEIGHT = 200, IMAGE_NUMBER = 12;
 
@@ -182,21 +180,7 @@ public class ArtifactDeckDisplay extends JFrame {
 
     
 
-    public void setArtifactCardLabels(ArrayList<JLabel> artifactCardLabels) {
-        this.artifactCardLabels = artifactCardLabels;
-    }
-    
-    public ArrayList<JPanel> getArtifactCardPanels() {
-		return artifactCardPanels;
-	}
 
-    public void setArtifactCardPanels(ArrayList<JPanel> artifactCardPanels) {
-        this.artifactCardPanels = artifactCardPanels;
-    }
-    
-    public ArrayList<JLabel> getArtifactCardLabels() {
-		return artifactCardLabels;
-	}
 
    
    
