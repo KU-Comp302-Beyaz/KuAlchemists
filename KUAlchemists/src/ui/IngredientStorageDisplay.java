@@ -291,6 +291,11 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		ingredientScrollPane.setViewportView(ingredientList);
 	}
 	
+	/**
+	 * Creates the array of player ingredient cards
+	 * @param player
+	 * @return Jpanel array of player ingredients to be put into JList
+	 */
 	public JPanel[] createIngredientArray(Player player) {
 		JLabel label;
 		JPanel panel;
@@ -312,6 +317,10 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		return ingredientCardPanelsArray;
 	}
 	
+	/**
+	 * Creates an array of all the ingredient cards
+	 * @return Jpanel array of all ingredients to be put into JList
+	 */
 	public JPanel[] createAllIngredientsArray() {
 		JLabel label;
 		JPanel panel;
@@ -331,8 +340,6 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 	/**
 	 * Gets image from the images folder in src and scales it to the wanted pixels
 	 * @param ingredient to access image path
-	 * @param imageWidth
-	 * @param imageHeight
 	 * @return imageicon of the ingredient
 	 */
 	public ImageIcon getImage(Ingredient ingredient) {
@@ -340,11 +347,19 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 					.getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH));
 	}
 	
+	/**
+	 * Gets the selected index by player from JList
+	 * @return chosen Ingredient
+	 */
 	public Ingredient getChosenIngredient() {
 		JLabel label = (JLabel) ingredientList.getSelectedValue().getComponent(0);
 		return getIngredientCardLabels().get(label);
 	}
 	
+	/**
+	 * Displays given text
+	 * @param text
+	 */
 	public void displayText(String text) {
 		ingredientDisplayLabel.setText(text);
 		ingredientDisplayLabel.setIcon(null);
@@ -352,6 +367,11 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		ingredientDisplayLabel.setVerticalTextPosition(JLabel.BOTTOM);
 	}
 	
+	/**
+	 * Displays given ingredient card
+	 * @param ingredient
+	 * @param ingredientCardImage
+	 */
 	public void displayCard(Ingredient ingredient, ImageIcon ingredientCardImage) {
 		ingredientDisplayLabel.setText(ingredient.getName());
 		ingredientDisplayLabel.setIcon(ingredientCardImage);
