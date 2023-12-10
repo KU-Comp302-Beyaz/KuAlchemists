@@ -27,13 +27,15 @@ public class ElixirOfInsight extends Artifact{
 	@Override
 	public void applyEffect(Player player) {
 		// TODO Auto-generated method stub
-		System.out.println("The 3 next ingerdient cards are " 
-				+ IngredientStorage.getInstance().getIngredientCards().get(0).getName() + ", " 
-				+ IngredientStorage.getInstance().getIngredientCards().get(1).getName() + ", " 
-				+ IngredientStorage.getInstance().getIngredientCards().get(2).getName());
 		// they cannot rearrange the cards just yet
 	}
 	
+	public String message(Player player) {
+		return "The 3 next ingerdient cards are " 
+				+ IngredientStorage.getInstance().getIngredientCards().get(0).getName() + ", " 
+				+ IngredientStorage.getInstance().getIngredientCards().get(1).getName() + ", " 
+				+ IngredientStorage.getInstance().getIngredientCards().get(2).getName() ;
+	}
 	
 
 }

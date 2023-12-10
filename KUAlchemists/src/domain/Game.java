@@ -96,7 +96,8 @@ public class Game {
 			ArtifactController.getArtifactController().buyArtifact(new TheRiver() , currPlayer);
 			break;
 		case BUY_EOI:
-			ArtifactController.getArtifactController().buyArtifact(new ElixirOfInsight() , currPlayer);
+			ArtifactController.getArtifactController().buyArtifact(new ElixirOfInsight(), currPlayer);
+			break;
 		case SELL_POTION:
 			PotionController.getInstance().initializePotionSale();			
 		default:

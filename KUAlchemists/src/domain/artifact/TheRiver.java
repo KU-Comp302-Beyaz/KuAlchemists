@@ -25,6 +25,10 @@ public class TheRiver extends Artifact {
 		
 		
 	}
+	
+	public String message(Player player) {
+		return "The player now has " + player.getTurnNumber() + " turns left" ;
+	}
 
 
 	

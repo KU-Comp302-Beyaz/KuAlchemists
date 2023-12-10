@@ -91,6 +91,11 @@ public class ArtifactDeckDisplay extends JFrame {
             }
         });
 
+        JTextPane effectDisplay = new JTextPane();
+        effectDisplay.setText("123\n");
+        effectDisplay.setBounds(1013, 329, 367, 237);
+        getContentPane().add(effectDisplay);
+        
         JButton backToBoardButton = new JButton("Back to Board");
         menuBar.add(backToBoardButton);
         getContentPane().setLayout(null);
@@ -117,7 +122,8 @@ public class ArtifactDeckDisplay extends JFrame {
          
         buyTheRiverButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-				Game.getGame().selectController(Controller.BUY_THE_RIVER);
+				Game.getGame().selectController(Controller.BUY_THE_RIVER); //buys the card utilising the controller
+				effectDisplay.setText(ArtifactController.getArtifactController().displayMessage(Game.currPlayer , new TheRiver())); //displays the cards message
 			}
 		});
         
@@ -127,10 +133,11 @@ public class ArtifactDeckDisplay extends JFrame {
         panel.add(buyEOIButton);
         
         txtGold = new JTextField();
-        txtGold.setText("Gold: ");
+        txtGold.setText("Gold: " );
         txtGold.setBounds(537, 648, 218, 45);
         getContentPane().add(txtGold);
         txtGold.setColumns(10);
+        
         
         JTextPane txtpnHoverOverTo = new JTextPane();
         txtpnHoverOverTo.setBackground(UIManager.getColor("Button.background"));
@@ -142,9 +149,11 @@ public class ArtifactDeckDisplay extends JFrame {
         txtpnHoverOverTo.setBounds(1014, 150, 357, 180);
         getContentPane().add(txtpnHoverOverTo);
         
+        
         buyEOIButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
 				Game.getGame().selectController(Controller.BUY_EOI);
+				effectDisplay.setText(ArtifactController.getArtifactController().displayMessage(Game.currPlayer , new ElixirOfInsight()));
 			}
 		});
         
@@ -160,17 +169,6 @@ public class ArtifactDeckDisplay extends JFrame {
         });
     }
 
-    public class ImageListCellRenderer implements ListCellRenderer {
-
-        @Override
-        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-                boolean cellHasFocus) {
-            Component component = (Component) value;
-            component.setForeground(Color.white);
-            component.setBackground(isSelected ? UIManager.getColor("Table.focusCellForeground") : Color.white);
-            return component;
-        }
-    }
 
     public void initialize(Player player) {
         if (player.getArtifacts() == null)

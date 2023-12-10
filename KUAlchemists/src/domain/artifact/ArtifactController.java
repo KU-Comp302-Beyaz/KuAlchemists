@@ -43,4 +43,8 @@ private static ArtifactController ArtifactControllerSingleton = new ArtifactCont
 		}
 	}
 	
+	public String displayMessage(Player player, Artifact artifact) {
+		return artifact.message(player);
+	}
+	
 }
