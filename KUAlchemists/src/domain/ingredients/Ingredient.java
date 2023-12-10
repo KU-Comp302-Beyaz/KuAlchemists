@@ -4,9 +4,9 @@ public class Ingredient {
 	
 	//fields
 	private static int counter = 0; //since images start numbering from 1
-	private int identifier; //must be unique ID //UNIQUE FOR EACH CARD TYPE OR UNIQUE FOR EVERY SINGLE INGREDIENT INSTANCE?
+	private int identifier; //must be unique ID //UNIQUE FOR EACH CARD TYPE
 	private String name;
-	private String properties; //Properties, including color, value, and other characteristics? // Bu ne için??
+	private String properties; //Properties, including color, value, and other characteristics?
 	private String photo;
 	private Alchemical alchemical;
 

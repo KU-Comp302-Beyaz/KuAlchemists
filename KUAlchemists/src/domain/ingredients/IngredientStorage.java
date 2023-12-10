@@ -40,7 +40,10 @@ public class IngredientStorage {
 		return ingredientStorageSingleton;
 	}
 	
-	//shuffles and returns ingredientCards
+	/**
+	 * Converts ingredient array to ArrayList then shuffles the ingredient cards
+	 * @return shuffled ingredient cards
+	 */
 	public ArrayList<Ingredient> initializeIngredients() {
 		Collections.addAll(ingredientCards, allIngredientCardsArray);
 		Collections.shuffle(ingredientCards);

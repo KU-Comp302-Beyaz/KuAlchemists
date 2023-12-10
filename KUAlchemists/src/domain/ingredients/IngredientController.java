@@ -42,12 +42,12 @@ public class IngredientController {
 	 */
 	public void transmuteIngredient(Player player, Ingredient chosenIngredient) {
 		player.getIngredientCards().remove(chosenIngredient); //remove chosen ingredient
-		player.updateGoldBalance(10);
+		player.updateGoldBalance(1);
 	}
 	
 	/**
 	 * To initialize ingredient storage display, give all cards to it
-	 * @return allCardsArray so they can be given to ingredient storage display
+	 * @return allCardsArray so they can be given to ingredient storage display1
 	 */
 	public Ingredient[] giveAllCardsToIngredientStorageDisplay() {
 		return IngredientStorage.getInstance().getAllIngredientCardsArray();
