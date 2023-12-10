@@ -176,12 +176,6 @@ public class ArtifactDeckDisplay extends JFrame {
         
     }
 
-    
-
-    
-
-
-
    
    
 
