@@ -31,8 +31,8 @@ import javax.swing.UIManager;
 public class PublicationTrackDisplay extends JFrame {
 	
 	private static PublicationTrackDisplay isDisplay = new PublicationTrackDisplay(); // Singleton 
-	ArrayList<JPanel> publicationBoardPanels = new ArrayList<>();
-	ArrayList<JPanel> theoryPanels = new ArrayList<>();
+	private ArrayList<JPanel> publicationBoardPanels = new ArrayList<>();
+	private ArrayList<JPanel> theoryPanels = new ArrayList<>();
 	
 	private static final int IMAGE_WIDTH = 200, IMAGE_HEIGHT = 200;
 	
