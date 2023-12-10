@@ -7,10 +7,6 @@ import java.util.Collections;
 public class IngredientStorage {
 	
 	//fields
-	//add ingredientCards here
-	
-	//INGREDIENT DECK SHOULD HAVE LIMITED NUMBER OF CARDS TO MAKE UNIQUE IDENTIFIER EASIER
-
 	private static final Ingredient[] allIngredientCardsArray =
 		{new Ingredient(1,"Lamia Heart-Blood","src/images/images-icons/ingredient1.jpg"),
 		new Ingredient(2,"Witch's Tear", "src/images/images-icons/ingredient2.jpg"), 
@@ -30,23 +26,6 @@ public class IngredientStorage {
 	public static Ingredient[] getAllingredientcardsarray() {
 		return allIngredientCardsArray;
 	}
-
-	/*
-	private final Ingredient[] allIngredientCardsArray =
-		{new Ingredient("Lamia Heart-Blood"),
-		new Ingredient("Witch's Tear"), 
-		new Ingredient("Hippocamp's Soul"), 
-		new Ingredient("Cockatrice Saliva"),
-		new Ingredient("Goldhorn's Tooth"),
-		new Ingredient("Ghost Barbs"),
-		new Ingredient("Bugbear Bone Meal"),
-		new Ingredient("Strix's Bone"),
-		new Ingredient("Merman Horn"),
-		new Ingredient("Bunyip Oil"),
-		new Ingredient("Hippocamp's Tongue"),
-		new Ingredient("Roc Claw")
-		}; //for testing purposes
-	*/
 
 	private ArrayList<Ingredient> ingredientCards = new ArrayList<Ingredient>();
 	
