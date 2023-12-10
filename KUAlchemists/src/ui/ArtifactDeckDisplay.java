@@ -47,12 +47,13 @@ import domain.Player;
 import domain.ingredients.Ingredient;
 import javax.swing.JLayeredPane;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 
 public class ArtifactDeckDisplay extends JFrame {
     
     
     
-    private HashMap<Integer, ImageIcon> allArtifactCardImageIcons = new HashMap<Integer, ImageIcon>();
+    
     private ArrayList<JLabel> artifactCardLabels;
     private ArrayList<JPanel> artifactCardPanels;
     
@@ -95,19 +96,23 @@ public class ArtifactDeckDisplay extends JFrame {
         getContentPane().setLayout(null);
         
         txtArtifactDeck = new JTextField();
+        txtArtifactDeck.setFont(new Font("Lucida Grande", Font.PLAIN, 24));
+        txtArtifactDeck.setEditable(false);
         txtArtifactDeck.setBackground(UIManager.getColor("Button.background"));
-        txtArtifactDeck.setBounds(708, 6, 119, 73);
+        txtArtifactDeck.setBounds(732, 6, 230, 73);
         txtArtifactDeck.setText("ARTIFACT DECK\n");
         getContentPane().add(txtArtifactDeck, BorderLayout.NORTH);
         txtArtifactDeck.setColumns(10);
         
         JPanel panel = new JPanel();
-        panel.setBackground(Color.WHITE);
-        panel.setBounds(253, 175, 1017, 425);
+        panel.setBackground(UIManager.getColor("Button.background"));
+        panel.setBounds(6, 150, 939, 425);
         getContentPane().add(panel);
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         
-        JButton buyTheRiverButton = new JButton("The River");
+        JButton buyTheRiverButton = new JButton("");
+        buyTheRiverButton.setIcon(new ImageIcon(ArtifactDeckDisplay.class.getResource("/images/artifacts/riverartifact 2.png")));
+        buyTheRiverButton.setToolTipText("The River\n\nUse Type: Immediate\n\nWhen used this artifact will boost player's turn points by 2. \nThis artifact costs no turn points to buy.\nCan be bought once per turn.");
         panel.add(buyTheRiverButton);
          
         buyTheRiverButton.addActionListener(new ActionListener() {
@@ -116,14 +121,26 @@ public class ArtifactDeckDisplay extends JFrame {
 			}
 		});
         
-        JButton buyEOIButton = new JButton("ElixirOfInsight");
+        JButton buyEOIButton = new JButton("");
+        buyEOIButton.setIcon(new ImageIcon(ArtifactDeckDisplay.class.getResource("/images/artifacts/eoiartifact 2.png")));
+        buyEOIButton.setToolTipText("Elixir of Insight:\n\nUse Type: Immidiate\n\nThis artifact allows the player to see and shuffle the top 3 ingredient cards in the deck");
         panel.add(buyEOIButton);
         
         txtGold = new JTextField();
         txtGold.setText("Gold: ");
-        txtGold.setBounds(627, 648, 218, 45);
+        txtGold.setBounds(537, 648, 218, 45);
         getContentPane().add(txtGold);
         txtGold.setColumns(10);
+        
+        JTextPane txtpnHoverOverTo = new JTextPane();
+        txtpnHoverOverTo.setBackground(UIManager.getColor("Button.background"));
+        txtpnHoverOverTo.setEditable(false);
+        txtpnHoverOverTo.setSelectedTextColor(Color.LIGHT_GRAY);
+        txtpnHoverOverTo.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        txtpnHoverOverTo.setSelectionColor(Color.LIGHT_GRAY);
+        txtpnHoverOverTo.setText("Click on an artifact to purchase.\nHover over to see detailes.");
+        txtpnHoverOverTo.setBounds(1014, 150, 357, 180);
+        getContentPane().add(txtpnHoverOverTo);
         
         buyEOIButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -163,21 +180,6 @@ public class ArtifactDeckDisplay extends JFrame {
     }
 
     
-    public JPanel[] createArtifactArray(Player player) {
-        setArtifactCardLabels(new ArrayList<JLabel>());
-        setArtifactCardPanels(new ArrayList<JPanel>());
-
-        JLabel label = null;
-        JPanel panel = null;
-        
-        
-
-	
-        JPanel[] artifactCardPanelsArray = getArtifactCardPanels().toArray(new JPanel[getArtifactCardPanels().size()]);
-
-        return artifactCardPanelsArray;
-
-    }
 
     
 
