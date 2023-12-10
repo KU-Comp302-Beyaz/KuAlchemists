@@ -392,15 +392,6 @@ public class BoardWindow extends JFrame {
 		setVisible(true);
 	}
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                BoardWindow frame = new BoardWindow();
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
+    
 }
    
