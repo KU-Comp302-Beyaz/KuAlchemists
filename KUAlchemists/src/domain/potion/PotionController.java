@@ -12,8 +12,21 @@ import ui.PotionBrewingAreaDisplayHelp;
 
 public class PotionController {
 	
+	
+	
 	private static Player player;
 	private static Potion potion;
+	private static PotionController potionControllerInstance;
+	
+	/**
+	 * Singleton implementation
+	 * @return unique instance
+	 */
+	public static synchronized PotionController getInstance() {
+		if (potionControllerInstance == null)
+			potionControllerInstance = new PotionController(player,potion);
+		return potionControllerInstance;
+	}
 	
 	private static PotionController potionControllerInstance;
 	
@@ -82,7 +95,7 @@ public class PotionController {
 		
 		
 	
-	public static void initializeMakeExperiment() {
+	public void initializeMakeExperiment() {
 		
 		// PotionBrewingAreaDisplay pbad = new PotionBrewingAreaDisplay();
 		// PotionBrewingArea pba = new PotionBrewingArea();
@@ -101,7 +114,7 @@ public class PotionController {
 	}
 
 
-	public static void initializeTestPotion(Potion p) {
+	public void initializeTestPotion(Potion p) {
 
 		// pbad.display(); // ???
 		String testMethod = pbad.getTestMethod(); // Player Choose TestMethod (Test on Student / Test on Player)

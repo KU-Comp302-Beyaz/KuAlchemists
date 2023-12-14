@@ -1,3 +1,4 @@
+
 package ui;
 
 import java.awt.EventQueue;
@@ -60,13 +61,13 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	JPanel experimentPanel;
-	JPanel potionSalePanel;
+	private JPanel experimentPanel;
+	private JPanel potionSalePanel;
 	private boolean requestAccepted = false;
-	ImageIcon coinIcon;
-	Player player = Game.getCurrPlayer();
-	String testMethod = null;
-	Ingredient[] ingredients; 	
+	private ImageIcon coinIcon;
+	private Player player = Game.getCurrPlayer();
+	private String testMethod = null;
+	private Ingredient[] ingredients; 	
 
 
 
@@ -162,17 +163,20 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         scrollPane_ingredients.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         
         
+        
+         
+        
         /**
 		 * Taking the ingredients images from the Images/images-icons/ folder 
 		 */
 		DefaultListModel<JPanel> ingredientListModel = new DefaultListModel<>();
 
-		JLabel[] ingredientsIcons = new JLabel[12];
-		JPanel[] ingredientPanels = new JPanel[12];
+		JLabel[] ingredientsIcons = new JLabel[8];
+		JPanel[] ingredientPanels = new JPanel[8];
 		
 
 		// add players ingredients
-		for (int i=0;i <12 ; i++) {
+		for (int i=0;i <8 ; i++) {
 			//ImageIcon imageIcon = new ImageIcon("src/images/images-icons/ingredient"+(i+1)+".jpg");
 			ImageIcon imageIcon = new ImageIcon(IngredientStorage.getAllingredientcardsarray()[i].getPhoto());
 			Image image = imageIcon.getImage();
@@ -187,6 +191,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		       
 			ingredientPanels[i].add(ingredientsIcons[i]);
 		}
+		
+		
 		
 		// add players existed ingredients
 		/*
@@ -230,8 +236,9 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
                     for (Object ing : selectedIng) {
                         message.append(ing).append(" ");
                     }
-
-                    JOptionPane.showMessageDialog(null, message.toString());
+                    
+                    System.out.println(message);
+                    //JOptionPane.showMessageDialog(null, message.toString());
                 }
             }
         });
@@ -424,7 +431,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           			JOptionPane.showMessageDialog(contentPane,
             			    "Choose test method for making potion!");   
           		} else {
-          			PotionController.initializeMakeExperiment();
+          			//PotionController.initializeMakeExperiment();
+          			Game.setController(Game.Controller.MAKE_EXPERIMENT);
           		}
           		
           		

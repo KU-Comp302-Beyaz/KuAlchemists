@@ -27,6 +27,25 @@ public class IngredientStorage {
 		return allIngredientCardsArray;
 	}
 
+/*
+	private final Ingredient[] allIngredientCardsArray =
+		{new Ingredient("Lamia Heart-Blood"),
+		new Ingredient("Witch's Tear"), 
+		new Ingredient("Hippocamp's Soul"), 
+		new Ingredient("Cockatrice Saliva"),
+		new Ingredient("Goldhorn's Tooth"),
+		new Ingredient("Ghost Barbs"),
+		new Ingredient("Bugbear Bone Meal"),
+		new Ingredient("Strix's Bone"),
+		new Ingredient("Merman Horn"),
+		new Ingredient("Bunyip Oil"),
+		new Ingredient("Hippocamp's Tongue"),
+		new Ingredient("Roc Claw")
+		}; //for testing purposes
+
+*/
+
+  
 	private ArrayList<Ingredient> ingredientCards = new ArrayList<Ingredient>();
 	
 	//Singleton implementation

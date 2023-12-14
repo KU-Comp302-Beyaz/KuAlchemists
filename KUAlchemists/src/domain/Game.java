@@ -32,8 +32,9 @@ public class Game {
 		TRANSMUTE_INGREDIENT,
 		BUY_THE_RIVER,
 		BUY_EOI,
+		MAKE_EXPERIMENT,
 		SELL_POTION
-	}
+	};
 	
 	//Singleton implementation
 	private static Game gameSingleton = new Game();
@@ -96,8 +97,10 @@ public class Game {
 			ArtifactController.getArtifactController().buyArtifact(new TheRiver() , currPlayer);
 			break;
 		case BUY_EOI:
-			ArtifactController.getArtifactController().buyArtifact(new ElixirOfInsight(), currPlayer);
+			ArtifactController.getArtifactController().buyArtifact(new ElixirOfInsight() , currPlayer);
 			break;
+		case MAKE_EXPERIMENT:
+			PotionController.getInstance().initializeMakeExperiment();
 		case SELL_POTION:
 			PotionController.getInstance().initializePotionSale();			
 		default:
