@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map.Entry;
 
 import javax.swing.JLabel;
@@ -31,6 +32,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.ScrollPane;
 
+import domain.Display;
 import domain.Game;
 import domain.Game.Controller;
 import domain.Player;
@@ -47,21 +49,25 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.SwingConstants;
 
-public class IngredientStorageDisplay extends JFrame {
+public class IngredientStorageDisplay extends JFrame implements Display {
 
 	//fields
-	private final int IMAGE_WIDTH = 200, IMAGE_HEIGHT = 200, NUMBER_OF_IMAGES = 12, IMAGE_INTERVAL_START = 1;
+	private final int IMAGE_WIDTH = 140, IMAGE_HEIGHT = 140;
 	private final int SCREEN_WIDTH = 1440, SCREEN_HEIGHT = 800;
 	
 	private JLabel ingredientDisplayLabel;
 	private JButton forageForIngredientButton;
 	private JButton transmuteIngredientButton;
+	
 	private JList<JPanel> ingredientList;
 	private JScrollPane ingredientScrollPane;
+
+	private JList<JPanel> allIngredientsList;
+	private JScrollPane allIngredientsScrollPane;
+	private JPanel[] allIngredientJListPanels;
+	private Ingredient[] allIngredientCards;
 	
-	private HashMap<Integer,ImageIcon> allIngredientCardImageIcons = new HashMap<Integer,ImageIcon>();
-	JPanel[] allIngredientJListPanels = new JPanel[NUMBER_OF_IMAGES];
-	private ArrayList<JLabel> playerIngredientJListLabels = new ArrayList<JLabel>();
+	private HashMap<JLabel, Ingredient> playerIngredientJListLabels = new HashMap<JLabel, Ingredient>();
 	private ArrayList<JPanel> playerIngredientJListPanels = new ArrayList<JPanel>();
 	
 	//Singleton implementation
@@ -73,8 +79,6 @@ public class IngredientStorageDisplay extends JFrame {
 	
 	private IngredientStorageDisplay() {
 
-		getImages(IMAGE_INTERVAL_START,NUMBER_OF_IMAGES,IMAGE_WIDTH,IMAGE_HEIGHT);
-		
 		//Creates the JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -98,29 +102,24 @@ public class IngredientStorageDisplay extends JFrame {
 		ingredientDeckPanel.add(ingredientDeckLabel);
 		
 		//---
-//		JPanel allIngredientsScrollPanePanel = new JPanel();
-//		ingredientDeckPanel.add(allIngredientsScrollPanePanel);
-//		allIngredientsScrollPanePanel.setLayout(new BoxLayout(allIngredientsScrollPanePanel, BoxLayout.X_AXIS));
-//		allIngredientsScrollPanePanel.add(Box.createRigidArea(new Dimension(100, 50)));
-//		
-//		//all ingredients scroll pane
-//		JScrollPane allIngredientsScrollPane = new JScrollPane();
-//		allIngredientsScrollPanePanel.add(allIngredientsScrollPane);
-//
-//		//allIngredientsList in to be put in the scroll pane
-//		JList<JPanel> allIngredientsList = new JList<JPanel>();
-//		allIngredientsList.setListData(allIngredientJListPanels);
-//		allIngredientsList.setCellRenderer(new ImageListCellRenderer());  
-//		allIngredientsList.setLayoutOrientation(JList.VERTICAL_WRAP);
-//		allIngredientsList.setFixedCellHeight(IMAGE_HEIGHT+50);
-//		allIngredientsList.setFixedCellWidth(IMAGE_WIDTH);
-//		allIngredientsList.setVisibleRowCount(2);
-//		allIngredientsList.setSelectionModel(new NoSelectionModel());
-//		
-//        // add ingredientList to allIngredientsScrollPane
-//		allIngredientsScrollPane.setViewportView(allIngredientsList);
-//      allIngredientsScrollPanePanel.add(Box.createRigidArea(new Dimension(30, 50)));
-//		ingredientDeckPanel.add(Box.createRigidArea(new Dimension(100, 20)));
+		JPanel allIngredientsScrollPanePanel = new JPanel();
+		ingredientDeckPanel.add(allIngredientsScrollPanePanel);
+		allIngredientsScrollPanePanel.setLayout(new BoxLayout(allIngredientsScrollPanePanel, BoxLayout.X_AXIS));
+		allIngredientsScrollPanePanel.add(Box.createRigidArea(new Dimension(100, 50)));
+		
+		//all ingredients scroll pane
+		allIngredientsScrollPane = new JScrollPane();
+		allIngredientsScrollPanePanel.add(allIngredientsScrollPane);
+
+		//allIngredientsList in to be put in the scroll pane
+		allIngredientsList = new JList<JPanel>();
+		allIngredientsList.setCellRenderer(new ImageListCellRenderer());  
+		allIngredientsList.setSelectionModel(new NoSelectionModel());
+		
+        // add ingredientList to allIngredientsScrollPane
+		allIngredientsScrollPane.setViewportView(allIngredientsList);
+		allIngredientsScrollPanePanel.add(Box.createRigidArea(new Dimension(30, 50)));
+		ingredientDeckPanel.add(Box.createRigidArea(new Dimension(100, 20)));
 
 		//---
 		JPanel ingredientDeckScrollPanePanel = new JPanel();
@@ -229,13 +228,9 @@ public class IngredientStorageDisplay extends JFrame {
 		}
 	}
 	
-//	/**
-//	 * PUT THIS IN ANOTHER .JAVA FILE IN UI
-//	 */
-//	public class IngredientCardPanel extends JPanel {
-//		
-//	}
-//	
+	/**
+	 * Needed for all ingredient cards panel, so they cannot be selected
+	 */
 	private static class NoSelectionModel extends DefaultListSelectionModel {
 	   @Override
 	   public void setAnchorSelectionIndex(final int anchorIndex) {}
@@ -250,17 +245,37 @@ public class IngredientStorageDisplay extends JFrame {
 	   public void setSelectionInterval(final int index0, final int index1) { }
 	}
 	
-	
+	/**
+	 * Called at the beginning of the game to get all ingredient cards from ingredient storage 
+	 * and create the all ingredients deck
+	 * @param ingredientCards
+	 */
+	public void constructAllImagesDeck(Ingredient[] ingredientCards) {
+		setAllIngredientCards(ingredientCards);
+		allIngredientJListPanels = createAllIngredientsArray();
+		allIngredientsList.setListData(allIngredientJListPanels);
+		
+		allIngredientsList.setLayoutOrientation(JList.VERTICAL_WRAP);
+		allIngredientsList.setFixedCellHeight(IMAGE_HEIGHT+50);
+		allIngredientsList.setFixedCellWidth(IMAGE_WIDTH);
+		allIngredientsList.setVisibleRowCount(1);
+		
+		allIngredientsScrollPane.setViewportView(allIngredientsList);	
+	}
 
-
-	//initialize ui
-	//THIS METHOD IS WHERE THE INGREDIENTS CARD DECK SHOULD BE UPDATED
+	/**
+	 * Initialize UI, player cards are updated every time this is called (every button click)
+	 * @param player
+	 */
 	public void initialize(Player player) {
 
-
-		if (player.getIngredientCards().entrySet() == null) {
-			System.out.println("null alert");
+		if (player.getIngredientCards() == null || player.getIngredientCards().isEmpty()) {
+			System.out.println("Player Ingredient Cards null");
 			return;			
+		}
+		if (getAllIngredientJListPanels() == null) {
+			System.out.println("all ingredient cards JPANEL null");
+			constructAllImagesDeck(getAllIngredientCards());
 		}
 
 		JPanel[] ingredientCardPanelsArray = this.createIngredientArray(player);
@@ -269,7 +284,7 @@ public class IngredientStorageDisplay extends JFrame {
 		ingredientList.setFixedCellHeight(IMAGE_HEIGHT+50);
 		ingredientList.setFixedCellWidth(IMAGE_WIDTH);
 		
-		int boxWidth = 800; //ingredientScrollPane.getViewport().getSize().width;
+		int boxWidth = 900; //ingredientScrollPane.getViewport().getSize().width;
 		int numberOfImagesInRow = boxWidth/IMAGE_WIDTH;
 		ingredientList.setVisibleRowCount((player.getIngredientCards().size()+numberOfImagesInRow-1)/numberOfImagesInRow);
 		ingredientList.setSelectedIndex(0);
@@ -278,29 +293,27 @@ public class IngredientStorageDisplay extends JFrame {
 	
 	
 	// CAN BE USE IN POTIONBREWINGAREA TOO
-	public JPanel[] createIngredientArray(Player player) {
+
+	/**
+	 * Creates the array of player ingredient cards
+	 * @param player
+	 * @return Jpanel array of player ingredients to be put into JList
+	 */
+
+  public JPanel[] createIngredientArray(Player player) {
 		JLabel label;
 		JPanel panel;
-		Ingredient ingredient;
-		
-		//iterate over all of player's cards
-		// RIGHT NOW WE DO NOT CREATE NEW ARRAY LIST AT THE BEGINNING OF THE FUNCTION
-		// SO EVERY TIME ALL THE CARDS ARE ADDED AGAIN TO CREATE MULTIPLES FOR EVERY BUTTON PRESS
-		// NEEDS TO BE FIXED, ONLY THE CARD WITH THE DIFFERENCES SHOULD BE ADDED OR REMOVED FROM ARRAY
-		setIngredientCardLabels(new ArrayList<JLabel>(0));
 		setIngredientCardPanels(new ArrayList<JPanel>(0));
 		
-		for (Entry<Integer, Ingredient> entry : player.getIngredientCards().entrySet()) {
-			ingredient = entry.getValue();
-			String labelName = String.format("%2d", ingredient.getIdentifier()) + ": " + ingredient.getName();
-			label = new JLabel(labelName, getAllIngredientCardImageIcons().get(ingredient.getIdentifier()), JLabel.LEFT);
+		for (Ingredient ingredient : player.getIngredientCards()) {
+			label = new JLabel(ingredient.getName(), getImage(ingredient), JLabel.LEFT);
 			label.setHorizontalTextPosition(JLabel.CENTER);
 			label.setVerticalTextPosition(JLabel.BOTTOM);
 			
 			panel = new JPanel();
 			panel.add(label);
 			
-			getIngredientCardLabels().add(label);
+			getIngredientCardLabels().put(label, ingredient);
 			getIngredientCardPanels().add(panel);
 		}
 
@@ -308,29 +321,49 @@ public class IngredientStorageDisplay extends JFrame {
 		return ingredientCardPanelsArray;
 	}
 	
-	public JPanel[] createAllIngredientsArray(Ingredient[] ingredientCards) {
+	/**
+	 * Creates an array of all the ingredient cards
+	 * @return Jpanel array of all ingredients to be put into JList
+	 */
+	public JPanel[] createAllIngredientsArray() {
 		JLabel label;
 		JPanel panel;
-		for (int ingredientIdentifier = IMAGE_INTERVAL_START; ingredientIdentifier < ingredientCards.length+IMAGE_INTERVAL_START; ingredientIdentifier++) {
-			String labelName = String.format("%2d", ingredientCards[ingredientIdentifier].getIdentifier()) + ": " + ingredientCards[ingredientIdentifier].getName();
-			label = new JLabel(labelName, getAllIngredientCardImageIcons().get(ingredientIdentifier), JLabel.LEFT);
+		JPanel[] allIngredientJListPanels = new JPanel[getAllIngredientCards().length];
+		for (int ingredient = 0; ingredient < getAllIngredientCards().length; ingredient++) {
+			label = new JLabel(getAllIngredientCards()[ingredient].getName(), getImage(getAllIngredientCards()[ingredient]), JLabel.LEFT);
 			label.setHorizontalTextPosition(JLabel.CENTER);
 			label.setVerticalTextPosition(JLabel.BOTTOM);
 
 			panel = new JPanel();
 			panel.add(label);
-			allIngredientJListPanels[ingredientIdentifier] = panel;
+			allIngredientJListPanels[ingredient] = panel;
 		}
 		return allIngredientJListPanels;
 	}
 
-	public int getChosenIngredient() {
-		JLabel label = (JLabel) ingredientList.getSelectedValue().getComponent(0);
-//		return label.getText()
-		return Integer.parseInt(label.getText().substring(0, 2).trim());
-//		return ingredientList.getSelectedIndex();
+	/**
+	 * Gets image from the images folder in src and scales it to the wanted pixels
+	 * @param ingredient to access image path
+	 * @return imageicon of the ingredient
+	 */
+	public ImageIcon getImage(Ingredient ingredient) {
+		return new ImageIcon(new ImageIcon(ingredient.getPhoto()).getImage()
+					.getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH));
 	}
 	
+	/**
+	 * Gets the selected index by player from JList
+	 * @return chosen Ingredient
+	 */
+	public Ingredient getChosenIngredient() {
+		JLabel label = (JLabel) ingredientList.getSelectedValue().getComponent(0);
+		return getIngredientCardLabels().get(label);
+	}
+	
+	/**
+	 * Displays given text
+	 * @param text
+	 */
 	public void displayText(String text) {
 		ingredientDisplayLabel.setText(text);
 		ingredientDisplayLabel.setIcon(null);
@@ -338,6 +371,11 @@ public class IngredientStorageDisplay extends JFrame {
 		ingredientDisplayLabel.setVerticalTextPosition(JLabel.BOTTOM);
 	}
 	
+	/**
+	 * Displays given ingredient card
+	 * @param ingredient
+	 * @param ingredientCardImage
+	 */
 	public void displayCard(Ingredient ingredient, ImageIcon ingredientCardImage) {
 		ingredientDisplayLabel.setText(ingredient.getName());
 		ingredientDisplayLabel.setIcon(ingredientCardImage);
@@ -346,7 +384,7 @@ public class IngredientStorageDisplay extends JFrame {
 	}
 	
 	//method for menu bar
-	protected void openDialog() {
+	public void openDialog() {
 		// Create a small dialog
         JDialog dialog = new JDialog(this, "In Game Menu", true);
         dialog.setSize(300, 150);
@@ -397,7 +435,7 @@ public class IngredientStorageDisplay extends JFrame {
 	}
 
 	//method for menu bar
-	protected void showResumePausePage() {
+	public void showResumePausePage() {
 		JDialog dialog = new JDialog(this, "In Game Menu", true);
         dialog.setSize(300, 150);
 
@@ -434,27 +472,14 @@ public class IngredientStorageDisplay extends JFrame {
 		
 	}
 	
-	/**
-	 * Gets images from the images folder in src and scales them to the wanted pixels
-	 * @param intervalBegin -> first image is ingredient(intervalBegin).jpg
-	 * @param numberOfImages -> last image is ingredient(intervalBegin+numberOfImages).jpg
-	 * @param imageWidth
-	 * @param imageHeight
-	 */
-	public void getImages(int intervalBegin, int numberOfImages, int imageWidth, int imageHeight) {
-		for (int i = intervalBegin; i < intervalBegin+numberOfImages; i++) {
-			getAllIngredientCardImageIcons().put(i, new ImageIcon(
-					new ImageIcon("src/images/images-icons/ingredient"+i+".jpg").getImage()
-					.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH)));
-		}
-	}
+
 
 	//getter and setters
-	public ArrayList<JLabel> getIngredientCardLabels() {
+	public HashMap<JLabel, Ingredient> getIngredientCardLabels() {
 		return playerIngredientJListLabels;
 	}
 
-	public void setIngredientCardLabels(ArrayList<JLabel> ingredientCardLabels) {
+	public void setIngredientCardLabels(HashMap<JLabel, Ingredient> ingredientCardLabels) {
 		this.playerIngredientJListLabels = ingredientCardLabels;
 	}
 
@@ -466,13 +491,22 @@ public class IngredientStorageDisplay extends JFrame {
 		this.playerIngredientJListPanels = ingredientCardPanels;
 	}
 
-	public HashMap<Integer, ImageIcon> getAllIngredientCardImageIcons() {
-		return allIngredientCardImageIcons;
+	public JPanel[] getAllIngredientJListPanels() {
+		return allIngredientJListPanels;
 	}
 
-	public void setAllIngredientCardImageIcons(HashMap<Integer, ImageIcon> allIngredientCardImageIcons) {
-		this.allIngredientCardImageIcons = allIngredientCardImageIcons;
+	public void setAllIngredientJListPanels(JPanel[] allIngredientJListPanels) {
+		this.allIngredientJListPanels = allIngredientJListPanels;
 	}
+
+	public Ingredient[] getAllIngredientCards() {
+		return allIngredientCards;
+	}
+
+	public void setAllIngredientCards(Ingredient[] allIngredientCards) {
+		this.allIngredientCards = allIngredientCards;
+	}
+	
 
 
 	

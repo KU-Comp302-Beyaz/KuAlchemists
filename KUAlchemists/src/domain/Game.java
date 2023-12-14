@@ -32,8 +32,9 @@ public class Game {
 		TRANSMUTE_INGREDIENT,
 		BUY_THE_RIVER,
 		BUY_EOI,
-		MAKE_EXPERIMENT
-	}
+		MAKE_EXPERIMENT,
+		SELL_POTION
+	};
 	
 	//Singleton implementation
 	private static Game gameSingleton = new Game();
@@ -63,10 +64,15 @@ public class Game {
 		
 		//just for now, will be implemented later
 		currPlayer = player1;
-		player1.getIngredientCards().put(IngredientStorage.getInstance().getIngredientCards().get(0).getIdentifier(),IngredientStorage.getInstance().getIngredientCards().get(0));
-		player1.getIngredientCards().put(IngredientStorage.getInstance().getIngredientCards().get(1).getIdentifier(),IngredientStorage.getInstance().getIngredientCards().get(1));
+		initializeBoard();
+		player1.getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(0));
+		player1.getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(1));
 	
 
+	}
+	
+	public static void initializeBoard() {
+		IngredientStorageDisplay.getInstance().constructAllImagesDeck(IngredientController.getInstance().giveAllCardsToIngredientStorageDisplay());
 	}
 	
 	/**
@@ -77,13 +83,13 @@ public class Game {
 		switch (controller) {
 		case FORAGE_FOR_INGREDIENT:
 			Ingredient newIngredient = IngredientController.getInstance().addIngredientToPlayer(currPlayer);
-			ImageIcon newIngredientCardImageIcon = IngredientStorageDisplay.getInstance().getAllIngredientCardImageIcons().get(newIngredient.getIdentifier());
+			ImageIcon newIngredientCardImageIcon = IngredientStorageDisplay.getInstance().getImage(newIngredient);
 			IngredientStorageDisplay.getInstance().displayCard(newIngredient, newIngredientCardImageIcon);
 			IngredientStorageDisplay.getInstance().initialize(currPlayer);
 			break;
 		case TRANSMUTE_INGREDIENT:
-			int chosenIngredientIdentifier = IngredientStorageDisplay.getInstance().getChosenIngredient();
-			IngredientController.getInstance().transmuteIngredient(currPlayer, chosenIngredientIdentifier);
+			Ingredient chosenIngredient = IngredientStorageDisplay.getInstance().getChosenIngredient();
+			IngredientController.getInstance().transmuteIngredient(currPlayer, chosenIngredient);
 			IngredientStorageDisplay.getInstance().displayText("<html>Ingredient transmuted.<br/>One gold added to Player.</html>");
 			IngredientStorageDisplay.getInstance().initialize(currPlayer);
 			break;
@@ -95,8 +101,8 @@ public class Game {
 			break;
 		case MAKE_EXPERIMENT:
 			PotionController.getInstance().initializeMakeExperiment();
-			
-			
+		case SELL_POTION:
+			PotionController.getInstance().initializePotionSale();			
 		default:
 			break;
 		}

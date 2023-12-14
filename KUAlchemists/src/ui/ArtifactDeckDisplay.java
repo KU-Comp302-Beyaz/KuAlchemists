@@ -47,14 +47,13 @@ import domain.Player;
 import domain.ingredients.Ingredient;
 import javax.swing.JLayeredPane;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 
 public class ArtifactDeckDisplay extends JFrame {
     
     
     
-    private HashMap<Integer, ImageIcon> allArtifactCardImageIcons = new HashMap<Integer, ImageIcon>();
-    private ArrayList<JLabel> artifactCardLabels;
-    private ArrayList<JPanel> artifactCardPanels;
+    
     
     private static final int IMAGE_WIDTH = 200, IMAGE_HEIGHT = 200, IMAGE_NUMBER = 12;
 
@@ -90,44 +89,70 @@ public class ArtifactDeckDisplay extends JFrame {
             }
         });
 
+        JTextPane effectDisplay = new JTextPane();
+        effectDisplay.setText("");
+        effectDisplay.setBounds(1013, 329, 367, 237);
+        getContentPane().add(effectDisplay);
+        
         JButton backToBoardButton = new JButton("Back to Board");
         menuBar.add(backToBoardButton);
         getContentPane().setLayout(null);
         
         txtArtifactDeck = new JTextField();
+        txtArtifactDeck.setFont(new Font("Lucida Grande", Font.PLAIN, 24));
+        txtArtifactDeck.setEditable(false);
         txtArtifactDeck.setBackground(UIManager.getColor("Button.background"));
-        txtArtifactDeck.setBounds(708, 6, 119, 73);
+        txtArtifactDeck.setBounds(732, 6, 230, 73);
         txtArtifactDeck.setText("ARTIFACT DECK\n");
         getContentPane().add(txtArtifactDeck, BorderLayout.NORTH);
         txtArtifactDeck.setColumns(10);
         
         JPanel panel = new JPanel();
-        panel.setBackground(Color.WHITE);
-        panel.setBounds(253, 175, 1017, 425);
+        panel.setBackground(UIManager.getColor("Button.background"));
+        panel.setBounds(6, 150, 939, 425);
         getContentPane().add(panel);
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         
-        JButton buyTheRiverButton = new JButton("The River");
+        JButton buyTheRiverButton = new JButton("");
+        buyTheRiverButton.setIcon(new ImageIcon(ArtifactDeckDisplay.class.getResource("/images/artifacts/riverartifact 2.png")));
+        buyTheRiverButton.setToolTipText("The River\n\nUse Type: Immediate\n\nWhen used this artifact will boost player's turn points by 2. \nThis artifact costs no turn points to buy.\nCan be bought once per turn.");
         panel.add(buyTheRiverButton);
          
         buyTheRiverButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-				Game.getGame().selectController(Controller.BUY_THE_RIVER);
+				Game.getGame().selectController(Controller.BUY_THE_RIVER); //buys the card utilising the controller
+				effectDisplay.setText(ArtifactController.getArtifactController().displayMessage(Game.currPlayer , new TheRiver())); //displays the cards message. normally located
+																																	//use artifact however as this artifact is immidiate use this will happen here
 			}
 		});
         
-        JButton buyEOIButton = new JButton("ElixirOfInsight");
+        JButton buyEOIButton = new JButton("");
+        buyEOIButton.setIcon(new ImageIcon(ArtifactDeckDisplay.class.getResource("/images/artifacts/eoiartifact 2.png")));
+        buyEOIButton.setToolTipText("Elixir of Insight:\n\nUse Type: Immidiate\n\nThis artifact allows the player to see and shuffle the top 3 ingredient cards in the deck");
         panel.add(buyEOIButton);
         
         txtGold = new JTextField();
-        txtGold.setText("Gold: ");
-        txtGold.setBounds(627, 648, 218, 45);
+        txtGold.setText("Gold: " );
+        txtGold.setBounds(537, 648, 218, 45);
         getContentPane().add(txtGold);
         txtGold.setColumns(10);
         
+        
+        JTextPane txtpnHoverOverTo = new JTextPane();
+        txtpnHoverOverTo.setBackground(UIManager.getColor("Button.background"));
+        txtpnHoverOverTo.setEditable(false);
+        txtpnHoverOverTo.setSelectedTextColor(Color.LIGHT_GRAY);
+        txtpnHoverOverTo.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        txtpnHoverOverTo.setSelectionColor(Color.LIGHT_GRAY);
+        txtpnHoverOverTo.setText("Click on an artifact to purchase.\nHover over to see detailes.");
+        txtpnHoverOverTo.setBounds(1014, 150, 357, 180);
+        getContentPane().add(txtpnHoverOverTo);
+        
+        
         buyEOIButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-				Game.getGame().selectController(Controller.BUY_EOI);
+				Game.getGame().selectController(Controller.BUY_EOI);  // same as the other artifact
+				effectDisplay.setText(ArtifactController.getArtifactController().displayMessage(Game.currPlayer , new ElixirOfInsight()));
 			}
 		});
         
@@ -143,17 +168,6 @@ public class ArtifactDeckDisplay extends JFrame {
         });
     }
 
-    public class ImageListCellRenderer implements ListCellRenderer {
-
-        @Override
-        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-                boolean cellHasFocus) {
-            Component component = (Component) value;
-            component.setForeground(Color.white);
-            component.setBackground(isSelected ? UIManager.getColor("Table.focusCellForeground") : Color.white);
-            return component;
-        }
-    }
 
     public void initialize(Player player) {
         if (player.getArtifacts() == null)
@@ -161,41 +175,6 @@ public class ArtifactDeckDisplay extends JFrame {
 
         
     }
-
-    
-    public JPanel[] createArtifactArray(Player player) {
-        setArtifactCardLabels(new ArrayList<JLabel>());
-        setArtifactCardPanels(new ArrayList<JPanel>());
-
-        JLabel label = null;
-        JPanel panel = null;
-        
-        
-
-	
-        JPanel[] artifactCardPanelsArray = getArtifactCardPanels().toArray(new JPanel[getArtifactCardPanels().size()]);
-
-        return artifactCardPanelsArray;
-
-    }
-
-    
-
-    public void setArtifactCardLabels(ArrayList<JLabel> artifactCardLabels) {
-        this.artifactCardLabels = artifactCardLabels;
-    }
-    
-    public ArrayList<JPanel> getArtifactCardPanels() {
-		return artifactCardPanels;
-	}
-
-    public void setArtifactCardPanels(ArrayList<JPanel> artifactCardPanels) {
-        this.artifactCardPanels = artifactCardPanels;
-    }
-    
-    public ArrayList<JLabel> getArtifactCardLabels() {
-		return artifactCardLabels;
-	}
 
    
    
