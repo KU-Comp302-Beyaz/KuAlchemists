@@ -94,7 +94,7 @@ public class Game {
 			ArtifactController.getArtifactController().buyArtifact(new ElixirOfInsight() , currPlayer);
 			break;
 		case MAKE_EXPERIMENT:
-			PotionController.initializeMakeExperiment();
+			PotionController.getInstance().initializeMakeExperiment();
 			
 			
 		default:
