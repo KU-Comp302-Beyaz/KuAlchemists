@@ -17,7 +17,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import domain.Display;
 import domain.Game;
 import domain.Player;
 import domain.ingredients.Ingredient;

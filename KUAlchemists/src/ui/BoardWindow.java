@@ -74,6 +74,7 @@ public class BoardWindow extends JFrame {
 			}
 		});
 
+        
         // Buttons in the corners
         JButton ingredientStorageButton = new JButton("Ingredient Storage");
         

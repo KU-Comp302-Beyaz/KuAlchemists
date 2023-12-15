@@ -101,6 +101,7 @@ public class PotionController {
 	}
 
 
+	//Static silinmesi gerekiyor çünkü singleton zaten var
 	public static void initializeTestPotion(Potion p) {
 
 		// pbad.display(); // ???

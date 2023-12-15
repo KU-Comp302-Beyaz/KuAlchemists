@@ -8,7 +8,6 @@ public class Potion {
 	Ingredient[] recipe = new Ingredient[2];
 	AlchemyMarker alchemyMarker = new AlchemyMarker();
 	
-	//int pointValue; ??
 	
 	public Potion(Ingredient i1, Ingredient i2, AlchemyMarker resultToken) {
 		
