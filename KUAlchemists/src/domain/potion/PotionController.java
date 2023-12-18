@@ -14,6 +14,7 @@ public class PotionController {
 	
 	private static Player player;
 	private static Potion potion;
+	private static int updatedAmount;
 	
 	private static PotionController potionControllerInstance;
 	
@@ -31,7 +32,7 @@ public class PotionController {
 	
 	
 	// ?! Her fonksiyon için ayrı açılması yerine ortak bir tane olsun (Yoksa make experimentta iki kez iç içe açılır)
-	static PotionBrewingAreaDisplay pbad = new PotionBrewingAreaDisplay(); 
+	static PotionBrewingAreaDisplay pbad = PotionBrewingAreaDisplay.getInstance(); 
 	static PotionBrewingArea pba = new PotionBrewingArea();
 	
 	public PotionController(Player player, Potion potion){
@@ -42,44 +43,46 @@ public class PotionController {
 
 	public void initializePotionSale() {
 		System.out.println("Potion sale initialized");
-		// PotionBrewingAreaDisplay pbad = new PotionBrewingAreaDisplay();
-		// PotionBrewingArea pba = new PotionBrewingArea();
 		
-//		Map<String, Integer> rewardTable= new HashMap<String, Integer>();
-//		rewardTable.put("positive", 3);
-//		rewardTable.put("positive_neutral", 2);
-//		rewardTable.put("no_guarantee", 1);
+		//Rewards (Gold Coins) in return of a potion:
+		Map<String, Integer> rewardTable= new HashMap<String, Integer>();
+		rewardTable.put("positive", 3);
+		rewardTable.put("positive_neutral", 2);
+		rewardTable.put("no_guarantee", 1);
 
-/*
-		pbad.display();
-		boolean choice = pbad.displayChoiceBox();
+		boolean requestAccepted = pbad.isRequestAccepted();
 		
-		if (choice) {
+		if (requestAccepted) {
 			
-		   	String guaranteedPotionNature = pbad.displayGuaranteeBox();
+			Ingredient[] ingredients = pbad.getPotionIngredients();
+			Potion p = pba.makePotion(ingredients[0], ingredients[1]); //Making potion
+			String sign = p.getPotionSign(); //Sign of the prepared potion
+			int guarantee = pbad.getGuaranteeLevel(); //Guarantee
+			updatedAmount = 0;
 			
-			Ingredient[] recipe = pbad.displayExperimentSetup();
-			//Potion p = pba.makePotion(recipe[0], recipe[1]);
-			potion = pba.makePotion(recipe[0], recipe[1]);
-			
-			//Daha sonra düzelt
-			if (potion.getAlchemyMarker().getSign().equals(guaranteedPotionNature)) {
-				player.updateGoldBalance(1);
+			switch (sign) {
+				case ("+"):
+					if (guarantee == 3) updatedAmount = 3;
+					else if (guarantee == 2) updatedAmount = 2;
+					break;
+
 				
+				case("0"):
+					if (guarantee == 2) updatedAmount = 2;
+					
+				case("-"):
+					if (guarantee == 1) updatedAmount = 1;				
 			}
 			
-			return 1; //successfully done
+			player.updateGoldBalance(updatedAmount);			
 		}
 		
-		else return -1;
-			
-		
-		//player.updateGoldBalance(amount);
-		//player.updatePlayerTurn();
-	*/
 	}
 	
-		
+	
+	public int getEarnedGoldAmount() {
+		return updatedAmount;
+	}
 		
 	
 	public static void initializeMakeExperiment() {
