@@ -8,6 +8,7 @@ import domain.ingredients.Ingredient;
 import domain.potion.Potion;
 import domain.theorydeduction.AlchemyMarker;
 import domain.theorydeduction.Theory;
+import domain.artifact.*;
 
 public class Player {
 
@@ -15,13 +16,14 @@ public class Player {
 	private int token;
 	private int goldBalance; 
 	private int turnNumber;
-	private HashMap<Integer,Ingredient> ingredientCards = new HashMap<Integer,Ingredient>(2); 
+	private List<Ingredient> ingredientCards = new ArrayList<Ingredient>(2); 
 	// private Artifact[] artifactCards;
 	private int sicknessLevel;
 	private int reputationPoints;
 	private int scorePoints;
 	private List<Potion> potions = new ArrayList<Potion>();
 	private List<Theory> theories = new ArrayList<Theory>();
+	private HashMap<String,Artifact> artifacts = new HashMap<String,Artifact>(2);
 
 	
 	// constructor
@@ -68,10 +70,10 @@ public class Player {
 		this.turnNumber = turnNumber;
 	}
 
-	public HashMap<Integer, Ingredient> getIngredientCards() {
+	public List<Ingredient> getIngredientCards() {
 		return ingredientCards;
 	}
-	public void setIngredientCards(HashMap<Integer, Ingredient> ingredientCards) {
+	public void setIngredientCards(List<Ingredient> ingredientCards) {
 		this.ingredientCards = ingredientCards;
 	}
 
@@ -108,6 +110,14 @@ public class Player {
 	}
 	public void setTheories(List<Theory> theories) {
 		this.theories = theories;
+	}
+	
+	public HashMap<String, Artifact> getArtifacts() {
+		return artifacts;
+	}
+	
+	public void addArtifact(Artifact artifact) {
+		this.artifacts.put(artifact.name, artifact);
 	}
 
 

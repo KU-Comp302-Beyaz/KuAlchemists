@@ -1,32 +1,37 @@
 package domain.ingredients;
 
-import domain.theorydeduction.AlchemyMarker;
-
 public class Ingredient {
 	
 	//fields
-	private int identifier; //must be unique ID // Bu ne için??
+	private static int counter = 0; //since images start numbering from 1
+	private int identifier; //must be unique ID //UNIQUE FOR EACH CARD TYPE
 	private String name;
-	private int iconID;
-	private String properties; //Properties, including color, value, and other characteristics? // Bu ne için??
+	private String properties; //Properties, including color, value, and other characteristics?
+	private String photo;
 	private Alchemical alchemical;
+	private int iconID;
 
 	//constructor
-	public Ingredient(int identifier, String name, int iconID, String properties, Alchemical alchemical) {
-		super();
+	public Ingredient(int identifier, String name, String photo, Alchemical alchemical) {
 		this.identifier = identifier;
 		this.name = name;
-		this.iconID = iconID;
-		this.properties = properties;
+
+		this.photo = photo;
 		this.alchemical = alchemical;
 	}
-	public Ingredient(int identifier, String name, int iconID) {
-		super();
+	public Ingredient(int identifier, String name,String photo) {
 		this.identifier = identifier;
-		this.iconID = iconID;
-		this.name = name;
-	}
 
+		this.name = name;
+		this.photo = photo;
+
+	}
+	public Ingredient(String name) {
+		this.name = name;
+		this.identifier = ++counter;
+		
+		
+	}
 	//getters and setters
 	public Alchemical getAlchemical() {
 		return alchemical;
@@ -52,13 +57,16 @@ public class Ingredient {
 	public void setProperties(String properties) {
 		this.properties = properties;
 	}
-	public int getIconID() {
-		return iconID;
+
+
+	public String getPhoto() {
+		return photo;
 	}
-	public void setIconID(int iconID) {
-		this.iconID = iconID;
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 	
+
 	
 	
 }
