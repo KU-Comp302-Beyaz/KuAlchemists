@@ -81,7 +81,7 @@ public class BoardWindow extends JFrame {
 
         // Deduction Board in the middle as a button
         JButton deductionBoardButton = new JButton("Deduction Board");
-        deductionBoardButton.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        deductionBoardButton.setFont(new Font("Cochin", Font.PLAIN, 20));
         GridBagConstraints gbcDeductionBoard = new GridBagConstraints();
         gbcDeductionBoard.gridx = 1;
         gbcDeductionBoard.gridy = 1;
@@ -100,6 +100,7 @@ public class BoardWindow extends JFrame {
 
         // Buttons in the corners
         JButton ingredientStorageButton = new JButton("Ingredient Storage");
+        ingredientStorageButton.setFont(new Font("Cochin", Font.PLAIN, 20));
         
         ingredientStorageButton.addActionListener(new ActionListener() {
 			
@@ -114,6 +115,7 @@ public class BoardWindow extends JFrame {
 		});
         
   		JButton artifactStorageButton = new JButton("Artifact Storage");
+  		artifactStorageButton.setFont(new Font("Cochin", Font.PLAIN, 20));
   		
   		artifactStorageButton.addActionListener(new ActionListener() {
   			public void actionPerformed(ActionEvent e) {
@@ -126,6 +128,7 @@ public class BoardWindow extends JFrame {
 		});
   		
   		JButton potionBrewingAreaButton = new JButton("Potion Brewing Area");
+  		potionBrewingAreaButton.setFont(new Font("Cochin", Font.PLAIN, 20));
   		
   		potionBrewingAreaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -140,6 +143,7 @@ public class BoardWindow extends JFrame {
 	
   		
   		JButton publicationTrackButton = new JButton("Publication Track");
+  		publicationTrackButton.setFont(new Font("Cochin", Font.PLAIN, 20));
   		publicationTrackButton.addActionListener(e -> {
   			
   			PublicationTrackDisplay ptDisplay = PublicationTrackDisplay.getIsDisplay();

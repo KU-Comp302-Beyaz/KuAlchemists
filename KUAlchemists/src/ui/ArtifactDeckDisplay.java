@@ -99,7 +99,7 @@ public class ArtifactDeckDisplay extends JFrame {
         getContentPane().setLayout(null);
         
         txtArtifactDeck = new JTextField();
-        txtArtifactDeck.setFont(new Font("Lucida Grande", Font.PLAIN, 24));
+        txtArtifactDeck.setFont(new Font("Cochin", Font.PLAIN, 25));
         txtArtifactDeck.setEditable(false);
         txtArtifactDeck.setBackground(UIManager.getColor("Button.background"));
         txtArtifactDeck.setBounds(732, 6, 230, 73);
@@ -132,6 +132,7 @@ public class ArtifactDeckDisplay extends JFrame {
         panel.add(buyEOIButton);
         
         txtGold = new JTextField();
+        txtGold.setFont(new Font("Cochin", Font.PLAIN, 15));
         txtGold.setText("Gold: " );
         txtGold.setBounds(537, 648, 218, 45);
         getContentPane().add(txtGold);
@@ -142,7 +143,7 @@ public class ArtifactDeckDisplay extends JFrame {
         txtpnHoverOverTo.setBackground(UIManager.getColor("Button.background"));
         txtpnHoverOverTo.setEditable(false);
         txtpnHoverOverTo.setSelectedTextColor(Color.LIGHT_GRAY);
-        txtpnHoverOverTo.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        txtpnHoverOverTo.setFont(new Font("Cochin", Font.PLAIN, 20));
         txtpnHoverOverTo.setSelectionColor(Color.LIGHT_GRAY);
         txtpnHoverOverTo.setText("Click on an artifact to purchase.\nHover over to see detailes.");
         txtpnHoverOverTo.setBounds(1014, 150, 357, 180);
