@@ -680,6 +680,7 @@ public class DeductionBoardDisplay extends JFrame{
         dialog.setVisible(true);
   
     }
+   
     private static void showPhotoSelectionDialog(JButton targetButton) {
         JFrame photoSelectionFrame = new JFrame("Select a Photo");
 
