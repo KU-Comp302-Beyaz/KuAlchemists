@@ -18,18 +18,6 @@ public class PotionController {
 	private static Potion potion;
 	private static PotionController potionControllerInstance;
 	
-	/**
-	 * Singleton implementation
-	 * @return unique instance
-	 */
-	public static synchronized PotionController getInstance() {
-		if (potionControllerInstance == null)
-			potionControllerInstance = new PotionController(player,potion);
-		return potionControllerInstance;
-	}
-	
-	private static PotionController potionControllerInstance;
-	
 	private PotionController() {}
 
 	/**
