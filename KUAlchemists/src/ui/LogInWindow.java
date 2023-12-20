@@ -26,6 +26,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 
 
@@ -149,20 +150,26 @@ public class LogInWindow extends JFrame {
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//Username of Player1
-				username1 = usernameText.getText();
-				usernameText.setText("");
+				if (usernameText.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Name field cannot be empty.","Error",JOptionPane.WARNING_MESSAGE);
+				}
+				else {
+					//Username of Player1
+					username1 = usernameText.getText();
+					usernameText.setText("");
 
-				//Avatar index of Player1
-				selectedToken1 = avatarList.getSelectedIndex();
+					//Avatar index of Player1
+					selectedToken1 = avatarList.getSelectedIndex();
 
+					
+					//Disabling player1 panel and enabling player2 panel
+					playerUsername.setVisible(false);
+					playerUsername2.setVisible(true);
+					
+					loginButton.setVisible(false);
+					loginButton2.setVisible(true);
+				}
 				
-				//Disabling player1 panel and enabling player2 panel
-				playerUsername.setVisible(false);
-				playerUsername2.setVisible(true);
-				
-				loginButton.setVisible(false);
-				loginButton2.setVisible(true);
 				
 			}
 		});
@@ -172,14 +179,24 @@ public class LogInWindow extends JFrame {
 		 */
 		loginButton2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (usernameText.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Name field cannot be empty.","Error",JOptionPane.WARNING_MESSAGE);
+
+				}
+				else if (usernameText.getText().equals(username1)) {
+					JOptionPane.showMessageDialog(null, "Username is already taken!","Error",JOptionPane.WARNING_MESSAGE);
+
+				}
+				else {
+					username2 = usernameText.getText();
+					selectedToken2 = avatarList.getSelectedIndex();				
+					loginCompleted = true;
+					
+					BoardWindow board = BoardWindow.getBoardWindow();
+					board.initialize();
+					dispose();
+				}
 				
-				username2 = usernameText.getText();
-				selectedToken2 = avatarList.getSelectedIndex();				
-				loginCompleted = true;
-				
-				BoardWindow board = BoardWindow.getBoardWindow();
-				board.initialize();
-				dispose();
 				
 			}
 		});
