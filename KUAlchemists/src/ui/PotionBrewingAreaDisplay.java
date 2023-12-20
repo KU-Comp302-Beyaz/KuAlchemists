@@ -47,6 +47,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListCellRenderer;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import java.awt.BorderLayout;
@@ -351,12 +352,52 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         //Requested potion after clicking "SELL POTION" button
         JLabel requestedPotion = new JLabel();
         requestedPotion.setBounds(61, 75, 380, 335);
+        /*
         ImageIcon requestedPotionIcon = new ImageIcon("src/images/potions/potion-1.png");
         Image requestedPotionImage = requestedPotionIcon.getImage().getScaledInstance(380, 335, 0);
         requestedPotionIcon = new ImageIcon(requestedPotionImage);
         requestedPotion.setIcon(requestedPotionIcon);
         requestPanel.add(requestedPotion);
+        */
         requestedPotion.setVisible(false);
+        
+        // Animation for illustrating random getting alchemyMarker
+        Thread t = new Thread(new Runnable() {
+      	  public void run() {
+      		  try {
+      			  
+      			ImageIcon icon1 = new ImageIcon("src/images/alchemyMarker-icons/blue+.png");
+      			ImageIcon icon2 = new ImageIcon("src/images/alchemyMarker-icons/red-.png");
+      			ImageIcon icon3 = new ImageIcon("src/images/alchemyMarker-icons/blue-.png");
+      			ImageIcon icon4 = new ImageIcon("src/images/alchemyMarker-icons/green-.png");
+      			ImageIcon icon5 = new ImageIcon("src/images/alchemyMarker-icons/red+.png");
+      			ImageIcon icon6 = new ImageIcon("src/images/alchemyMarker-icons/null.png");
+      			ImageIcon icon7 = new ImageIcon("src/images/alchemyMarker-icons/green+.png");
+      			ImageIcon requestedPotionIcon = new ImageIcon("src/images/potions/potion-1.png");
+      	        
+      	        requestedPotion.setIcon(new ImageIcon(icon1.getImage().getScaledInstance(380, 335, 0)));
+      	        requestPanel.add(requestedPotion);
+    	        requestedPotion.setVisible(true);
+    	        Thread.sleep(100);
+      	        requestedPotion.setIcon(new ImageIcon(icon2.getImage().getScaledInstance(380, 335, 0)));
+      	        Thread.sleep(100);
+      	        requestedPotion.setIcon(new ImageIcon(icon3.getImage().getScaledInstance(380, 335, 0)));
+    	        Thread.sleep(100);
+    	        requestedPotion.setIcon(new ImageIcon(icon4.getImage().getScaledInstance(380, 335, 0)));
+    	        Thread.sleep(100);
+    	        requestedPotion.setIcon(new ImageIcon(icon5.getImage().getScaledInstance(380, 335, 0)));
+    	        Thread.sleep(100);
+    	        requestedPotion.setIcon(new ImageIcon(icon6.getImage().getScaledInstance(380, 335, 0)));
+    	        Thread.sleep(100);
+    	        requestedPotion.setIcon(new ImageIcon(icon7.getImage().getScaledInstance(380, 335, 0)));
+    	        Thread.sleep(100);
+    	        requestedPotion.setIcon(new ImageIcon(requestedPotionIcon.getImage().getScaledInstance(380, 335, 0)));     
+      			  
+      		  }
+      		  catch(Exception e) {}
+      	  }
+        });
+        
         
         //Coin photograph for placeholder of information of payed gold amount
         JLabel goldPayment = new JLabel();
@@ -424,13 +465,17 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           sellPotionButton.setBounds(43, 593, 420, 43);
           requestPanel.add(sellPotionButton);
           
+          
           //Event handler for Sell Potion button
           sellPotionButton.addActionListener(new ActionListener() {
           	public void actionPerformed(ActionEvent e) {
           		potionIcon.setVisible(false);
+          		
                 acceptButton.setVisible(true);
                 declineButton.setVisible(true);
-                requestedPotion.setVisible(true);
+                
+                //requestedPotion.setVisible(true);
+                t.start();
                 
                 Game.setController(Game.controller.SELL_POTION);
           	}
