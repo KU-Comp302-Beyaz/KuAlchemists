@@ -365,14 +365,14 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         Thread t = new Thread(new Runnable() {
       	  public void run() {
       		  try {
-      			  
-      			ImageIcon icon1 = new ImageIcon("src/images/alchemyMarker-icons/blue+.png");
-      			ImageIcon icon2 = new ImageIcon("src/images/alchemyMarker-icons/red-.png");
-      			ImageIcon icon3 = new ImageIcon("src/images/alchemyMarker-icons/blue-.png");
-      			ImageIcon icon4 = new ImageIcon("src/images/alchemyMarker-icons/green-.png");
-      			ImageIcon icon5 = new ImageIcon("src/images/alchemyMarker-icons/red+.png");
-      			ImageIcon icon6 = new ImageIcon("src/images/alchemyMarker-icons/null.png");
-      			ImageIcon icon7 = new ImageIcon("src/images/alchemyMarker-icons/green+.png");
+      			
+      			ImageIcon icon1 = new ImageIcon("src/images/bottle-icons/blue+bottle.png");
+      			ImageIcon icon2 = new ImageIcon("src/images/bottle-icons/red-bottle.png");
+      			ImageIcon icon3 = new ImageIcon("src/images/bottle-icons/blue-bottle.png");
+      			ImageIcon icon4 = new ImageIcon("src/images/bottle-icons/green-bottle.png");
+      			ImageIcon icon5 = new ImageIcon("src/images/bottle-icons/red+bottle.png");
+      			ImageIcon icon6 = new ImageIcon("src/images/bottle-icons/null_bottle.png");
+      			ImageIcon icon7 = new ImageIcon("src/images/bottle-icons/green+bottle.png");
       			ImageIcon requestedPotionIcon = new ImageIcon("src/images/potions/potion-1.png");
       	        
       	        requestedPotion.setIcon(new ImageIcon(icon1.getImage().getScaledInstance(380, 335, 0)));
