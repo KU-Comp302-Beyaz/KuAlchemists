@@ -87,6 +87,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		getContentPane().setName("ingredientPane");
 		
 		JPanel ingredientFramePanel = new JPanel();
+		
 		getContentPane().add(ingredientFramePanel, BorderLayout.CENTER);
 		ingredientFramePanel.setLayout(new BoxLayout(ingredientFramePanel, BoxLayout.X_AXIS));
 		
@@ -98,7 +99,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		
 		JLabel ingredientDeckLabel = new JLabel("Ingredient Deck");
 		ingredientDeckLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		ingredientDeckLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 32));
+		ingredientDeckLabel.setFont(new Font("Cochin", Font.PLAIN, 32));
 		ingredientDeckPanel.add(ingredientDeckLabel);
 		
 		//---
@@ -148,7 +149,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 		
 		JLabel ingredientInstructionLabel = new JLabel("<html>Click Forage for Ingredient or<br/>Choose Ingredient to Transmute.<br/> <br/> </html>", SwingConstants.CENTER);
-		ingredientInstructionLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		ingredientInstructionLabel.setFont(new Font("Cochin", Font.PLAIN, 20));
 		ingredientInstructionLabel.setAlignmentX(0.5f);
 		buttonsPanel.add(ingredientInstructionLabel);
 		
@@ -161,7 +162,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		//button for forage for ingredient
 		forageForIngredientButton = new JButton("Forage for Ingredient");
 		forageForIngredientButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		forageForIngredientButton.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		forageForIngredientButton.setFont(new Font("Cochin", Font.PLAIN, 20));
 		forageForIngredientButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Game.getGame().selectController(Controller.FORAGE_FOR_INGREDIENT);
@@ -173,7 +174,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		//button for transmute ingredient
 		transmuteIngredientButton = new JButton("Transmute Ingredient");
 		transmuteIngredientButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		transmuteIngredientButton.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		transmuteIngredientButton.setFont(new Font("Cochin", Font.PLAIN, 20));
 		transmuteIngredientButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {

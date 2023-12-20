@@ -132,7 +132,9 @@ public class LogInWindow extends JFrame {
 		
 		//Login Buttons for Player 1 login and Player 2 login
 		JButton loginButton = new JButton("LOGIN");
+		loginButton.setFont(new Font("Cochin", Font.PLAIN, 13));
 		JButton loginButton2 = new JButton("LOGIN");
+		loginButton2.setFont(new Font("Cochin", Font.PLAIN, 13));
 		loginButton2.setVisible(false);
 		
 		loginButton.setBounds((screenWidth-120)/2, 517, 120, 29);
