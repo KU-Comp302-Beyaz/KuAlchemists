@@ -85,7 +85,7 @@ public class LogInWindow extends JFrame {
 		
 		// Add background image
         try {
-            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.jpeg"));
+            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
             playerPanel1 = new JPanel() {
                 @Override
                 protected void paintComponent(Graphics g) {
