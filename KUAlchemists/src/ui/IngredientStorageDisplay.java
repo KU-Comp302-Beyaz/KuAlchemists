@@ -214,19 +214,6 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		});
 	}
 	
-	/**
-	 * Needed for the ingredientList JList -> contains a list of JPanels with JLabels instead of Strings
-	 */
-	public class ImageListCellRenderer implements ListCellRenderer {
-		@Override
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-				boolean cellHasFocus) {
-		      Component component = (Component) value;
-		      component.setForeground(Color.white);
-		      component.setBackground(isSelected ? UIManager.getColor("Table.focusCellForeground") : Color.white);
-		      return component;
-		}
-	}
 	
 	/**
 	 * Needed for all ingredient cards panel, so they cannot be selected
