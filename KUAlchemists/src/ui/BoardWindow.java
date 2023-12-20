@@ -1,5 +1,6 @@
 package ui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -9,6 +10,9 @@ import domain.Game.Controller;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class BoardWindow extends JFrame {
 	
@@ -53,6 +57,26 @@ public class BoardWindow extends JFrame {
 
         // Board display panel
         JPanel boardDisplay = new JPanel(new GridBagLayout());
+        //boardDisplay.setBackground(new Color(255, 39, 57));
+        
+        //ImageIcon backgroundImage = new ImageIcon("src/images/board.jpeg");
+       // JLabel backgroundLabel = new JLabel(backgroundImage);
+        //boardDisplay.add(backgroundLabel); 
+     
+        // Add background image
+        try {
+            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.jpeg"));
+            boardDisplay = new JPanel(new GridBagLayout()) {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         contentPane.add(boardDisplay, BorderLayout.CENTER);
 
         // Deduction Board in the middle as a button
@@ -326,8 +350,8 @@ public class BoardWindow extends JFrame {
         //helpPanel.setVisible(false);  // Başlangıçta gizle
 
         // Add the panel to the dialog
-        dialog.add(buttonPanel,BorderLayout.NORTH);
-        dialog.add(helpPanel,BorderLayout.CENTER);
+        dialog.getContentPane().add(buttonPanel,BorderLayout.NORTH);
+        dialog.getContentPane().add(helpPanel,BorderLayout.CENTER);
         
 
         
