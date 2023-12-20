@@ -121,7 +121,7 @@ public class ArtifactDeckDisplay extends JFrame {
         buyTheRiverButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
 				Game.getGame().selectController(Controller.BUY_THE_RIVER); //buys the card utilising the controller
-				effectDisplay.setText(ArtifactController.getArtifactController().displayMessage(Game.currPlayer , new TheRiver())); //displays the cards message. normally located
+				effectDisplay.setText(ArtifactController.getArtifactController().displayMessage(Game.getCurrPlayer() , new TheRiver())); //displays the cards message. normally located
 																																	//use artifact however as this artifact is immidiate use this will happen here
 			}
 		});
@@ -153,7 +153,7 @@ public class ArtifactDeckDisplay extends JFrame {
         buyEOIButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
 				Game.getGame().selectController(Controller.BUY_EOI);  // same as the other artifact
-				effectDisplay.setText(ArtifactController.getArtifactController().displayMessage(Game.currPlayer , new ElixirOfInsight()));
+				effectDisplay.setText(ArtifactController.getArtifactController().displayMessage(Game.getCurrPlayer(), new ElixirOfInsight()));
 			}
 		});
         
