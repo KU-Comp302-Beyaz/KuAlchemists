@@ -47,21 +47,21 @@ public class PublicationTrackDisplay extends JFrame {
 		getContentPane().setLayout(null);
 		
 		JLabel titleLabel = new JLabel("Publication Track");
-		titleLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+		titleLabel.setFont(new Font("Cochin", Font.PLAIN, 30));
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		titleLabel.setBounds(632, 74, 201, 16);
+		titleLabel.setBounds(632, 74, 250, 50);
 		getContentPane().add(titleLabel);
 		
 		JLabel trackInfoLabel = new JLabel("Publication Cards");
-		trackInfoLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		trackInfoLabel.setFont(new Font("Cochin", Font.PLAIN, 25));
 		trackInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		trackInfoLabel.setBounds(252, 169, 148, 16);
+		trackInfoLabel.setBounds(252, 169, 250, 50);
 		getContentPane().add(trackInfoLabel);
 		
 		JLabel theoryInfoPanel = new JLabel("Published Theories");
-		theoryInfoPanel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		theoryInfoPanel.setFont(new Font("Cochin", Font.PLAIN, 25));
 		theoryInfoPanel.setHorizontalAlignment(SwingConstants.CENTER);
-		theoryInfoPanel.setBounds(1044, 169, 170, 16);
+		theoryInfoPanel.setBounds(1044, 169, 250, 50);
 		getContentPane().add(theoryInfoPanel);
 		
 		JScrollPane publicationScrollPane = new JScrollPane();
@@ -94,11 +94,13 @@ public class PublicationTrackDisplay extends JFrame {
 		theoryScrollPane.setViewportView(theoryList);
 		
 		JButton debunkButton = new JButton("Debunk A Theory");
-		debunkButton.setBounds(1058, 719, 156, 64);
+		debunkButton.setFont(new Font("Cochin", Font.PLAIN, 20));
+		debunkButton.setBounds(1058, 719, 250, 64);
 		getContentPane().add(debunkButton);
 		
 		JButton claimRewardButton = new JButton("Claim Publication Card");
-		claimRewardButton.setBounds(252, 719, 156, 64);
+		claimRewardButton.setFont(new Font("Cochin", Font.PLAIN, 20));
+		claimRewardButton.setBounds(252, 719, 250, 64);
 		getContentPane().add(claimRewardButton);
 		
 		JMenuBar menuBar = new JMenuBar();

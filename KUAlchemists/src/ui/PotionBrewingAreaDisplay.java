@@ -53,9 +53,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Graphics;
 
 public class PotionBrewingAreaDisplay extends JFrame implements Display {
 
@@ -107,6 +111,22 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
         
         contentPane = new JPanel();
+        
+        // Add background image
+        try {
+            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.jpeg"));
+            contentPane = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+        
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
