@@ -184,11 +184,16 @@ public class DeductionBoardDisplay extends JFrame{
     	deductionGridPanel.setLayout(new GridLayout(9, 9, 0, 0));
     	
     	JButton publishButton = new JButton("Publish a Theory");
+    	publishButton.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    		}
+    	});
+    	publishButton.setFont(new Font("Cochin", Font.PLAIN, 20));
     	publishButton.setBounds(1243, 322, 165, 88);
     	getContentPane().add(publishButton);
     	
     	JLabel titleLabel = new JLabel("Deduction Board");
-    	titleLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+    	titleLabel.setFont(new Font("Cochin", Font.PLAIN, 30));
     	titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
     	titleLabel.setBounds(584, 6, 266, 25);
     	getContentPane().add(titleLabel);
