@@ -9,6 +9,7 @@ public class AlchemyMarker {
 	private String size;
 	private ImageIcon icon;
 	
+	// Potion formula
 	public AlchemyMarker (String sign, String color, String size) {
 		
 		this.sign = sign;	// (+ / -)
@@ -30,7 +31,8 @@ public class AlchemyMarker {
 
 	}
 
-	public AlchemyMarker (String sign, String color) { // resultToken for the result of potion making
+	 // resultToken for the result of potion making
+	public AlchemyMarker (String sign, String color) {
 		
 		this.sign = sign;	// (+ / -)
 		this.color = color;	// (red / green / blue)
