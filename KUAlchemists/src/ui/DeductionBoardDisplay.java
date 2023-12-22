@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.BorderLayout;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,11 +30,16 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Label;
 import java.awt.SystemColor;
 import javax.swing.UIManager;
 import java.awt.Font;
+import java.awt.Graphics;
+
 import javax.swing.SwingConstants;
 
 
@@ -42,9 +48,7 @@ public class DeductionBoardDisplay extends JFrame{
 	
 	//Singleton
 	private static DeductionBoardDisplay isDisplay = new DeductionBoardDisplay();
-	
-	
-	
+
 	
     public static DeductionBoardDisplay getIsDisplay() {
 		return isDisplay;
@@ -53,17 +57,33 @@ public class DeductionBoardDisplay extends JFrame{
     
 
 	public DeductionBoardDisplay() {
-    	
+		
+		//getContentPane().setBackground(new Color(255, 255, 255));
+        getContentPane().setLayout(null);
+        JLabel backgroundLabel = new JLabel(new ImageIcon("src/images/board.png"));
+        backgroundLabel.setBounds(0, 0, 1440, 800);
+        getContentPane().add(backgroundLabel);
+        
+        
     	setTitle("KuAlchemists");
     	setBounds(0, 0, 1440, 800);
     	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
     	
+  /*
     	JPanel deductionTrianglePanel = new JPanel();
     	deductionTrianglePanel.setBackground(new Color(183, 254, 218));
     	deductionTrianglePanel.setBounds(98, 43, 1089, 272);
     	getContentPane().add(deductionTrianglePanel);
     	deductionTrianglePanel.setLayout(null);
+    	*/
+        JPanel deductionTrianglePanel = new JPanel();
+        deductionTrianglePanel.setBackground(new Color(183, 254, 218));
+        deductionTrianglePanel.setBounds(98, 43, 1089, 272);
+        backgroundLabel.add(deductionTrianglePanel);
+        deductionTrianglePanel.setLayout(null);
+
+    	
     	
        	JButton b1 = new JButton("");
     	b1.setBounds(92, 237, 60, 29);
@@ -370,27 +390,46 @@ public class DeductionBoardDisplay extends JFrame{
                 showPhotoSelectionDialog(b28);
             }
         });
-    		  		
+    	
+
+  
+    	/*	  		
     	JPanel deductionGridPanel = new JPanel();
     	deductionGridPanel.setBounds(98, 314, 1089, 428);
     	getContentPane().add(deductionGridPanel);
     	deductionGridPanel.setBackground(new Color(221, 160, 221));
-    	deductionGridPanel.setLayout(new GridLayout(9, 9, 0, 0));
-    	
+    	deductionGridPanel.setLayout(new GridLayout(9, 9, 0, 0)); 
+    	*/
+    	JPanel deductionGridPanel = new JPanel();
+        deductionGridPanel.setBounds(98, 314, 1089, 428);
+        backgroundLabel.add(deductionGridPanel);
+        deductionGridPanel.setBackground(new Color(221, 160, 221));
+        deductionGridPanel.setLayout(new GridLayout(9, 9, 0, 0));
+        
+        
+ 	
     	JButton publishButton = new JButton("Publish a Theory");
     	publishButton.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
+    		public void actionPerformed(ActionEvent e) { 
     		}
     	});
-    	publishButton.setFont(new Font("Cochin", Font.PLAIN, 20));
+        /*
+      	publishButton.setFont(new Font("Cochin", Font.PLAIN, 20));
     	publishButton.setBounds(1243, 322, 165, 88);
-    	getContentPane().add(publishButton);
+    	getContentPane().add(publishButton); */
     	
+        publishButton.setFont(new Font("Cochin", Font.PLAIN, 20));
+        publishButton.setBounds(1243, 322, 165, 88);
+        backgroundLabel.add(publishButton);
+       
+  
     	JLabel titleLabel = new JLabel("Deduction Board");
     	titleLabel.setFont(new Font("Cochin", Font.PLAIN, 30));
     	titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
     	titleLabel.setBounds(584, 6, 266, 25);
-    	getContentPane().add(titleLabel);
+    	//getContentPane().add(titleLabel);
+        backgroundLabel.add(titleLabel);
+
 
     	// Add labels for Y axis (1, 2, 3, ...)
   		for (int i = 0; i < 8; i++) {
@@ -680,23 +719,41 @@ public class DeductionBoardDisplay extends JFrame{
         dialog.setVisible(true);
   
     }
+    
+    
+    
    
     private static void showPhotoSelectionDialog(JButton targetButton) {
-        JFrame photoSelectionFrame = new JFrame("Select a Photo");
+        JFrame photoSelectionFrame = new JFrame("Select alchemy marker");
 
+        
+        String[] photoPaths = {
+        		
+        		"src/images/alchemyMarker-icons/blue+.png",
+        		"src/images/alchemyMarker-icons/green+.png",
+        		"src/images/alchemyMarker-icons/red+.png",
+        		"src/images/alchemyMarker-icons/null.png",
+        		"src/images/alchemyMarker-icons/blue-.png",
+                "src/images/alchemyMarker-icons/green-.png",
+                "src/images/alchemyMarker-icons/red-.png"
+    
+                
+        };
+        
+       
+        
         JPanel photoPanel = new JPanel(new GridLayout(2, 4));
 
-        for (int i = 0; i < 8; i++) {
-            int imageIndex = i + 1;
-            String imagePath = "src/images/alchemical-icons/alchemical" + imageIndex + ".png";
-            ImageIcon icon = new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-
+        for (String path : photoPaths) {
+            ImageIcon icon = new ImageIcon(new ImageIcon(path).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
             JButton photoButton = new JButton(icon);
 
             photoButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    // Set selected photo as the icon of button (b1 b2 ...)
                     targetButton.setIcon(icon);
+                    // Close alchemy marker selection frame
                     photoSelectionFrame.dispose();
                 }
             });
@@ -706,11 +763,13 @@ public class DeductionBoardDisplay extends JFrame{
 
         JScrollPane scrollPane = new JScrollPane(photoPanel);
 
-        photoSelectionFrame.add(scrollPane);
+        photoSelectionFrame.getContentPane().add(scrollPane);
         photoSelectionFrame.setSize(400, 200);
         photoSelectionFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         photoSelectionFrame.setVisible(true);
     }
+    
+    
     public void initialize() {
 		setVisible(true);
 	}
