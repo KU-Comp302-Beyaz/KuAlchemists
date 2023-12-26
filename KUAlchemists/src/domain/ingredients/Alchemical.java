@@ -1,18 +1,17 @@
 package domain.ingredients;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.ImageIcon;
 
 import domain.theorydeduction.AlchemyMarker;
 
 public class Alchemical {
 	
-	private List<AlchemyMarker> aspects;
-	private ImageIcon alchemicalPhoto;
+	private List<AlchemyMarker> aspects = new ArrayList<AlchemyMarker>();
+	private String alchemicalPhoto;
 	
 	
-	public Alchemical (AlchemyMarker red, AlchemyMarker green, AlchemyMarker blue, ImageIcon alchemicalPhoto) {
+	public Alchemical (AlchemyMarker red, AlchemyMarker green, AlchemyMarker blue, String alchemicalPhoto) {
 		
 		this.aspects.add(red);
 		this.aspects.add(green);
@@ -28,11 +27,11 @@ public class Alchemical {
 		this.aspects = aspects;
 	}
 
-	public ImageIcon getAlchemicalPhoto() {
+	public String getAlchemicalPhoto() {
 		return alchemicalPhoto;
 	}
 
-	public void setAlchemicalPhoto(ImageIcon alchemicalPhoto) {
+	public void setAlchemicalPhoto(String alchemicalPhoto) {
 		this.alchemicalPhoto = alchemicalPhoto;
 	}
 	
