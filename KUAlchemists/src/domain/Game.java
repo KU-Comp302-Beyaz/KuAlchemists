@@ -8,30 +8,30 @@ import domain.artifact.TheRiver;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
 import domain.ingredients.IngredientStorage;
+import domain.potion.PotionController;
 import ui.BoardWindow;
 import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
+import ui.PlayerIngredientList;
+import ui.PotionBrewingAreaDisplay;
 
 public class Game {
-	
-	//WE SHOULD USE THE STATE PATTERN IN HEAD FIRST DESIGN PATTERNS CHAPTER 10
-	//states like: LOGIN_WINDOW, PLAYER1S_TURN, PLAYER2S_TURN, PLAYER1_WON, PLAYER2_WON, GAME_PAUSED etc.
 
 	//fields
-	public static Controller controller = null;
-	public static Player player1;
-	public static Player player2;
+	private static Controller controller = null;
+	private static Player currPlayer;
 	
-	//WE COULD ADD A currentPlayer TO USE FOR THE FUNCTIONS IN THE selectController()
-	public static Player currPlayer;
+	private static Player[] players = new Player[4];
 	
 	//Controller as enum
 	public enum Controller {
 		FORAGE_FOR_INGREDIENT,
 		TRANSMUTE_INGREDIENT,
 		BUY_THE_RIVER,
-		BUY_EOI
-	}
+		BUY_EOI,
+		MAKE_EXPERIMENT,
+		SELL_POTION
+	};
 	
 	//Singleton implementation
 	private static Game gameSingleton = new Game();
@@ -42,32 +42,50 @@ public class Game {
 		return gameSingleton;
 	}
 	
-	//MAIN function
+	//Main function
 	public static void main(String[] args) {
 		
 		//Displaying the Login Window:
-		LogInWindow menuWindow = new LogInWindow();
-		menuWindow.displayMenuWindow();
+		LogInWindow loginWindow = LogInWindow.getInstance(); 
+		loginWindow.displayLogInWindow();
 		
-		//Creation of player1:
-		String username1 = menuWindow.getFirstUsername();
-		int chosenAvatarIndex1 = menuWindow.getFirstAvatarIndex();
-		player1 = new Player(username1, chosenAvatarIndex1);
+		int numberOfPlayers = loginWindow.getNumberOfPlayers();
 
-		//Creation of player2:
-		String username2 = menuWindow.getSecondUsername();
-		int chosenAvatarIndex2 = menuWindow.getSecondAvatarIndex();
-		player2 = new Player(username2, chosenAvatarIndex2);
+		numberOfPlayers = 2; //for now erase later
 		
-		//just for now, will be implemented later
-		currPlayer = player1;
+		initializePlayers(loginWindow,players,numberOfPlayers);
 		initializeBoard();
-		player1.getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(0));
-		player1.getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(1));
-	
 
 	}
 	
+	/**
+	 * Initializes players for OFFLINE mode using numberOfPlayers.
+	 * Gives players 2 ingredient cards from ingredients deck.
+	 * Gives players 10 gold.
+	 * @param loginWindow
+	 * @param players
+	 * @param numberOfPlayers
+	 */
+	public static void initializePlayers(LogInWindow loginWindow, Player[] players, int numberOfPlayers) {
+		String username;
+		int chosenAvatarIndex;
+		int j = 0;
+		for (int i = 0; i < numberOfPlayers; i++) {
+			username = loginWindow.getFirstUsername();
+			chosenAvatarIndex = loginWindow.getFirstAvatarIndex();
+			players[i] = new Player(username,chosenAvatarIndex);
+			
+			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
+			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
+			
+			players[i].setGoldBalance(10);
+		}
+		currPlayer = players[0];
+	}
+	
+	/**
+	 * Initializes board
+	 */
 	public static void initializeBoard() {
 		IngredientStorageDisplay.getInstance().constructAllImagesDeck(IngredientController.getInstance().giveAllCardsToIngredientStorageDisplay());
 	}
@@ -95,8 +113,14 @@ public class Game {
 			break;
 		case BUY_EOI:
 			ArtifactController.getArtifactController().buyArtifact(new ElixirOfInsight() , currPlayer);
-			
-			
+			break;
+		case MAKE_EXPERIMENT:
+			Ingredient[] ing = PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().getChosenIngredients();
+			PotionController.getInstance().initializeMakeExperiment(ing,currPlayer);
+			//PlayerIngredientList.initialize(currPlayer);
+			PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().updateIngredient(currPlayer);
+		case SELL_POTION:
+			PotionController.getInstance().initializePotionSale();			
 		default:
 			break;
 		}
@@ -120,6 +144,17 @@ public class Game {
 	public void setCurrPlayer(Player currPlayer) {
 		Game.currPlayer = currPlayer;
 	}
+
+	public static Player[] getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(Player[] players) {
+		Game.players = players;
+	}
+
+	
+	
 
 
 	

@@ -24,9 +24,9 @@ public class IngredientController {
 	
 	/**
 	 * Adds ingredient to player
-	 * gets random from card list, adds it to player cards, returns card image to display in ui
+	 * gets random from card list, adds it to player cards, returns ingredient so it can be displayed in ui
 	 * @param player
-	 * @return ingredintCardImage
+	 * @return ingredient added to player
 	 */
 	public Ingredient addIngredientToPlayer(Player player) {
 		int randomNumber = (int)(Math.random() * (IngredientStorage.getInstance().getIngredientCards().size()));
@@ -38,7 +38,7 @@ public class IngredientController {
 	/**
 	 * Transmute ingredient
 	 * @param player
-	 * @param chosenIngredientIdentifier
+	 * @param chosenIngredient
 	 */
 	public void transmuteIngredient(Player player, Ingredient chosenIngredient) {
 		player.getIngredientCards().remove(chosenIngredient); //remove chosen ingredient

@@ -87,6 +87,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		getContentPane().setName("ingredientPane");
 		
 		JPanel ingredientFramePanel = new JPanel();
+		
 		getContentPane().add(ingredientFramePanel, BorderLayout.CENTER);
 		ingredientFramePanel.setLayout(new BoxLayout(ingredientFramePanel, BoxLayout.X_AXIS));
 		
@@ -98,7 +99,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		
 		JLabel ingredientDeckLabel = new JLabel("Ingredient Deck");
 		ingredientDeckLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		ingredientDeckLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 32));
+		ingredientDeckLabel.setFont(new Font("Cochin", Font.PLAIN, 32));
 		ingredientDeckPanel.add(ingredientDeckLabel);
 		
 		//---
@@ -148,20 +149,20 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 		
 		JLabel ingredientInstructionLabel = new JLabel("<html>Click Forage for Ingredient or<br/>Choose Ingredient to Transmute.<br/> <br/> </html>", SwingConstants.CENTER);
-		ingredientInstructionLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		ingredientInstructionLabel.setFont(new Font("Cochin", Font.PLAIN, 20));
 		ingredientInstructionLabel.setAlignmentX(0.5f);
 		buttonsPanel.add(ingredientInstructionLabel);
 		
 		ingredientDisplayLabel = new JLabel(" ",JLabel.CENTER);
 		ingredientDisplayLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		ingredientDisplayLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		ingredientDisplayLabel.setFont(new Font("Cochin", Font.PLAIN, 20));
 		buttonsPanel.add(ingredientDisplayLabel);
 		buttonsPanel.add(Box.createRigidArea(new Dimension(100,100)));
 		
 		//button for forage for ingredient
 		forageForIngredientButton = new JButton("Forage for Ingredient");
 		forageForIngredientButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		forageForIngredientButton.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		forageForIngredientButton.setFont(new Font("Cochin", Font.PLAIN, 20));
 		forageForIngredientButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Game.getGame().selectController(Controller.FORAGE_FOR_INGREDIENT);
@@ -173,7 +174,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		//button for transmute ingredient
 		transmuteIngredientButton = new JButton("Transmute Ingredient");
 		transmuteIngredientButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		transmuteIngredientButton.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		transmuteIngredientButton.setFont(new Font("Cochin", Font.PLAIN, 20));
 		transmuteIngredientButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -250,6 +251,8 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		allIngredientsScrollPane.setViewportView(allIngredientsList);	
 	}
 
+	
+	// CAN BE USE IN POTIONBREWINGAREA TOO
 	/**
 	 * Initialize UI, player cards are updated every time this is called (every button click)
 	 * @param player
@@ -278,12 +281,16 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		ingredientScrollPane.setViewportView(ingredientList);
 	}
 	
+	
+	// CAN BE USE IN POTIONBREWINGAREA TOO
+
 	/**
 	 * Creates the array of player ingredient cards
 	 * @param player
 	 * @return Jpanel array of player ingredients to be put into JList
 	 */
-	public JPanel[] createIngredientArray(Player player) {
+
+  public JPanel[] createIngredientArray(Player player) {
 		JLabel label;
 		JPanel panel;
 		setIngredientCardPanels(new ArrayList<JPanel>(0));

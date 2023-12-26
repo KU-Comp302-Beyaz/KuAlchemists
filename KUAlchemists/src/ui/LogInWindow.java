@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,10 +13,12 @@ import javax.swing.JScrollPane;
 
 import domain.Game;
 import domain.Player;
-import ui.LogInWindow.ImageListCellRenderer; //necessary
+import ui.ImageListCellRenderer; //necessary
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 
 import javax.swing.SwingConstants;
@@ -24,44 +27,37 @@ import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 
 
 public class LogInWindow extends JFrame {
 
-	
-	private static final long serialVersionUID = 1L;
+	//fields
 	private JTextField textField;
 	private String username1;
 	private String username2;
 	private int selectedToken1;
 	private int selectedToken2;
+	private int numberOfPlayers;
 	private boolean loginCompleted = false;
-
 	
-	/**
-	 * Needed for the Avatar jlist - it contains jpanels with imageicons instead of a list
-	 */
-	public class ImageListCellRenderer implements ListCellRenderer {
-
-		@Override
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-				boolean cellHasFocus) {
-		      Component component = (Component) value;
-		      component.setForeground(Color.white);
-		      component.setBackground(isSelected ? UIManager.getColor("Table.focusCellForeground") : Color.white);
-		      return component;
-		}
-
+	//Singleton implementation
+	private static LogInWindow loginWindowSingleton = new LogInWindow();
+	
+	public static LogInWindow getInstance() {
+		return loginWindowSingleton;
 	}
-	
-	
+
 	/**
 	 * Create the frame.
 	 */
-	public LogInWindow() {
+	private LogInWindow() {
 		setResizable(false);
 		//get screen height and width
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -73,10 +69,28 @@ public class LogInWindow extends JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
         setResizable(false);
         
+        
         getContentPane().setLayout(null);
 		JPanel playerPanel1 = new JPanel();
+		
+		// Add background image
+        try {
+            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
+            playerPanel1 = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+		
 		playerPanel1.setBounds(0, 0, 1440, 900);
 		playerPanel1.setLayout(null);
+		
 		
 		//Game title
 		JLabel gameTitle = new JLabel("KU ALCHEMISTS");
@@ -108,7 +122,9 @@ public class LogInWindow extends JFrame {
 		
 		//Login Buttons for Player 1 login and Player 2 login
 		JButton loginButton = new JButton("LOGIN");
+		loginButton.setFont(new Font("Cochin", Font.PLAIN, 13));
 		JButton loginButton2 = new JButton("LOGIN");
+		loginButton2.setFont(new Font("Cochin", Font.PLAIN, 13));
 		loginButton2.setVisible(false);
 		
 		loginButton.setBounds((screenWidth-120)/2, 517, 120, 29);
@@ -148,22 +164,24 @@ public class LogInWindow extends JFrame {
 		 */
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				//Username of Player1
-				username1 = usernameText.getText();
-				usernameText.setText("");
+				if (usernameText.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Name field cannot be empty.","Error",JOptionPane.WARNING_MESSAGE);
+				}
+				else {
+					//Username of Player1
+					username1 = usernameText.getText();
+					usernameText.setText("");
 
-				//Avatar index of Player1
-				selectedToken1 = avatarList.getSelectedIndex();
+					//Avatar index of Player1
+					selectedToken1 = avatarList.getSelectedIndex();
 
-				
-				//Disabling player1 panel and enabling player2 panel
-				playerUsername.setVisible(false);
-				playerUsername2.setVisible(true);
-				
-				loginButton.setVisible(false);
-				loginButton2.setVisible(true);
-				
+					//Disabling player1 panel and enabling player2 panel
+					playerUsername.setVisible(false);
+					playerUsername2.setVisible(true);
+					
+					loginButton.setVisible(false);
+					loginButton2.setVisible(true);
+				}
 			}
 		});
 		
@@ -172,23 +190,28 @@ public class LogInWindow extends JFrame {
 		 */
 		loginButton2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				username2 = usernameText.getText();
-				selectedToken2 = avatarList.getSelectedIndex();				
-				loginCompleted = true;
-				
-				BoardWindow board = BoardWindow.getBoardWindow();
-				board.initialize();
-				dispose();
-				
+				if (usernameText.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Name field cannot be empty.","Error",JOptionPane.WARNING_MESSAGE);
+				}
+				else if (usernameText.getText().equals(username1)) {
+					JOptionPane.showMessageDialog(null, "Username is already taken!","Error",JOptionPane.WARNING_MESSAGE);
+				}
+				else {
+					username2 = usernameText.getText();
+					selectedToken2 = avatarList.getSelectedIndex();				
+					loginCompleted = true;
+					
+					BoardWindow board = BoardWindow.getBoardWindow();
+					board.initialize();
+					dispose();
+				}
 			}
 		});
 	}
 	
 	//Displays the frame
-	public void displayMenuWindow() {
-		LogInWindow frame = new LogInWindow();
-		frame.setVisible(true);
+	public void displayLogInWindow() {
+		setVisible(true);
 	}
 	
 	//Returns Player 1's username
@@ -209,6 +232,14 @@ public class LogInWindow extends JFrame {
 	//Returns Player 2's token number
 	public int getSecondAvatarIndex() {
 		return selectedToken2;
+	}
+
+	public int getNumberOfPlayers() {
+		return numberOfPlayers;
+	}
+
+	public void setNumberOfPlayers(int numberOfPlayers) {
+		this.numberOfPlayers = numberOfPlayers;
 	}
 	
 }
