@@ -17,8 +17,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import domain.Display;
 import domain.Game;
+import domain.Game.Controller;
 import domain.Player;
 import domain.Game.Controller;
 import domain.ingredients.Ingredient;
@@ -34,6 +34,8 @@ import java.awt.SystemColor;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Menu;
+
 import javax.swing.JDesktopPane;
 import javax.swing.JDialog;
 import javax.swing.JToolBar;
@@ -69,6 +71,7 @@ import java.awt.Graphics;
 public class PotionBrewingAreaDisplay extends JFrame implements Display {
 
 	private static final long serialVersionUID = 1L;
+	PotionController controller = PotionController.getInstance();
 	private JPanel contentPane;
 	private JPanel experimentPanel;
 	private JPanel potionSalePanel;
@@ -84,7 +87,10 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 
 	private static final int IMAGE_HEIGHT = 140;
 	private static Ingredient[] chosenIngredients;
-
+	Ingredient ingredientChoice1;
+	Ingredient ingredientChoice2;
+	int guaranteeLevel; //3: Positive, 2: Positive/Neutral 1: No guarantee 
+	int coinsEarned = 0; //Shows the coins earned from the potion sale
 	
 	public static void setTestMethod(String testMethod) {
 		PotionBrewingAreaDisplay.testMethod = testMethod;
@@ -93,7 +99,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	//Singleton implementation
     private static PotionBrewingAreaDisplay instance;
 	
-    public static PotionBrewingAreaDisplay getPotionBrewingAreaDisplay() {
+    public static PotionBrewingAreaDisplay getInstance() {
         if (instance == null) {
             instance = new PotionBrewingAreaDisplay();
         }
@@ -166,7 +172,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         
         //back to Board button
         JButton backToBoardButton = new JButton("Back to Board");
-        menuBar.add(backToBoardButton);
+        getMenuBar().add(backToBoardButton);
         
         backToBoardButton.addActionListener(new ActionListener() {
 			
@@ -430,8 +436,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         acceptButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-        		String guaranteeLevel = JOptionPane.showInputDialog("Enter your guarantee level (1: Positive 2: Positive or Neutral 3: No Guarantee)");
-        		
+        		int guaranteeLevel = Integer.valueOf(JOptionPane.showInputDialog("Do you give any guarantee? 3: Positive 2: Positive/Neutral 1: No Guarantee"));
+
         		JOptionPane.showMessageDialog(contentPane,
         			    "Make potion for Adventurer's request!");   
         		
@@ -478,7 +484,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           //Event handler for Sell Potion button
           sellPotionButton.addActionListener(new ActionListener() {
           	public void actionPerformed(ActionEvent e) {
-          		
+
           		if (requestDeclined) {
           			JOptionPane.showMessageDialog(getContentPane(), "You declined the request, you cannot select SELL POTION again!",
           	               "Sell Potion Clicked Twice", JOptionPane.WARNING_MESSAGE);
@@ -524,19 +530,19 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           		//Action handler for Adventurer's Potion Reuqest
           		if (requestAccepted) {
           			goldPayment.setIcon(null);
-          			goldPayment.setText("Adventurer payed" + "" + "golds to Player!");
+          			coinsEarned = controller.getEarnedGoldAmount();
+          			goldPayment.setText(String.format("Adventurer payed %d golds to Player!", coinsEarned));
+
           			goldPayment.setIcon(coinIcon);
-          			
               		potionIcon.setVisible(true);
                     acceptButton.setVisible(false);
                     declineButton.setVisible(false);
                     requestedPotion.setVisible(false);
           		
-          		}
-          		
-          		
+          		}		
           	}
           });
+          
           btnMakePotion.setFont(new Font("Cochin", Font.PLAIN, 20));
           //ImageIcon icon = createImageIcon("path/to/your/image.jpg"); // Replace with the actual path to your image
           ImageIcon icon = new ImageIcon("src/images/witchCauldron.jpg");
@@ -687,8 +693,18 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         dialog.setVisible(true);
 		
 	}
+	
+	public int getGuaranteeLevel() {
+		return guaranteeLevel;
+	}
 
-
+	public Ingredient[] getPotionIngredients() {
+		
+		Ingredient[] ingredients = {ingredientChoice1, ingredientChoice2};
+		return ingredients;
+		
+	}
+	
 	public static String getTestMethod() {
 		return testMethod;
 	}
@@ -696,6 +712,11 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	public Ingredient[] getIngredients() {
 		return ingredients;
 	}
+	
+	public boolean isRequestAccepted() {
+		return requestAccepted;
+	}
+
 
 	
 

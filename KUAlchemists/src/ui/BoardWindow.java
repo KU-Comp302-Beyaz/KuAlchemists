@@ -98,6 +98,7 @@ public class BoardWindow extends JFrame {
 			}
 		});
 
+        
         // Buttons in the corners
         JButton ingredientStorageButton = new JButton("Ingredient Storage");
         ingredientStorageButton.setFont(new Font("Cochin", Font.PLAIN, 20));
