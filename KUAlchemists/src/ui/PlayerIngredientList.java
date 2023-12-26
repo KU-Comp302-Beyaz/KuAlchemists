@@ -5,24 +5,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
+
 
 import domain.Player;
 import domain.ingredients.Ingredient;
 
 
 public class PlayerIngredientList {
-
+	
 	private final static int IMAGE_WIDTH = 140;
 
 	private static final int IMAGE_HEIGHT = 140;
-
+	
 	private static HashMap<JLabel, Ingredient> playerIngredientJListLabels = new HashMap<JLabel, Ingredient>();
 	private static ArrayList<JPanel> playerIngredientJListPanels = new ArrayList<JPanel>();
-
+	
 	/**
 	 * Creates the array of player ingredient cards
 	 * @param player
@@ -50,31 +51,29 @@ public class PlayerIngredientList {
 	}
 	
 
-
-	/**
+/**
 	 * Initialize UI, player cards are updated every time this is called (every button click)
 	 * @param player
 	 */
 	public static void initialize(Player player) {
-
+		
 		//ingredientList in to be put in the Scroll pane
 		JList<JPanel> ingredientList = PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().getIngredientList();
-
+			
 
 		JPanel[] ingredientCardPanelsArray = createIngredientArray(player);
 		ingredientList.setListData(ingredientCardPanelsArray);
 		ingredientList.setLayoutOrientation(JList.VERTICAL_WRAP);
 		ingredientList.setFixedCellHeight(IMAGE_HEIGHT+50);
 		ingredientList.setFixedCellWidth(IMAGE_WIDTH);
-
+		
 		int boxWidth = 900; //ingredientScrollPane.getViewport().getSize().width;
 		int numberOfImagesInRow = boxWidth/IMAGE_WIDTH;
 		ingredientList.setVisibleRowCount((player.getIngredientCards().size()+numberOfImagesInRow-1)/numberOfImagesInRow);
 		ingredientList.setSelectedIndex(0);
 		PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().getScrollPane_ingredients().setViewportView(ingredientList);
 	}
-
-
+	
 	/**
 	 * Gets image from the images folder in src and scales it to the wanted pixels
 	 * @param ingredient to access image path
@@ -102,11 +101,11 @@ public class PlayerIngredientList {
 		JLabel label = (JLabel) lst.getSelectedValue().getComponent(0);
 		return getIngredientCardLabels().get(label);
 	}
-
-
-
+	
+	
+	
 	public static Ingredient[] getChosenIngredients(JList<JPanel> lst) {
-
+		
         int[] selectedIndices = lst.getSelectedIndices();
         ArrayList<Ingredient> selectedIngredients = new ArrayList<>();
 
@@ -119,8 +118,6 @@ public class PlayerIngredientList {
             // Convert ArrayList to an array
             Ingredient[] resultArray = new Ingredient[selectedIngredients.size()];
             return selectedIngredients.toArray(resultArray);
-
+     
     }
-
-
 }

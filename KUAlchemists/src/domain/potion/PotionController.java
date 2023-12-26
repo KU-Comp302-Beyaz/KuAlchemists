@@ -7,10 +7,10 @@ import domain.Player;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
 import domain.theorydeduction.AlchemyMarker;
-import ui.IngredientStorageDisplay;
-import ui.PlayerIngredientList;
 import ui.PotionBrewingAreaDisplay;
 import ui.PotionBrewingAreaDisplayHelp;
+import ui.IngredientStorageDisplay;
+import ui.PlayerIngredientList;
 
 public class PotionController {
 	
