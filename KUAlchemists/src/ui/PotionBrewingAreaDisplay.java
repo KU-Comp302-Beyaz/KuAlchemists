@@ -60,6 +60,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -70,7 +72,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	private JPanel contentPane;
 	private JPanel experimentPanel;
 	private JPanel potionSalePanel;
-	private boolean requestAccepted = false;
+	private static boolean requestAccepted = false;
+	private static boolean requestDeclined = false;
 	private ImageIcon coinIcon;
 	private Player player = Game.getCurrPlayer();
 	private static String testMethod ;
@@ -370,7 +373,16 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
       			ImageIcon icon5 = new ImageIcon("src/images/bottle-icons/red+bottle.png");
       			ImageIcon icon6 = new ImageIcon("src/images/bottle-icons/null_bottle.png");
       			ImageIcon icon7 = new ImageIcon("src/images/bottle-icons/green+bottle.png");
-      			ImageIcon requestedPotionIcon = new ImageIcon("src/images/potions/potion-1.png");
+      			
+      			List<ImageIcon> potionImages = new ArrayList<>();
+      			potionImages.add(icon1);
+      			potionImages.add(icon5);
+      			potionImages.add(icon7);
+      			
+      			ImageIcon requestedPotionIcon = new ImageIcon();
+      			Random random = new Random();		
+      					
+      					//potionImages.get(random.nextInt(7))
       	        
       	        requestedPotion.setIcon(new ImageIcon(icon1.getImage().getScaledInstance(380, 335, 0)));
       	        requestPanel.add(requestedPotion);
@@ -388,8 +400,9 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
     	        Thread.sleep(100);
     	        requestedPotion.setIcon(new ImageIcon(icon7.getImage().getScaledInstance(380, 335, 0)));
     	        Thread.sleep(100);
-    	        requestedPotion.setIcon(new ImageIcon(requestedPotionIcon.getImage().getScaledInstance(380, 335, 0)));     
-      			  
+    	        requestedPotion.setIcon(new ImageIcon(potionImages.get(random.nextInt(3)).getImage().getScaledInstance(380, 335, 0)));     
+      			
+      	
       		  }
       		  catch(Exception e) {}
       	  }
@@ -443,6 +456,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
                 requestedPotion.setVisible(false);
       			goldPayment.setText(null);
       			goldPayment.setIcon(coinIcon);
+      			requestDeclined = true;
 
         		JOptionPane.showMessageDialog(contentPane,
         			    "Adventurer's request is declined. Player's turn count remains the same!",
@@ -464,13 +478,20 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           //Event handler for Sell Potion button
           sellPotionButton.addActionListener(new ActionListener() {
           	public void actionPerformed(ActionEvent e) {
-          		potionIcon.setVisible(false);
           		
-                acceptButton.setVisible(true);
-                declineButton.setVisible(true);
-                
-                //requestedPotion.setVisible(true);
-                t.start();
+          		if (requestDeclined) {
+          			JOptionPane.showMessageDialog(getContentPane(), "You declined the request, you cannot select SELL POTION again!",
+          	               "Sell Potion Clicked Twice", JOptionPane.WARNING_MESSAGE);
+          		}
+          		
+          		else {
+	          		potionIcon.setVisible(false);
+	          		
+	                acceptButton.setVisible(true);
+	                declineButton.setVisible(true);
+	                
+	                t.start();
+          		}
                 
                 //Game.setController(Game.controller.SELL_POTION);
           	}
@@ -491,7 +512,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           		if (chosenIngredients == null || chosenIngredients.length != 2) {
           			JOptionPane.showMessageDialog(contentPane,
             			    "Choose 2 ingredients for making potion!");   
-          		}else if (testMethod == null) {
+          		}else if (testMethod == null && !(requestAccepted)) {
           			JOptionPane.showMessageDialog(contentPane,
             			    "Choose test method for making potion!");   
           		} else {
@@ -503,7 +524,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           		//Action handler for Adventurer's Potion Reuqest
           		if (requestAccepted) {
           			goldPayment.setIcon(null);
-          			goldPayment.setText("Adventurer payed 2 golds to Player!");
+          			goldPayment.setText("Adventurer payed" + "" + "golds to Player!");
           			goldPayment.setIcon(coinIcon);
           			
               		potionIcon.setVisible(true);
@@ -682,7 +703,12 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		//return PlayerIngredientList.getChosenIngredients(ingredientList);
 		return chosenIngredients;
     }
+	
+	public static boolean isSellRequestAccepted() {
+		return requestAccepted;
+	}
 
+	
 	/**
 	 * Gets the selected indexes by player from JList
 	 * @return chosen Ingredient
