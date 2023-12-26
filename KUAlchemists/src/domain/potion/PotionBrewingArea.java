@@ -45,6 +45,9 @@ public class PotionBrewingArea {
 			}
 		}
 		
+		System.out.println("Ingredient 1: " + ing_1.getName());
+		System.out.println("Ingredient 2: " + ing_2.getName());
+		System.out.println("resultToken: " + resultToken.getSign());
 		Potion p = new Potion(ing_1, ing_2, resultToken);
 		
 		
