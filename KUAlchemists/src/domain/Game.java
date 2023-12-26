@@ -12,6 +12,7 @@ import domain.potion.PotionController;
 import ui.BoardWindow;
 import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
+import ui.PotionBrewingAreaDisplay;
 
 public class Game {
 
@@ -113,7 +114,10 @@ public class Game {
 			ArtifactController.getArtifactController().buyArtifact(new ElixirOfInsight() , currPlayer);
 			break;
 		case MAKE_EXPERIMENT:
-			PotionController.getInstance().initializeMakeExperiment();
+			Ingredient[] ing = PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().getChosenIngredients();
+			PotionController.getInstance().initializeMakeExperiment(ing,currPlayer);
+			//PlayerIngredientList.initialize(currPlayer);
+			PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().updateIngredient(currPlayer);
 		case SELL_POTION:
 			PotionController.getInstance().initializePotionSale();			
 		default:

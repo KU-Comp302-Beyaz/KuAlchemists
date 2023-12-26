@@ -135,6 +135,7 @@ public class Player {
 	public AlchemyMarker testOnPlayer(Potion p) {
 
 		AlchemyMarker alchemyMarker = p.getAlchemyMarker();
+		System.out.println(alchemyMarker);
 		if(alchemyMarker.getSign().equals("-")) {
 			sicknessLevel ++;
 		} else if (alchemyMarker.getSign().equals("+")){

@@ -65,7 +65,7 @@ public class BoardWindow extends JFrame {
      
         // Add background image
         try {
-            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.jpeg"));
+            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
             boardDisplay = new JPanel(new GridBagLayout()) {
                 @Override
                 protected void paintComponent(Graphics g) {
