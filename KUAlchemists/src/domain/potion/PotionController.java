@@ -118,7 +118,7 @@ public class PotionController {
 	public void initializeTestPotion(Potion potion, Player player) {
 
 		// pbad.display(); // ???
-		String testMethod = PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().getTestMethod(); // Player Choose TestMethod (Test on Student / Test on Player)
+		String testMethod = PotionBrewingAreaDisplay.getInstance().getTestMethod(); // Player Choose TestMethod (Test on Student / Test on Player)
 		
 		AlchemyMarker alchemyMarker = pba.testPotion(testMethod, potion, player);
 		

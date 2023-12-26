@@ -172,7 +172,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         
         //back to Board button
         JButton backToBoardButton = new JButton("Back to Board");
-        getMenuBar().add(backToBoardButton);
+        menuBar.add(backToBoardButton);
         
         backToBoardButton.addActionListener(new ActionListener() {
 			
