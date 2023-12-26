@@ -16,10 +16,10 @@ public class MakeExperiment {
 	(2,new Alchemical (new AlchemyMarker ("-", "red", "S"), new AlchemyMarker ("+", "green", "L"), new AlchemyMarker ("+", "blue", "S"), new ImageIcon())), 
 	(3,new Alchemical (new AlchemyMarker ("-", "red", "L"), new AlchemyMarker ("-", "green", "S"), new AlchemyMarker ("+", "blue", "S"), new ImageIcon())), 
 	(4,new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "S"), new AlchemyMarker ("+", "blue", "L"), new ImageIcon())),
-	(5,new Alchemical (new AlchemyMarker ("-", "red", "S"), new AlchemyMarker ("+", "green", "S"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
+	(5,new Alchemical (new AlchemyMarker ("-", "red", "S"), new AlchemyMarker ("+", "green", "S"), new AlchemyMarker ("-", "blue", "L"), new ImageIcon())),
 	(6,new Alchemical (new AlchemyMarker ("+", "red", "L"), new AlchemyMarker ("+", "green", "S"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
-	(7,new Alchemical (new AlchemyMarker ("-", "red", "L"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
-	(8,new Alchemical (new AlchemyMarker ("+", "red", "L"), new AlchemyMarker ("+", "green", "L"), new AlchemyMarker ("+", "blue", "S"), new ImageIcon())),}
+	(7,new Alchemical (new AlchemyMarker ("-", "red", "L"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "L"), new ImageIcon())),
+	(8,new Alchemical (new AlchemyMarker ("+", "red", "L"), new AlchemyMarker ("+", "green", "L"), new AlchemyMarker ("+", "blue", "L"), new ImageIcon())),}
 	*/
 
 	private static AlchemyMarker result;
