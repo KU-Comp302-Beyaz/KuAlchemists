@@ -13,12 +13,18 @@ public class PotionBrewingArea {
 		Alchemical alchemy_2 = ing_2.getAlchemical();
 		
 		AlchemyMarker red1 = alchemy_1.getAspects().get(0);
+		System.out.println("red1 " + red1.getSign() + " " + red1.getSize());
 		AlchemyMarker green1 = alchemy_1.getAspects().get(1);
+		System.out.println("green1 " + green1.getSign() + " " + green1.getSize());
 		AlchemyMarker blue1 = alchemy_1.getAspects().get(2);
+		System.out.println("blue1 " + blue1.getSign() + " " + blue1.getSize());
 		
 		AlchemyMarker red2 = alchemy_1.getAspects().get(0);
+		System.out.println("red2 " + red2.getSign() + " " + red2.getSize());
 		AlchemyMarker green2 = alchemy_1.getAspects().get(1);
+		System.out.println("green2 " + green2.getSign() + " " + green2.getSize());
 		AlchemyMarker blue2 = alchemy_1.getAspects().get(2);
+		System.out.println("blue2 " + blue2.getSign() + " " + blue2.getSize());
 		
 		AlchemyMarker resultToken = null;
 		if(red1.getSize().equals(red2.getSize())) { // red has same size
@@ -44,7 +50,7 @@ public class PotionBrewingArea {
 				resultToken = new AlchemyMarker(red1.getSign(), "red"); // different size, same sign
 			}
 		}
-		System.out.println("kasmkam" + ing_1 + ing_2 + resultToken.getSign()  );
+		System.out.println("inside makePotion" + ing_1 + ing_2 + resultToken.getSign()  );
 		Potion p = new Potion(ing_1, ing_2, resultToken);
 		
 		
