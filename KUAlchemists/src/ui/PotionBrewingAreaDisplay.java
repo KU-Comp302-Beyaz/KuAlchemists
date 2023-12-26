@@ -1,4 +1,3 @@
-
 package ui;
 
 import java.awt.EventQueue;
@@ -21,6 +20,7 @@ import javax.swing.event.ListSelectionListener;
 import domain.Display;
 import domain.Game;
 import domain.Player;
+import domain.Game.Controller;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientStorage;
 import domain.potion.PotionController;
@@ -58,6 +58,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -71,10 +73,19 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	private boolean requestAccepted = false;
 	private ImageIcon coinIcon;
 	private Player player = Game.getCurrPlayer();
-	private String testMethod = null;
+	private static String testMethod ;
 	private Ingredient[] ingredients; 	
+	private JList<JPanel> ingredientList;
+	private JScrollPane scrollPane_ingredients;
+	private final static int IMAGE_WIDTH = 140;
 
+	private static final int IMAGE_HEIGHT = 140;
+	private static Ingredient[] chosenIngredients;
 
+	
+	public static void setTestMethod(String testMethod) {
+		PotionBrewingAreaDisplay.testMethod = testMethod;
+	}
 
 	//Singleton implementation
     private static PotionBrewingAreaDisplay instance;
@@ -178,18 +189,17 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         experimentPanel.add(ingredientPanel);
         
         
-        JScrollPane scrollPane_ingredients = new JScrollPane();
+        scrollPane_ingredients = new JScrollPane();
+        scrollPane_ingredients.setFont(new Font("Cochin", Font.PLAIN, 13));
         scrollPane_ingredients.setBounds(0, 0, 871, 140);
         scrollPane_ingredients.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane_ingredients.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         
-        
-        
-         
-        
+
         /**
 		 * Taking the ingredients images from the Images/images-icons/ folder 
 		 */
+        /*
 		DefaultListModel<JPanel> ingredientListModel = new DefaultListModel<>();
 
 		JLabel[] ingredientsIcons = new JLabel[8];
@@ -213,7 +223,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 			ingredientPanels[i].add(ingredientsIcons[i]);
 		}
 		
-		
+		*/
 		
 		// add players existed ingredients
 		/*
@@ -238,42 +248,27 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		ingredientPanel.setLayout(null);
         ingredientPanel.add(scrollPane_ingredients);
         
-		JList ingredientList = new JList<>(ingredientListModel);
+		//JList ingredientList = new JList<>(ingredientListModel);
+        ingredientList = new JList<>();
+        ingredientList.setFont(new Font("Cochin", Font.PLAIN, 12));
+		JPanel[] ingredientCardPanelsArray = PlayerIngredientList.createIngredientArray(player);
+		//ingredientList.setListData(ingredientCardPanelsArray);
 		
 		//This model allows multiple selecting in a scroll pane
 		ingredientList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
-		 // ListSelectionListener ekleyerek seçim olaylarını dinle
-		ingredientList.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    // Seçilen öğelerin dizisi
-                    Object[] selectedIng = ingredientList.getSelectedValues();
-                    ingredients = (Ingredient[]) ingredientList.getSelectedValues();
-
-                    // Seçilen öğeleri birleştir ve mesaj olarak göster
-                    StringBuilder message = new StringBuilder("Selected Ing: ");
-                    for (Object ing : selectedIng) {
-                        message.append(ing).append(" ");
-                    }
-                    
-                    System.out.println(message);
-                    //JOptionPane.showMessageDialog(null, message.toString());
-                }
-            }
-        });
-        
-		scrollPane_ingredients.setViewportView(ingredientList);
+		
+		scrollPane_ingredients.setRowHeaderView(ingredientList);
 		ingredientList.setCellRenderer(new ImageListCellRenderer());
-		ingredientList.setListData(ingredientPanels);
+		//ingredientList.setListData(ingredientPanels);
+		ingredientList.setListData(ingredientCardPanelsArray);
 		ingredientList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+	
 		//ingredientList.setFixedCellHeight(scrollPane_ingredients.getHeight());
 		//ingredientList.setFixedCellHeight(200);
 		//ingredientList.setFixedCellWidth(150);
 		ingredientList.setVisibleRowCount(1); // Set the visible row count to 1 for horizontal layout
-		//ingredientList.setSelectedIndex(0);
-        
+
         
         
         JPanel testPanel = new JPanel();
@@ -289,7 +284,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         JButton btnTestOnPlayer = new JButton("Player");
         btnTestOnPlayer.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		testMethod = "Player";
+        		setTestMethod("Player");
+        		System.out.println(testMethod);
         	}
         });
         btnTestOnPlayer.setFont(new Font("Cochin", Font.PLAIN, 20));
@@ -298,7 +294,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         JButton btnTestOnStudent = new JButton("Student");
         btnTestOnStudent.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		testMethod = "Student";
+        		setTestMethod("Student");
+        		System.out.println(testMethod);
         	}
         });
         btnTestOnStudent.setFont(new Font("Cochin", Font.PLAIN, 20));
@@ -447,13 +444,11 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
       			goldPayment.setText(null);
       			goldPayment.setIcon(coinIcon);
 
-
         		JOptionPane.showMessageDialog(contentPane,
         			    "Adventurer's request is declined. Player's turn count remains the same!",
         			    "Potion Request Decline",
         			    JOptionPane.WARNING_MESSAGE);
 
-        		
         	}
         });
         declineButton.setFont(new Font("Cochin", Font.PLAIN, 20));
@@ -477,7 +472,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
                 //requestedPotion.setVisible(true);
                 t.start();
                 
-                Game.setController(Game.controller.SELL_POTION);
+                //Game.setController(Game.controller.SELL_POTION);
           	}
           });
           
@@ -489,15 +484,19 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           	public void actionPerformed(ActionEvent e) {
           		
           		// make potion 
-          		if ((ingredients == null) || (ingredients.length != 2)) {
+          		chosenIngredients = PlayerIngredientList.getChosenIngredients(ingredientList);
+          		
+          		System.out.println(chosenIngredients.length);
+          		
+          		if (chosenIngredients == null || chosenIngredients.length != 2) {
           			JOptionPane.showMessageDialog(contentPane,
             			    "Choose 2 ingredients for making potion!");   
           		}else if (testMethod == null) {
           			JOptionPane.showMessageDialog(contentPane,
             			    "Choose test method for making potion!");   
           		} else {
-          			//PotionController.initializeMakeExperiment();
-          			Game.setController(Game.Controller.MAKE_EXPERIMENT);
+          			//Game.setController(Game.Controller.MAKE_EXPERIMENT);
+          			Game.getGame().selectController(Controller.MAKE_EXPERIMENT);
           		}
           		
           		
@@ -533,7 +532,22 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	}
 	
     
-    public void initialize() {
+    public JScrollPane getScrollPane_ingredients() {
+		return scrollPane_ingredients;
+	}
+	public void setScrollPane_ingredients(JScrollPane scrollPane_ingredients) {
+		this.scrollPane_ingredients = scrollPane_ingredients;
+	}
+
+	public JList<JPanel> getIngredientList() {
+		return ingredientList;
+	}
+	public void setIngredientList(JList<JPanel> ingredientList) {
+		this.ingredientList = ingredientList;
+	}
+
+
+	public void initialize() {
 		
 		setVisible(true);
 	}
@@ -654,11 +668,73 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	}
 
 
-	public String getTestMethod() {
+	public static String getTestMethod() {
 		return testMethod;
 	}
 	
 	public Ingredient[] getIngredients() {
 		return ingredients;
+	}
+
+	
+
+	public static Ingredient[] getChosenIngredients() {
+		//return PlayerIngredientList.getChosenIngredients(ingredientList);
+		return chosenIngredients;
+    }
+
+	/**
+	 * Gets the selected indexes by player from JList
+	 * @return chosen Ingredient
+	 */
+	/*
+	public Ingredient[] getChosenIngredients() {
+		
+        int[] selectedIndices = ingredientList.getSelectedIndices();
+        
+        System.out.println(selectedIndices.length);
+        
+        ArrayList<Ingredient> selectedIngredients = new ArrayList<>();
+
+        	for (int index : selectedIndices) {
+                JLabel label = (JLabel) ingredientList.getModel().getElementAt(index).getComponent(0);
+                Ingredient ingredient = PlayerIngredientList.getIngredientCardLabels().get(label);
+                selectedIngredients.add(ingredient);
+            }
+
+            // Convert ArrayList to an array
+            Ingredient[] resultArray = new Ingredient[selectedIngredients.size()];
+            return selectedIngredients.toArray(resultArray);
+   
+        
+    }
+    */
+	
+	
+	/**
+	 * Initialize UI, player cards are updated every time this is called (every button click)
+	 * @param player
+	 */
+	public void updateIngredient(Player player) {
+
+		if (player.getIngredientCards() == null || player.getIngredientCards().isEmpty()) {
+			System.out.println("Player Ingredient Cards null");
+			return;			
+		}
+	
+
+		JPanel[] ingredientCardPanelsArray = PlayerIngredientList.createIngredientArray(player);
+		ingredientList.setListData(ingredientCardPanelsArray);
+		 /*
+		ingredientList.setLayoutOrientation(JList.VERTICAL_WRAP);
+		ingredientList.setFixedCellHeight(IMAGE_HEIGHT+50);
+		ingredientList.setFixedCellWidth(IMAGE_WIDTH);
+		
+		int boxWidth = 900; //ingredientScrollPane.getViewport().getSize().width;
+		int numberOfImagesInRow = boxWidth/IMAGE_WIDTH;
+		ingredientList.setVisibleRowCount((player.getIngredientCards().size()+numberOfImagesInRow-1)/numberOfImagesInRow);
+		ingredientList.setSelectedIndex(0);
+		scrollPane_ingredients.setViewportView(ingredientList);
+		*/
 	}
 }
