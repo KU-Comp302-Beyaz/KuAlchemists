@@ -103,7 +103,12 @@ public class PotionController {
 		p.getIngredientCards().remove(ing_2); //remove chosen ingredient
 		
 		potion = pba.makePotion(ing_1, ing_2);
-		initializeTestPotion(potion,p);
+		
+		boolean isSellRequestAccepted = PotionBrewingAreaDisplay.isSellRequestAccepted();
+		
+		if (!isSellRequestAccepted) {
+			initializeTestPotion(potion,p);
+			}
 		
 		
 		p.updatePlayerTurn();
