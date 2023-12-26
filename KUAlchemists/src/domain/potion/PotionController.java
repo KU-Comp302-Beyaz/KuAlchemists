@@ -18,11 +18,7 @@ public class PotionController {
 	
 	private static Player player;
 	private static Potion potion;
-<<<<<<< HEAD
 	private static int updatedAmount;
-	
-=======
->>>>>>> refs/heads/main
 	private static PotionController potionControllerInstance;
 	
 	private PotionController() {}
@@ -114,12 +110,7 @@ public class PotionController {
 	}
 
 
-<<<<<<< HEAD
-	//Static silinmesi gerekiyor çünkü singleton zaten var
-	public static void initializeTestPotion(Potion p) {
-=======
 	public void initializeTestPotion(Potion potion, Player player) {
->>>>>>> refs/heads/main
 
 		// pbad.display(); // ???
 		String testMethod = PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().getTestMethod(); // Player Choose TestMethod (Test on Student / Test on Player)
