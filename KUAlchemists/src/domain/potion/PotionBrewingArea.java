@@ -44,7 +44,7 @@ public class PotionBrewingArea {
 				resultToken = new AlchemyMarker(red1.getSign(), "red"); // different size, same sign
 			}
 		}
-		
+		System.out.println("kasmkam" + ing_1 + ing_2 + resultToken.getSign()  );
 		Potion p = new Potion(ing_1, ing_2, resultToken);
 		
 		
