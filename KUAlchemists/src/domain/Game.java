@@ -114,7 +114,7 @@ public class Game {
 			ArtifactController.getArtifactController().buyArtifact(new ElixirOfInsight() , currPlayer);
 			break;
 		case MAKE_EXPERIMENT:
-			Ingredient[] ing = PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().getChosenIngredients();
+			Ingredient[] ing = PotionBrewingAreaDisplay.getInstance().getChosenIngredients();
 			PotionController.getInstance().initializeMakeExperiment(ing,currPlayer);
 			//PlayerIngredientList.initialize(currPlayer);
 		case SELL_POTION:

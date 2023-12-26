@@ -57,10 +57,10 @@ public class PotionController {
 		
 		if (requestAccepted) {
 			
-			Ingredient[] ingredients = pbad.getPotionIngredients();
+			int guarantee = pbad.getGuaranteeLevel(); //Guarantee
+			Ingredient[] ingredients = pbad.getChosenIngredients();
 			Potion p = pba.makePotion(ingredients[0], ingredients[1]); //Making potion
 			String sign = p.getPotionSign(); //Sign of the prepared potion
-			int guarantee = pbad.getGuaranteeLevel(); //Guarantee
 			updatedAmount = 0;
 			
 			switch (sign) {
@@ -76,6 +76,10 @@ public class PotionController {
 				case("-"):
 					if (guarantee == 1) updatedAmount = 1;				
 			}
+			
+			System.out.println("Prepared Potion Sign: " + p.getPotionSign());
+			System.out.printf("Guarantee Level: %d \n", guarantee);
+			System.out.printf("Updated Amount: %d", updatedAmount);
 			
 			player.updateGoldBalance(updatedAmount);			
 		}
@@ -118,7 +122,7 @@ public class PotionController {
 	public void initializeTestPotion(Potion potion, Player player) {
 
 		// pbad.display(); // ???
-		String testMethod = PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().getTestMethod(); // Player Choose TestMethod (Test on Student / Test on Player)
+		String testMethod = PotionBrewingAreaDisplay.getInstance().getTestMethod(); // Player Choose TestMethod (Test on Student / Test on Player)
 		
 		AlchemyMarker alchemyMarker = pba.testPotion(testMethod, potion, player);
 		

@@ -84,12 +84,11 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	private JList<JPanel> ingredientList;
 	private JScrollPane scrollPane_ingredients;
 	private final static int IMAGE_WIDTH = 140;
-
 	private static final int IMAGE_HEIGHT = 140;
 	private static Ingredient[] chosenIngredients;
 	Ingredient ingredientChoice1;
 	Ingredient ingredientChoice2;
-	int guaranteeLevel; //3: Positive, 2: Positive/Neutral 1: No guarantee 
+	private static int guaranteeLevel; //3: Positive, 2: Positive/Neutral 1: No guarantee 
 	int coinsEarned = 0; //Shows the coins earned from the potion sale
 	
 	public static void setTestMethod(String testMethod) {
@@ -172,7 +171,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         
         //back to Board button
         JButton backToBoardButton = new JButton("Back to Board");
-        getMenuBar().add(backToBoardButton);
+        menuBar.add(backToBoardButton);
         
         backToBoardButton.addActionListener(new ActionListener() {
 			
@@ -436,8 +435,11 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         acceptButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
-        		int guaranteeLevel = Integer.valueOf(JOptionPane.showInputDialog("Do you give any guarantee? 3: Positive 2: Positive/Neutral 1: No Guarantee"));
-
+        	    guaranteeLevel = Integer.valueOf(JOptionPane.showInputDialog("Do you give any guarantee? 3: Positive 2: Positive/Neutral 1: No Guarantee"));
+        	    if (guaranteeLevel < 1 || guaranteeLevel > 3) {
+        	        JOptionPane.showMessageDialog(null, "Invalid input. Please enter a value between 1 and 3.");
+        	    }
+        	    
         		JOptionPane.showMessageDialog(contentPane,
         			    "Make potion for Adventurer's request!");   
         		
@@ -698,12 +700,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		return guaranteeLevel;
 	}
 
-	public Ingredient[] getPotionIngredients() {
-		
-		Ingredient[] ingredients = {ingredientChoice1, ingredientChoice2};
-		return ingredients;
-		
-	}
 	
 	public static String getTestMethod() {
 		return testMethod;
@@ -716,9 +712,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	public boolean isRequestAccepted() {
 		return requestAccepted;
 	}
-
-
-	
 
 	public static Ingredient[] getChosenIngredients() {
 		//return PlayerIngredientList.getChosenIngredients(ingredientList);

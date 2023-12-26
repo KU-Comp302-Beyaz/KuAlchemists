@@ -58,7 +58,7 @@ public class PlayerIngredientList {
 	public static void initialize(Player player) {
 		
 		//ingredientList in to be put in the Scroll pane
-		JList<JPanel> ingredientList = PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().getIngredientList();
+		JList<JPanel> ingredientList = PotionBrewingAreaDisplay.getInstance().getIngredientList();
 			
 
 		JPanel[] ingredientCardPanelsArray = createIngredientArray(player);
@@ -71,7 +71,7 @@ public class PlayerIngredientList {
 		int numberOfImagesInRow = boxWidth/IMAGE_WIDTH;
 		ingredientList.setVisibleRowCount((player.getIngredientCards().size()+numberOfImagesInRow-1)/numberOfImagesInRow);
 		ingredientList.setSelectedIndex(0);
-		PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().getScrollPane_ingredients().setViewportView(ingredientList);
+		PotionBrewingAreaDisplay.getInstance().getScrollPane_ingredients().setViewportView(ingredientList);
 	}
 	
 	/**
