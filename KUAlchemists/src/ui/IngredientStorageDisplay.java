@@ -32,7 +32,6 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.ScrollPane;
 
-import domain.Display;
 import domain.Game;
 import domain.Game.Controller;
 import domain.Player;
