@@ -16,7 +16,7 @@ public class Player {
 	private int token;
 	private int goldBalance; 
 	private int turnNumber;
-	private HashMap<Integer,Ingredient> ingredientCards = new HashMap<Integer,Ingredient>(2); 
+	private List<Ingredient> ingredientCards = new ArrayList<Ingredient>(2); 
 	// private Artifact[] artifactCards;
 	private int sicknessLevel;
 	private int reputationPoints;
@@ -70,10 +70,10 @@ public class Player {
 		this.turnNumber = turnNumber;
 	}
 
-	public HashMap<Integer, Ingredient> getIngredientCards() {
+	public List<Ingredient> getIngredientCards() {
 		return ingredientCards;
 	}
-	public void setIngredientCards(HashMap<Integer, Ingredient> ingredientCards) {
+	public void setIngredientCards(List<Ingredient> ingredientCards) {
 		this.ingredientCards = ingredientCards;
 	}
 
@@ -135,6 +135,7 @@ public class Player {
 	public AlchemyMarker testOnPlayer(Potion p) {
 
 		AlchemyMarker alchemyMarker = p.getAlchemyMarker();
+		System.out.println(alchemyMarker);
 		if(alchemyMarker.getSign().equals("-")) {
 			sicknessLevel ++;
 		} else if (alchemyMarker.getSign().equals("+")){

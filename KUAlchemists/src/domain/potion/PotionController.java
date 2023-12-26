@@ -7,15 +7,22 @@ import domain.Player;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
 import domain.theorydeduction.AlchemyMarker;
+import ui.IngredientStorageDisplay;
+import ui.PlayerIngredientList;
 import ui.PotionBrewingAreaDisplay;
 import ui.PotionBrewingAreaDisplayHelp;
 
 public class PotionController {
 	
+	
+	
 	private static Player player;
 	private static Potion potion;
+<<<<<<< HEAD
 	private static int updatedAmount;
 	
+=======
+>>>>>>> refs/heads/main
 	private static PotionController potionControllerInstance;
 	
 	private PotionController() {}
@@ -85,32 +92,39 @@ public class PotionController {
 	}
 		
 	
-	public static void initializeMakeExperiment() {
+	public void initializeMakeExperiment(Ingredient[] ingredients, Player p) {
 		
 		// PotionBrewingAreaDisplay pbad = new PotionBrewingAreaDisplay();
 		// PotionBrewingArea pba = new PotionBrewingArea();
 
 		//pbad.display();
-		Ingredient[] ingredients = pbad.getIngredients(); // Player Choose 2 Ingredients
+		
+		//Ingredient[] ingredients = pbad.getIngredients(); // Player Choose 2 Ingredients
 		
 		Ingredient ing_1 = ingredients[0];
+		p.getIngredientCards().remove(ing_1); //remove chosen ingredient
 		Ingredient ing_2 = ingredients[1];
+		p.getIngredientCards().remove(ing_2); //remove chosen ingredient
 		
 		potion = pba.makePotion(ing_1, ing_2);
-		initializeTestPotion(potion);
+		initializeTestPotion(potion,p);
 		
 		
-		player.updatePlayerTurn();
+		p.updatePlayerTurn();
 	}
 
 
+<<<<<<< HEAD
 	//Static silinmesi gerekiyor çünkü singleton zaten var
 	public static void initializeTestPotion(Potion p) {
+=======
+	public void initializeTestPotion(Potion potion, Player player) {
+>>>>>>> refs/heads/main
 
 		// pbad.display(); // ???
-		String testMethod = pbad.getTestMethod(); // Player Choose TestMethod (Test on Student / Test on Player)
+		String testMethod = PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().getTestMethod(); // Player Choose TestMethod (Test on Student / Test on Player)
 		
-		AlchemyMarker alchemyMarker = pba.testPotion(testMethod, p, player);
+		AlchemyMarker alchemyMarker = pba.testPotion(testMethod, potion, player);
 		
 		
 	}

@@ -19,11 +19,15 @@ public class TheRiver extends Artifact {
 	}
 	
 	public void applyEffect(Player player) {		
-            player.setTurnNumber(player.getTurnNumber() + 2);
+            player.setTurnNumber(player.getTurnNumber() + 3); //as all artifacts need 1 turn point to buy we counter the effect by adding 1 extra than intended
             System.out.println("The player now has " + player.getTurnNumber() + " turns left");
         
 		
 		
+	}
+	
+	public String message(Player player) {
+		return "The player now has " + player.getTurnNumber() + " turns left" ;
 	}
 
 

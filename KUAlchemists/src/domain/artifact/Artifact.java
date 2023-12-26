@@ -26,6 +26,8 @@ public abstract class Artifact {
 	
 	public abstract void applyEffect(Player player);
 	
+	public abstract String message(Player player);
+	
 	
 
 }

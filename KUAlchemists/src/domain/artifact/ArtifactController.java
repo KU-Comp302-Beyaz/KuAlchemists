@@ -18,8 +18,10 @@ private static ArtifactController ArtifactControllerSingleton = new ArtifactCont
 	//player buys the artifact using this function
 	/// if the usage of the artifact is denoted as immidiate rather than adding the artifact to the player's artifact list uses the artifact immidiately
 	public void buyArtifact(Artifact artifact, Player player) {
+		
 		if(player.getGoldBalance() >= 3) {
 			if(artifact.usage == "immidiate") {
+				player.setTurnNumber(player.getTurnNumber() - 1);
 				player.setGoldBalance(player.getGoldBalance() - 3);
 				useArtifact(artifact, player);
 			}
@@ -39,6 +41,10 @@ private static ArtifactController ArtifactControllerSingleton = new ArtifactCont
 		else {
 			artifact.applyEffect(player);
 		}
+	}
+	
+	public String displayMessage(Player player, Artifact artifact) {
+		return artifact.message(player);
 	}
 	
 }

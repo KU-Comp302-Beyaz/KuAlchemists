@@ -20,6 +20,7 @@ import javax.swing.event.ListSelectionListener;
 import domain.Game;
 import domain.Game.Controller;
 import domain.Player;
+import domain.Game.Controller;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientStorage;
 import domain.potion.PotionController;
@@ -33,6 +34,8 @@ import java.awt.SystemColor;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Menu;
+
 import javax.swing.JDesktopPane;
 import javax.swing.JDialog;
 import javax.swing.JToolBar;
@@ -46,33 +49,49 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListCellRenderer;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Graphics;
 
 public class PotionBrewingAreaDisplay extends JFrame implements Display {
 
 	private static final long serialVersionUID = 1L;
 	PotionController controller = PotionController.getInstance();
 	private JPanel contentPane;
-	JPanel experimentPanel;
-	JPanel potionSalePanel;
+	private JPanel experimentPanel;
+	private JPanel potionSalePanel;
 	private boolean requestAccepted = false;
-	ImageIcon coinIcon;
-	Player player = Game.getCurrPlayer();
-	String testMethod = null;
-	Ingredient[] ingredients; 
+	private ImageIcon coinIcon;
+	private Player player = Game.getCurrPlayer();
+	private static String testMethod ;
+	private Ingredient[] ingredients; 	
+	private JList<JPanel> ingredientList;
+	private JScrollPane scrollPane_ingredients;
+	private final static int IMAGE_WIDTH = 140;
+
+	private static final int IMAGE_HEIGHT = 140;
+	private static Ingredient[] chosenIngredients;
 	Ingredient ingredientChoice1;
 	Ingredient ingredientChoice2;
 	int guaranteeLevel; //3: Positive, 2: Positive/Neutral 1: No guarantee 
 	int coinsEarned = 0; //Shows the coins earned from the potion sale
-
+	
+	public static void setTestMethod(String testMethod) {
+		PotionBrewingAreaDisplay.testMethod = testMethod;
+	}
 
 	//Singleton implementation
     private static PotionBrewingAreaDisplay instance;
@@ -110,6 +129,22 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
         
         contentPane = new JPanel();
+        
+        // Add background image
+        try {
+            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.jpeg"));
+            contentPane = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+        
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
@@ -134,7 +169,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         
         //back to Board button
         JButton backToBoardButton = new JButton("Back to Board");
-        menuBar.add(backToBoardButton);
+        getMenuBar().add(backToBoardButton);
         
         backToBoardButton.addActionListener(new ActionListener() {
 			
@@ -160,23 +195,25 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         experimentPanel.add(ingredientPanel);
         
         
-        JScrollPane scrollPane_ingredients = new JScrollPane();
+        scrollPane_ingredients = new JScrollPane();
+        scrollPane_ingredients.setFont(new Font("Cochin", Font.PLAIN, 13));
         scrollPane_ingredients.setBounds(0, 0, 871, 140);
         scrollPane_ingredients.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane_ingredients.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         
-        
+
         /**
 		 * Taking the ingredients images from the Images/images-icons/ folder 
 		 */
+        /*
 		DefaultListModel<JPanel> ingredientListModel = new DefaultListModel<>();
 
-		JLabel[] ingredientsIcons = new JLabel[12];
-		JPanel[] ingredientPanels = new JPanel[12];
+		JLabel[] ingredientsIcons = new JLabel[8];
+		JPanel[] ingredientPanels = new JPanel[8];
 		
 
 		// add players ingredients
-		for (int i=0;i <12 ; i++) {
+		for (int i=0;i <8 ; i++) {
 			//ImageIcon imageIcon = new ImageIcon("src/images/images-icons/ingredient"+(i+1)+".jpg");
 			ImageIcon imageIcon = new ImageIcon(IngredientStorage.getAllingredientcardsarray()[i].getPhoto());
 			Image image = imageIcon.getImage();
@@ -191,6 +228,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		       
 			ingredientPanels[i].add(ingredientsIcons[i]);
 		}
+		
+		*/
 		
 		// add players existed ingredients
 		/*
@@ -215,41 +254,27 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		ingredientPanel.setLayout(null);
         ingredientPanel.add(scrollPane_ingredients);
         
-		JList ingredientList = new JList<>(ingredientListModel);
+		//JList ingredientList = new JList<>(ingredientListModel);
+        ingredientList = new JList<>();
+        ingredientList.setFont(new Font("Cochin", Font.PLAIN, 12));
+		JPanel[] ingredientCardPanelsArray = PlayerIngredientList.createIngredientArray(player);
+		//ingredientList.setListData(ingredientCardPanelsArray);
 		
 		//This model allows multiple selecting in a scroll pane
 		ingredientList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
-		 // ListSelectionListener ekleyerek seçim olaylarını dinle
-		ingredientList.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    // Seçilen öğelerin dizisi
-                    Object[] selectedIng = ingredientList.getSelectedValues();
-                    ingredients = (Ingredient[]) ingredientList.getSelectedValues();
-
-                    // Seçilen öğeleri birleştir ve mesaj olarak göster
-                    StringBuilder message = new StringBuilder("Selected Ing: ");
-                    for (Object ing : selectedIng) {
-                        message.append(ing).append(" ");
-                    }
-
-                    JOptionPane.showMessageDialog(null, message.toString());
-                }
-            }
-        });
-        
-		scrollPane_ingredients.setViewportView(ingredientList);
+		
+		scrollPane_ingredients.setRowHeaderView(ingredientList);
 		ingredientList.setCellRenderer(new ImageListCellRenderer());
-		ingredientList.setListData(ingredientPanels);
+		//ingredientList.setListData(ingredientPanels);
+		ingredientList.setListData(ingredientCardPanelsArray);
 		ingredientList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+	
 		//ingredientList.setFixedCellHeight(scrollPane_ingredients.getHeight());
 		//ingredientList.setFixedCellHeight(200);
 		//ingredientList.setFixedCellWidth(150);
 		ingredientList.setVisibleRowCount(1); // Set the visible row count to 1 for horizontal layout
-		//ingredientList.setSelectedIndex(0);
-        
+
         
         
         JPanel testPanel = new JPanel();
@@ -265,7 +290,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         JButton btnTestOnPlayer = new JButton("Player");
         btnTestOnPlayer.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		testMethod = "Player";
+        		setTestMethod("Player");
+        		System.out.println(testMethod);
         	}
         });
         btnTestOnPlayer.setFont(new Font("Cochin", Font.PLAIN, 20));
@@ -274,7 +300,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         JButton btnTestOnStudent = new JButton("Student");
         btnTestOnStudent.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		testMethod = "Student";
+        		setTestMethod("Student");
+        		System.out.println(testMethod);
         	}
         });
         btnTestOnStudent.setFont(new Font("Cochin", Font.PLAIN, 20));
@@ -328,12 +355,52 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         //Requested potion after clicking "SELL POTION" button
         JLabel requestedPotion = new JLabel();
         requestedPotion.setBounds(61, 75, 380, 335);
+        /*
         ImageIcon requestedPotionIcon = new ImageIcon("src/images/potions/potion-1.png");
         Image requestedPotionImage = requestedPotionIcon.getImage().getScaledInstance(380, 335, 0);
         requestedPotionIcon = new ImageIcon(requestedPotionImage);
         requestedPotion.setIcon(requestedPotionIcon);
         requestPanel.add(requestedPotion);
+        */
         requestedPotion.setVisible(false);
+        
+        // Animation for illustrating random getting alchemyMarker
+        Thread t = new Thread(new Runnable() {
+      	  public void run() {
+      		  try {
+      			
+      			ImageIcon icon1 = new ImageIcon("src/images/bottle-icons/blue+bottle.png");
+      			ImageIcon icon2 = new ImageIcon("src/images/bottle-icons/red-bottle.png");
+      			ImageIcon icon3 = new ImageIcon("src/images/bottle-icons/blue-bottle.png");
+      			ImageIcon icon4 = new ImageIcon("src/images/bottle-icons/green-bottle.png");
+      			ImageIcon icon5 = new ImageIcon("src/images/bottle-icons/red+bottle.png");
+      			ImageIcon icon6 = new ImageIcon("src/images/bottle-icons/null_bottle.png");
+      			ImageIcon icon7 = new ImageIcon("src/images/bottle-icons/green+bottle.png");
+      			ImageIcon requestedPotionIcon = new ImageIcon("src/images/potions/potion-1.png");
+      	        
+      	        requestedPotion.setIcon(new ImageIcon(icon1.getImage().getScaledInstance(380, 335, 0)));
+      	        requestPanel.add(requestedPotion);
+    	        requestedPotion.setVisible(true);
+    	        Thread.sleep(100);
+      	        requestedPotion.setIcon(new ImageIcon(icon2.getImage().getScaledInstance(380, 335, 0)));
+      	        Thread.sleep(100);
+      	        requestedPotion.setIcon(new ImageIcon(icon3.getImage().getScaledInstance(380, 335, 0)));
+    	        Thread.sleep(100);
+    	        requestedPotion.setIcon(new ImageIcon(icon4.getImage().getScaledInstance(380, 335, 0)));
+    	        Thread.sleep(100);
+    	        requestedPotion.setIcon(new ImageIcon(icon5.getImage().getScaledInstance(380, 335, 0)));
+    	        Thread.sleep(100);
+    	        requestedPotion.setIcon(new ImageIcon(icon6.getImage().getScaledInstance(380, 335, 0)));
+    	        Thread.sleep(100);
+    	        requestedPotion.setIcon(new ImageIcon(icon7.getImage().getScaledInstance(380, 335, 0)));
+    	        Thread.sleep(100);
+    	        requestedPotion.setIcon(new ImageIcon(requestedPotionIcon.getImage().getScaledInstance(380, 335, 0)));     
+      			  
+      		  }
+      		  catch(Exception e) {}
+      	  }
+        });
+        
         
         //Coin photograph for placeholder of information of payed gold amount
         JLabel goldPayment = new JLabel();
@@ -357,6 +424,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         	public void actionPerformed(ActionEvent e) {
         		
         		int guaranteeLevel = Integer.valueOf(JOptionPane.showInputDialog("Do you give any guarantee? 3: Positive 2: Positive/Neutral 1: No Guarantee"));
+
         		JOptionPane.showMessageDialog(contentPane,
         			    "Make potion for Adventurer's request!");   
         		
@@ -382,13 +450,11 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
       			goldPayment.setText(null);
       			goldPayment.setIcon(coinIcon);
 
-
         		JOptionPane.showMessageDialog(contentPane,
         			    "Adventurer's request is declined. Player's turn count remains the same!",
         			    "Potion Request Decline",
         			    JOptionPane.WARNING_MESSAGE);
 
-        		
         	}
         });
         declineButton.setFont(new Font("Cochin", Font.PLAIN, 20));
@@ -400,15 +466,17 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           sellPotionButton.setBounds(43, 593, 420, 43);
           requestPanel.add(sellPotionButton);
           
+          
           //Event handler for Sell Potion button
           sellPotionButton.addActionListener(new ActionListener() {
           	public void actionPerformed(ActionEvent e) {
           		potionIcon.setVisible(false);
+          		
                 acceptButton.setVisible(true);
                 declineButton.setVisible(true);
-                requestedPotion.setVisible(true);
-                
-                Game.getGame().selectController(Controller.SELL_POTION);
+               
+                //requestedPotion.setVisible(true);
+                t.start();
           	}
           });
           
@@ -420,14 +488,19 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           	public void actionPerformed(ActionEvent e) {
           		
           		// make potion 
-          		if ((ingredients == null) || (ingredients.length != 2)) {
+          		chosenIngredients = PlayerIngredientList.getChosenIngredients(ingredientList);
+          		
+          		System.out.println(chosenIngredients.length);
+          		
+          		if (chosenIngredients == null || chosenIngredients.length != 2) {
           			JOptionPane.showMessageDialog(contentPane,
             			    "Choose 2 ingredients for making potion!");   
           		}else if (testMethod == null) {
           			JOptionPane.showMessageDialog(contentPane,
             			    "Choose test method for making potion!");   
           		} else {
-          			PotionController.initializeMakeExperiment();
+          			//Game.setController(Game.Controller.MAKE_EXPERIMENT);
+          			Game.getGame().selectController(Controller.MAKE_EXPERIMENT);
           		}
           		
           		
@@ -462,7 +535,22 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	}
 	
     
-    public void initialize() {
+    public JScrollPane getScrollPane_ingredients() {
+		return scrollPane_ingredients;
+	}
+	public void setScrollPane_ingredients(JScrollPane scrollPane_ingredients) {
+		this.scrollPane_ingredients = scrollPane_ingredients;
+	}
+
+	public JList<JPanel> getIngredientList() {
+		return ingredientList;
+	}
+	public void setIngredientList(JList<JPanel> ingredientList) {
+		this.ingredientList = ingredientList;
+	}
+
+
+	public void initialize() {
 		
 		setVisible(true);
 	}
@@ -593,7 +681,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		
 	}
 	
-	public String getTestMethod() {
+	public static String getTestMethod() {
 		return testMethod;
 	}
 	
@@ -603,5 +691,68 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	
 	public boolean isRequestAccepted() {
 		return requestAccepted;
+	}
+
+
+	
+
+	public static Ingredient[] getChosenIngredients() {
+		//return PlayerIngredientList.getChosenIngredients(ingredientList);
+		return chosenIngredients;
+    }
+
+	/**
+	 * Gets the selected indexes by player from JList
+	 * @return chosen Ingredient
+	 */
+	/*
+	public Ingredient[] getChosenIngredients() {
+		
+        int[] selectedIndices = ingredientList.getSelectedIndices();
+        
+        System.out.println(selectedIndices.length);
+        
+        ArrayList<Ingredient> selectedIngredients = new ArrayList<>();
+
+        	for (int index : selectedIndices) {
+                JLabel label = (JLabel) ingredientList.getModel().getElementAt(index).getComponent(0);
+                Ingredient ingredient = PlayerIngredientList.getIngredientCardLabels().get(label);
+                selectedIngredients.add(ingredient);
+            }
+
+            // Convert ArrayList to an array
+            Ingredient[] resultArray = new Ingredient[selectedIngredients.size()];
+            return selectedIngredients.toArray(resultArray);
+   
+        
+    }
+    */
+	
+	
+	/**
+	 * Initialize UI, player cards are updated every time this is called (every button click)
+	 * @param player
+	 */
+	public void updateIngredient(Player player) {
+
+		if (player.getIngredientCards() == null || player.getIngredientCards().isEmpty()) {
+			System.out.println("Player Ingredient Cards null");
+			return;			
+		}
+	
+
+		JPanel[] ingredientCardPanelsArray = PlayerIngredientList.createIngredientArray(player);
+		ingredientList.setListData(ingredientCardPanelsArray);
+		 /*
+		ingredientList.setLayoutOrientation(JList.VERTICAL_WRAP);
+		ingredientList.setFixedCellHeight(IMAGE_HEIGHT+50);
+		ingredientList.setFixedCellWidth(IMAGE_WIDTH);
+		
+		int boxWidth = 900; //ingredientScrollPane.getViewport().getSize().width;
+		int numberOfImagesInRow = boxWidth/IMAGE_WIDTH;
+		ingredientList.setVisibleRowCount((player.getIngredientCards().size()+numberOfImagesInRow-1)/numberOfImagesInRow);
+		ingredientList.setSelectedIndex(0);
+		scrollPane_ingredients.setViewportView(ingredientList);
+		*/
 	}
 }

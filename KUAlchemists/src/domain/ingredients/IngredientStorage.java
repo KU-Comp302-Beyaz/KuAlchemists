@@ -7,10 +7,6 @@ import java.util.Collections;
 public class IngredientStorage {
 	
 	//fields
-	//add ingredientCards here
-	
-	//INGREDIENT DECK SHOULD HAVE LIMITED NUMBER OF CARDS TO MAKE UNIQUE IDENTIFIER EASIER
-
 	private static final Ingredient[] allIngredientCardsArray =
 		{new Ingredient(1,"Lamia Heart-Blood","src/images/images-icons/ingredient1.jpg"),
 		new Ingredient(2,"Witch's Tear", "src/images/images-icons/ingredient2.jpg"), 
@@ -31,7 +27,7 @@ public class IngredientStorage {
 		return allIngredientCardsArray;
 	}
 
-	/*
+/*
 	private final Ingredient[] allIngredientCardsArray =
 		{new Ingredient("Lamia Heart-Blood"),
 		new Ingredient("Witch's Tear"), 
@@ -46,8 +42,10 @@ public class IngredientStorage {
 		new Ingredient("Hippocamp's Tongue"),
 		new Ingredient("Roc Claw")
 		}; //for testing purposes
-	*/
 
+*/
+
+  
 	private ArrayList<Ingredient> ingredientCards = new ArrayList<Ingredient>();
 	
 	//Singleton implementation
@@ -61,7 +59,10 @@ public class IngredientStorage {
 		return ingredientStorageSingleton;
 	}
 	
-	//shuffles and returns ingredientCards
+	/**
+	 * Converts ingredient array to ArrayList then shuffles the ingredient cards
+	 * @return shuffled ingredient cards
+	 */
 	public ArrayList<Ingredient> initializeIngredients() {
 		Collections.addAll(ingredientCards, allIngredientCardsArray);
 		Collections.shuffle(ingredientCards);

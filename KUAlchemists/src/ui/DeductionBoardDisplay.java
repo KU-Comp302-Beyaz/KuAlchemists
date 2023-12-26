@@ -68,114 +68,309 @@ public class DeductionBoardDisplay extends JFrame{
     	JButton b1 = new JButton("");
     	b1.setBounds(92, 237, 60, 29);
     	deductionTrianglePanel.add(b1);
+    	/*
+    	b1.addActionListener(new ActionListener() {
+    		@Override 
+    		public void actionPerformed(ActionEvent arg0) {
+    			 JFrame newFrame = new JFrame("Select");
+    			 newFrame.setSize(400, 300);
+    		        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    		         JLabel label = new JLabel("Select one!");
+    		         newFrame.add(label);
+    		         newFrame.setVisible(true);
+    		}
+    	});
+    	*/
+
+
+        b1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b1);
+            }
+        });
     	
     	JButton b2 = new JButton("");
     	b2.setBounds(211, 237, 60, 29);
     	deductionTrianglePanel.add(b2);
     	
+    	b2.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b2);
+            }
+        });
+
+
+    	
     	JButton b3 = new JButton("");
     	b3.setBounds(336, 237, 60, 29);
     	deductionTrianglePanel.add(b3);
+    	
+    	b3.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b3);
+            }
+        });
     	
     	JButton b4 = new JButton("");
     	b4.setBounds(455, 237, 60, 29);
     	deductionTrianglePanel.add(b4);
     	
+    	b4.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b4);
+            }
+        });
+    	
     	JButton b5 = new JButton("");
     	b5.setBounds(576, 237, 60, 29);
     	deductionTrianglePanel.add(b5);
-    	
+
+    	b5.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b5);
+            }
+        });
+
     	JButton b6 = new JButton("");
     	b6.setBounds(698, 237, 60, 29);
     	deductionTrianglePanel.add(b6);
-    	
+
+    	b6.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b6);
+            }
+        });
+
     	JButton b7 = new JButton("");
     	b7.setBounds(156, 207, 60, 29);
     	deductionTrianglePanel.add(b7);
-    	
+
+    	b7.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b7);
+            }
+        });
+
+
     	JButton b8 = new JButton("");
     	b8.setBounds(276, 207, 60, 29);
     	deductionTrianglePanel.add(b8);
-    	
+
+    	b8.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b8);
+            }
+        });
+
     	JButton b9 = new JButton("");
     	b9.setBounds(466, 178, 60, 29);
     	deductionTrianglePanel.add(b9);
-    	
+
+    	b9.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b9);
+            }
+        });
+
     	JButton b10 = new JButton("");
     	b10.setBounds(399, 207, 60, 29);
     	deductionTrianglePanel.add(b10);
-    	
+
+    	b10.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b10);
+            }
+        });
+
     	JButton b11 = new JButton("");
     	b11.setBounds(516, 212, 60, 29);
     	deductionTrianglePanel.add(b11);
-    	
+    	b11.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b11);
+            }
+        });
+
     	JButton b12 = new JButton("");
     	b12.setBounds(817, 237, 60, 29);
     	deductionTrianglePanel.add(b12);
-    	
+    	b12.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b12);
+            }
+        });
+
     	JButton b13 = new JButton("");
     	b13.setBounds(346, 110, 60, 29);
     	deductionTrianglePanel.add(b13);
-    	
+    	b13.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b13);
+            }
+        });
+
     	JButton b14 = new JButton("");
     	b14.setBounds(221, 178, 60, 29);
     	deductionTrianglePanel.add(b14);
-    	
+    	b14.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b14);
+            }
+        });
+
     	JButton b15 = new JButton("");
     	b15.setBounds(276, 146, 60, 29);
     	deductionTrianglePanel.add(b15);
-    	
+    	b15.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b15);
+            }
+        });
+
     	JButton b16 = new JButton("");
     	b16.setBounds(336, 178, 60, 29);
     	deductionTrianglePanel.add(b16);
-    	
+    	b16.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b16);
+            }
+        });
+
     	JButton b17 = new JButton("");
     	b17.setBounds(409, 146, 60, 29);
     	deductionTrianglePanel.add(b17);
-    	
+    	b17.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b17);
+            }
+        });
+
     	JButton b18 = new JButton("");
     	b18.setBounds(409, 69, 60, 29);
     	deductionTrianglePanel.add(b18);
-    	
+    	b18.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b1);
+            }
+        });
+
     	JButton b19 = new JButton("");
     	b19.setBounds(527, 146, 60, 29);
     	deductionTrianglePanel.add(b19);
-    	
+    	b19.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b19);
+            }
+        });
+
     	JButton b20 = new JButton("");
     	b20.setBounds(586, 178, 60, 29);
     	deductionTrianglePanel.add(b20);
-    	
+    	b20.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b20);
+            }
+        });
+
     	JButton b21 = new JButton("");
     	b21.setBounds(638, 207, 60, 29);
     	deductionTrianglePanel.add(b21);
-    	
+    	b21.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b21);
+            }
+        });
+
     	JButton b22 = new JButton("");
     	b22.setBounds(531, 69, 60, 29);
     	deductionTrianglePanel.add(b22);
-    	
+    	b22.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b22);
+            }
+        });
+
     	JButton b23 = new JButton("");
     	b23.setBounds(466, 110, 60, 29);
     	deductionTrianglePanel.add(b23);
-    	
+    	b23.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b23);
+            }
+        });
+
     	JButton b24 = new JButton("");
     	b24.setBounds(643, 146, 60, 29);
     	deductionTrianglePanel.add(b24);
-    	
+    	b24.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b24);
+            }
+        });
+
     	JButton b25 = new JButton("");
     	b25.setBounds(758, 207, 60, 29);
     	deductionTrianglePanel.add(b25);
-    	
+    	b25.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b25);
+            }
+        });
+
     	JButton b26 = new JButton("");
     	b26.setBounds(471, 28, 60, 29);
     	deductionTrianglePanel.add(b26);
-    	
+    	b26.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b26);
+            }
+        });
+
     	JButton b27 = new JButton("");
     	b27.setBounds(698, 178, 60, 29);
     	deductionTrianglePanel.add(b27);
-    	
+    	b27.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b27);
+            }
+        });
+
     	JButton b28 = new JButton("");
     	b28.setBounds(591, 110, 60, 29);
     	deductionTrianglePanel.add(b28);
+    	b28.addActionListener(new ActionListener() {
+    		@Override 
+            public void actionPerformed(ActionEvent arg0) {
+                showPhotoSelectionDialog(b28);
+            }
+        });
     		  		
     	JPanel deductionGridPanel = new JPanel();
     	deductionGridPanel.setBounds(98, 314, 1089, 428);
@@ -184,11 +379,16 @@ public class DeductionBoardDisplay extends JFrame{
     	deductionGridPanel.setLayout(new GridLayout(9, 9, 0, 0));
     	
     	JButton publishButton = new JButton("Publish a Theory");
+    	publishButton.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    		}
+    	});
+    	publishButton.setFont(new Font("Cochin", Font.PLAIN, 20));
     	publishButton.setBounds(1243, 322, 165, 88);
     	getContentPane().add(publishButton);
     	
     	JLabel titleLabel = new JLabel("Deduction Board");
-    	titleLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+    	titleLabel.setFont(new Font("Cochin", Font.PLAIN, 30));
     	titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
     	titleLabel.setBounds(584, 6, 266, 25);
     	getContentPane().add(titleLabel);
@@ -480,6 +680,37 @@ public class DeductionBoardDisplay extends JFrame{
         // Make the dialog visible
         dialog.setVisible(true);
   
+    }
+    
+    private static void showPhotoSelectionDialog(JButton targetButton) {
+        JFrame photoSelectionFrame = new JFrame("Select a Photo");
+
+        JPanel photoPanel = new JPanel(new GridLayout(2, 4));
+
+        for (int i = 0; i < 8; i++) {
+            int imageIndex = i + 1;
+            String imagePath = "src/images/alchemical-icons/alchemical" + imageIndex + ".png";
+            ImageIcon icon = new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+
+            JButton photoButton = new JButton(icon);
+
+            photoButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    targetButton.setIcon(icon);
+                    photoSelectionFrame.dispose();
+                }
+            });
+
+            photoPanel.add(photoButton);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(photoPanel);
+
+        photoSelectionFrame.add(scrollPane);
+        photoSelectionFrame.setSize(400, 200);
+        photoSelectionFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        photoSelectionFrame.setVisible(true);
     }
 
     public void initialize() {
