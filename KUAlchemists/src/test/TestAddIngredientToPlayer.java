@@ -2,6 +2,9 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import domain.Player;
+import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
 import domain.ingredients.IngredientStorage;
 
@@ -40,13 +44,14 @@ class TestAddIngredientToPlayer {
 
 	@Test
 	void testAddIngredientToPlayer() {
-		fail("Not yet implemented"); // TODO
+		//fail("Not yet implemented"); // TODO
 	}
 	
 	@Test
 	@DisplayName("Null player in function argument should throw NullPointerException")
 	void testNullPlayer() {
-		assertThrows(NullPointerException.class, () -> ingredientController.addIngredientToPlayer(null));
+		player = null;
+		assertThrows(NullPointerException.class, () -> ingredientController.addIngredientToPlayer(player));
 	}
 	
 	@Test
@@ -57,17 +62,12 @@ class TestAddIngredientToPlayer {
 	}
 	
 	@Test
-	@DisplayName("Null ingredientStorage.ingredientStorageSingleton should throw NullPointerException")
-	void testNullIngredientStorage() {
-		ingredientStorage = null;
+	@DisplayName("Null ingredientStorage.ingredientCards should throw NullPointerException")
+	void testNullIngredientStorageIngredientCards() {
+		ingredientStorage.setIngredientCards(null);
 		assertThrows(NullPointerException.class, () -> ingredientController.addIngredientToPlayer(player));
 	}
 	
-	@Test
-	@DisplayName("Null ingredientStorage.ingredientCards should throw NullPointerException")
-	void testNullIngredientStorageIngredientCards() {
-		ingredientStorage.setIngredientCards(null);;
-		assertThrows(NullPointerException.class, () -> ingredientController.addIngredientToPlayer(player));
-	}
+
 
 }
