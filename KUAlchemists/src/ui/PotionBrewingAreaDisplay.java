@@ -465,7 +465,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
       			goldPayment.setText(null);
       			goldPayment.setIcon(coinIcon);
       			requestDeclined = true;
-
         		JOptionPane.showMessageDialog(contentPane,
         			    "Adventurer's request is declined. Player's turn count remains the same!",
         			    "Potion Request Decline",
@@ -700,7 +699,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		return guaranteeLevel;
 	}
 
-	
 	public static String getTestMethod() {
 		return testMethod;
 	}
@@ -708,6 +706,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	public Ingredient[] getIngredients() {
 		return ingredients;
 	}
+
 	
 	public boolean isRequestAccepted() {
 		return requestAccepted;
@@ -717,13 +716,12 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		//return PlayerIngredientList.getChosenIngredients(ingredientList);
 		return chosenIngredients;
     }
-	
+
 	public static boolean isSellRequestAccepted() {
 		return requestAccepted;
 	}
 
-	
-	/**
+		/**
 	 * Gets the selected indexes by player from JList
 	 * @return chosen Ingredient
 	 */

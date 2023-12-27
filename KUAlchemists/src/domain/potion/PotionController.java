@@ -7,6 +7,8 @@ import domain.Player;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
 import domain.theorydeduction.AlchemyMarker;
+import ui.IngredientStorageDisplay;
+import ui.PlayerIngredientList;
 import ui.PotionBrewingAreaDisplay;
 import ui.PotionBrewingAreaDisplayHelp;
 import ui.IngredientStorageDisplay;
@@ -107,14 +109,12 @@ public class PotionController {
 		p.getIngredientCards().remove(ing_2); //remove chosen ingredient
 		
 		potion = pba.makePotion(ing_1, ing_2);
-		
 		boolean isSellRequestAccepted = PotionBrewingAreaDisplay.isSellRequestAccepted();
 		
 		if (!isSellRequestAccepted) {
 			initializeTestPotion(potion,p);
 			}
-		
-		
+				
 		p.updatePlayerTurn();
 	}
 
@@ -122,8 +122,8 @@ public class PotionController {
 	public void initializeTestPotion(Potion potion, Player player) {
 
 		// pbad.display(); // ???
+
 		String testMethod = PotionBrewingAreaDisplay.getInstance().getTestMethod(); // Player Choose TestMethod (Test on Student / Test on Player)
-		
 		AlchemyMarker alchemyMarker = pba.testPotion(testMethod, potion, player);
 		
 		

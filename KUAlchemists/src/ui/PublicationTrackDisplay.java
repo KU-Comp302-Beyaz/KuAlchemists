@@ -27,6 +27,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import domain.Display;
 
 public class PublicationTrackDisplay extends JFrame implements Display {
 	
