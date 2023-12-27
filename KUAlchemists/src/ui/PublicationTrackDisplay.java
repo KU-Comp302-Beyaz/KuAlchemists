@@ -28,11 +28,12 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import domain.Display;
+import domain.publication.PublicationTrack;
 
 
 public class PublicationTrackDisplay extends JFrame implements Display {
 	
-	private static PublicationTrackDisplay isDisplay = new PublicationTrackDisplay(); // Singleton 
+	private static PublicationTrackDisplay instance; // Singleton
 	private ArrayList<JPanel> publicationBoardPanels = new ArrayList<>();
 	private ArrayList<JPanel> theoryPanels = new ArrayList<>();
 	
@@ -135,9 +136,11 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 	}
 	
 	
-	
-	public static PublicationTrackDisplay getIsDisplay() {
-		return isDisplay;
+	// Singleton implementation
+	public static synchronized PublicationTrackDisplay getInstance() {
+		if (instance == null)
+			instance = new PublicationTrackDisplay();
+		return instance;
 	}
 
 
@@ -221,9 +224,7 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 
 	}
 		
-		
-	// will be called by PublicationTrack and will have parameters. It is implemented here just to show how it will work.
-	
+			
 	private void getTheoryListItems() {
 		
 		JPanel panel = new JPanel();

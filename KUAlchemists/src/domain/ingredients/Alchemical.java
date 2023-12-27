@@ -20,6 +20,13 @@ public class Alchemical {
 		this.aspects.add(blue);
 		this.alchemicalPhoto = alchemicalPhoto;
 	}
+	
+	public Alchemical (AlchemyMarker red, AlchemyMarker green, AlchemyMarker blue) {
+		
+		this.aspects.add(red);
+		this.aspects.add(green);
+		this.aspects.add(blue);
+	}
 
 	public List<AlchemyMarker> getAspects() {
 		return aspects;
