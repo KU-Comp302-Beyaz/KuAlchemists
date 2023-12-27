@@ -1,5 +1,8 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import javax.swing.ImageIcon;
 
 import domain.artifact.ArtifactController;
@@ -10,6 +13,7 @@ import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
 import domain.ingredients.IngredientStorage;
 import domain.potion.PotionController;
+import domain.publication.PublicationCard;
 import domain.publication.PublicationTrack;
 import domain.theorydeduction.AlchemyMarker;
 import ui.BoardWindow;
@@ -58,6 +62,7 @@ public class Game {
 		numberOfPlayers = 2; //for now erase later
 		
 		initializePlayers(loginWindow,players,numberOfPlayers);
+		initializePublicationTrack();
 		initializeBoard();
 
 	}
@@ -96,6 +101,7 @@ public class Game {
 	
 	public static void initializePublicationTrack() {
 		
+		Random rand = new Random();
 		PublicationTrack pt = PublicationTrack.getInstance();
 		Alchemical a1 = new Alchemical(new AlchemyMarker("+","red","S"), new AlchemyMarker("-","green","L"), new AlchemyMarker("-","blue","S"), "/src/images/alchemical-icons/alchemical1.png");
 		Alchemical a2 = new Alchemical(new AlchemyMarker("-","red","S"), new AlchemyMarker("+","green","L"), new AlchemyMarker("+","blue","S"), "/src/images/alchemical-icons/alchemical2.png");
@@ -121,7 +127,17 @@ public class Game {
 			pt.getAvailableIngredients().add(IngredientStorage.getAllingredientcardsarray()[i]);
 		}
 		
-		
+		for (int j=0; j<5; j++) {
+			ArrayList<Ingredient> requiredIngredients = new ArrayList<>();
+			while (requiredIngredients.size() < 3) {
+				Ingredient randIngredient = IngredientStorage.getAllingredientcardsarray()[rand.nextInt(8)];
+				if (!requiredIngredients.contains(randIngredient)) {
+					requiredIngredients.add(randIngredient);
+				}
+			}
+			PublicationCard card = new PublicationCard(requiredIngredients,rand.nextInt(5)+1,rand.nextInt(5)+1);
+			pt.getPublicationCards().add(card);
+		}
 		
 	}
 	/**

@@ -36,6 +36,7 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 	private static PublicationTrackDisplay instance; // Singleton
 	private ArrayList<JPanel> publicationBoardPanels = new ArrayList<>();
 	private ArrayList<JPanel> theoryPanels = new ArrayList<>();
+	private PublicationTrack pt = PublicationTrack.getInstance();
 	
 	private static final int IMAGE_WIDTH = 200, IMAGE_HEIGHT = 200;
 	
@@ -156,72 +157,24 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 	
 	private void getPublishListItems() {
 		
-		JPanel panel = new JPanel();
-		JPanel panel2 = new JPanel();
-		JPanel panel3 = new JPanel();
-		JLabel label = new JLabel();
-		JLabel label2 = new JLabel();
-		JLabel label3 = new JLabel();
-		JLabel label4 = new JLabel("Reputation Point Reward: 3");
-		JLabel labela = new JLabel("Gold Reward: 4");
+		for(int i=0; i<pt.getPublicationCards().size(); i++) {
+			JPanel p = new JPanel();
+			JLabel l1 = new JLabel();
+			JLabel l2 = new JLabel();
+			JLabel l3 = new JLabel();
+			JLabel l4 = new JLabel("Reputation Point Reward: "+pt.getPublicationCards().get(i).getReputationReward());
+			JLabel l5 = new JLabel("Gold Reward: "+pt.getPublicationCards().get(i).getGoldReward());
+			l1.setIcon(new ImageIcon(new ImageIcon(pt.getPublicationCards().get(i).getRequiredTheories().get(0).getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
+			l2.setIcon(new ImageIcon(new ImageIcon(pt.getPublicationCards().get(i).getRequiredTheories().get(1).getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
+			l3.setIcon(new ImageIcon(new ImageIcon(pt.getPublicationCards().get(i).getRequiredTheories().get(2).getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
+			p.add(l1);
+			p.add(l2);
+			p.add(l3);
+			p.add(l4);
+			p.add(l5);
+			this.publicationBoardPanels.add(p);
+		}
 		
-		JLabel label5 = new JLabel();
-		JLabel label6 = new JLabel();
-		JLabel label7 = new JLabel();
-		JLabel label8 = new JLabel("Reputation Point Reward: 2");
-		JLabel labelb = new JLabel("Gold Reward: 3");
-
-		
-		JLabel label9 = new JLabel();
-		JLabel label10 = new JLabel();
-		JLabel label11 = new JLabel();
-		JLabel label12 = new JLabel("Reputation Point Reward: 1");
-		JLabel labelc = new JLabel("Gold Reward: 5");
-
-		
-		label.setIcon(new ImageIcon(new ImageIcon("src/images/images-icons/ingredient8.jpg").getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
-		label2.setIcon(new ImageIcon(new ImageIcon("src/images/images-icons/ingredient10.jpg").getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
-		label3.setIcon(new ImageIcon(new ImageIcon("src/images/images-icons/ingredient11.jpg").getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
-
-		
-		label5.setIcon(new ImageIcon(new ImageIcon("src/images/images-icons/ingredient1.jpg").getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
-		label6.setIcon(new ImageIcon(new ImageIcon("src/images/images-icons/ingredient2.jpg").getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
-		label7.setIcon(new ImageIcon(new ImageIcon("src/images/images-icons/ingredient3.jpg").getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
-
-		
-		label9.setIcon(new ImageIcon(new ImageIcon("src/images/images-icons/ingredient5.jpg").getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
-		label10.setIcon(new ImageIcon(new ImageIcon("src/images/images-icons/ingredient6.jpg").getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
-		label11.setIcon(new ImageIcon(new ImageIcon("src/images/images-icons/ingredient7.jpg").getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
-
-		panel.add(label);
-		panel.add(label2);
-		panel.add(label3);
-		panel.add(label4);
-		panel.add(labela);
-
-		
-		panel2.add(label5);
-		panel2.add(label6);
-		panel2.add(label7);
-		panel2.add(label8);
-		panel2.add(labelb);
-
-		
-		panel3.add(label9);
-		panel3.add(label10);
-		panel3.add(label11);
-		panel3.add(label12);
-		panel3.add(labelc);
-
-		
-
-		this.publicationBoardPanels.add(panel);
-		this.publicationBoardPanels.add(panel2);
-		this.publicationBoardPanels.add(panel3);
-
-		
-		
-
 	}
 		
 			
