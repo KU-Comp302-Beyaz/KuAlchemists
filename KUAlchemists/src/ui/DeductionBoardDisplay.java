@@ -20,6 +20,7 @@ import java.awt.Insets;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -28,15 +29,24 @@ import javax.swing.JPanel;
 
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Label;
 import java.awt.SystemColor;
 import javax.swing.UIManager;
+
+import domain.ingredients.Alchemical;
+import domain.ingredients.Ingredient;
+import domain.ingredients.IngredientStorage;
+import domain.publication.PublicationTrack;
+import domain.theorydeduction.TheoryController;
+
 import java.awt.Font;
 import java.awt.Graphics;
 
@@ -411,6 +421,7 @@ public class DeductionBoardDisplay extends JFrame{
     	JButton publishButton = new JButton("Publish a Theory");
     	publishButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) { 
+    			showIngredientSelectionDialog();
     		}
     	});
         /*
@@ -760,7 +771,12 @@ public class DeductionBoardDisplay extends JFrame{
 
             photoPanel.add(photoButton);
         }
-
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(e -> {
+        	targetButton.setIcon(null);
+        	photoSelectionFrame.dispose();
+        });
+        photoPanel.add(clearButton);
         JScrollPane scrollPane = new JScrollPane(photoPanel);
 
         photoSelectionFrame.getContentPane().add(scrollPane);
@@ -769,6 +785,145 @@ public class DeductionBoardDisplay extends JFrame{
         photoSelectionFrame.setVisible(true);
     }
     
+    private void showIngredientSelectionDialog() {
+    	
+    	JFrame photoSelectionFrame = new JFrame("Select an Ingredient to Publish a Theory");
+    	
+    	ArrayList<String> photoPaths = new ArrayList<>();
+    	for (Ingredient i : PublicationTrack.getInstance().getAvailableIngredients()) {
+    		photoPaths.add(i.getPhoto());
+    	}
+    	ArrayList<JPanel> ingredientPhotos = new ArrayList<>();
+    	for (String s : photoPaths) {
+    		JPanel p = new JPanel();
+    		JLabel l = new JLabel();
+    		ImageIcon i = new ImageIcon(new ImageIcon(s).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH),s);
+    		l.setIcon(i);
+    		p.add(l);
+    		ingredientPhotos.add(p);
+    	}
+    	
+    	
+    	photoSelectionFrame.setBounds(100, 100, 800, 600);
+    	photoSelectionFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	photoSelectionFrame.getContentPane().setLayout(null);
+    	photoSelectionFrame.setResizable(false);
+		
+		
+		JScrollPane ingredientScrollPane = new JScrollPane();
+		ingredientScrollPane.setBounds(6, 54, 788, 400);
+		photoSelectionFrame.getContentPane().add(ingredientScrollPane);
+		
+		JLabel titleLabel = new JLabel("Please Select an Ingredient");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setBounds(241, 16, 325, 16);
+		photoSelectionFrame.getContentPane().add(titleLabel);
+		
+		JList theoryList = new JList();
+		theoryList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		theoryList.setCellRenderer(new ImageListCellRenderer());
+		
+		theoryList.setListData(ingredientPhotos.toArray());
+		theoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		theoryList.setFixedCellHeight(200);
+		theoryList.setFixedCellWidth(150);
+		theoryList.setVisibleRowCount(2);
+		ingredientScrollPane.setViewportView(theoryList);
+		
+		JButton selectButton = new JButton("Select ");
+		selectButton.setBounds(341, 466, 117, 29);
+		selectButton.addActionListener(e -> {
+			
+			JLabel selectedPanel = (JLabel) ((JPanel) theoryList.getSelectedValue()).getComponent(0);
+			ImageIcon photo = (ImageIcon) selectedPanel.getIcon();
+			Ingredient ing = findIngredientFromPhoto(photo.getDescription());
+			photoSelectionFrame.dispose();
+			showAlchemicalSelectionDialog(ing);
+		});
+		photoSelectionFrame.getContentPane().add(selectButton);
+		photoSelectionFrame.setVisible(true);
+		
+    }
+    
+    private void showAlchemicalSelectionDialog(Ingredient ing) {
+    	
+    	JFrame photoSelectionFrame = new JFrame("Select an Alchemical to Publish a Theory");
+    	
+    	ArrayList<String> photoPaths = new ArrayList<>();
+    	for (Alchemical a : PublicationTrack.getInstance().getAvailableAlchemicals()) {
+    		photoPaths.add(a.getAlchemicalPhoto());
+    	}
+    	ArrayList<JPanel> alchemicalPhotos = new ArrayList<>();
+    	for (String s : photoPaths) {
+    		JPanel p = new JPanel();
+    		JLabel l = new JLabel();
+    		ImageIcon i = new ImageIcon(new ImageIcon(s).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH),s);
+    		l.setIcon(i);
+    		p.add(l);
+    		alchemicalPhotos.add(p);
+    	}
+    	
+
+    	photoSelectionFrame.setBounds(100, 100, 800, 600);
+    	photoSelectionFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	photoSelectionFrame.getContentPane().setLayout(null);
+    	photoSelectionFrame.setResizable(false);
+		
+		
+		JScrollPane alchemicalScrollPane = new JScrollPane();
+		alchemicalScrollPane.setBounds(6, 54, 788, 400);
+		photoSelectionFrame.getContentPane().add(alchemicalScrollPane);
+		
+		JLabel titleLabel = new JLabel("Please Select an Alchemical");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setBounds(241, 16, 325, 16);
+		photoSelectionFrame.getContentPane().add(titleLabel);
+		
+		JList alchemicalList = new JList();
+		alchemicalList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		alchemicalList.setCellRenderer(new ImageListCellRenderer());
+		
+		alchemicalList.setListData(alchemicalPhotos.toArray());
+		alchemicalList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		alchemicalList.setFixedCellHeight(200);
+		alchemicalList.setFixedCellWidth(150);
+		alchemicalList.setVisibleRowCount(2);
+		alchemicalScrollPane.setViewportView(alchemicalList);
+		
+		JButton selectButton = new JButton("Select ");
+		selectButton.setBounds(341, 466, 117, 29);
+		selectButton.addActionListener(e -> {
+			
+			JLabel selectedPanel = (JLabel) ((JPanel) alchemicalList.getSelectedValue()).getComponent(0);
+			ImageIcon photo = (ImageIcon) selectedPanel.getIcon();
+			Alchemical alc = findAlchemicalFromPhoto(photo.getDescription());
+			TheoryController.getInstance().initPublishTheory(alc, ing);
+			
+		});
+		photoSelectionFrame.getContentPane().add(selectButton);
+		photoSelectionFrame.setVisible(true);
+    	
+    }
+    
+    private Ingredient findIngredientFromPhoto(String path) {
+    	
+    	for (Ingredient i : IngredientStorage.getAllingredientcardsarray()) {
+    		if (i.getPhoto().equals(path)) {
+    			return i;
+    		}
+    	}
+    	return null;
+    }
+    
+    private Alchemical findAlchemicalFromPhoto(String path) {
+    	
+    	for (Alchemical a : PublicationTrack.getInstance().getAvailableAlchemicals()) {
+    		if (a.getAlchemicalPhoto().equals(path))
+    			return a;
+    	}
+    	return null;
+    	
+    }
     
     public void initialize() {
 		setVisible(true);
