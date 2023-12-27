@@ -24,11 +24,16 @@ public class IngredientController {
 	
 	/**
 	 * Adds ingredient to player
-	 * gets random from card list, adds it to player cards, returns ingredient so it can be displayed in ui
+	 * gets random from card list, adds it to player cards, returns card image to display in ui
 	 * @param player
-	 * @return ingredient added to player
+	 * @return ingredintCardImage
 	 */
-	public Ingredient addIngredientToPlayer(Player player) {
+	public Ingredient addIngredientToPlayer(Player player) throws NullPointerException {
+		//REQUIRES: player is not null, player.ingredientCards is not null,
+		//			IngredientStorage.ingredientStorageSingleton is not null, IngredientStorage.ingredientCards is not null
+		//MODIFIES: player.ingredientCards
+		//EFFECTS: 	returns the ingredient card added to the player's ingredient cards
+		
 		int randomNumber = (int)(Math.random() * (IngredientStorage.getInstance().getIngredientCards().size()));
 		Ingredient newIngredient = IngredientStorage.getInstance().getIngredientCards().get(randomNumber);
 		player.getIngredientCards().add(newIngredient);
