@@ -24,9 +24,9 @@ public class IngredientController {
 	
 	/**
 	 * Adds ingredient to player
-	 * gets random from card list, adds it to player cards, returns card image to display in ui
+	 * gets random ingredient from IngredientStorage ingredient cards, adds it to player ingredient cards, returns card to display in ui
 	 * @param player
-	 * @return ingredintCardImage
+	 * @return ingredientCard added to player
 	 */
 	public Ingredient addIngredientToPlayer(Player player) throws NullPointerException {
 		//REQUIRES: player is not null, player.ingredientCards is not null, ingredientStorageSingleton.ingredientCards is not null
