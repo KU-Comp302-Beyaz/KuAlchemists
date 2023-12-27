@@ -29,7 +29,6 @@ import javax.swing.UIManager;
 
 import domain.Display;
 
-
 public class PublicationTrackDisplay extends JFrame implements Display {
 	
 	private static PublicationTrackDisplay isDisplay = new PublicationTrackDisplay(); // Singleton 

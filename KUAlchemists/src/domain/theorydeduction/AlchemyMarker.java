@@ -1,13 +1,11 @@
 package domain.theorydeduction;
 
-import javax.swing.ImageIcon;
-
 public class AlchemyMarker {
 
 	private String sign;
 	private String color;
 	private String size;
-	private ImageIcon icon;
+	private String icon;
 	
 	// Potion formula
 	public AlchemyMarker (String sign, String color, String size) {
@@ -18,7 +16,7 @@ public class AlchemyMarker {
 
 	}
 	
-	public AlchemyMarker (String sign, String color, String size, ImageIcon icon) {
+	public AlchemyMarker (String sign, String color, String size, String icon) {
 		
 		this.sign = sign;	// (+ / -)
 		this.color = color;	// (red / green / blue)
@@ -63,12 +61,12 @@ public class AlchemyMarker {
 	}
 
 
-	public ImageIcon getIcon() {
+	public String getIcon() {
 		return icon;
 	}
 
 
-	public void setIcon(ImageIcon icon) {
+	public void setIcon(String icon) {
 		this.icon = icon;
 	}
 	

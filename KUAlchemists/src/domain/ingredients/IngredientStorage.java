@@ -3,6 +3,7 @@ package domain.ingredients;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import domain.theorydeduction.AlchemyMarker;
 
 import javax.swing.ImageIcon;
 
@@ -21,6 +22,8 @@ public class IngredientStorage {
 		new Ingredient(6,"Ghost Barbs", "src/images/images-icons/ingredient6.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "L"), new AlchemyMarker ("+", "green", "S"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
 		new Ingredient(7,"Bugbear Bone Meal", "src/images/images-icons/ingredient7.jpg",  new Alchemical (new AlchemyMarker ("-", "red", "L"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "L"), new ImageIcon())),
 		new Ingredient(8,"Strix's Bone", "src/images/images-icons/ingredient8.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "L"), new AlchemyMarker ("+", "green", "L"), new AlchemyMarker ("+", "blue", "L"), new ImageIcon())),
+
+     
 		//new Ingredient(9,"Merman Horn", "src/images/images-icons/ingredient9.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
 		//new Ingredient(10,"Bunyip Oil", "src/images/images-icons/ingredient10.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
 		//new Ingredient(11,"Hippocamp's Tongue", "src/images/images-icons/ingredient11.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
