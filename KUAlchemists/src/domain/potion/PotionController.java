@@ -20,7 +20,9 @@ public class PotionController {
 	
 	private static Player player;
 	private static Potion potion;
-	private static int updatedAmount;
+	private static Potion potionForSale; //for test method
+	private static int updatedAmount; //for test method
+	private int guaranteeLevel;
 	private static PotionController potionControllerInstance;
 	
 	private PotionController() {}
@@ -63,7 +65,11 @@ public class PotionController {
 			Ingredient[] ingredients = pbad.getChosenIngredients();
 			Potion p = pba.makePotion(ingredients[0], ingredients[1]); //Making potion
 			String sign = p.getPotionSign(); //Sign of the prepared potion
+			
+			//Test variables
 			updatedAmount = 0;
+			potionForSale = p;
+			guaranteeLevel = guarantee;
 			
 			switch (sign) {
 				case ("+"):
@@ -83,14 +89,27 @@ public class PotionController {
 			System.out.printf("Guarantee Level: %d \n", guarantee);
 			System.out.printf("Updated Amount: %d", updatedAmount);
 			
-			player.updateGoldBalance(updatedAmount);			
+			player.updateGoldBalance(updatedAmount); //returns updated amount
 		}
 		
 	}
 	
 	
+	/* The following methods are used for Sell Potion test
+	 * 
+	 * 
+	 * 
+	 */
 	public int getEarnedGoldAmount() {
 		return updatedAmount;
+	}
+	
+	public Potion getPreparedPotionForSale() {
+		return potionForSale;
+	}
+	
+	public int getGuaranteeLevel() {
+		return guaranteeLevel;
 	}
 		
 	

@@ -2,6 +2,9 @@ package domain.ingredients;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.ImageIcon;
+
 import domain.theorydeduction.AlchemyMarker;
 
 public class Alchemical {
