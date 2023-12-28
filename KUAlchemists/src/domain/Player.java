@@ -7,6 +7,7 @@ import java.util.List;
 import domain.ingredients.Ingredient;
 import domain.potion.Potion;
 import domain.theorydeduction.AlchemyMarker;
+import domain.theorydeduction.DeductionBoard;
 import domain.theorydeduction.Theory;
 import domain.artifact.*;
 
@@ -24,6 +25,7 @@ public class Player {
 	private List<Potion> potions = new ArrayList<Potion>();
 	private List<Theory> theories = new ArrayList<Theory>();
 	private HashMap<String,Artifact> artifacts = new HashMap<String,Artifact>(2);
+	private DeductionBoard playerDeductionBoard;
 
 	
 	// constructor
@@ -36,6 +38,7 @@ public class Player {
 		this.sicknessLevel = 0;
 		this.reputationPoints = 0;
 		this.scorePoints = 0;
+		this.playerDeductionBoard = new DeductionBoard(this);
 		
 	}
 	
@@ -112,12 +115,28 @@ public class Player {
 		this.theories = theories;
 	}
 	
+	public void addTheory(Theory t) {
+		this.theories.add(t);
+	}
+	
 	public HashMap<String, Artifact> getArtifacts() {
 		return artifacts;
 	}
 	
 	public void addArtifact(Artifact artifact) {
 		this.artifacts.put(artifact.name, artifact);
+	}
+
+
+
+	public DeductionBoard getPlayerDeductionBoard() {
+		return playerDeductionBoard;
+	}
+
+
+
+	public void setPlayerDeductionBoard(DeductionBoard playerDeductionBoard) {
+		this.playerDeductionBoard = playerDeductionBoard;
 	}
 
 
@@ -130,6 +149,10 @@ public class Player {
 	
 	public void updateGoldBalance(int amount) {
 		setGoldBalance(goldBalance + amount);
+	}
+	
+	public void updateReputationPoints(int amount) {
+		this.reputationPoints += amount;
 	}
 	
 	public AlchemyMarker testOnPlayer(Potion p) {

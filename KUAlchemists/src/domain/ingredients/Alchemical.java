@@ -7,16 +7,16 @@ import domain.theorydeduction.AlchemyMarker;
 public class Alchemical {
 	
 	private List<AlchemyMarker> aspects = new ArrayList<>();
+
+	private String alchemicalPhoto;
+	
+	
+	public Alchemical (AlchemyMarker red, AlchemyMarker green, AlchemyMarker blue, String alchemicalPhoto) {
 	/*
 	AlchemyMarker red;
 	AlchemyMarker green; 
 	AlchemyMarker blue;
 	*/
-	private ImageIcon alchemicalPhoto;
-	
-	
-	public Alchemical (AlchemyMarker red, AlchemyMarker green, AlchemyMarker blue, ImageIcon alchemicalPhoto) {
-
 		this.aspects.add(red);
 		this.aspects.add(green);
 		this.aspects.add(blue);
@@ -25,6 +25,13 @@ public class Alchemical {
 		this.green = green;
 		this.blue = blue;*/
 		this.alchemicalPhoto = alchemicalPhoto;
+	}
+	
+	public Alchemical (AlchemyMarker red, AlchemyMarker green, AlchemyMarker blue) {
+		
+		this.aspects.add(red);
+		this.aspects.add(green);
+		this.aspects.add(blue);
 	}
 
 	
@@ -35,7 +42,13 @@ public class Alchemical {
 	public void setAspects(List<AlchemyMarker> aspects) {
 		this.aspects = aspects;
 	}	
+  public String getAlchemicalPhoto() {
+		return alchemicalPhoto;
+	}
 
+	public void setAlchemicalPhoto(String alchemicalPhoto) {
+    this.alchemicalPhoto = alchemicalPhoto
+  }
 /*
 	public AlchemyMarker getRed() {
 		return red;
@@ -43,6 +56,9 @@ public class Alchemical {
 	public void setRed(AlchemyMarker red) {
 		this.red = red;
 	}
+
+
+	
 
 	public AlchemyMarker getGreen() {
 		return green;
@@ -58,12 +74,7 @@ public class Alchemical {
 		this.blue = blue;
 	}
 */
-	public ImageIcon getAlchemicalPhoto() {
-		return alchemicalPhoto;
-	}
-	public void setAlchemicalPhoto(ImageIcon alchemicalPhoto) {
-		this.alchemicalPhoto = alchemicalPhoto;
-	}
+	
 	
 	
 	

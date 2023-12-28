@@ -147,7 +147,7 @@ public class BoardWindow extends JFrame {
   		publicationTrackButton.setFont(new Font("Cochin", Font.PLAIN, 20));
   		publicationTrackButton.addActionListener(e -> {
   			
-  			PublicationTrackDisplay ptDisplay = PublicationTrackDisplay.getIsDisplay();
+  			PublicationTrackDisplay ptDisplay = PublicationTrackDisplay.getInstance();
   			setVisible(false);
   			ptDisplay.initialize();
   			
