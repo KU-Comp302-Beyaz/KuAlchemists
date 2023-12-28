@@ -101,18 +101,16 @@ public class PlayerIngredientList {
 		playerIngredientJListPanels = ingredientCardPanels;
 	}
 
-	public static Ingredient getChosenIngredient(JList<JPanel> lst) {
-		JLabel label = (JLabel) lst.getSelectedValue().getComponent(0);
-		return getIngredientCardLabels().get(label);
-	}
+
 	
-	
-	
+	/*
 	public static Ingredient[] getChosenIngredients(JList<JPanel> lst) {
 		
         int[] selectedIndices = lst.getSelectedIndices();
         ArrayList<Ingredient> selectedIngredients = new ArrayList<>();
-
+        
+	}
+	*/
 	public static Ingredient getChosenIngredient(JList<JPanel> lst) {
 		JLabel label = (JLabel) lst.getSelectedValue().getComponent(0);
 		return getIngredientCardLabels().get(label);
@@ -136,9 +134,6 @@ public class PlayerIngredientList {
             return selectedIngredients.toArray(resultArray);
      
     }
-            // Convert ArrayList to an array
-            Ingredient[] resultArray = new Ingredient[selectedIngredients.size()];
-            return selectedIngredients.toArray(resultArray);
-     
-    }
+
+    
 }

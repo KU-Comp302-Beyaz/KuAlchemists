@@ -12,11 +12,7 @@ public class Alchemical {
 	
 	
 	public Alchemical (AlchemyMarker red, AlchemyMarker green, AlchemyMarker blue, String alchemicalPhoto) {
-	/*
-	AlchemyMarker red;
-	AlchemyMarker green; 
-	AlchemyMarker blue;
-	*/
+
 		this.aspects.add(red);
 		this.aspects.add(green);
 		this.aspects.add(blue);
@@ -74,7 +70,6 @@ public class Alchemical {
 		this.blue = blue;
 	}
 */
-	
 	
 	
 	

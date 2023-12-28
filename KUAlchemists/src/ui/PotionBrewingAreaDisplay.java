@@ -23,6 +23,7 @@ import domain.Player;
 import domain.Game.Controller;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientStorage;
+import domain.potion.Potion;
 import domain.potion.PotionController;
 
 import javax.imageio.ImageIO;
@@ -525,6 +526,9 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           		} else {
           			//Game.setController(Game.Controller.MAKE_EXPERIMENT);
           			Game.getGame().selectController(Controller.MAKE_EXPERIMENT);
+          			Potion potion = player.getPotions().get(player.getPotions().size() - 1);
+          			JOptionPane.showMessageDialog(contentPane,
+            			    "" + potion.getRecipe()[0].getName() + " + "+ potion.getRecipe()[1].getName() + " = " + potion.getAlchemyMarker()); 
           		}
           		
           		

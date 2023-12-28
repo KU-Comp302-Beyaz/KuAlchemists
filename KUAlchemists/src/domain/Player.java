@@ -27,6 +27,7 @@ public class Player {
 	private HashMap<String,Artifact> artifacts = new HashMap<String,Artifact>(2);
 	private DeductionBoard playerDeductionBoard;
 
+
 	
 	// constructor
 	public Player (String username, int chosenAvatarIndex) {

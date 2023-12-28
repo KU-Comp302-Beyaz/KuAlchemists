@@ -23,10 +23,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
-
-
 import domain.publication.PublicationTrack;
 import domain.theorydeduction.Theory;
+
 
 public class PublicationTrackDisplay extends JFrame implements Display {
 	

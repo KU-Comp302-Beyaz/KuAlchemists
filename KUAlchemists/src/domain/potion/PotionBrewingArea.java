@@ -14,20 +14,20 @@ public class PotionBrewingArea {
 		
 		AlchemyMarker red1 = alchemy_1.getAspects().get(0);
 		//AlchemyMarker red1 = alchemy_1.getRed();
-		System.out.println("red1 " + red1.getSign() + " " + red1.getSize());
+		//System.out.println("red1 " + red1.getSign() + " " + red1.getSize());
 		AlchemyMarker green1 = alchemy_1.getAspects().get(1);
 		//AlchemyMarker green1 = alchemy_1.getGreen();
-		System.out.println("green1 " + green1.getSign() + " " + green1.getSize());
+		//System.out.println("green1 " + green1.getSign() + " " + green1.getSize());
 		AlchemyMarker blue1 = alchemy_1.getAspects().get(2);
 		//AlchemyMarker blue1 = alchemy_1.getBlue();
-		System.out.println("blue1 " + blue1.getSign() + " " + blue1.getSize());
+		//System.out.println("blue1 " + blue1.getSign() + " " + blue1.getSize());
 		
 		AlchemyMarker red2 = alchemy_2.getAspects().get(0);
-		System.out.println("red2 " + red2.getSign() + " " + red2.getSize());
+		//System.out.println("red2 " + red2.getSign() + " " + red2.getSize());
 		AlchemyMarker green2 = alchemy_2.getAspects().get(1);
-		System.out.println("green2 " + green2.getSign() + " " + green2.getSize());
+		//System.out.println("green2 " + green2.getSign() + " " + green2.getSize());
 		AlchemyMarker blue2 = alchemy_2.getAspects().get(2);
-		System.out.println("blue2 " + blue2.getSign() + " " + blue2.getSize());
+		//System.out.println("blue2 " + blue2.getSign() + " " + blue2.getSize());
 		
 		AlchemyMarker resultToken = null;
 		
