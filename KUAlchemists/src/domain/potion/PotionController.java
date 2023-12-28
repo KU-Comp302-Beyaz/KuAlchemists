@@ -3,6 +3,7 @@ package domain.potion;
 import java.util.HashMap;
 import java.util.Map;
 
+import domain.Game;
 import domain.Player;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
@@ -16,7 +17,7 @@ public class PotionController {
 	
 	
 	
-	private static Player player;
+	//private static Player player;
 	private static Potion potion;
 	private static PotionController potionControllerInstance;
 	
@@ -37,8 +38,7 @@ public class PotionController {
 	static PotionBrewingAreaDisplay pbad = new PotionBrewingAreaDisplay(); 
 	static PotionBrewingArea pba = new PotionBrewingArea();
 	
-	public PotionController(Player player, Potion potion){
-		this.player = player;
+	public PotionController(Potion potion){
 		this.potion = potion;
 	}
 	
@@ -100,6 +100,7 @@ public class PotionController {
 		p.getIngredientCards().remove(ing_2); //remove chosen ingredient
 		
 		potion = pba.makePotion(ing_1, ing_2);
+		Game.getCurrPlayer().getPotions().add(potion);	// record new potion
 		initializeTestPotion(potion,p);
 		
 		

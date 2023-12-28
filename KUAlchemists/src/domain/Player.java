@@ -25,6 +25,7 @@ public class Player {
 	private List<Theory> theories = new ArrayList<Theory>();
 	private HashMap<String,Artifact> artifacts = new HashMap<String,Artifact>(2);
 
+
 	
 	// constructor
 	public Player (String username, int chosenAvatarIndex) {
