@@ -135,7 +135,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         
         // Add background image
         try {
-            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.jpeg"));
+            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
             contentPane = new JPanel() {
                 @Override
                 protected void paintComponent(Graphics g) {

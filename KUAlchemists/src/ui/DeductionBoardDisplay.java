@@ -68,8 +68,18 @@ public class DeductionBoardDisplay extends JFrame{
     	deductionTrianglePanel.setLayout(null);
     	*/
         JPanel deductionTrianglePanel = new JPanel();
-        deductionTrianglePanel.setBackground(new Color(183, 254, 218));
+       //deductionTrianglePanel.setBackground(new Color(183, 254, 218));
+        deductionTrianglePanel.setOpaque(false); // make it transparent
         deductionTrianglePanel.setBounds(98, 43, 1089, 272);
+        
+        ImageIcon triangleImage = new ImageIcon("src/images/deduction_board.png");
+
+        // Create a JLabel to hold the background image
+        JLabel triangleLabel = new JLabel(triangleImage);
+        triangleLabel.setBounds(0, 0, triangleImage.getIconWidth(), triangleImage.getIconHeight());
+
+        deductionTrianglePanel.add(triangleLabel);
+        
         backgroundLabel.add(deductionTrianglePanel);
         deductionTrianglePanel.setLayout(null);
 
@@ -393,7 +403,8 @@ public class DeductionBoardDisplay extends JFrame{
     	JPanel deductionGridPanel = new JPanel();
         deductionGridPanel.setBounds(98, 314, 1089, 428);
         backgroundLabel.add(deductionGridPanel);
-        deductionGridPanel.setBackground(new Color(221, 160, 221));
+        //deductionGridPanel.setBackground(new Color(221, 160, 221));
+        deductionGridPanel.setOpaque(false); // make it transparent
         deductionGridPanel.setLayout(new GridLayout(9, 9, 0, 0));
         
         
