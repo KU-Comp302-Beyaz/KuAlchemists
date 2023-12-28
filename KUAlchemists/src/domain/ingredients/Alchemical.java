@@ -47,7 +47,7 @@ public class Alchemical {
 	}
 
 	public void setAlchemicalPhoto(String alchemicalPhoto) {
-    this.alchemicalPhoto = alchemicalPhoto
+    this.alchemicalPhoto = alchemicalPhoto;
   }
 /*
 	public AlchemyMarker getRed() {
