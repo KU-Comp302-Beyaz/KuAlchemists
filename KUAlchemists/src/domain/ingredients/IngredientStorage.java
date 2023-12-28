@@ -14,6 +14,7 @@ public class IngredientStorage {
 	
 	//fields
 	private static final Ingredient[] allIngredientCardsArray =
+
 		{new Ingredient(1,"Lamia Heart-Blood","src/images/images-icons/ingredient1.jpg", new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"),"")),
 		new Ingredient(2,"Witch's Tear", "src/images/images-icons/ingredient2.jpg",  new Alchemical (new AlchemyMarker ("-", "red", "S"), new AlchemyMarker ("+", "green", "L"), new AlchemyMarker ("+", "blue", "S"),"")), 
 		new Ingredient(3,"Hippocamp's Soul", "src/images/images-icons/ingredient3.jpg", new Alchemical (new AlchemyMarker ("-", "red", "L"), new AlchemyMarker ("-", "green", "S"), new AlchemyMarker ("+", "blue", "S"),"")), 
@@ -23,7 +24,6 @@ public class IngredientStorage {
 		new Ingredient(7,"Bugbear Bone Meal", "src/images/images-icons/ingredient7.jpg",  new Alchemical (new AlchemyMarker ("-", "red", "L"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "L"),"")),
 		new Ingredient(8,"Strix's Bone", "src/images/images-icons/ingredient8.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "L"), new AlchemyMarker ("+", "green", "L"), new AlchemyMarker ("+", "blue", "L"),"")),
 
-     
 		//new Ingredient(9,"Merman Horn", "src/images/images-icons/ingredient9.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
 		//new Ingredient(10,"Bunyip Oil", "src/images/images-icons/ingredient10.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
 		//new Ingredient(11,"Hippocamp's Tongue", "src/images/images-icons/ingredient11.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
