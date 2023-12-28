@@ -12,6 +12,8 @@ import domain.potion.PotionController;
 import domain.theorydeduction.AlchemyMarker;
 import ui.PotionBrewingAreaDisplay;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
@@ -39,20 +41,62 @@ public class SellPotion {
 		int goldAmount = controller.getEarnedGoldAmount();
 		
 		String potionSign = potion.getPotionSign();
+		
+		assertNotNull(potion, "Potion is null!");		
+		assertNotNull(potionSign, "Potion sign is null!");
+		
 
-		
-		
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	}
-
+		switch (potionSign) {
+			
+		case ("+"):
+			switch (guaranteeLevel) {
+			
+			case 1:
+				assertEquals("Adventurer should pay 1 golds!", 1, goldAmount);
+				break;
+				
+			case 2:
+				assertEquals("Adventurer should pay 2 golds!", 2, goldAmount);
+				break;
+				
+			case 3:
+				assertEquals("Adventurer should pay 3 golds!", 3, goldAmount);
+				break;	
+			}
+			
+		case ("0"):
+			switch (guaranteeLevel) {
+			
+			case 1:
+				assertEquals("Adventurer should pay 1 golds!", 1, goldAmount);
+				break;
+				
+			case 2:
+				assertEquals("Adventurer should pay 2 golds!", 2, goldAmount);
+				break;
+				
+			case 3:
+				assertEquals("Adventurer should pay 0 golds!", 0, goldAmount);
+				break;	
+			}
+			break;
+					
+		case ("-"):
+			switch (guaranteeLevel) {
+			
+			case 1:
+				assertEquals("Adventurer should pay 1 golds!", 1, goldAmount);
+				break;
+				
+			case 2:
+				assertEquals("Adventurer should pay 0 golds!", 0, goldAmount);
+				break;
+				
+			case 3:
+				assertEquals("Adventurer should pay 0 golds!", 0, goldAmount);
+				break;	
+			}
+			break;		
+		}
+	}	
 }
