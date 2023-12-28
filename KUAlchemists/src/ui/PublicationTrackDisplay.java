@@ -24,7 +24,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
 
-import domain.Display;
+
 import domain.publication.PublicationTrack;
 import domain.theorydeduction.Theory;
 
