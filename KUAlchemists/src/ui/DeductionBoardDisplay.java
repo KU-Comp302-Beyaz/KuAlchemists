@@ -1,23 +1,14 @@
 package ui;
 
 import java.awt.BorderLayout;
-
-import javax.imageio.ImageIO;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Insets;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -26,30 +17,19 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import java.awt.Label;
-import java.awt.SystemColor;
-import javax.swing.UIManager;
-
+import domain.Game;
+import domain.Game.Controller;
 import domain.ingredients.Alchemical;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientStorage;
 import domain.publication.PublicationTrack;
 import domain.theorydeduction.TheoryController;
-
 import java.awt.Font;
-import java.awt.Graphics;
-
 import javax.swing.SwingConstants;
 
 
@@ -897,7 +877,11 @@ public class DeductionBoardDisplay extends JFrame{
 			JLabel selectedPanel = (JLabel) ((JPanel) alchemicalList.getSelectedValue()).getComponent(0);
 			ImageIcon photo = (ImageIcon) selectedPanel.getIcon();
 			Alchemical alc = findAlchemicalFromPhoto(photo.getDescription());
+			Game.getGame().selectController(Controller.PUBLISH_THEORY);
 			TheoryController.getInstance().initPublishTheory(alc, ing);
+			photoSelectionFrame.dispose();
+			JOptionPane.showMessageDialog(null, Game.getCurrPlayer().getUsername()+" Succesfully Published a Theory!","Theory Publication Successful!",JOptionPane.PLAIN_MESSAGE);
+			
 			
 		});
 		photoSelectionFrame.getContentPane().add(selectButton);

@@ -16,6 +16,7 @@ import domain.potion.PotionController;
 import domain.publication.PublicationCard;
 import domain.publication.PublicationTrack;
 import domain.theorydeduction.AlchemyMarker;
+import domain.theorydeduction.TheoryController;
 import ui.BoardWindow;
 import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
@@ -170,7 +171,9 @@ public class Game {
 			//PlayerIngredientList.initialize(currPlayer);
 			PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().updateIngredient(currPlayer);
 		case SELL_POTION:
-			PotionController.getInstance().initializePotionSale();			
+			PotionController.getInstance().initializePotionSale();	
+		case PUBLISH_THEORY:
+			TheoryController.getInstance().setCurrPlayer(currPlayer);
 		default:
 			break;
 		}
@@ -202,10 +205,5 @@ public class Game {
 	public void setPlayers(Player[] players) {
 		Game.players = players;
 	}
-
-	
-	
-
-
 	
 }

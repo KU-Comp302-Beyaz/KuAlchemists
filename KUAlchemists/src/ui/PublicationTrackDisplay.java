@@ -1,8 +1,6 @@
 package ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
@@ -22,13 +20,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
+
 
 import domain.Display;
 import domain.publication.PublicationTrack;
+import domain.theorydeduction.Theory;
 
 
 public class PublicationTrackDisplay extends JFrame implements Display {
@@ -37,6 +35,19 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 	private ArrayList<JPanel> publicationBoardPanels = new ArrayList<>();
 	private ArrayList<JPanel> theoryPanels = new ArrayList<>();
 	private PublicationTrack pt = PublicationTrack.getInstance();
+	private JLabel titleLabel = new JLabel("Publication Track");
+	private JLabel trackInfoLabel = new JLabel("Publication Cards");
+	private JLabel theoryInfoPanel = new JLabel("Published Theories");
+	private JScrollPane publicationScrollPane = new JScrollPane();
+	private JList publicationList = new JList();
+	private JScrollPane theoryScrollPane = new JScrollPane();
+	private JList theoryList = new JList();
+	private JButton debunkButton = new JButton("Debunk A Theory");
+	private JButton claimRewardButton = new JButton("Claim Publication Card");
+	private JMenuBar menuBar = new JMenuBar();
+	private JMenu fileMenu = new JMenu("Menu");
+	private JMenuItem openDialogMenuItem = new JMenuItem("Open Menu");
+	private JButton backToBoardButton = new JButton("Back to Board");
 	
 	private static final int IMAGE_WIDTH = 200, IMAGE_HEIGHT = 200;
 	
@@ -50,70 +61,66 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
-		JLabel titleLabel = new JLabel("Publication Track");
+		
 		titleLabel.setFont(new Font("Cochin", Font.PLAIN, 30));
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setBounds(632, 74, 250, 50);
 		getContentPane().add(titleLabel);
 		
-		JLabel trackInfoLabel = new JLabel("Publication Cards");
+		
 		trackInfoLabel.setFont(new Font("Cochin", Font.PLAIN, 25));
 		trackInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		trackInfoLabel.setBounds(252, 169, 250, 50);
 		getContentPane().add(trackInfoLabel);
 		
-		JLabel theoryInfoPanel = new JLabel("Published Theories");
+		
 		theoryInfoPanel.setFont(new Font("Cochin", Font.PLAIN, 25));
 		theoryInfoPanel.setHorizontalAlignment(SwingConstants.CENTER);
 		theoryInfoPanel.setBounds(1044, 169, 250, 50);
 		getContentPane().add(theoryInfoPanel);
 		
-		JScrollPane publicationScrollPane = new JScrollPane();
+		
 		publicationScrollPane.setBounds(50, 221, 560, 480);
 		getContentPane().add(publicationScrollPane);
 		
-		JList publicationList = new JList();
+		
 		publicationList.setLayoutOrientation(JList.VERTICAL);
 		publicationList.setCellRenderer(new ImageListCellRenderer());
-		getPublishListItems();
-		publicationList.setListData(publicationBoardPanels.toArray());
 		publicationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		publicationList.setFixedCellHeight(IMAGE_HEIGHT+50);
 		publicationList.setFixedCellWidth(IMAGE_WIDTH);
 		publicationScrollPane.setViewportView(publicationList);
 		
-		JScrollPane theoryScrollPane = new JScrollPane();
+		
 		theoryScrollPane.setBounds(855, 221, 560, 480);
 		getContentPane().add(theoryScrollPane);
 		
-		JList theoryList = new JList();
+		
 		theoryList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		theoryList.setCellRenderer(new ImageListCellRenderer());
-		getTheoryListItems();
-		theoryList.setListData(theoryPanels.toArray());
 		theoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		theoryList.setFixedCellHeight(IMAGE_HEIGHT+38);
-		theoryList.setFixedCellWidth(IMAGE_WIDTH);
+		theoryList.setFixedCellWidth(IMAGE_WIDTH-20);
 		theoryList.setVisibleRowCount(2);
 		theoryScrollPane.setViewportView(theoryList);
 		
-		JButton debunkButton = new JButton("Debunk A Theory");
+		
 		debunkButton.setFont(new Font("Cochin", Font.PLAIN, 20));
 		debunkButton.setBounds(1058, 719, 250, 64);
 		getContentPane().add(debunkButton);
 		
-		JButton claimRewardButton = new JButton("Claim Publication Card");
+		
 		claimRewardButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-		claimRewardButton.setBounds(252, 719, 250, 64);
+		claimRewardButton.setBounds(200, 719, 250, 64);
 		getContentPane().add(claimRewardButton);
 		
-		JMenuBar menuBar = new JMenuBar();
+		
         setJMenuBar(menuBar);
 
-        JMenu fileMenu = new JMenu("Menu");
+        
         menuBar.add(fileMenu);
         
-        JMenuItem openDialogMenuItem = new JMenuItem("Open Menu");
+        
         fileMenu.add(openDialogMenuItem);
         
         // Add ActionListener to open the dialog when the menu item is clicked
@@ -125,7 +132,7 @@ public class PublicationTrackDisplay extends JFrame implements Display {
         });
         
         //back to Board button
-        JButton backToBoardButton = new JButton("Back to Board");
+        
         backToBoardButton.addActionListener(e -> {
         	
         	BoardWindow board = BoardWindow.getBoardWindow();
@@ -149,11 +156,16 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 
 
 	public void initialize() {
+		theoryPanels.clear();
+		getTheoryListItems();
+		theoryList.setListData(theoryPanels.toArray());
+		publicationBoardPanels.clear();
+		getPublishListItems();
+		publicationList.setListData(publicationBoardPanels.toArray());
 		setVisible(true);
 	}
 	
-	// will be called by PublicationTrack and will have parameters. It is implemented here just to show how it will work.
-
+	
 	
 	private void getPublishListItems() {
 		
@@ -180,36 +192,23 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 			
 	private void getTheoryListItems() {
 		
-		JPanel panel = new JPanel();
-		JLabel label = new JLabel();
-		JLabel label2 = new JLabel();
-		JLabel label3 = new JLabel("Publisher: <player1 username>");
-		
-		label.setIcon(new ImageIcon(new ImageIcon("src/images/images-icons/ingredient8.jpg").getImage().getScaledInstance(IMAGE_WIDTH/2, IMAGE_HEIGHT/2, Image.SCALE_SMOOTH)));
-		label2.setIcon(new ImageIcon(new ImageIcon("src/images/alchemical-icons/alchemical1.png").getImage().getScaledInstance(IMAGE_WIDTH/2, IMAGE_HEIGHT/2, Image.SCALE_SMOOTH)));
-		
-		panel.add(label);
-		panel.add(label2);
-		panel.add(label3);
-		
-		JPanel panel2 = new JPanel();
-		JLabel label4 = new JLabel();
-		JLabel label5 = new JLabel();
-		JLabel label6 = new JLabel("Publisher: <player2 username>");
-		
-		label4.setIcon(new ImageIcon(new ImageIcon("src/images/images-icons/ingredient9.jpg").getImage().getScaledInstance(IMAGE_WIDTH/2, IMAGE_HEIGHT/2, Image.SCALE_SMOOTH)));
-		label5.setIcon(new ImageIcon(new ImageIcon("src/images/alchemical-icons/alchemical2.png").getImage().getScaledInstance(IMAGE_WIDTH/2, IMAGE_HEIGHT/2, Image.SCALE_SMOOTH)));
-		
-		panel2.add(label4);
-		panel2.add(label5);
-		panel2.add(label6);
-		
-		
-		this.theoryPanels.add(panel);
-		this.theoryPanels.add(panel2);
-		
-		
-		
+		for(Theory t : pt.getPublishedTheories()) {
+			JPanel theoryPanel = new JPanel();
+			JLabel ingredientLabel = new JLabel();
+			JLabel alchemicalLabel = new JLabel();
+			JLabel informationLabel = new JLabel("Publisher: "+ t.getOwner().getUsername());
+			
+			ImageIcon ingredientIcon = new ImageIcon(new ImageIcon(t.getIngredientType().getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/2, IMAGE_HEIGHT/2, Image.SCALE_SMOOTH),t.getIngredientType().getPhoto());
+			ImageIcon alchemicalIcon = new ImageIcon(new ImageIcon(t.getAlchemical().getAlchemicalPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/2, IMAGE_HEIGHT/2, Image.SCALE_SMOOTH),t.getAlchemical().getAlchemicalPhoto());
+			
+			ingredientLabel.setIcon(ingredientIcon);
+			alchemicalLabel.setIcon(alchemicalIcon);
+			
+			theoryPanel.add(ingredientLabel);
+			theoryPanel.add(alchemicalLabel);
+			theoryPanel.add(informationLabel);
+			this.theoryPanels.add(theoryPanel);
+		}
 	}
 
 	public void openDialog() {

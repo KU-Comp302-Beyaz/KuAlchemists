@@ -51,6 +51,7 @@ public class DeductionBoard {
 		Theory t = new Theory(this.owner, alchemical, ingredientType);
 		pt.addTheory(t);
 		pt.getAvailableAlchemicals().remove(alchemical);
+		pt.getAvailableIngredients().remove(ingredientType);
 		this.owner.addTheory(t);
 		return true;
 	}
