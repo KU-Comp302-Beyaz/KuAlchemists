@@ -28,7 +28,6 @@ import domain.Display;
 import domain.publication.PublicationTrack;
 import domain.theorydeduction.Theory;
 
-
 public class PublicationTrackDisplay extends JFrame implements Display {
 	
 	private static PublicationTrackDisplay instance; // Singleton

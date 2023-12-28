@@ -1,7 +1,5 @@
 package domain.theorydeduction;
 
-import javax.swing.ImageIcon;
-
 public class AlchemyMarker {
 
 	private String sign;
