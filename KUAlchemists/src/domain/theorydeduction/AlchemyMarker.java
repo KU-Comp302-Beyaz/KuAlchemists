@@ -34,7 +34,7 @@ public class AlchemyMarker {
 		
 		this.sign = sign;	// (+ / -)
 		this.color = color;	// (red / green / blue)
-		
+		this.icon = "src/images/bottle-icons/"+color+ sign +"bottle.png"; // creating path for displaying result Token after make potion
 	}
 	
 	public String getSign() {
@@ -64,8 +64,6 @@ public class AlchemyMarker {
 	public String getIcon() {
 		return icon;
 	}
-
-
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}
