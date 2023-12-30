@@ -96,7 +96,7 @@ public class Game {
 	public void selectController(Controller controller) {
 		switch (controller) {
 		case FORAGE_FOR_INGREDIENT:
-			Ingredient newIngredient = IngredientController.getInstance().addIngredientToPlayer(currPlayer);
+			Ingredient newIngredient = IngredientController.getInstance().addIngredientToPlayer(currPlayer, Math.random());
 			ImageIcon newIngredientCardImageIcon = IngredientStorageDisplay.getInstance().getImage(newIngredient);
 			IngredientStorageDisplay.getInstance().displayCard(newIngredient, newIngredientCardImageIcon);
 			IngredientStorageDisplay.getInstance().initialize(currPlayer);
