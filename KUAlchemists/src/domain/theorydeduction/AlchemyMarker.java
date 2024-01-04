@@ -1,5 +1,7 @@
 package domain.theorydeduction;
 
+import java.util.Objects;
+
 public class AlchemyMarker {
 
 	private String sign;
@@ -68,7 +70,20 @@ public class AlchemyMarker {
 		this.icon = icon;
 	}
 	
-	
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        AlchemyMarker that = (AlchemyMarker) obj;
+        return Objects.equals(getSign(), that.getSign()) &&
+               Objects.equals(getColor(), that.getColor()) &&
+               Objects.equals(getSize(), that.getSize()) &&
+               Objects.equals(getIcon(), that.getIcon());
+    }
 	
 	
 }
