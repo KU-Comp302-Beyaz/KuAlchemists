@@ -3,19 +3,16 @@ package domain.publication;
 import java.util.ArrayList;
 
 import domain.Player;
-import domain.theorydeduction.Theory;
+import domain.ingredients.Ingredient;
 
 public class PublicationCard {
 	
-	private ArrayList<Theory> requiredTheories;
-	
+	private ArrayList<Ingredient> requiredTheories = new ArrayList<>();
 	private int reputationReward;
-	
 	private int goldReward;
-	
 	private Player rewardClaimer;
 
-	public PublicationCard(ArrayList<Theory> requiredTheories, int reputationReward, int goldReward) {
+	public PublicationCard(ArrayList<Ingredient> requiredTheories, int reputationReward, int goldReward) {
 
 		this.requiredTheories = requiredTheories;
 		this.reputationReward = reputationReward;
@@ -23,11 +20,11 @@ public class PublicationCard {
 		this.rewardClaimer = null;
 	}
 
-	public ArrayList<Theory> getRequiredTheories() {
+	public ArrayList<Ingredient> getRequiredTheories() {
 		return requiredTheories;
 	}
 
-	public void setRequiredTheories(ArrayList<Theory> requiredTheories) {
+	public void setRequiredTheories(ArrayList<Ingredient> requiredTheories) {
 		this.requiredTheories = requiredTheories;
 	}
 

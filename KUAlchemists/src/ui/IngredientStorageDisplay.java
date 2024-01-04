@@ -32,7 +32,6 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.ScrollPane;
 
-import domain.Display;
 import domain.Game;
 import domain.Game.Controller;
 import domain.Player;
@@ -155,7 +154,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		
 		ingredientDisplayLabel = new JLabel(" ",JLabel.CENTER);
 		ingredientDisplayLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		ingredientDisplayLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		ingredientDisplayLabel.setFont(new Font("Cochin", Font.PLAIN, 20));
 		buttonsPanel.add(ingredientDisplayLabel);
 		buttonsPanel.add(Box.createRigidArea(new Dimension(100,100)));
 		
@@ -251,6 +250,8 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		allIngredientsScrollPane.setViewportView(allIngredientsList);	
 	}
 
+	
+	// CAN BE USE IN POTIONBREWINGAREA TOO
 	/**
 	 * Initialize UI, player cards are updated every time this is called (every button click)
 	 * @param player
