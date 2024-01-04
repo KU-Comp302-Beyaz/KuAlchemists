@@ -18,6 +18,7 @@ import domain.publication.PublicationTrack;
 import domain.theorydeduction.AlchemyMarker;
 import domain.theorydeduction.TheoryController;
 import ui.BoardWindow;
+import ui.EndGameDisplay;
 import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
 import ui.PlayerIngredientList;
@@ -28,8 +29,8 @@ public class Game {
 	//fields
 	private static Controller controller = null;
 	private static Player currPlayer;
-	
 	private static Player[] players = new Player[4];
+	private static int currRoundNumber = 3;
 	
 	//Controller as enum
 	public enum Controller {
@@ -55,16 +56,16 @@ public class Game {
 	public static void main(String[] args) {
 		
 		//Displaying the Login Window:
-		LogInWindow loginWindow = LogInWindow.getInstance(); 
-		loginWindow.displayLogInWindow();
+		LogInWindow.getInstance().displayLogInWindow();
 		
-		int numberOfPlayers = loginWindow.getNumberOfPlayers();
+		int numberOfPlayers = LogInWindow.getInstance().getNumberOfPlayers();
 
-		numberOfPlayers = 2; //for now erase later
-		
+		numberOfPlayers = 2; //for now erase later		
 		initializePlayers(loginWindow,players,numberOfPlayers);
 		initializePublicationTrack();
 		initializeBoard();
+		
+		checkGameStatus();
 
 	}
 	
@@ -76,19 +77,23 @@ public class Game {
 	 * @param players
 	 * @param numberOfPlayers
 	 */
-	public static void initializePlayers(LogInWindow loginWindow, Player[] players, int numberOfPlayers) {
+	public static void initializePlayers(Player[] players, int numberOfPlayers) {
 		String username;
 		int chosenAvatarIndex;
 		int j = 0;
 		for (int i = 0; i < numberOfPlayers; i++) {
-			username = loginWindow.getFirstUsername();
-			chosenAvatarIndex = loginWindow.getFirstAvatarIndex();
+			System.out.println(players[i]);
+			username = LogInWindow.getInstance().getFirstUsername();
+			chosenAvatarIndex = LogInWindow.getInstance().getFirstAvatarIndex();
 			players[i] = new Player(username,chosenAvatarIndex);
-			
+
 			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
-			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
+			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));			
 			
-			players[i].setGoldBalance(10);
+			System.out.println("username: "+username);
+			System.out.println(players[i]);
+			System.out.println("next\n");
+			
 		}
 		currPlayer = players[0];
 	}
@@ -141,6 +146,23 @@ public class Game {
 		}
 		
 	}
+	public static void checkGameStatus() {
+		if (getCurrRoundNumber() == 0) {
+			endGame(getPlayers());
+		}
+	}
+	
+	public static void endGame(Player[] players) {
+		Player winner = null;
+		for (int i = 0; i < players.length; i++) {
+			if (players[i] != null) {
+				//get max player points
+				winner = players[i]; //for now
+			}
+		}
+		EndGameDisplay.getInstance().displayWinner(winner);
+	}
+	
 	/**
 	 * Selects which controller to use and function
 	 * @param controller
@@ -205,5 +227,12 @@ public class Game {
 	public void setPlayers(Player[] players) {
 		Game.players = players;
 	}
-	
+
+	public static int getCurrRoundNumber() {
+		return currRoundNumber;
+	}
+
+	public static void setCurrRoundNumber(int currRoundNumber) {
+		Game.currRoundNumber = currRoundNumber;
+	}
 }
