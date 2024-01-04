@@ -3,6 +3,8 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
+import domain.Game;
+import domain.Player;
 import domain.ingredients.Alchemical;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientStorage;
@@ -35,6 +37,7 @@ public class SellPotion {
 		Potion potion = pba.makePotion(ing1, ing2);
 		String sign = potion.getPotionSign();*/
 		controller.initializePotionSale();
+		Player player = Game.getCurrPlayer(); //current player
 		
 		Potion potion = controller.getPreparedPotionForSale();
 	    int guaranteeLevel = controller.getGuaranteeLevel();
@@ -42,6 +45,7 @@ public class SellPotion {
 		
 		String potionSign = potion.getPotionSign();
 		
+		assertNotNull(player.getIngredientCards(), "Player has no ingredients!");
 		assertNotNull(potion, "Potion is null!");		
 		assertNotNull(potionSign, "Potion sign is null!");
 		
