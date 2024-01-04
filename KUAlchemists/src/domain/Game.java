@@ -30,7 +30,7 @@ public class Game {
 	private static Controller controller = null;
 	private static Player currPlayer;
 	private static Player[] players = new Player[4];
-	private static int currRoundNumber = 3;
+	private static int currRoundNumber = 1;
 	
 	//Controller as enum
 	public enum Controller {
@@ -58,14 +58,74 @@ public class Game {
 		//Displaying the Login Window:
 		LogInWindow.getInstance().displayLogInWindow();
 		
+		//Number of players in the game
 		int numberOfPlayers = LogInWindow.getInstance().getNumberOfPlayers();
 
 		numberOfPlayers = 2; //for now erase later		
-		initializePlayers(loginWindow,players,numberOfPlayers);
+		
+		
+		initializePlayers(players,numberOfPlayers);
 		initializePublicationTrack();
 		initializeBoard();
 		
-		checkGameStatus();
+		//checkGameStatus();
+		
+		/*
+		 * The game contains 3 rounds
+		 * Each player takes 3 turns in each round 
+		 */
+		
+		/*
+		 * Round 1
+		 */
+		
+		int playerTurn = currPlayer.getTurnNumber();
+		while (playerTurn != 0) {
+			
+			
+			
+			
+		}
+		
+		
+		playerTurn = currPlayer.getTurnNumber();
+		
+		
+		
+		
+		
+		
+		
+		int round = getCurrRoundNumber();
+		
+		switch (round) {
+			
+		//Allowed actions in Round 1: Forage for Ingredient, Transmute Ingredient, Buy Ingredients, Make Experiment
+		case 1:
+			
+			
+			
+			
+			
+			break;
+			
+		//Allowed actions in Round 2: Sell a Potion, Publish a Theory 
+		case 2:
+			
+			
+			break;
+			
+		
+		case 3: 
+			
+			
+			break;
+		
+		
+		}
+		
+		
+		
 
 	}
 	
@@ -144,10 +204,10 @@ public class Game {
 			PublicationCard card = new PublicationCard(requiredIngredients,rand.nextInt(5)+1,rand.nextInt(5)+1);
 			pt.getPublicationCards().add(card);
 		}
-		
 	}
+	
 	public static void checkGameStatus() {
-		if (getCurrRoundNumber() == 0) {
+		if (getCurrRoundNumber() == 1) {
 			endGame(getPlayers());
 		}
 	}
@@ -200,8 +260,7 @@ public class Game {
 			break;
 		}
 	}
-
-
+	
 	//getters and setters
 	public static void setController(Controller gameController) {
 		Game.controller = gameController;
