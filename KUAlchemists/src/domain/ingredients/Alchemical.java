@@ -16,10 +16,6 @@ public class Alchemical {
 		this.aspects.add(red);
 		this.aspects.add(green);
 		this.aspects.add(blue);
-		/*
-		this.red = red;
-		this.green = green;
-		this.blue = blue;*/
 		this.alchemicalPhoto = alchemicalPhoto;
 	}
 	
@@ -43,34 +39,27 @@ public class Alchemical {
 	}
 
 	public void setAlchemicalPhoto(String alchemicalPhoto) {
-    this.alchemicalPhoto = alchemicalPhoto;
-  }
-/*
-	public AlchemyMarker getRed() {
-		return red;
+		
+		this.alchemicalPhoto = alchemicalPhoto;
 	}
-	public void setRed(AlchemyMarker red) {
-		this.red = red;
+	
+	public static boolean checkEquality(Alchemical a1, Alchemical a2) {
+		
+		if (a1 == null)
+			return false;
+		else if (a2==null)
+			return false;
+		else if (a1.getAlchemicalPhoto()==null)
+			return false;
+		else if (a2.getAlchemicalPhoto()==null)
+			return false;
+		else {
+			return a1.getAlchemicalPhoto().equals(a2.getAlchemicalPhoto());
+		}
 	}
 
-
-	
-
-	public AlchemyMarker getGreen() {
-		return green;
-	}
-	public void setGreen(AlchemyMarker green) {
-		this.green = green;
-	}
-
-	public AlchemyMarker getBlue() {
-		return blue;
-	}
-	public void setBlue(AlchemyMarker blue) {
-		this.blue = blue;
-	}
-*/
-	
-	
-	
 }
+	
+	
+	
+

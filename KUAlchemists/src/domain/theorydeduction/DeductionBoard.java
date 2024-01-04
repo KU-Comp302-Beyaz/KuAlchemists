@@ -46,14 +46,25 @@ public class DeductionBoard {
 	public boolean publishTheory(Alchemical alchemical, Ingredient ingredientType) {
 		
 		PublicationTrack pt = PublicationTrack.getInstance();
-		if (this.owner.getGoldBalance() < 1)
-			return false;	
-		Theory t = new Theory(this.owner, alchemical, ingredientType);
-		pt.addTheory(t);
-		pt.getAvailableAlchemicals().remove(alchemical);
-		pt.getAvailableIngredients().remove(ingredientType);
-		this.owner.addTheory(t);
-		return true;
+		if (alchemical == null)
+			return false;
+		else if (ingredientType == null)
+			return false;
+		else if (pt.getAlchemical(alchemical) == null)
+			return false;
+		else if (pt.getIngredient(ingredientType) == null)
+			return false;
+		else if (this.owner.getGoldBalance() < 1)
+			return false;
+		else {
+			Theory t = new Theory(this.owner, alchemical, ingredientType);
+			pt.addTheory(t);
+			pt.getAvailableAlchemicals().remove(pt.getAlchemical(alchemical));
+			pt.getAvailableIngredients().remove(pt.getIngredient(ingredientType));
+			this.owner.addTheory(t);
+			return true;
+		}
+		
 	}
 
 	

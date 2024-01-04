@@ -49,6 +49,15 @@ public class PublicationCard {
 		return this.rewardClaimer == null;
 		
 	}
+
+	public Player getRewardClaimer() {
+		return rewardClaimer;
+	}
+
+	public void setRewardClaimer(Player rewardClaimer) {
+		this.rewardClaimer = rewardClaimer;
+	}
+	
 	
 
 }

@@ -3,12 +3,15 @@ package domain.theorydeduction;
 import domain.Player;
 import domain.ingredients.Alchemical;
 import domain.ingredients.Ingredient;
+import domain.publication.PublicationCard;
+import domain.publication.PublicationTrack;
 
 
 public class TheoryController {
 	
 	private static TheoryController TheoryControllerInstance;
 	private Player currPlayer;
+	private PublicationTrack pt = PublicationTrack.getInstance();
 	
 	
 	
@@ -42,5 +45,15 @@ public class TheoryController {
 		return result;
 	}
 	
-	
+	public boolean initClaimCard(PublicationCard card) {
+		
+		boolean result = pt.claimCard(currPlayer.getTheories(), card);
+		if (result) {
+			this.currPlayer.updateGoldBalance(card.getGoldReward());
+			this.currPlayer.updateReputationPoints(card.getReputationReward());
+			card.setRewardClaimer(currPlayer);
+		}
+		return result;
+		
+	}
 }
