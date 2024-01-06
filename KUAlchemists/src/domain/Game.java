@@ -17,19 +17,17 @@ import domain.publication.PublicationCard;
 import domain.publication.PublicationTrack;
 import domain.theorydeduction.AlchemyMarker;
 import domain.theorydeduction.TheoryController;
-import ui.BoardWindow;
 import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
-import ui.PlayerIngredientList;
 import ui.PotionBrewingAreaDisplay;
 
 public class Game {
 
 	//fields
-	private static Controller controller = null;
-	private static Player currPlayer;
+	private Controller controller = null;
+	private Player currPlayer;
 	
-	private static Player[] players = new Player[4];
+	private Player[] players = new Player[4];
 	
 	//Controller as enum
 	public enum Controller {
@@ -52,21 +50,21 @@ public class Game {
 	}
 	
 	//Main function
-	public static void main(String[] args) {
-		
-		//Displaying the Login Window:
-		LogInWindow loginWindow = LogInWindow.getInstance(); 
-		loginWindow.displayLogInWindow();
-		
-		int numberOfPlayers = loginWindow.getNumberOfPlayers();
-
-		numberOfPlayers = 2; //for now erase later
-		
-		initializePlayers(loginWindow,players,numberOfPlayers);
-		initializePublicationTrack();
-		initializeBoard();
-
-	}
+//	public static void main(String[] args) {
+//		
+//		//Displaying the Login Window:
+//		LogInWindow loginWindow = LogInWindow.getInstance(); 
+//		loginWindow.displayLogInWindow();
+//		
+//		int numberOfPlayers = loginWindow.getNumberOfPlayers();
+//
+//		numberOfPlayers = 2; //for now erase later
+//		
+//		initializePlayers(loginWindow,players,numberOfPlayers);
+//		initializePublicationTrack();
+//		initializeBoard();
+//
+//	}
 	
 	/**
 	 * Initializes players for OFFLINE mode using numberOfPlayers.
@@ -76,13 +74,13 @@ public class Game {
 	 * @param players
 	 * @param numberOfPlayers
 	 */
-	public static void initializePlayers(LogInWindow loginWindow, Player[] players, int numberOfPlayers) {
+	public void initializePlayers(Player[] players, int numberOfPlayers) {
 		String username;
 		int chosenAvatarIndex;
 		int j = 0;
 		for (int i = 0; i < numberOfPlayers; i++) {
-			username = loginWindow.getFirstUsername();
-			chosenAvatarIndex = loginWindow.getFirstAvatarIndex();
+			username = LogInWindow.getFirstUsername();
+			chosenAvatarIndex = LogInWindow.getFirstAvatarIndex();
 			players[i] = new Player(username,chosenAvatarIndex);
 			
 			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
@@ -96,11 +94,11 @@ public class Game {
 	/**
 	 * Initializes board
 	 */
-	public static void initializeBoard() {
+	public void initializeBoard() {
 		IngredientStorageDisplay.getInstance().constructAllImagesDeck(IngredientController.getInstance().giveAllCardsToIngredientStorageDisplay());
 	}
 	
-	public static void initializePublicationTrack() {
+	public void initializePublicationTrack() {
 		
 		Random rand = new Random();
 		PublicationTrack pt = PublicationTrack.getInstance();
@@ -181,29 +179,29 @@ public class Game {
 
 
 	//getters and setters
-	public static void setController(Controller gameController) {
-		Game.controller = gameController;
+	public  void setController(Controller gameController) {
+		this.controller = gameController;
 	}
 
-	public static Controller getController() {
+	public Controller getController() {
 		return controller;
 	}
 
 	// To get it in Other Classes
-	public static Player getCurrPlayer() {
+	public Player getCurrPlayer() {
 		return currPlayer;
 	}
 
 	public void setCurrPlayer(Player currPlayer) {
-		Game.currPlayer = currPlayer;
+		this.currPlayer = currPlayer;
 	}
 
-	public static Player[] getPlayers() {
+	public Player[] getPlayers() {
 		return players;
 	}
 
 	public void setPlayers(Player[] players) {
-		Game.players = players;
+		this.players = players;
 	}
 	
 }
