@@ -95,9 +95,6 @@ public class Player {
 		this.reputationPoints = reputationPoints;
 	}
 
-	public int getScorePoints() {
-		return scorePoints;
-	}
 	public void setScorePoints(int scorePoints) {
 		this.scorePoints = scorePoints;
 	}
@@ -184,6 +181,21 @@ public class Player {
 	  
 	
 	    return alchemyMarker;
+	}
+	
+	public int getScorePoints() {
+		
+		int score = 0;
+		int goldsFromArtifacts = 0;
+		score += reputationPoints * 10;
+		
+		if (!artifacts.isEmpty()) {
+			int artifactNum = artifacts.size();
+			goldsFromArtifacts = 2 * artifactNum;
+		}
+		
+		score += (int) goldsFromArtifacts / 3;
+		return scorePoints;
 	}
 
 	

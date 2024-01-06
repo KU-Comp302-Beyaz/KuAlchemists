@@ -79,7 +79,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	private static boolean requestAccepted = false;
 	private static boolean requestDeclined = false;
 	private ImageIcon coinIcon;
-	private Player player = Game.getCurrPlayer();
+	private Player player = Game.getGame().getCurrPlayer();
 	private static String testMethod ;
 	private Ingredient[] ingredients; 	
 	private JList<JPanel> ingredientList;

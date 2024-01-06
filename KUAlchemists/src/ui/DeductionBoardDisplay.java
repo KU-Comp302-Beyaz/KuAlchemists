@@ -891,7 +891,7 @@ public class DeductionBoardDisplay extends JFrame{
 			Game.getGame().selectController(Controller.PUBLISH_THEORY);
 			TheoryController.getInstance().initPublishTheory(alc, ing);
 			photoSelectionFrame.dispose();
-			JOptionPane.showMessageDialog(null, Game.getCurrPlayer().getUsername()+" Succesfully Published a Theory!","Theory Publication Successful!",JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(null, Game.getGame().getCurrPlayer().getUsername()+" Succesfully Published a Theory!","Theory Publication Successful!",JOptionPane.PLAIN_MESSAGE);
 			
 			
 		});

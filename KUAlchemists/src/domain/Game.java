@@ -17,19 +17,21 @@ import domain.publication.PublicationCard;
 import domain.publication.PublicationTrack;
 import domain.theorydeduction.AlchemyMarker;
 import domain.theorydeduction.TheoryController;
-import ui.BoardWindow;
+import ui.EndGameDisplay;
 import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
-import ui.PlayerIngredientList;
 import ui.PotionBrewingAreaDisplay;
 
 public class Game {
 
 	//fields
-	private static Controller controller = null;
-	private static Player currPlayer;
+	private Controller controller = null;
+	private Player currPlayer;
+	private int currPlayerIndex;
+	private int numberOfPlayers;
+	private int gameRound;
 	
-	private static Player[] players = new Player[4];
+	private Player[] players = new Player[4];
 	
 	//Controller as enum
 	public enum Controller {
@@ -52,21 +54,21 @@ public class Game {
 	}
 	
 	//Main function
-	public static void main(String[] args) {
-		
-		//Displaying the Login Window:
-		LogInWindow loginWindow = LogInWindow.getInstance(); 
-		loginWindow.displayLogInWindow();
-		
-		int numberOfPlayers = loginWindow.getNumberOfPlayers();
-
-		numberOfPlayers = 2; //for now erase later
-		
-		initializePlayers(loginWindow,players,numberOfPlayers);
-		initializePublicationTrack();
-		initializeBoard();
-
-	}
+//	public static void main(String[] args) {
+//		
+//		//Displaying the Login Window:
+//		LogInWindow loginWindow = LogInWindow.getInstance(); 
+//		loginWindow.displayLogInWindow();
+//		
+//		int numberOfPlayers = loginWindow.getNumberOfPlayers();
+//
+//		numberOfPlayers = 2; //for now erase later
+//		
+//		initializePlayers(loginWindow,players,numberOfPlayers);
+//		initializePublicationTrack();
+//		initializeBoard();
+//
+//	}
 	
 	/**
 	 * Initializes players for OFFLINE mode using numberOfPlayers.
@@ -76,13 +78,13 @@ public class Game {
 	 * @param players
 	 * @param numberOfPlayers
 	 */
-	public static void initializePlayers(LogInWindow loginWindow, Player[] players, int numberOfPlayers) {
+	public void initializePlayers(Player[] players, int numberOfPlayers) {
 		String username;
 		int chosenAvatarIndex;
 		int j = 0;
 		for (int i = 0; i < numberOfPlayers; i++) {
-			username = loginWindow.getFirstUsername();
-			chosenAvatarIndex = loginWindow.getFirstAvatarIndex();
+			username = LogInWindow.getFirstUsername();
+			chosenAvatarIndex = LogInWindow.getFirstAvatarIndex();
 			players[i] = new Player(username,chosenAvatarIndex);
 			
 			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
@@ -90,18 +92,55 @@ public class Game {
 			
 			players[i].setGoldBalance(10);
 		}
-		currPlayer = players[0];
+		currPlayerIndex = 0;
+		currPlayer = players[currPlayerIndex];
 	}
 	
+	public void endTurn() {
+		
+		currPlayerIndex++;
+		if (currPlayerIndex == this.numberOfPlayers) {
+			nextRound();
+			currPlayerIndex = 0;
+			currPlayer = players[currPlayerIndex];
+			
+		}
+		else {
+			currPlayer = players[currPlayerIndex];	
+		}
+
+				
+		
+	}
+	
+	public void nextRound() {
+		
+		this.gameRound++;
+		if (gameRound > 3) {
+			endGame(players);
+		}
+	}
+	
+	public void endGame(Player[] players) {
+		Player winner = null;
+		for (int i = 0; i < players.length; i++) {
+			if (players[i] != null) {
+				players[i].getScorePoints();
+				
+				if (players[i].getScorePoints() > winner.getScorePoints()) {
+				//get max player points
+				winner = players[i]; //for now
+				}
+			}
+		}
+		EndGameDisplay.getInstance().displayWinner(winner);
+	}
+
 	/**
 	 * Initializes board
 	 */
-	public static void initializeBoard() {
+	public void initializeBoard() {
 		IngredientStorageDisplay.getInstance().constructAllImagesDeck(IngredientController.getInstance().giveAllCardsToIngredientStorageDisplay());
-	}
-	
-	public static void initializePublicationTrack() {
-		
 		Random rand = new Random();
 		PublicationTrack pt = PublicationTrack.getInstance();
 		Alchemical a1 = new Alchemical(new AlchemyMarker("+","red","S"), new AlchemyMarker("-","green","L"), new AlchemyMarker("-","blue","S"), "src/images/alchemical-icons/alchemical1.png");
@@ -139,8 +178,8 @@ public class Game {
 			PublicationCard card = new PublicationCard(requiredIngredients,rand.nextInt(5)+1,rand.nextInt(5)+1);
 			pt.getPublicationCards().add(card);
 		}
-		
 	}
+	
 	/**
 	 * Selects which controller to use and function
 	 * @param controller
@@ -181,29 +220,37 @@ public class Game {
 
 
 	//getters and setters
-	public static void setController(Controller gameController) {
-		Game.controller = gameController;
+	public  void setController(Controller gameController) {
+		this.controller = gameController;
 	}
 
-	public static Controller getController() {
+	public Controller getController() {
 		return controller;
 	}
 
 	// To get it in Other Classes
-	public static Player getCurrPlayer() {
+	public Player getCurrPlayer() {
 		return currPlayer;
 	}
 
 	public void setCurrPlayer(Player currPlayer) {
-		Game.currPlayer = currPlayer;
+		this.currPlayer = currPlayer;
 	}
 
-	public static Player[] getPlayers() {
+	public Player[] getPlayers() {
 		return players;
 	}
 
 	public void setPlayers(Player[] players) {
-		Game.players = players;
+		this.players = players;
+	}
+	
+	public  int getNumberOfPlayers() {
+		return numberOfPlayers;
+	}
+
+	public  void setNumberOfPlayers(int numberOfPlayers) {
+		this.numberOfPlayers = numberOfPlayers;
 	}
 	
 }
