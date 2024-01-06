@@ -44,7 +44,6 @@ public class LogInWindow extends JFrame {
 	private static String username2;
 	private static int selectedToken1;
 	private static int selectedToken2;
-	private static int numberOfPlayers;
 	private static boolean loginCompleted = false;
 
 	/**
@@ -209,12 +208,11 @@ public class LogInWindow extends JFrame {
 		LogInWindow loginWindow = new LogInWindow();
 		Game game = Game.getGame();
 
-		int numberOfPlayers = getNumberOfPlayers();
+		int numberOfPlayers = Game.getGame().getNumberOfPlayers();
 
 		numberOfPlayers = 2; //for now erase later
 		
 		game.initializePlayers(Game.getGame().getPlayers(), numberOfPlayers);
-		game.initializePublicationTrack();
 		game.initializeBoard();
 
 	}
@@ -238,12 +236,6 @@ public class LogInWindow extends JFrame {
 		return selectedToken2;
 	}
 
-	public static int getNumberOfPlayers() {
-		return numberOfPlayers;
-	}
-
-	public static void setNumberOfPlayers(int numberOfPlayers) {
-		LogInWindow.numberOfPlayers = numberOfPlayers;
-	}
+	
 	
 }

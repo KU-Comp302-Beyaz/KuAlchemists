@@ -17,6 +17,7 @@ import domain.publication.PublicationCard;
 import domain.publication.PublicationTrack;
 import domain.theorydeduction.AlchemyMarker;
 import domain.theorydeduction.TheoryController;
+import ui.EndGameDisplay;
 import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
 import ui.PotionBrewingAreaDisplay;
@@ -26,6 +27,9 @@ public class Game {
 	//fields
 	private Controller controller = null;
 	private Player currPlayer;
+	private int currPlayerIndex;
+	private int numberOfPlayers;
+	private int gameRound;
 	
 	private Player[] players = new Player[4];
 	
@@ -88,18 +92,55 @@ public class Game {
 			
 			players[i].setGoldBalance(10);
 		}
-		currPlayer = players[0];
+		currPlayerIndex = 0;
+		currPlayer = players[currPlayerIndex];
 	}
 	
+	public void endTurn() {
+		
+		currPlayerIndex++;
+		if (currPlayerIndex == this.numberOfPlayers) {
+			nextRound();
+			currPlayerIndex = 0;
+			currPlayer = players[currPlayerIndex];
+			
+		}
+		else {
+			currPlayer = players[currPlayerIndex];	
+		}
+
+				
+		
+	}
+	
+	public void nextRound() {
+		
+		this.gameRound++;
+		if (gameRound > 3) {
+			endGame(players);
+		}
+	}
+	
+	public void endGame(Player[] players) {
+		Player winner = null;
+		for (int i = 0; i < players.length; i++) {
+			if (players[i] != null) {
+				players[i].getScorePoints();
+				
+				if (players[i].getScorePoints() > winner.getScorePoints()) {
+				//get max player points
+				winner = players[i]; //for now
+				}
+			}
+		}
+		EndGameDisplay.getInstance().displayWinner(winner);
+	}
+
 	/**
 	 * Initializes board
 	 */
 	public void initializeBoard() {
 		IngredientStorageDisplay.getInstance().constructAllImagesDeck(IngredientController.getInstance().giveAllCardsToIngredientStorageDisplay());
-	}
-	
-	public void initializePublicationTrack() {
-		
 		Random rand = new Random();
 		PublicationTrack pt = PublicationTrack.getInstance();
 		Alchemical a1 = new Alchemical(new AlchemyMarker("+","red","S"), new AlchemyMarker("-","green","L"), new AlchemyMarker("-","blue","S"), "src/images/alchemical-icons/alchemical1.png");
@@ -137,8 +178,8 @@ public class Game {
 			PublicationCard card = new PublicationCard(requiredIngredients,rand.nextInt(5)+1,rand.nextInt(5)+1);
 			pt.getPublicationCards().add(card);
 		}
-		
 	}
+	
 	/**
 	 * Selects which controller to use and function
 	 * @param controller
@@ -202,6 +243,14 @@ public class Game {
 
 	public void setPlayers(Player[] players) {
 		this.players = players;
+	}
+	
+	public  int getNumberOfPlayers() {
+		return numberOfPlayers;
+	}
+
+	public  void setNumberOfPlayers(int numberOfPlayers) {
+		this.numberOfPlayers = numberOfPlayers;
 	}
 	
 }

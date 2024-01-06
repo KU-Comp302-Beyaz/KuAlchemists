@@ -83,7 +83,7 @@ public class PotionController {
 			System.out.printf("Guarantee Level: %d \n", guarantee);
 			System.out.printf("Updated Amount: %d", updatedAmount);
 			
-			Game.getCurrPlayer().updateGoldBalance(updatedAmount);			
+			Game.getGame().getCurrPlayer().updateGoldBalance(updatedAmount);			
 		}
 		
 	}
@@ -110,7 +110,7 @@ public class PotionController {
 		
 		potion = pba.makePotion(ing_1, ing_2);
 
-		Game.getCurrPlayer().getPotions().add(potion);	// record new potion
+		Game.getGame().getCurrPlayer().getPotions().add(potion);	// record new potion
 		initializeTestPotion(potion,p);
 
 		boolean isSellRequestAccepted = PotionBrewingAreaDisplay.isSellRequestAccepted();
