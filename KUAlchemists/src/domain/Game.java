@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -27,11 +28,10 @@ public class Game {
 	//fields
 	private Controller controller = null;
 	private Player currPlayer;
-	private int currPlayerIndex;
 	private int numberOfPlayers;
 	private int gameRound;
 	
-	private Player[] players = new Player[4];
+	private ArrayDeque<Player> players = new ArrayDeque<>();
 	
 	//Controller as enum
 	public enum Controller {
@@ -78,58 +78,59 @@ public class Game {
 	 * @param players
 	 * @param numberOfPlayers
 	 */
-	public void initializePlayers(Player[] players, int numberOfPlayers) {
+	public void initializePlayers(ArrayDeque<Player> players, int numberOfPlayers) {
 		String username;
 		int chosenAvatarIndex;
 		int j = 0;
 		for (int i = 0; i < numberOfPlayers; i++) {
 			username = LogInWindow.getFirstUsername();
 			chosenAvatarIndex = LogInWindow.getFirstAvatarIndex();
-			players[i] = new Player(username,chosenAvatarIndex);
+			Player p = new Player(username,chosenAvatarIndex);
 			
-			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
-			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
+			p.getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
+			p.getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
 			
-			players[i].setGoldBalance(10);
+			p.setGoldBalance(10);
+			players.offer(p);
 		}
-		currPlayerIndex = 0;
-		currPlayer = players[currPlayerIndex];
+		Player endRoundControl = new Player("End Round Control",0);
+		endRoundControl.setScorePoints(Integer.MIN_VALUE);
+		players.offer(endRoundControl);
 	}
 	
 	public void endTurn() {
 		
-		currPlayerIndex++;
-		if (currPlayerIndex == this.numberOfPlayers) {
+		Player nextPlayer = players.poll();
+		players.offer(nextPlayer);
+		if (nextPlayer.getUsername().equals("End Round Control")) {
 			nextRound();
-			currPlayerIndex = 0;
-			currPlayer = players[currPlayerIndex];
+			currPlayer = players.poll();
+			players.offer(currPlayer);
 			
 		}
 		else {
-			currPlayer = players[currPlayerIndex];	
-		}
-
-				
+			currPlayer = nextPlayer;
+		}			
 		
 	}
 	
 	public void nextRound() {
-		
 		this.gameRound++;
 		if (gameRound > 3) {
 			endGame(players);
 		}
 	}
 	
-	public void endGame(Player[] players) {
-		Player winner = null;
-		for (int i = 0; i < players.length; i++) {
-			if (players[i] != null) {
-				players[i].getScorePoints();
-				
-				if (players[i].getScorePoints() > winner.getScorePoints()) {
+	public void endGame(ArrayDeque<Player> players) {
+		Player winner = players.peek();
+		for (int i = 0; i < players.size(); i++) {
+			Player p = players.poll();
+			if (!p.getUsername().equals("End Round Control")) {
+				players.offer(p);
+				p.getScorePoints();
+				if (p.getScorePoints() > winner.getScorePoints()) {
 				//get max player points
-				winner = players[i]; //for now
+				winner = p; //for now
 				}
 			}
 		}
@@ -237,11 +238,11 @@ public class Game {
 		this.currPlayer = currPlayer;
 	}
 
-	public Player[] getPlayers() {
+	public ArrayDeque<Player> getPlayers() {
 		return players;
 	}
 
-	public void setPlayers(Player[] players) {
+	public void setPlayers(ArrayDeque<Player> players) {
 		this.players = players;
 	}
 	
