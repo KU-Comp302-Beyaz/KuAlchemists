@@ -106,14 +106,14 @@ public class SellPotion {
 		}
 		
 		@Test
-		@DisplayName("Test 9: Testing negative potion and guaranteeLevel 2")
+		@DisplayName("Test 10: Testing negative potion and guaranteeLevel 2")
 		void testSellNegativePotion2() {
 			Potion p = new Potion(ingredients[0], ingredients[1], new AlchemyMarker("-", "red"));
 			assertEquals(0, controller.sellPotion(2, p));	
 		}
 		
 		@Test
-		@DisplayName("Test 9: Testing negative potion and guaranteeLevel 1")
+		@DisplayName("Test 11: Testing negative potion and guaranteeLevel 1")
 		void testSellNegativePotion3() {
 			Potion p = new Potion(ingredients[0], ingredients[1], new AlchemyMarker("-", "red"));
 			assertEquals(1, controller.sellPotion(1, p));	
