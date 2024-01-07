@@ -34,15 +34,28 @@ class GameTest {
 	 * comprehensive evaluation of the Game class. Each test case is designed to cover different
 	 * scenarios, including edge cases, normal gameplay, and potential error conditions.
 	 * 
-	 * Tests:
-	 * - Test Case 1: Verify player initialization and card allocation.
-	 * - Test Case 2: Test the progression of turns and the proper rotation of players.
-	 * - Test Case 3: Check the end of the game when the specified number of rounds is reached.
-	 * - Test Case 4: Test the proper initialization of the game board and available alchemicals.
-	 * - Test Case 5: Validate the selection of controllers and their corresponding functions.
+	 * The @BeforeEach setup initializes the game state for each test.
+	 * The @AfterEach ensures the repOk() method is valid after each test function.
 	 * 
-	 * The test plan will include additional test cases covering various functionalities of
-	 * the Game class, ensuring thorough testing and reliability of the game's core logic.
+	 * Tests:
+	 * - testPlayerNumbers(): 
+	 * Testing for player numbers.
+	 * - testEndTurn(): 
+	 * Test the progression of turns and the proper rotation of players.
+	 * - testNextRound(): 
+	 * Checks the functionality of the nextRound() method, confirming proper round progression.
+	 * - testEndGame_winnerNoPoints(): 
+	 * Tests the endGame() method when no player has any points, ensuring the first player wins.
+	 * - testEndGame_winnerIs2(): 
+	 * Tests when endGame(),verifying the winner by one player has a higher point total.
+	 * - testEndGame_winnerIsNotLast(): 
+	 * Checks endGame() when the control player is not the last player, ensuring the correct winner.
+	 * - testInitialiseBoard(): 
+	 * Tests the initializeBoard() method, ensuring proper initialization of alchemicals and ingredients.
+	 * - testRepOkCorrect():
+	 * Verifies the correctness of the repOk() method, checking the internal state consistency.
+	 * 
+	 * The test functionalities of the Game class, ensuring thorough testing and reliability of the game's core logic.
 	 * 
 	 */
 	
