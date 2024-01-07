@@ -17,6 +17,45 @@ import domain.potion.PotionBrewingArea;
 import domain.potion.Student;
 import domain.theorydeduction.AlchemyMarker;
 
+
+  
+	
+	/*
+      testPotion method
+
+	  Description:
+	  for testing a potion by either a student or a player in the PotionBrewingArea. 
+	  It considers various scenarios such as the student ability to test, the - potion effects or the player
+	  sickness level. method also updates the players gold balance and sickness level based on the test results
+	  
+	  Requires:
+	  -  potionBrewingArea object must be instantiated
+	  -  player and potion parameters must not be null
+	  -  potion parameter must be a testable Potion object
+	  -  testMethod parameter must be a valid test method such "Student" or "Player"
+	  
+	  Modifies:
+	  - if its applicable player gold balance 
+	  -  if its applicable player sickness level 
+	  
+	  Effects:
+	    whe testMethod is testing "Student"
+	    - If student is sick  potion test player pays gold 
+	    - If  student is not sick  potion test returns an AlchemyMarker indicating effect without any requirement
+	  
+	    when testMethod is testing  "Player":
+	    - If  players sickness level is at the maximum (3) the potions test returns null (cant test)
+	    - If player sickness level is not maximum the potion test apply effect on  player
+	    -  player gold balance and sickness level are updated based on effects
+	    -  player sickness level does not exceed maximum value
+	  
+	   if the testMethod is not valid
+	    - potion test returns null
+	    - player gold balance and sickness level remain unchanged
+	  
+	  */
+
+
 class testPotionTest {
 	
     static PotionBrewingArea potionBrewingArea = new PotionBrewingArea();
