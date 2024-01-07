@@ -101,7 +101,7 @@ public class SellPotion {
 		@Test
 		@DisplayName("Test 9: Testing negative potion and guaranteeLevel 3")
 		void testSellNegativePotion1() {
-			Potion p = new Potion(ingredients[0], ingredients[1], new AlchemyMarker());
+			Potion p = new Potion(ingredients[0], ingredients[1], new AlchemyMarker("-", "red"));
 			assertEquals(0, controller.sellPotion(3, p));	
 		}
 		
