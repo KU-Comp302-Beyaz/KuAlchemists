@@ -58,7 +58,6 @@ import static org.junit.Assert.assertTrue;
 
 public class Artifacttester {
 	
-	private static String outcome;
 	
 	private Player currplayer = new Player("tester", 1);
 	
