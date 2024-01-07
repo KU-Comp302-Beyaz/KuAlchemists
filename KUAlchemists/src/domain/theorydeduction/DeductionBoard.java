@@ -43,6 +43,12 @@ public class DeductionBoard {
 		this.deductionTriangle = deductionTriangle;
 	}
 	
+	/* REQUIRES: alchemical is not null, ingredient is not null.
+	 * MODIFIES: PublicationTrack.availableAlchemicals, PulicationTrack.availableIngredients, PublicationTrack.publishedTheories, currPlayer.theories
+	 * EFFECTS: A new theory is created from the alchemical and ingredient and added to the publication track's published theories
+	 * 			and current player's published theories. Used alchemical and ingredient are removed from publication tracks
+	 * 	        available alchemicals and available ingredients.
+	*/
 	public boolean publishTheory(Alchemical alchemical, Ingredient ingredientType) {
 		
 		PublicationTrack pt = PublicationTrack.getInstance();

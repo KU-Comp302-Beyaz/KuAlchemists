@@ -43,6 +43,11 @@ public class Alchemical {
 		this.alchemicalPhoto = alchemicalPhoto;
 	}
 	
+	 /*
+	 * REQUIRES: -
+	 * MODIFIES: -
+	 * EFFECTS: two alchemicals are compared to each other by whether they are the same or not and the result is returned.
+	 */
 	public static boolean checkEquality(Alchemical a1, Alchemical a2) {
 		
 		if (a1 == null)
