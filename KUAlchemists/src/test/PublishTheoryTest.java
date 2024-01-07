@@ -26,12 +26,22 @@ class PublishTheoryTest {
 	Ingredient i1;
 	
 	/*
-	 * publishTheory(Alchemical,Ingredient) method gets one alchemical and one ingredient instance,
+	 * publishTheory(alchemical,ingredient) method gets one alchemical and one ingredient instance,
 	 * creates a theory from them and add the theory to Publication Track publishedTheories arraylist.
 	 * It also removes the selected alchemical and ingredients from the availableAlchemicals and availableIngredients
 	 * lists of Publication Track.
 	 */
 	
+	/*
+	 * Specifications for publishTheory(alchemical,ingredient) method:
+	 * 
+	 * REQUIRES: alchemical is not null, ingredient is not null.
+	 * MODIFIES: PublicationTrack.availableAlchemicals, PulicationTrack.availableIngredients, PublicationTrack.publishedTheories, currPlayer.theories
+	 * EFFECTS: A new theory is created from the alchemical and ingredient and added to the publication track's published theories
+	 * 			and current player's published theories. Used alchemical and ingredient are removed from publication tracks
+	 * 	        available alchemicals and available ingredients.
+	 * 
+	 */
 	
 	@BeforeEach
 	void setup() {

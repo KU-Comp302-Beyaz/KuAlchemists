@@ -14,6 +14,15 @@ class IngredientCheckEqualityTest {
 	Ingredient i1;
 	Ingredient i2;
 	
+	
+	/*
+	 * Specifications for checkEquality(ingredient1, ingredient2) method:
+	 * 
+	 * REQUIRES: -
+	 * MODIFIES: - 
+	 * EFFECTS: two ingredients are compared to each other by whether they are the same or not and the result is returned.
+	 */
+	
 	@BeforeEach
 	void setup() {
 		

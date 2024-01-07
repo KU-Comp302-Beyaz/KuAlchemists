@@ -15,6 +15,15 @@ class AlchemicalCheckEqualityTest {
 	Alchemical a1;
 	Alchemical a2;
 	
+	
+	/*
+	 * Specifications for checkEquality(alchemical1, alchemical2) method:
+	 * 
+	 * REQUIRES: -
+	 * MODIFIES: -
+	 * EFFECTS: two alchemicals are compared to each other by whether they are the same or not and the result is returned.
+	 */
+	
 	@BeforeEach
 	void setup() {
 		
