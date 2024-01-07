@@ -115,12 +115,12 @@ public class Game {
 			ArtifactController.getArtifactController().buyArtifact(new ElixirOfInsight() , currPlayer);
 			break;
 		case MAKE_EXPERIMENT:
-			Ingredient[] ing = PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().getChosenIngredients();
+			Ingredient[] ing = PotionBrewingAreaDisplay.getInstance().getChosenIngredients();
 			PotionController.getInstance().initializeMakeExperiment(ing,currPlayer);
 			//PlayerIngredientList.initialize(currPlayer);
-			PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().updateIngredient(currPlayer);
+			PotionBrewingAreaDisplay.getInstance().updateIngredient(currPlayer);
 		case SELL_POTION:
-			PotionController.getInstance().initializePotionSale();			
+			PotionController.getInstance().initializePotionSale(currPlayer);			
 		default:
 			break;
 		}
@@ -140,8 +140,9 @@ public class Game {
 	public static Player getCurrPlayer() {
 		return currPlayer;
 	}
-
-	public void setCurrPlayer(Player currPlayer) {
+	
+	
+	public static void setCurrPlayer(Player currPlayer) {
 		Game.currPlayer = currPlayer;
 	}
 

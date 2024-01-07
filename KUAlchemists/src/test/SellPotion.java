@@ -1,4 +1,5 @@
 package test;
+import java.util.Arrays;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -16,6 +17,7 @@ import ui.PotionBrewingAreaDisplay;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
@@ -23,84 +25,97 @@ import org.junit.jupiter.api.*;
 
 public class SellPotion {
 
-	public static void main(String[] args) {
-
 		PotionBrewingArea pba = new PotionBrewingArea();
-		PotionController controller = PotionController.getInstance();
+		static PotionController controller;
+		static Player player;
+		static Potion p;
+		static Ingredient[] ingredients;
 		
-		Ingredient[] ing = IngredientStorage.getAllingredientcardsarray();
+		
+		@BeforeAll
+		static void setUpBeforeAll() {
+			player = new Player("player", 0);
+			Game.setCurrPlayer(player);
+			controller = PotionController.getInstance();
+			ingredients = IngredientStorage.getAllingredientcardsarray();
+		}
 		
 		
-		//Test 1
-		/*Ingredient ing1 = ing[0];
-		Ingredient ing2 = ing[1];
-		Potion potion = pba.makePotion(ing1, ing2);
-		String sign = potion.getPotionSign();*/
-		controller.initializePotionSale();
-		Player player = Game.getCurrPlayer(); //current player
+		@Test
+		@DisplayName("Test 1: Null Potion should throw a NullPointerException")
+		void testNullPotion() {
+			assertThrows(NullPointerException.class, () -> controller.sellPotion(0, p), "Potion is null!");
+		}
 		
-		Potion potion = controller.getPreparedPotionForSale();
-	    int guaranteeLevel = controller.getGuaranteeLevel();
-		int goldAmount = controller.getEarnedGoldAmount();
+		@Test
+		@DisplayName("Test 2: Invalid guaranteeLevel should throw a InvalidArgumentException")
+		void testValidGuarantee() {
+			Potion p = pba.makePotion(ingredients[0], ingredients[1]);
+			assertThrows(IllegalArgumentException.class, () -> controller.sellPotion(5, p));				
+		}
 		
-		String potionSign = potion.getPotionSign();
+		@Test
+		@DisplayName("Test 3: Testing positive potion and guaranteeLevel 3")
+		void testSellPositivePotion() {
+			Potion p = new Potion(ingredients[0], ingredients[1], new AlchemyMarker("+", "blue"));
+			assertEquals(3, controller.sellPotion(3, p));	
+		}
 		
-		assertNotNull(player.getIngredientCards(), "Player has no ingredients!");
-		assertNotNull(potion, "Potion is null!");		
-		assertNotNull(potionSign, "Potion sign is null!");
+		@Test
+		@DisplayName("Test 4: Testing positive potion and guaranteeLevel 2")
+		void testSellPositivePotion2() {
+			Potion p = new Potion(ingredients[0], ingredients[1], new AlchemyMarker("+", "blue"));
+			assertEquals(2, controller.sellPotion(2, p));	
+		}
 		
-
-		switch (potionSign) {
-			
-		case ("+"):
-			switch (guaranteeLevel) {
-			
-			case 1:
-				assertEquals("Adventurer should pay 1 golds!", 1, goldAmount);
-				break;
+		@Test
+		@DisplayName("Test 5: Testing positive potion and guaranteeLevel 1")
+		void testSellPositivePotion3() {
+			Potion p = new Potion(ingredients[0], ingredients[1], new AlchemyMarker("+", "blue"));
+			assertEquals(1, controller.sellPotion(1, p));	
+		}
+		
+		@Test
+		@DisplayName("Test 6: Testing neutral potion and guaranteeLevel 3")
+		void testSellNeutralPotion1() {
+			Potion p = new Potion(ingredients[0], ingredients[1], new AlchemyMarker());
+			assertEquals(0, controller.sellPotion(3, p));	
+		}
 				
-			case 2:
-				assertEquals("Adventurer should pay 2 golds!", 2, goldAmount);
-				break;
+		
+		@Test
+		@DisplayName("Test 7: Testing neutral potion and guaranteeLevel 2")
+		void testSellNeutralPotion2() {
+			Potion p = new Potion(ingredients[0], ingredients[1], new AlchemyMarker());
+			assertEquals(2, controller.sellPotion(2, p));	
+		}
 				
-			case 3:
-				assertEquals("Adventurer should pay 3 golds!", 3, goldAmount);
-				break;	
-			}
-			
-		case ("0"):
-			switch (guaranteeLevel) {
-			
-			case 1:
-				assertEquals("Adventurer should pay 1 golds!", 1, goldAmount);
-				break;
-				
-			case 2:
-				assertEquals("Adventurer should pay 2 golds!", 2, goldAmount);
-				break;
-				
-			case 3:
-				assertEquals("Adventurer should pay 0 golds!", 0, goldAmount);
-				break;	
-			}
-			break;
-					
-		case ("-"):
-			switch (guaranteeLevel) {
-			
-			case 1:
-				assertEquals("Adventurer should pay 1 golds!", 1, goldAmount);
-				break;
-				
-			case 2:
-				assertEquals("Adventurer should pay 0 golds!", 0, goldAmount);
-				break;
-				
-			case 3:
-				assertEquals("Adventurer should pay 0 golds!", 0, goldAmount);
-				break;	
-			}
-			break;		
+		
+		@Test
+		@DisplayName("Test 8: Testing neutral potion and guaranteeLevel 1")
+		void testSellNeutralPotion3() {
+			Potion p = new Potion(ingredients[0], ingredients[1], new AlchemyMarker());
+			assertEquals(1, controller.sellPotion(1, p));	
+		}
+		
+		@Test
+		@DisplayName("Test 9: Testing negative potion and guaranteeLevel 3")
+		void testSellNegativePotion1() {
+			Potion p = new Potion(ingredients[0], ingredients[1], new AlchemyMarker());
+			assertEquals(0, controller.sellPotion(3, p));	
+		}
+		
+		@Test
+		@DisplayName("Test 9: Testing negative potion and guaranteeLevel 2")
+		void testSellNegativePotion2() {
+			Potion p = new Potion(ingredients[0], ingredients[1], new AlchemyMarker("-", "red"));
+			assertEquals(0, controller.sellPotion(2, p));	
+		}
+		
+		@Test
+		@DisplayName("Test 9: Testing negative potion and guaranteeLevel 1")
+		void testSellNegativePotion3() {
+			Potion p = new Potion(ingredients[0], ingredients[1], new AlchemyMarker("-", "red"));
+			assertEquals(1, controller.sellPotion(1, p));	
 		}
 	}	
-}

@@ -48,7 +48,7 @@ public class PotionController {
 	}
 	
 
-	public void initializePotionSale() {
+	public void initializePotionSale(Player player) {
 		System.out.println("Potion sale initialized");
 		
 		//Rewards (Gold Coins) in return of a potion:
@@ -62,29 +62,16 @@ public class PotionController {
 		if (requestAccepted) {
 			
 			int guarantee = pbad.getGuaranteeLevel(); //Guarantee
-			Ingredient[] ingredients = pbad.getChosenIngredients();
+			Ingredient[] ingredients = PotionBrewingAreaDisplay.getChosenIngredients();
 			Potion p = pba.makePotion(ingredients[0], ingredients[1]); //Making potion
-			String sign = p.getPotionSign(); //Sign of the prepared potion
 			
 			//Test variables
 			updatedAmount = 0;
 			potionForSale = p;
 			guaranteeLevel = guarantee;
 			
-			switch (sign) {
-				case ("+"):
-					if (guarantee == 3) updatedAmount = 3;
-					else if (guarantee == 2) updatedAmount = 2;
-					break;
+			updatedAmount = sellPotion(guarantee, p);
 
-				
-				case("0"):
-					if (guarantee == 2) updatedAmount = 2;
-					
-				case("-"):
-					if (guarantee == 1) updatedAmount = 1;				
-			}
-			
 			System.out.println("Prepared Potion Sign: " + p.getPotionSign());
 			System.out.printf("Guarantee Level: %d \n", guarantee);
 			System.out.printf("Updated Amount: %d", updatedAmount);
@@ -92,6 +79,30 @@ public class PotionController {
 			player.updateGoldBalance(updatedAmount); //returns updated amount
 		}
 		
+	}
+	
+	public int sellPotion(int guarantee, Potion p) {
+		int gold = 0;
+		String sign = p.getPotionSign(); //Sign of the prepared potion
+		
+		if (guarantee > 3 || guarantee < 1)
+		    throw new IllegalArgumentException("Guarantee level must be 1, 2, or 3!");
+		
+		switch (sign) {
+		case ("+"):
+			if (guarantee == 3) gold = 3;
+			else if (guarantee == 2) gold = 2;
+			else if (guarantee == 1) gold = 1;
+			break;
+
+		case("0"):
+			if (guarantee == 2) gold = 2;
+			
+		case("-"):
+			if (guarantee == 1) gold = 1;				
+		}
+		
+		return gold;		
 	}
 	
 	
