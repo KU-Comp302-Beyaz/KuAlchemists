@@ -49,28 +49,39 @@ public class PotionBrewingArea {
 	}
 	
 	
+	
+	
 	public AlchemyMarker testPotion(String testMethod, Potion p, Player player) {
-		
-		int gold = player.getGoldBalance();		
-		AlchemyMarker alchemyMarker = p.getAlchemyMarker();
-		int sicknessLevel = player.getSicknessLevel();
-		if(testMethod.equals("Student")) {
-			// Student student = new Student();
-			if(gold == 0) {
-				// cannot test on student
-			} else {
-				player.updateGoldBalance(1); // negative potion and test it on a student, you will lose 1 gold
-			}
-		} else if (testMethod.equals("Player")) {	
-			if (sicknessLevel == 3) {
-				// cannot test on Player !
-			} else {
-				player.testOnPlayer(p);
-			}
-		} else {
-			// error;
-		}
-		return alchemyMarker;
+		// REQUIRES: instantiated potionBrewingArea, nonnull player and potion valid testMethod
+		// MODIFIES: player gold balance player sickness level
+		// EFFECTS:
+		//   - Student testing: Reduce gold balance if not zero
+		//   - Player testing: Apply potion effect update player gold and sickness level
+		//   - Invalid testMethod: Returns null, no changes to player state
+		int gold = player.getGoldBalance();
+	    AlchemyMarker alchemyMarker = p.getAlchemyMarker();
+	    int sicknessLevel = player.getSicknessLevel();
+
+	    if (testMethod.equals("Student")) {
+	        if (gold == 0) {
+	        	// cannot test on student
+	        } else {
+	            player.updateGoldBalanceforPotion(1); // negative potion and test it on a student, you will lose 1 gold
+	        }
+	    } else if (testMethod.equals("Player")) {
+	        if (sicknessLevel == 3) {
+	        	// cannot test on Player !
+
+	        } else {
+	            player.testOnPlayer(p);
+	            sicknessLevel = player.getSicknessLevel(); // updaion of sicknessLevel after testing on Player
+	        }
+	    } else {
+	    	// error;
+	        return null; // invalid test method
+	    }
+
+	    return alchemyMarker;
 	}
 	
 	
