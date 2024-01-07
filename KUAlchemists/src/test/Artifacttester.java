@@ -48,6 +48,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -66,6 +67,7 @@ public class Artifacttester {
 		
 		//the river normal no effect
 		@Test
+		@DisplayName("Testing TheRiver Artifact under normal conditions")
 		public void testTheRiver_NormalCondition() {
 			currplayer.setGoldBalance(3);
 			currplayer.setTurnNumber(1);
@@ -75,6 +77,8 @@ public class Artifacttester {
 			
 		}
 		// eoi normal no effect
+		@Test
+		@DisplayName("Testing EOI Artifact under normal conditions")
 		public void testEOI_NormalCondition() {
 			currplayer.setGoldBalance(3);
 			currplayer.setTurnNumber(1);
@@ -83,7 +87,8 @@ public class Artifacttester {
 			assertEquals(0,  currplayer.getTurnNumber());
 			
 		}
-		
+		@Test
+		@DisplayName("Testing TheRiver Artifact - the player has no gold")
 		//the river no balance no effect
 		public void testTheRiver_NoGold() {
 			currplayer.setGoldBalance(0);
@@ -93,7 +98,8 @@ public class Artifacttester {
 			assertEquals(1,  currplayer.getTurnNumber());
 			
 		}
-		
+		@Test
+		@DisplayName("Testing TheRiver Artifact - the player has no turn points")
 		//the river no turn no effect
 		public void testTheRiver_NoTurn() {
 			currplayer.setGoldBalance(3);
@@ -104,6 +110,8 @@ public class Artifacttester {
 			
 		}
 		
+		@Test
+		@DisplayName("Testing EOI Artifact - the player has no gold")
 		// eoi no balance no effect
 		public void testEOI_NoGold() {
 			currplayer.setGoldBalance(0);
@@ -113,7 +121,8 @@ public class Artifacttester {
 			assertEquals(1,  currplayer.getTurnNumber());
 			
 		}
-		
+		@Test
+		@DisplayName("Testing EOI Artifact - the player has no turn points")
 		// eoi no turn no effect
 		public void testEOI_NoTurn() {
 			currplayer.setGoldBalance(3);
