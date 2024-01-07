@@ -82,6 +82,9 @@ public class PotionController {
 	}
 	
 	public int sellPotion(int guarantee, Potion p) {
+		//REQUIRES: p cannot be null, guaranteeLevel must be 1, 2, or 3.
+		//EFFECTS:  If guarantee is invalid, throws IllegalArgumentException else updates the gold according to the guarantee and potion sign.
+		
 		int gold = 0;
 		String sign = p.getPotionSign(); //Sign of the prepared potion
 		
