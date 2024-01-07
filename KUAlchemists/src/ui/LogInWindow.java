@@ -212,7 +212,7 @@ public class LogInWindow extends JFrame {
 
 		numberOfPlayers = 2; //for now erase later
 		
-		game.initializePlayers(Game.getGame().getPlayers(), numberOfPlayers);
+		game.initializePlayers(numberOfPlayers);
 		game.initializeBoard();
 
 	}

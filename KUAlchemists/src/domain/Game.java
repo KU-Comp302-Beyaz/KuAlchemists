@@ -53,23 +53,64 @@ public class Game {
 		return gameSingleton;
 	}
 	
-	//Main function
-//	public static void main(String[] args) {
-//		
-//		//Displaying the Login Window:
-//		LogInWindow loginWindow = LogInWindow.getInstance(); 
-//		loginWindow.displayLogInWindow();
-//		
-//		int numberOfPlayers = loginWindow.getNumberOfPlayers();
-//
-//		numberOfPlayers = 2; //for now erase later
-//		
-//		initializePlayers(loginWindow,players,numberOfPlayers);
-//		initializePublicationTrack();
-//		initializeBoard();
-//
-//	}
+	/* The abstraction function for the Game class is:
+	// AF(game) = [] if game == null,
+	// 			[game.numberOfPlayers,game.players] if game != null
+	// 			where:
+	//   			- numberOfPlayers is the total number of players in the game.
+	//   			- players is a queue representing the order of players in the game.
+	// 			additional details:
+	//   			-players' order in the queue represents the order of turns.
+	*/
 	
+	
+	/**
+	 * Representation Invariant:
+	 * 		gameSingleton != null &&
+	 * 		currPlayer != null && 
+	 * 		2 <= numberOfPlayers <= 4 &&
+	 * 		0 < gameRound <= 3 &&
+	 * 		players != null && 0 < players.size() <= 5 &&
+	 *  	players in players arrayDeque cannot be null
+	 */
+	
+	public boolean repOk() {
+		   
+		if (gameSingleton == null) {
+			return false;
+		}
+
+        if (currPlayer == null || !players.contains(currPlayer)) {
+            return false;
+        }
+
+        if (numberOfPlayers < 2 || numberOfPlayers > 4) {
+            return false;
+        }
+
+        if (gameRound < 0 || gameRound > 3) {
+            return false;
+        }
+
+        for (Player player : players) {
+            if (player == null) {
+                return false;
+            }
+        }
+        
+        if (players == null) {
+        	return false;
+        }
+        
+        if (players.size() < 0 || players.size() > 5) {
+        	return false;
+        }
+        	
+
+        return true;
+    }
+	
+
 	/**
 	 * Initializes players for OFFLINE mode using numberOfPlayers.
 	 * Gives players 2 ingredient cards from ingredients deck.
@@ -78,9 +119,22 @@ public class Game {
 	 * @param players
 	 * @param numberOfPlayers
 	 */
-	public void initializePlayers(ArrayDeque<Player> players, int numberOfPlayers) {
+	
+	
+	public void initializePlayers(int numberOfPlayers) {
+		
+		//REQUIRES: Number of players is not null
+		//MODIFIES: Game.players, scorePoint, currPlayer, IngredientCards, goldBalance is updated
+		//EFFECTS:  scorePoint of the endRoundControl player is assigned to minimum integer value. Add players to Game.players. Two ingredients is added to Player's Ingredients. 
+		//			Set gold balance to 10. Set current player to the first player.
+		
 		String username;
+		
 		int chosenAvatarIndex;
+		Player endRoundControl = new Player("End Round Control",0);
+		endRoundControl.setScorePoints(Integer.MIN_VALUE);
+		players.offer(endRoundControl);
+		
 		int j = 0;
 		for (int i = 0; i < numberOfPlayers; i++) {
 			username = LogInWindow.getFirstUsername();
@@ -89,39 +143,53 @@ public class Game {
 			
 			p.getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
 			p.getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
-			
 			p.setGoldBalance(10);
 			players.offer(p);
 		}
-		Player endRoundControl = new Player("End Round Control",0);
-		endRoundControl.setScorePoints(Integer.MIN_VALUE);
-		players.offer(endRoundControl);
+		
+		currPlayer = players.peek();
 	}
 	
-	public void endTurn() {
+	public void endTurn() {		
 		
-		Player nextPlayer = players.poll();
-		players.offer(nextPlayer);
-		if (nextPlayer.getUsername().equals("End Round Control")) {
+		//REQUIRES: Players is not null. Players' usernames are not null.
+		//MODIFIES: currPlayer and players are modified.
+		//EFFECTS: If player username equals "End Round Control", update gameRound
+		//		   and currPlayer is updated to the first element of the players queue	
+	
+
+		Player oldPlayer = players.poll(); 
+		players.offer(oldPlayer);
+		
+		if (oldPlayer.getUsername().equals("End Round Control")) {
 			nextRound();
 			currPlayer = players.poll();
 			players.offer(currPlayer);
 			
 		}
 		else {
-			currPlayer = nextPlayer;
+			currPlayer = players.peek();
 		}			
-		
 	}
 	
 	public void nextRound() {
+		
+		//MODIFIES: gameRound is modified
+		//EFFECTS: gameRound is incremented by 1
+		//		   if the gameRound exceeds three, endGame(players) function is called
+		
 		this.gameRound++;
 		if (gameRound > 3) {
 			endGame(players);
 		}
 	}
 	
-	public void endGame(ArrayDeque<Player> players) {
+	public String endGame(ArrayDeque<Player> players) {
+		
+		//REQUIRES: players is not null
+		//EFFECTS: Players' score is calculated, and the player with highest score is returned
+		
+		
 		Player winner = players.peek();
 		for (int i = 0; i < players.size(); i++) {
 			Player p = players.poll();
@@ -134,13 +202,20 @@ public class Game {
 				}
 			}
 		}
+		
 		EndGameDisplay.getInstance().displayWinner(winner);
+		return winner.getUsername();
 	}
-
 	/**
 	 * Initializes board
 	 */
 	public void initializeBoard() {
+		
+		//MODIFIES: PublicationTrack and IngredientStorageDisplay fields are modified
+		//EFFECTS: Alchemicals and Ingredients are added to the PublicationTrack.
+		//		   PublicationCards are created with random ingredients.
+		//		   Constructs images in IngredientStorageDisplay
+		
 		IngredientStorageDisplay.getInstance().constructAllImagesDeck(IngredientController.getInstance().giveAllCardsToIngredientStorageDisplay());
 		Random rand = new Random();
 		PublicationTrack pt = PublicationTrack.getInstance();
@@ -163,7 +238,6 @@ public class Game {
 		pt.getAvailableAlchemicals().add(a8);
 		
 		
-		
 		for (int i=0; i<8;i++) {
 			pt.getAvailableIngredients().add(IngredientStorage.getAllingredientcardsarray()[i]);
 		}
@@ -180,6 +254,8 @@ public class Game {
 			pt.getPublicationCards().add(card);
 		}
 	}
+	
+	
 	
 	/**
 	 * Selects which controller to use and function
@@ -253,5 +329,14 @@ public class Game {
 	public  void setNumberOfPlayers(int numberOfPlayers) {
 		this.numberOfPlayers = numberOfPlayers;
 	}
+	
+	public int getGameRound() {
+		return gameRound;
+	}
+
+	public void setGameRound(int gameRound) {
+		this.gameRound = gameRound;		
+	}
+	
 	
 }
