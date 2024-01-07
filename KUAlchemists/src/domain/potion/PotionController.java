@@ -105,24 +105,11 @@ public class PotionController {
 		return gold;		
 	}
 	
-	
-	/* The following methods are used for Sell Potion test
-	 * 
-	 * 
-	 * 
-	 */
+
 	public int getEarnedGoldAmount() {
 		return updatedAmount;
 	}
-	
-	public Potion getPreparedPotionForSale() {
-		return potionForSale;
-	}
-	
-	public int getGuaranteeLevel() {
-		return guaranteeLevel;
-	}
-		
+
 	
 	public void initializeMakeExperiment(Ingredient[] ingredients, Player p) {
 		
