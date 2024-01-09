@@ -134,7 +134,7 @@ public class Game {
 	}
 	
 	public void endGame(Player[] players) {
-		Player winner = null;
+		Player winner = getCurrPlayer();
 		for (int i = 0; i < players.length; i++) {
 			if (players[i] != null) {
 				players[i].getScorePoints();
@@ -145,7 +145,6 @@ public class Game {
 				}
 			}
 		}
-		EndGameDisplay.getInstance().displayWinner(winner);
 	}
 
 	/**
@@ -265,5 +264,8 @@ public class Game {
 		this.numberOfPlayers = numberOfPlayers;
 	}
 	
+	public int getGameRound() {
+		return gameRound;
+	}
 	
 }

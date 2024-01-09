@@ -162,7 +162,17 @@ public class BoardWindow extends JFrame {
         boardDisplay.add(endTurnButton, gbcEndTurn);
   		endTurnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Game.getGame().endTurn();
+				
+				
+				if (Game.getGame().getGameRound() <= 3) {
+					Game.getGame().endTurn();
+				}
+				
+				else {
+					setVisible(false);
+					EndGameDisplay.getInstance().displayWinner();
+					
+				}
 			}
 		});
   		
