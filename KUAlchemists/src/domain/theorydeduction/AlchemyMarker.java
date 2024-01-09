@@ -1,5 +1,4 @@
 package domain.theorydeduction;
-
 import java.util.Objects;
 
 public class AlchemyMarker {
@@ -66,6 +65,7 @@ public class AlchemyMarker {
 	public String getIcon() {
 		return icon;
 	}
+
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}

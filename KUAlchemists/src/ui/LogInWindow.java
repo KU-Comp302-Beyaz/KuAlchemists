@@ -88,8 +88,30 @@ public class LogInWindow extends JFrame {
 		JLabel gameTitle = new JLabel("KU ALCHEMISTS");
 		gameTitle.setFont(new Font("Cochin", Font.PLAIN, 50));
 		gameTitle.setBounds((screenWidth-440)/2, 22, 440, 64);
-		playerPanel1.add(gameTitle);
+        getContentPane().add(gameTitle);
+        
+		//Mode selection panel 
+		JPanel modeSelectionPanel = new JPanel();
+		modeSelectionPanel.setBounds(0, 0, 1440, 900);
+		modeSelectionPanel.setLayout(null);
+		modeSelectionPanel.setVisible(true);
+		getContentPane().add(modeSelectionPanel);
+		
+		JLabel modeText = new JLabel("SELECT YOUR MODE");
+		modeText.setForeground(new Color(153, 145, 255));
+		modeText.setFont(new Font("Cochin", Font.PLAIN, 36));
+		modeText.setBounds(560, 225, 400, 64);
+		modeSelectionPanel.add(modeText);
+		
+
+        //Player 1 panel
+        JPanel playerPanel1 = new JPanel();
+		playerPanel1.setBounds(0, 0, 1440, 900);
+		playerPanel1.setLayout(null);
+		playerPanel1.setVisible(false);
+		
 		getContentPane().add(playerPanel1);
+		
 		
 		//Taking input for username1
 		JTextField usernameText = new JTextField();
@@ -151,6 +173,36 @@ public class LogInWindow extends JFrame {
 		avatarScrollPane.setViewportView(avatarList);
 		playerPanel1.add(avatarScrollPane);
 
+		
+		//Online Button
+		JButton onlineButton = new JButton("ONLINE");
+		onlineButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		onlineButton.setFont(new Font("Cochin", Font.PLAIN, 48));
+		onlineButton.setBounds(632, 379, 278, 81);
+		modeSelectionPanel.add(onlineButton);
+		
+		//Offline Button
+		JButton offlineButton = new JButton("OFFLINE");
+		offlineButton.setFont(new Font("Cochin", Font.PLAIN, 48));
+		offlineButton.setBounds(632, 513, 278, 81);
+		modeSelectionPanel.add(offlineButton);
+		offlineButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+			playerPanel1.setVisible(true);
+			gameTitle.setVisible(true);
+			modeSelectionPanel.setVisible(false);
+			offlineButton.setVisible(false);
+			onlineButton.setVisible(false);
+			
+			}
+		});		
+		
+
+		
 		/**
 		 * Player 1 Login
 		 */
@@ -198,9 +250,9 @@ public class LogInWindow extends JFrame {
 					dispose();
 				}
 			}
+
 		});
-		
-		setVisible(true);
+				setVisible(true);
 	}
 	
 	public static void main(String[] args) {
@@ -236,6 +288,14 @@ public class LogInWindow extends JFrame {
 		return selectedToken2;
 	}
 
+	public int getNumberOfPlayers() {
+		return numberOfPlayers;
+	}
+
+	public void setNumberOfPlayers(int numberOfPlayers) {
+		this.numberOfPlayers = numberOfPlayers;
+	}
+	}
 	
 	
 }
