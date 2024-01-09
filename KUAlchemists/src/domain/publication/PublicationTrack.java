@@ -2,17 +2,30 @@ package domain.publication;
 
 import java.util.ArrayList;
 
+import domain.ingredients.Alchemical;
+import domain.ingredients.Ingredient;
 import domain.theorydeduction.Theory;
 
 public class PublicationTrack {
 	
+	private static PublicationTrack PublicationTrackInstance;
 	private ArrayList<PublicationCard> publicationCards;
 	private ArrayList<Theory> publishedTheories;
+	private ArrayList<Alchemical> availableAlchemicals;
+	private ArrayList<Ingredient> availableIngredients;
+	
+	public static synchronized PublicationTrack getInstance() {
+		if (PublicationTrackInstance == null)
+			PublicationTrackInstance = new PublicationTrack();
+		return PublicationTrackInstance;
+	}
 	
 	public PublicationTrack() {
 
 		this.publicationCards = new ArrayList<>();
 		this.publishedTheories = new ArrayList<>();
+		this.availableAlchemicals = new ArrayList<>();
+		this.availableIngredients = new ArrayList<>();
 	
 	}
 
@@ -44,6 +57,21 @@ public class PublicationTrack {
 		
 		this.publishedTheories.remove(t);
 	}
+
+	public ArrayList<Alchemical> getAvailableAlchemicals() {
+		return availableAlchemicals;
+	}
+
+	public ArrayList<Ingredient> getAvailableIngredients() {
+		return availableIngredients;
+	}
+
+	
+	
+
+	
+	
+	
 	
 	
 	

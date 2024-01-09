@@ -3,6 +3,7 @@ package domain.potion;
 import java.util.HashMap;
 import java.util.Map;
 
+import domain.Game;
 import domain.Player;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
@@ -11,13 +12,16 @@ import ui.IngredientStorageDisplay;
 import ui.PlayerIngredientList;
 import ui.PotionBrewingAreaDisplay;
 import ui.PotionBrewingAreaDisplayHelp;
+import ui.IngredientStorageDisplay;
+import ui.PlayerIngredientList;
 
 public class PotionController {
 	
 	
 	
-	private static Player player;
+	//private static Player player;
 	private static Potion potion;
+	private static int updatedAmount;
 	private static PotionController potionControllerInstance;
 	
 	private PotionController() {}
@@ -34,55 +38,60 @@ public class PotionController {
 	
 	
 	// ?! Her fonksiyon için ayrı açılması yerine ortak bir tane olsun (Yoksa make experimentta iki kez iç içe açılır)
-	static PotionBrewingAreaDisplay pbad = new PotionBrewingAreaDisplay(); 
+	static PotionBrewingAreaDisplay pbad = PotionBrewingAreaDisplay.getInstance(); 
 	static PotionBrewingArea pba = new PotionBrewingArea();
 	
-	public PotionController(Player player, Potion potion){
-		this.player = player;
+	public PotionController(Potion potion){
 		this.potion = potion;
 	}
 	
 
 	public void initializePotionSale() {
 		System.out.println("Potion sale initialized");
-		// PotionBrewingAreaDisplay pbad = new PotionBrewingAreaDisplay();
-		// PotionBrewingArea pba = new PotionBrewingArea();
 		
-//		Map<String, Integer> rewardTable= new HashMap<String, Integer>();
-//		rewardTable.put("positive", 3);
-//		rewardTable.put("positive_neutral", 2);
-//		rewardTable.put("no_guarantee", 1);
+		//Rewards (Gold Coins) in return of a potion:
+		Map<String, Integer> rewardTable= new HashMap<String, Integer>();
+		rewardTable.put("positive", 3);
+		rewardTable.put("positive_neutral", 2);
+		rewardTable.put("no_guarantee", 1);
 
-/*
-		pbad.display();
-		boolean choice = pbad.displayChoiceBox();
+		boolean requestAccepted = pbad.isRequestAccepted();
 		
-		if (choice) {
+		if (requestAccepted) {
 			
-		   	String guaranteedPotionNature = pbad.displayGuaranteeBox();
+			int guarantee = pbad.getGuaranteeLevel(); //Guarantee
+			Ingredient[] ingredients = pbad.getChosenIngredients();
+			Potion p = pba.makePotion(ingredients[0], ingredients[1]); //Making potion
+			String sign = p.getPotionSign(); //Sign of the prepared potion
+			updatedAmount = 0;
 			
-			Ingredient[] recipe = pbad.displayExperimentSetup();
-			//Potion p = pba.makePotion(recipe[0], recipe[1]);
-			potion = pba.makePotion(recipe[0], recipe[1]);
-			
-			//Daha sonra düzelt
-			if (potion.getAlchemyMarker().getSign().equals(guaranteedPotionNature)) {
-				player.updateGoldBalance(1);
+			switch (sign) {
+				case ("+"):
+					if (guarantee == 3) updatedAmount = 3;
+					else if (guarantee == 2) updatedAmount = 2;
+					break;
+
 				
+				case("0"):
+					if (guarantee == 2) updatedAmount = 2;
+					
+				case("-"):
+					if (guarantee == 1) updatedAmount = 1;				
 			}
 			
-			return 1; //successfully done
+			System.out.println("Prepared Potion Sign: " + p.getPotionSign());
+			System.out.printf("Guarantee Level: %d \n", guarantee);
+			System.out.printf("Updated Amount: %d", updatedAmount);
+			
+			Game.getGame().getCurrPlayer().updateGoldBalance(updatedAmount);			
 		}
 		
-		else return -1;
-			
-		
-		//player.updateGoldBalance(amount);
-		//player.updatePlayerTurn();
-	*/
 	}
 	
-		
+	
+	public int getEarnedGoldAmount() {
+		return updatedAmount;
+	}
 		
 	
 	public void initializeMakeExperiment(Ingredient[] ingredients, Player p) {
@@ -100,9 +109,17 @@ public class PotionController {
 		p.getIngredientCards().remove(ing_2); //remove chosen ingredient
 		
 		potion = pba.makePotion(ing_1, ing_2);
+
+		Game.getGame().getCurrPlayer().getPotions().add(potion);	// record new potion
 		initializeTestPotion(potion,p);
+
+		boolean isSellRequestAccepted = PotionBrewingAreaDisplay.isSellRequestAccepted();
+
 		
-		
+		if (!isSellRequestAccepted) {
+			initializeTestPotion(potion,p);
+			}
+				
 		p.updatePlayerTurn();
 	}
 
@@ -110,8 +127,8 @@ public class PotionController {
 	public void initializeTestPotion(Potion potion, Player player) {
 
 		// pbad.display(); // ???
-		String testMethod = PotionBrewingAreaDisplay.getPotionBrewingAreaDisplay().getTestMethod(); // Player Choose TestMethod (Test on Student / Test on Player)
-		
+
+		String testMethod = PotionBrewingAreaDisplay.getInstance().getTestMethod(); // Player Choose TestMethod (Test on Student / Test on Player)
 		AlchemyMarker alchemyMarker = pba.testPotion(testMethod, potion, player);
 		
 		

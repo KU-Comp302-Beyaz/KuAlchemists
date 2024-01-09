@@ -1,45 +1,35 @@
 package ui;
 
 import java.awt.BorderLayout;
-
-import javax.imageio.ImageIO;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Insets;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-
+import javax.swing.ListSelectionModel;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import java.awt.Label;
-import java.awt.SystemColor;
-import javax.swing.UIManager;
+import domain.Game;
+import domain.Game.Controller;
+import domain.ingredients.Alchemical;
+import domain.ingredients.Ingredient;
+import domain.ingredients.IngredientStorage;
+import domain.publication.PublicationTrack;
+import domain.theorydeduction.TheoryController;
 import java.awt.Font;
-import java.awt.Graphics;
-
 import javax.swing.SwingConstants;
 
 
@@ -78,8 +68,18 @@ public class DeductionBoardDisplay extends JFrame{
     	deductionTrianglePanel.setLayout(null);
     	*/
         JPanel deductionTrianglePanel = new JPanel();
-        deductionTrianglePanel.setBackground(new Color(183, 254, 218));
+       //deductionTrianglePanel.setBackground(new Color(183, 254, 218));
+        deductionTrianglePanel.setOpaque(false); // make it transparent
         deductionTrianglePanel.setBounds(98, 43, 1089, 272);
+        
+        ImageIcon triangleImage = new ImageIcon("src/images/deduction_board.png");
+
+        // Create a JLabel to hold the background image
+        JLabel triangleLabel = new JLabel(triangleImage);
+        triangleLabel.setBounds(0, 0, triangleImage.getIconWidth(), triangleImage.getIconHeight());
+
+        deductionTrianglePanel.add(triangleLabel);
+        
         backgroundLabel.add(deductionTrianglePanel);
         deductionTrianglePanel.setLayout(null);
 
@@ -403,7 +403,8 @@ public class DeductionBoardDisplay extends JFrame{
     	JPanel deductionGridPanel = new JPanel();
         deductionGridPanel.setBounds(98, 314, 1089, 428);
         backgroundLabel.add(deductionGridPanel);
-        deductionGridPanel.setBackground(new Color(221, 160, 221));
+        //deductionGridPanel.setBackground(new Color(221, 160, 221));
+        deductionGridPanel.setOpaque(false); // make it transparent
         deductionGridPanel.setLayout(new GridLayout(9, 9, 0, 0));
         
         
@@ -411,6 +412,7 @@ public class DeductionBoardDisplay extends JFrame{
     	JButton publishButton = new JButton("Publish a Theory");
     	publishButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) { 
+    			showIngredientSelectionDialog();
     		}
     	});
         /*
@@ -760,7 +762,12 @@ public class DeductionBoardDisplay extends JFrame{
 
             photoPanel.add(photoButton);
         }
-
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(e -> {
+        	targetButton.setIcon(null);
+        	photoSelectionFrame.dispose();
+        });
+        photoPanel.add(clearButton);
         JScrollPane scrollPane = new JScrollPane(photoPanel);
 
         photoSelectionFrame.getContentPane().add(scrollPane);
@@ -769,6 +776,149 @@ public class DeductionBoardDisplay extends JFrame{
         photoSelectionFrame.setVisible(true);
     }
     
+    private void showIngredientSelectionDialog() {
+    	
+    	JFrame photoSelectionFrame = new JFrame("Select an Ingredient to Publish a Theory");
+    	
+    	ArrayList<String> photoPaths = new ArrayList<>();
+    	for (Ingredient i : PublicationTrack.getInstance().getAvailableIngredients()) {
+    		photoPaths.add(i.getPhoto());
+    	}
+    	ArrayList<JPanel> ingredientPhotos = new ArrayList<>();
+    	for (String s : photoPaths) {
+    		JPanel p = new JPanel();
+    		JLabel l = new JLabel();
+    		ImageIcon i = new ImageIcon(new ImageIcon(s).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH),s);
+    		l.setIcon(i);
+    		p.add(l);
+    		ingredientPhotos.add(p);
+    	}
+    	
+    	
+    	photoSelectionFrame.setBounds(100, 100, 800, 600);
+    	photoSelectionFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	photoSelectionFrame.getContentPane().setLayout(null);
+    	photoSelectionFrame.setResizable(false);
+		
+		
+		JScrollPane ingredientScrollPane = new JScrollPane();
+		ingredientScrollPane.setBounds(6, 54, 788, 400);
+		photoSelectionFrame.getContentPane().add(ingredientScrollPane);
+		
+		JLabel titleLabel = new JLabel("Please Select an Ingredient");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setBounds(241, 16, 325, 16);
+		photoSelectionFrame.getContentPane().add(titleLabel);
+		
+		JList theoryList = new JList();
+		theoryList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		theoryList.setCellRenderer(new ImageListCellRenderer());
+		
+		theoryList.setListData(ingredientPhotos.toArray());
+		theoryList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		theoryList.setFixedCellHeight(200);
+		theoryList.setFixedCellWidth(150);
+		theoryList.setVisibleRowCount(2);
+		ingredientScrollPane.setViewportView(theoryList);
+		
+		JButton selectButton = new JButton("Select ");
+		selectButton.setBounds(341, 466, 117, 29);
+		selectButton.addActionListener(e -> {
+			
+			JLabel selectedPanel = (JLabel) ((JPanel) theoryList.getSelectedValue()).getComponent(0);
+			ImageIcon photo = (ImageIcon) selectedPanel.getIcon();
+			Ingredient ing = findIngredientFromPhoto(photo.getDescription());
+			photoSelectionFrame.dispose();
+			showAlchemicalSelectionDialog(ing);
+		});
+		photoSelectionFrame.getContentPane().add(selectButton);
+		photoSelectionFrame.setVisible(true);
+		
+    }
+    
+    private void showAlchemicalSelectionDialog(Ingredient ing) {
+    	
+    	JFrame photoSelectionFrame = new JFrame("Select an Alchemical to Publish a Theory");
+    	
+    	ArrayList<String> photoPaths = new ArrayList<>();
+    	for (Alchemical a : PublicationTrack.getInstance().getAvailableAlchemicals()) {
+    		photoPaths.add(a.getAlchemicalPhoto());
+    	}
+    	ArrayList<JPanel> alchemicalPhotos = new ArrayList<>();
+    	for (String s : photoPaths) {
+    		JPanel p = new JPanel();
+    		JLabel l = new JLabel();
+    		ImageIcon i = new ImageIcon(new ImageIcon(s).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH),s);
+    		l.setIcon(i);
+    		p.add(l);
+    		alchemicalPhotos.add(p);
+    	}
+    	
+
+    	photoSelectionFrame.setBounds(100, 100, 800, 600);
+    	photoSelectionFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	photoSelectionFrame.getContentPane().setLayout(null);
+    	photoSelectionFrame.setResizable(false);
+		
+		
+		JScrollPane alchemicalScrollPane = new JScrollPane();
+		alchemicalScrollPane.setBounds(6, 54, 788, 400);
+		photoSelectionFrame.getContentPane().add(alchemicalScrollPane);
+		
+		JLabel titleLabel = new JLabel("Please Select an Alchemical");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setBounds(241, 16, 325, 16);
+		photoSelectionFrame.getContentPane().add(titleLabel);
+		
+		JList alchemicalList = new JList();
+		alchemicalList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		alchemicalList.setCellRenderer(new ImageListCellRenderer());
+		
+		alchemicalList.setListData(alchemicalPhotos.toArray());
+		alchemicalList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		alchemicalList.setFixedCellHeight(200);
+		alchemicalList.setFixedCellWidth(150);
+		alchemicalList.setVisibleRowCount(2);
+		alchemicalScrollPane.setViewportView(alchemicalList);
+		
+		JButton selectButton = new JButton("Select ");
+		selectButton.setBounds(341, 466, 117, 29);
+		selectButton.addActionListener(e -> {
+			
+			JLabel selectedPanel = (JLabel) ((JPanel) alchemicalList.getSelectedValue()).getComponent(0);
+			ImageIcon photo = (ImageIcon) selectedPanel.getIcon();
+			Alchemical alc = findAlchemicalFromPhoto(photo.getDescription());
+			Game.getGame().selectController(Controller.PUBLISH_THEORY);
+			TheoryController.getInstance().initPublishTheory(alc, ing);
+			photoSelectionFrame.dispose();
+			JOptionPane.showMessageDialog(null, Game.getGame().getCurrPlayer().getUsername()+" Succesfully Published a Theory!","Theory Publication Successful!",JOptionPane.PLAIN_MESSAGE);
+			
+			
+		});
+		photoSelectionFrame.getContentPane().add(selectButton);
+		photoSelectionFrame.setVisible(true);
+    	
+    }
+    
+    private Ingredient findIngredientFromPhoto(String path) {
+    	
+    	for (Ingredient i : IngredientStorage.getAllingredientcardsarray()) {
+    		if (i.getPhoto().equals(path)) {
+    			return i;
+    		}
+    	}
+    	return null;
+    }
+    
+    private Alchemical findAlchemicalFromPhoto(String path) {
+    	
+    	for (Alchemical a : PublicationTrack.getInstance().getAvailableAlchemicals()) {
+    		if (a.getAlchemicalPhoto().equals(path))
+    			return a;
+    	}
+    	return null;
+    	
+    }
     
     public void initialize() {
 		setVisible(true);

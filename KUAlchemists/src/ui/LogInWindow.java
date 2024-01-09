@@ -39,25 +39,17 @@ import javax.swing.ListSelectionModel;
 public class LogInWindow extends JFrame {
 
 	//fields
-	private JTextField textField;
-	private String username1;
-	private String username2;
-	private int selectedToken1;
-	private int selectedToken2;
-	private int numberOfPlayers;
-	private boolean loginCompleted = false;
-	
-	//Singleton implementation
-	private static LogInWindow loginWindowSingleton = new LogInWindow();
-	
-	public static LogInWindow getInstance() {
-		return loginWindowSingleton;
-	}
+	private static JTextField textField;
+	private static String username1;
+	private static String username2;
+	private static int selectedToken1;
+	private static int selectedToken2;
+	private static boolean loginCompleted = false;
 
 	/**
 	 * Create the frame.
 	 */
-	private LogInWindow() {
+	public LogInWindow() {
 		setResizable(false);
 		//get screen height and width
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -258,31 +250,41 @@ public class LogInWindow extends JFrame {
 					dispose();
 				}
 			}
-		});		
+
+		});
+				setVisible(true);
 	}
 	
-	//Displays the frame
-	public void displayLogInWindow() {
-		setVisible(true);
+	public static void main(String[] args) {
+		
+		LogInWindow loginWindow = new LogInWindow();
+		Game game = Game.getGame();
+
+		int numberOfPlayers = Game.getGame().getNumberOfPlayers();
+
+		numberOfPlayers = 2; //for now erase later
+		
+		game.initializePlayers(Game.getGame().getPlayers(), numberOfPlayers);
+		game.initializeBoard();
+
 	}
-	
 	//Returns Player 1's username
-	public String getFirstUsername() {
+	public static String getFirstUsername() {
 		return username1;
 	}
 
 	//Returns Player 2's username
-	public String getSecondUsername() {
+	public static String getSecondUsername() {
 		return username2;
 	}
 	
 	//Returns Player 1's token number
-	public int getFirstAvatarIndex() {
+	public static int getFirstAvatarIndex() {
 		return selectedToken1;
 	}
 	
 	//Returns Player 2's token number
-	public int getSecondAvatarIndex() {
+	public static int getSecondAvatarIndex() {
 		return selectedToken2;
 	}
 
@@ -294,3 +296,6 @@ public class LogInWindow extends JFrame {
 		this.numberOfPlayers = numberOfPlayers;
 	}
 	}
+	
+	
+}
