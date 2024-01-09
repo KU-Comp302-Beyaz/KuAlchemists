@@ -40,9 +40,9 @@ public class LogInWindow extends JFrame {
 
 	//fields
 	private static JTextField textField;
-	private static String[] usernames = new String[4];
-	private static int[] selectedTokens = new int[4];
-	private static boolean loginCompleted = false;
+	private static String[] usernames;
+	private static int[] selectedTokens;
+	private static boolean loginCompleted;
 	
 	private int numberOfPlayers;
 	
@@ -55,6 +55,11 @@ public class LogInWindow extends JFrame {
 	 * Create the frame.
 	 */
 	public LogInWindow() {
+		usernames = new String[4];
+		selectedTokens = new int[4];
+		loginCompleted = false;
+		
+		
 		setResizable(false);
 		//get screen height and width
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -193,6 +198,7 @@ public class LogInWindow extends JFrame {
                 	//TO BE IMPLEMENTED FOR NETWORK
                 }
         });
+        
         onlineButton.setFont(new Font("Cochin", Font.PLAIN, 48));
         onlineButton.setBounds((screenWidth-278)/2, 379, 278, 81);
         modeSelectionPanel.add(onlineButton);
@@ -218,33 +224,6 @@ public class LogInWindow extends JFrame {
             }
         }); 
 
-		
-		//Online Button
-		JButton onlineButton = new JButton("ONLINE");
-		onlineButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		onlineButton.setFont(new Font("Cochin", Font.PLAIN, 48));
-		onlineButton.setBounds(632, 379, 278, 81);
-		modeSelectionPanel.add(onlineButton);
-		
-		//Offline Button
-		JButton offlineButton = new JButton("OFFLINE");
-		offlineButton.setFont(new Font("Cochin", Font.PLAIN, 48));
-		offlineButton.setBounds(632, 513, 278, 81);
-		modeSelectionPanel.add(offlineButton);
-		offlineButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			
-			playerPanel1.setVisible(true);
-			gameTitle.setVisible(true);
-			modeSelectionPanel.setVisible(false);
-			offlineButton.setVisible(false);
-			onlineButton.setVisible(false);
-			
-			}
-		});		
 		
 
 		
@@ -344,10 +323,21 @@ public class LogInWindow extends JFrame {
 				if (usernameText.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Name field cannot be empty.","Error",JOptionPane.WARNING_MESSAGE);
 				}
-				else if (usernameText.getText().equals(usernames[0]) || usernameText.getText().equals(usernames[1]) || usernameText.getText().equals(usernames[2])) {
-					JOptionPane.showMessageDialog(null, "Username is already taken!","Error",JOptionPane.WARNING_MESSAGE);
-				}
 				else {
+					switch (numberOfPlayers) {
+					case 2: 
+						if (usernameText.getText().equals(usernames[0]))
+							JOptionPane.showMessageDialog(null, "Username is already taken!","Error",JOptionPane.WARNING_MESSAGE);
+						break;
+					case 3: 
+						if (usernameText.getText().equals(usernames[0]) || usernameText.getText().equals(usernames[1]))
+							JOptionPane.showMessageDialog(null, "Username is already taken!","Error",JOptionPane.WARNING_MESSAGE);
+						break;
+					case 4: 
+						if (usernameText.getText().equals(usernames[0]) || usernameText.getText().equals(usernames[1]) || usernameText.getText().equals(usernames[2]))
+							JOptionPane.showMessageDialog(null, "Username is already taken!","Error",JOptionPane.WARNING_MESSAGE);
+						break;
+					}
 					
 					//Username of Player Last
 					usernames[numberOfPlayers-1] = usernameText.getText();
@@ -364,11 +354,13 @@ public class LogInWindow extends JFrame {
 					BoardWindow board = BoardWindow.getBoardWindow();
 					board.initialize();
 					dispose();
+					
 				}
 			}
 
 		});
-				setVisible(true);
+		
+		setVisible(true);
 	}
 	
 	public static void main(String[] args) {
@@ -395,14 +387,6 @@ public class LogInWindow extends JFrame {
 		LogInWindow.selectedTokens = selectedTokens;
 	}
 
-	public  int getNumberOfPlayers() {
-		return numberOfPlayers;
-	}
-
-	public  void setNumberOfPlayers(int numberOfPlayers) {
-		this.numberOfPlayers = numberOfPlayers;
-	}
-
 	public int getNumberOfPlayers() {
 		return numberOfPlayers;
 	}
@@ -410,7 +394,7 @@ public class LogInWindow extends JFrame {
 	public void setNumberOfPlayers(int numberOfPlayers) {
 		this.numberOfPlayers = numberOfPlayers;
 	}
-	}
-	
+
+
 	
 }
