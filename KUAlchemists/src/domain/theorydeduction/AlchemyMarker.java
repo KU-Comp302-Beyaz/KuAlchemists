@@ -1,13 +1,12 @@
 package domain.theorydeduction;
-
-import javax.swing.ImageIcon;
+import java.util.Objects;
 
 public class AlchemyMarker {
 
 	private String sign;
 	private String color;
 	private String size;
-	private ImageIcon icon;
+	private String icon;
 	
 	// Potion formula
 	public AlchemyMarker (String sign, String color, String size) {
@@ -18,7 +17,7 @@ public class AlchemyMarker {
 
 	}
 	
-	public AlchemyMarker (String sign, String color, String size, ImageIcon icon) {
+	public AlchemyMarker (String sign, String color, String size, String icon) {
 		
 		this.sign = sign;	// (+ / -)
 		this.color = color;	// (red / green / blue)
@@ -36,7 +35,7 @@ public class AlchemyMarker {
 		
 		this.sign = sign;	// (+ / -)
 		this.color = color;	// (red / green / blue)
-		
+		this.icon = "src/images/bottle-icons/"+color+ sign +"bottle.png"; // creating path for displaying result Token after make potion
 	}
 	
 	public String getSign() {
@@ -63,16 +62,28 @@ public class AlchemyMarker {
 	}
 
 
-	public ImageIcon getIcon() {
+	public String getIcon() {
 		return icon;
 	}
 
-
-	public void setIcon(ImageIcon icon) {
+	public void setIcon(String icon) {
 		this.icon = icon;
 	}
 	
-	
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        AlchemyMarker that = (AlchemyMarker) obj;
+        return Objects.equals(getSign(), that.getSign()) &&
+               Objects.equals(getColor(), that.getColor()) &&
+               Objects.equals(getSize(), that.getSize()) &&
+               Objects.equals(getIcon(), that.getIcon());
+    }
 	
 	
 }

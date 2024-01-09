@@ -8,7 +8,6 @@ public class Potion {
 	Ingredient[] recipe = new Ingredient[2];
 	AlchemyMarker alchemyMarker = new AlchemyMarker();
 	
-	//int pointValue; ??
 	
 	public Potion(Ingredient i1, Ingredient i2, AlchemyMarker resultToken) {
 		
@@ -20,6 +19,7 @@ public class Potion {
 	public Ingredient[] getRecipe() {
 		return recipe;
 	}
+	
 	public void setRecipe(Ingredient[] recipe) {
 		this.recipe = recipe;
 	}
@@ -27,8 +27,18 @@ public class Potion {
 	public AlchemyMarker getAlchemyMarker() {
 		return alchemyMarker;
 	}
+	
 	public void setAlchemyMarker(AlchemyMarker alchemyMarker) {
 		this.alchemyMarker = alchemyMarker;
+	}
+	
+	public String getPotionSign() {
+		
+		String sign = alchemyMarker.getSign();
+		if (sign == null)
+			return "0";
+			
+		return sign;
 	}
 	
 	
