@@ -83,17 +83,20 @@ public class Game {
 		int chosenAvatarIndex;
 		int j = 0;
 		for (int i = 0; i < numberOfPlayers; i++) {
-			username = LogInWindow.getFirstUsername();
-			chosenAvatarIndex = LogInWindow.getFirstAvatarIndex();
+			username = LogInWindow.getUsernames()[i];
+			chosenAvatarIndex = LogInWindow.getSelectedTokens()[i];
 			players[i] = new Player(username,chosenAvatarIndex);
 			
 			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
 			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
 			
 			players[i].setGoldBalance(10);
+			
+			System.out.println(players[i]);
 		}
 		currPlayerIndex = 0;
 		currPlayer = players[currPlayerIndex];
+		
 	}
 	
 	public void endTurn() {
@@ -252,5 +255,6 @@ public class Game {
 	public  void setNumberOfPlayers(int numberOfPlayers) {
 		this.numberOfPlayers = numberOfPlayers;
 	}
+	
 	
 }
