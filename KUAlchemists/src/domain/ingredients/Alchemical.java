@@ -45,6 +45,7 @@ public class Alchemical {
     this.alchemicalPhoto = alchemicalPhoto;
   }
 
+	/*
 	public AlchemyMarker getRed() {
 		return red;
 	}
@@ -68,8 +69,7 @@ public class Alchemical {
 	public void setBlue(AlchemyMarker blue) {
 		this.blue = blue;
 	}
-*/
-	
+	*/
 	
 	
 }
