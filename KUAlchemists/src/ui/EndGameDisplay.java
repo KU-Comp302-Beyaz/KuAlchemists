@@ -1,9 +1,10 @@
 package ui;
 
-import javax.swing.JFrame;
+import java.awt.BorderLayout;
 
-import domain.Player;
-import domain.ingredients.IngredientController;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 public class EndGameDisplay extends JFrame{
 	
@@ -16,9 +17,23 @@ public class EndGameDisplay extends JFrame{
 			return egDisplay;
 		}
 		
-		private EndGameDisplay() {}
+		private EndGameDisplay() {
+		       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				setBounds(0, 0, 1440, 800);
+		        this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
+		        
+		        JPanel contentPane = new JPanel();
+		        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		        contentPane.setLayout(new BorderLayout());
+		        setContentPane(contentPane);
+
+		}
 		
-		public void displayWinner(Player player) {}
+		public void displayWinner() {
+			
+			setVisible(true);
+			
+		}
 	
 	
 	

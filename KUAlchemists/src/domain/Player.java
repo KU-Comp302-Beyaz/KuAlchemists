@@ -198,15 +198,19 @@ public class Player {
 		return scorePoints;
 	}
 
+
+
+	@Override
+	public String toString() {
+		return "Player [username=" + username + ", token=" + token + ", goldBalance=" + goldBalance + ", turnNumber="
+				+ turnNumber + ", ingredientCards=" + ingredientCards + ", sicknessLevel=" + sicknessLevel
+				+ ", reputationPoints=" + reputationPoints + ", scorePoints=" + scorePoints + ", potions=" + potions
+				+ ", theories=" + theories + ", artifacts=" + artifacts + ", playerDeductionBoard="
+				+ playerDeductionBoard + "]";
+	}
+	
+	
 	
 
-
-
-
-
-
-
-
 	
-
 }
