@@ -47,7 +47,9 @@ public class Game {
 	//Singleton implementation
 	private static Game gameSingleton = new Game();
 	
-	private Game() {}
+	private Game() {
+		this.gameRound = 1;
+	}
 	
 	public static Game getGame() {
 		return gameSingleton;
@@ -92,10 +94,11 @@ public class Game {
 			
 			players[i].setGoldBalance(10);
 			
-			System.out.println(players[i]);
 		}
 		currPlayerIndex = 0;
 		currPlayer = players[currPlayerIndex];
+		
+		setNumberOfPlayers(numberOfPlayers);
 		
 	}
 	
@@ -111,17 +114,23 @@ public class Game {
 		else {
 			currPlayer = players[currPlayerIndex];	
 		}
-
+		System.out.println("number of players "+numberOfPlayers);
+		System.out.println("curr player index is "+currPlayerIndex);
+		System.out.println("curr player is "+currPlayer);
 				
 		
 	}
 	
 	public void nextRound() {
 		
+		
+		
 		this.gameRound++;
 		if (gameRound > 3) {
 			endGame(players);
 		}
+		
+		System.out.println("next round: "+ gameRound) ;
 	}
 	
 	public void endGame(Player[] players) {
