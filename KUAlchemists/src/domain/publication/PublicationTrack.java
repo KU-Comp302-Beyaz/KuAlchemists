@@ -1,6 +1,7 @@
 package domain.publication;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import domain.ingredients.Alchemical;
 import domain.ingredients.Ingredient;
@@ -65,9 +66,46 @@ public class PublicationTrack {
 	public ArrayList<Ingredient> getAvailableIngredients() {
 		return availableIngredients;
 	}
-
 	
+	public Ingredient getIngredient(Ingredient i) {
+		
+		if (i==null)
+			return null;
+		if (i.getPhoto()==null)
+			return null;
+		for (Ingredient ing : availableIngredients) {
+			if (Ingredient.checkEquality(i, ing))
+				return ing;
+		}
+		return null;
+	}
 	
+	public Alchemical getAlchemical(Alchemical a) {
+		
+		if (a==null)
+			return null;
+		if (a.getAlchemicalPhoto()==null)
+			return null;
+		for(Alchemical alc : availableAlchemicals) {
+			if(Alchemical.checkEquality(a, alc))
+				return alc;
+		}
+		return null;
+	}
+	
+	public boolean claimCard(List<Theory> theories, PublicationCard c) {
+		
+		ArrayList<Ingredient> ingredientFromTheories = new ArrayList<>();
+		for (Theory t : theories) {
+			ingredientFromTheories.add(t.getIngredientType());
+		}
+		if (ingredientFromTheories.containsAll(c.getRequiredTheories()))
+			return true;
+		else {
+			return false;
+		}
+		
+	}
 
 	
 	

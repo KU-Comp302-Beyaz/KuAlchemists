@@ -50,5 +50,14 @@ public class PublicationCard {
 		
 	}
 	
+	public Player getRewardClaimer() {
+		return rewardClaimer;
+	}
+
+	public void setRewardClaimer(Player rewardClaimer) {
+		this.rewardClaimer = rewardClaimer;
+	}
+	
+	
 
 }
