@@ -7,6 +7,7 @@ import java.util.List;
 import domain.ingredients.Ingredient;
 import domain.potion.Potion;
 import domain.theorydeduction.AlchemyMarker;
+import domain.theorydeduction.DeductionBoard;
 import domain.theorydeduction.Theory;
 import domain.artifact.*;
 
@@ -24,6 +25,8 @@ public class Player {
 	private List<Potion> potions = new ArrayList<Potion>();
 	private List<Theory> theories = new ArrayList<Theory>();
 	private HashMap<String,Artifact> artifacts = new HashMap<String,Artifact>(2);
+	private DeductionBoard playerDeductionBoard;
+
 
 	
 	// constructor
@@ -36,6 +39,7 @@ public class Player {
 		this.sicknessLevel = 0;
 		this.reputationPoints = 0;
 		this.scorePoints = 0;
+		this.playerDeductionBoard = new DeductionBoard(this);
 		
 	}
 	
@@ -91,9 +95,6 @@ public class Player {
 		this.reputationPoints = reputationPoints;
 	}
 
-	public int getScorePoints() {
-		return scorePoints;
-	}
 	public void setScorePoints(int scorePoints) {
 		this.scorePoints = scorePoints;
 	}
@@ -112,6 +113,10 @@ public class Player {
 		this.theories = theories;
 	}
 	
+	public void addTheory(Theory t) {
+		this.theories.add(t);
+	}
+	
 	public HashMap<String, Artifact> getArtifacts() {
 		return artifacts;
 	}
@@ -122,29 +127,90 @@ public class Player {
 
 
 
+	public DeductionBoard getPlayerDeductionBoard() {
+		return playerDeductionBoard;
+	}
+
+
+
+	public void setPlayerDeductionBoard(DeductionBoard playerDeductionBoard) {
+		this.playerDeductionBoard = playerDeductionBoard;
+	}
+
+
+
 	// other methods
 	public int updatePlayerTurn() { // boolean mı dönsün? eğer 3e ulaşırsa false döner ve diğer oyuncuya veya etaba geçilir?
 		this.turnNumber ++;
 		return turnNumber;
 	}
+
 	
 	public void updateGoldBalance(int amount) {
 		setGoldBalance(goldBalance + amount);
+	   
 	}
 	
+	public void updateGoldBalanceforPotion(int amount) {
+	    setGoldBalance(getGoldBalance() - amount);
+	}
+	public void updateReputationPoints(int amount) {
+		this.reputationPoints += amount;
+	}
+	
+	
 	public AlchemyMarker testOnPlayer(Potion p) {
+	    AlchemyMarker alchemyMarker = p.getAlchemyMarker();
 
-		AlchemyMarker alchemyMarker = p.getAlchemyMarker();
 		System.out.println(alchemyMarker);
-		if(alchemyMarker.getSign().equals("-")) {
-			sicknessLevel ++;
-		} else if (alchemyMarker.getSign().equals("+")){
+	    if (alchemyMarker.getSign().equals("-")) {
+	    	//sicknessLevel ++;
+	        setSicknessLevel(getSicknessLevel() + 1);
+
+	        if (getSicknessLevel() != 3) {
+	        	if (getGoldBalance() > 0) {
+		            updateGoldBalance(-1); // Decrease gold balance by 1
+	        		}	       
+	        }
+	  	  //} else if (alchemyMarker.getSign().equals("+")){
 			// ou can use it to decrease your sickness level by 1? How ??
+
+		//if(sicknessLevel == 3) { // sickness level increases to 3, e.g., you get sick 3 times, you lose all of your golds to have surgery and get well.
+		//	setGoldBalance(0);
+	    }
+	  
+	
+	    return alchemyMarker;
+	}
+	
+	public int getScorePoints() {
+		
+		int score = 0;
+		int goldsFromArtifacts = 0;
+		score += reputationPoints * 10;
+		
+		if (!artifacts.isEmpty()) {
+			int artifactNum = artifacts.size();
+			goldsFromArtifacts = 2 * artifactNum;
 		}
 		
-		if(sicknessLevel == 3) { // sickness level increases to 3, e.g., you get sick 3 times, you lose all of your golds to have surgery and get well.
-			setGoldBalance(0);
-		}
-		return alchemyMarker;
+		score += (int) goldsFromArtifacts / 3;
+		return scorePoints;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "Player [username=" + username + ", token=" + token + ", goldBalance=" + goldBalance + ", turnNumber="
+				+ turnNumber + ", ingredientCards=" + ingredientCards + ", sicknessLevel=" + sicknessLevel
+				+ ", reputationPoints=" + reputationPoints + ", scorePoints=" + scorePoints + ", potions=" + potions
+				+ ", theories=" + theories + ", artifacts=" + artifacts + ", playerDeductionBoard="
+				+ playerDeductionBoard + "]";
+	}
+	
+	
+	
+
+	
 }

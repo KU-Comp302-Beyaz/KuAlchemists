@@ -23,6 +23,7 @@ import domain.Player;
 import domain.Game.Controller;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientStorage;
+import domain.potion.Potion;
 import domain.potion.PotionController;
 
 import javax.imageio.ImageIO;
@@ -78,7 +79,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	private static boolean requestAccepted = false;
 	private static boolean requestDeclined = false;
 	private ImageIcon coinIcon;
-	private Player player = Game.getCurrPlayer();
+	private Player player = Game.getGame().getCurrPlayer();
 	private static String testMethod ;
 	private Ingredient[] ingredients; 	
 	private JList<JPanel> ingredientList;
@@ -134,7 +135,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         
         // Add background image
         try {
-            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.jpeg"));
+            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
             contentPane = new JPanel() {
                 @Override
                 protected void paintComponent(Graphics g) {
@@ -278,7 +279,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		ingredientList.setVisibleRowCount(1); // Set the visible row count to 1 for horizontal layout
 
         
-        
         JPanel testPanel = new JPanel();
         testPanel.setBounds(0, 272, 871, 167);
         experimentPanel.add(testPanel);
@@ -376,7 +376,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
       			ImageIcon icon3 = new ImageIcon("src/images/bottle-icons/blue-bottle.png");
       			ImageIcon icon4 = new ImageIcon("src/images/bottle-icons/green-bottle.png");
       			ImageIcon icon5 = new ImageIcon("src/images/bottle-icons/red+bottle.png");
-      			ImageIcon icon6 = new ImageIcon("src/images/bottle-icons/null_bottle.png");
+      			ImageIcon icon6 = new ImageIcon("src/images/bottle-icons/nullnullbottle.png");
       			ImageIcon icon7 = new ImageIcon("src/images/bottle-icons/green+bottle.png");
       			
       			List<ImageIcon> potionImages = new ArrayList<>();
@@ -465,7 +465,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
       			goldPayment.setText(null);
       			goldPayment.setIcon(coinIcon);
       			requestDeclined = true;
-
         		JOptionPane.showMessageDialog(contentPane,
         			    "Adventurer's request is declined. Player's turn count remains the same!",
         			    "Potion Request Decline",
@@ -526,6 +525,30 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           		} else {
           			//Game.setController(Game.Controller.MAKE_EXPERIMENT);
           			Game.getGame().selectController(Controller.MAKE_EXPERIMENT);
+          			Potion potion = player.getPotions().get(player.getPotions().size() - 1);
+          			//JOptionPane.showMessageDialog(contentPane,
+            			//    "" + potion.getRecipe()[0].getName() + " + "+ potion.getRecipe()[1].getName() + " = " + new ImageIcon("src/images/bottle-icons/blue+bottle.png")); 
+          		
+          			/////////// Message Dialog Result Token
+          			JFrame frame = new JFrame("ResultToken Dialog");
+          	        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+          	        // Create a panel with a label for text and an image
+          	        JPanel panel = new JPanel(new BorderLayout());
+          	        JLabel textLabel = new JLabel("Potion Recipe: " + potion.getRecipe()[0].getName() + " + "+ potion.getRecipe()[1].getName() + " = ", JLabel.CENTER);
+          	                 
+          	        ImageIcon imageIcon = new ImageIcon(potion.getAlchemyMarker().getIcon()); // Get the path of alchemyMarker
+          	        JLabel imageLabel = new JLabel(imageIcon);
+          	        panel.add(textLabel, BorderLayout.NORTH);
+          	        panel.add(imageLabel, BorderLayout.CENTER);
+
+          	        // Show the option pane with the custom panel
+          	        JOptionPane.showMessageDialog(frame, panel, "Custom Image Dialog", JOptionPane.INFORMATION_MESSAGE);
+
+          	        // Optional: Set frame size and make it visible
+          	        frame.setSize(300, 200);
+          	        frame.setLocationRelativeTo(null); // Center on screen
+          	        frame.setVisible(true);
           		}
           		
           		
@@ -700,7 +723,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		return guaranteeLevel;
 	}
 
-	
 	public static String getTestMethod() {
 		return testMethod;
 	}
@@ -708,6 +730,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	public Ingredient[] getIngredients() {
 		return ingredients;
 	}
+
 	
 	public boolean isRequestAccepted() {
 		return requestAccepted;
@@ -717,13 +740,12 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		//return PlayerIngredientList.getChosenIngredients(ingredientList);
 		return chosenIngredients;
     }
-	
+
 	public static boolean isSellRequestAccepted() {
 		return requestAccepted;
 	}
 
-	
-	/**
+		/**
 	 * Gets the selected indexes by player from JList
 	 * @return chosen Ingredient
 	 */

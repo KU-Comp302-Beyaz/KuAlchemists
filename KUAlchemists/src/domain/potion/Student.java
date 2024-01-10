@@ -4,10 +4,10 @@ import domain.theorydeduction.AlchemyMarker;
 
 public class Student {
 	
-	int sicknessLevel;
+	private int sicknessLevel;
 	
 	public Student() {
-		sicknessLevel = 0;
+		setSicknessLevel(0);
 	}
 	
 
@@ -16,10 +16,20 @@ public class Student {
 		
 		AlchemyMarker alchemyMarker = p.getAlchemyMarker();
 		if(alchemyMarker.getSign().equals("-")) {
-			sicknessLevel ++;
+			setSicknessLevel(getSicknessLevel() + 1);
 		}
 		
 		return alchemyMarker;
 		
+	}
+
+
+	public int getSicknessLevel() {
+		return sicknessLevel;
+	}
+
+
+	public void setSicknessLevel(int sicknessLevel) {
+		this.sicknessLevel = sicknessLevel;
 	}
 }

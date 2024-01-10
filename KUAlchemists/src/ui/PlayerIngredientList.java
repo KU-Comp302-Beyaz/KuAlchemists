@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
 
 
@@ -20,6 +20,7 @@ public class PlayerIngredientList {
 	private final static int IMAGE_WIDTH = 140;
 
 	private static final int IMAGE_HEIGHT = 140;
+
 	
 	private static HashMap<JLabel, Ingredient> playerIngredientJListLabels = new HashMap<JLabel, Ingredient>();
 	private static ArrayList<JPanel> playerIngredientJListPanels = new ArrayList<JPanel>();
@@ -58,6 +59,7 @@ public class PlayerIngredientList {
 	public static void initialize(Player player) {
 		
 		//ingredientList in to be put in the Scroll pane
+
 		JList<JPanel> ingredientList = PotionBrewingAreaDisplay.getInstance().getIngredientList();
 			
 
@@ -71,6 +73,7 @@ public class PlayerIngredientList {
 		int numberOfImagesInRow = boxWidth/IMAGE_WIDTH;
 		ingredientList.setVisibleRowCount((player.getIngredientCards().size()+numberOfImagesInRow-1)/numberOfImagesInRow);
 		ingredientList.setSelectedIndex(0);
+
 		PotionBrewingAreaDisplay.getInstance().getScrollPane_ingredients().setViewportView(ingredientList);
 	}
 	
@@ -87,6 +90,7 @@ public class PlayerIngredientList {
 	//getter setters
 	public static HashMap<JLabel, Ingredient> getIngredientCardLabels() {
 		return playerIngredientJListLabels;
+
 	}
 
 	public static ArrayList<JPanel> getIngredientCardPanels() {
@@ -97,6 +101,16 @@ public class PlayerIngredientList {
 		playerIngredientJListPanels = ingredientCardPanels;
 	}
 
+
+	
+	/*
+	public static Ingredient[] getChosenIngredients(JList<JPanel> lst) {
+		
+        int[] selectedIndices = lst.getSelectedIndices();
+        ArrayList<Ingredient> selectedIngredients = new ArrayList<>();
+        
+	}
+	*/
 	public static Ingredient getChosenIngredient(JList<JPanel> lst) {
 		JLabel label = (JLabel) lst.getSelectedValue().getComponent(0);
 		return getIngredientCardLabels().get(label);
@@ -120,4 +134,6 @@ public class PlayerIngredientList {
             return selectedIngredients.toArray(resultArray);
      
     }
+
+    
 }

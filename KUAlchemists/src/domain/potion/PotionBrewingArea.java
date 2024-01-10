@@ -13,71 +13,70 @@ public class PotionBrewingArea {
 		Alchemical alchemy_2 = ing_2.getAlchemical();
 		
 		AlchemyMarker red1 = alchemy_1.getAspects().get(0);
+		//AlchemyMarker red1 = alchemy_1.getRed();
+		//System.out.println("red1 " + red1.getSign() + " " + red1.getSize());
 		AlchemyMarker green1 = alchemy_1.getAspects().get(1);
+		//AlchemyMarker green1 = alchemy_1.getGreen();
+		//System.out.println("green1 " + green1.getSign() + " " + green1.getSize());
 		AlchemyMarker blue1 = alchemy_1.getAspects().get(2);
+		//AlchemyMarker blue1 = alchemy_1.getBlue();
+		//System.out.println("blue1 " + blue1.getSign() + " " + blue1.getSize());
 		
-		AlchemyMarker red2 = alchemy_1.getAspects().get(0);
-		AlchemyMarker green2 = alchemy_1.getAspects().get(1);
-		AlchemyMarker blue2 = alchemy_1.getAspects().get(2);
+		AlchemyMarker red2 = alchemy_2.getAspects().get(0);
+		//System.out.println("red2 " + red2.getSign() + " " + red2.getSize());
+		AlchemyMarker green2 = alchemy_2.getAspects().get(1);
+		//System.out.println("green2 " + green2.getSign() + " " + green2.getSize());
+		AlchemyMarker blue2 = alchemy_2.getAspects().get(2);
+		//System.out.println("blue2 " + blue2.getSign() + " " + blue2.getSize());
 		
 		AlchemyMarker resultToken = null;
-		if(red1.getSize().equals(red2.getSize())) { // red has same size
-			
-			if(green1.getSize().equals(green2.getSize())) { // green has same size
-				
-				if(blue1.getSize().equals(blue2.getSize())) { // blue has same size
-					resultToken = new AlchemyMarker(); // nötr
-				} else {
-					if (blue1.getSign().equals(blue2.getSign())) {
-						resultToken = new AlchemyMarker(blue1.getSign(), "blue"); // different size, same sign
-					}
-				}
-				
-			} else {
-
-				if (green1.getSign().equals(green2.getSign())) {
-					resultToken = new AlchemyMarker(green1.getSign(), "green"); // different size, same sign
-				}
-			}
+		
+		if((! red1.getSize().equals(red2.getSize())) && (red1.getSign().equals(red2.getSign()))) { // red
+			resultToken = new AlchemyMarker(red1.getSign(), "red"); // different size, same sign			
+		} 
+		else if ((! blue1.getSize().equals(blue2.getSize())) && (blue1.getSign().equals(blue2.getSign()))) { // blue
+			resultToken = new AlchemyMarker(blue1.getSign(), "blue"); // different size, same sign
+		} 
+		else if ((! green1.getSize().equals(green2.getSize())) && (green1.getSign().equals(green2.getSign()))) { // green
+			resultToken = new AlchemyMarker(green1.getSign(), "green"); // different size, same sign
 		} else {
-			if (red1.getSign().equals(red2.getSign())) {
-				resultToken = new AlchemyMarker(red1.getSign(), "red"); // different size, same sign
-			}
+			resultToken = new AlchemyMarker(); //nötr 
 		}
-		
-		System.out.println("Ingredient 1: " + ing_1.getName());
-		System.out.println("Ingredient 2: " + ing_2.getName());
-		System.out.println("resultToken: " + resultToken.getSign());
-		Potion p = new Potion(ing_1, ing_2, resultToken);
-		
+		System.out.println("inside makePotion" + ing_1 + ing_2 + resultToken.getSign()  );
+		Potion p = new Potion(ing_1, ing_2, resultToken);	
 		
 		return p;
 	}
 	
+
+
+
+	
 	public AlchemyMarker testPotion(String testMethod, Potion p, Player player) {
-		
-		int gold = player.getGoldBalance();		
-		AlchemyMarker alchemyMarker = p.getAlchemyMarker();
-		int sicknessLevel = player.getSicknessLevel();
-		if(testMethod.equals("Student")) {
-			// Student student = new Student();
-			if(gold == 0) {
-				// cannot test on student
-			} else {
-				player.updateGoldBalance(1); // negative potion and test it on a student, you will lose 1 gold
-			}
-		} else if (testMethod.equals("Player")) {	
-			if (sicknessLevel == 3) {
-				// cannot test on Player !
-			} else {
-				player.testOnPlayer(p);
-			}
-		} else {
-			// error;
-		}
-		return alchemyMarker;
+	    int gold = player.getGoldBalance();
+	    AlchemyMarker alchemyMarker = p.getAlchemyMarker();
+	    int sicknessLevel = player.getSicknessLevel();
+
+	    if (testMethod.equals("Student")) {
+	        if (gold == 0) {
+	        	// cannot test on student
+	        } else {
+	            player.updateGoldBalanceforPotion(1); // negative potion and test it on a student, you will lose 1 gold
+	        }
+	    } else if (testMethod.equals("Player")) {
+	        if (sicknessLevel == 3) {
+	        	// cannot test on Player !
+	    
+	        } else {
+	            player.testOnPlayer(p);
+	            sicknessLevel = player.getSicknessLevel(); // updaion of sicknessLevel after testing on Player
+	        }
+	    } else {
+	    	// error;
+	        return null; // invalid test method
+	    }
+
+	    return alchemyMarker;
 	}
-	
-	
-	
+
 }
