@@ -411,8 +411,13 @@ public class DeductionBoardDisplay extends JFrame{
  	
     	JButton publishButton = new JButton("Publish a Theory");
     	publishButton.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) { 
-    			showIngredientSelectionDialog();
+    		public void actionPerformed(ActionEvent e) {
+    			if (PublicationTrack.getInstance().getAvailableAlchemicals().isEmpty()) {
+    				JOptionPane.showMessageDialog(DeductionBoardDisplay.getIsDisplay(), "There are no Alchemy Markers left to publish theory!","No Alchemy Markers Left",JOptionPane.ERROR_MESSAGE);
+    			}
+    			else {
+    				showIngredientSelectionDialog();
+    			}
     		}
     	});
         /*
