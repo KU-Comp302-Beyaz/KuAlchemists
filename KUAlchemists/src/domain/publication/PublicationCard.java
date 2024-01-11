@@ -46,7 +46,7 @@ public class PublicationCard {
 	
 	public boolean isClaimed() {
 		
-		return this.rewardClaimer == null;
+		return this.rewardClaimer != null;
 		
 	}
 	

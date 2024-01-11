@@ -48,6 +48,10 @@ public class TheoryController {
 	
 	public boolean initClaimCard(PublicationCard card) {
 		
+		if (card == null) {
+			return false;
+		}
+		
 		boolean result = pt.claimCard(currPlayer.getTheories(), card);
 		if (result) {
 			this.currPlayer.updateGoldBalance(card.getGoldReward());

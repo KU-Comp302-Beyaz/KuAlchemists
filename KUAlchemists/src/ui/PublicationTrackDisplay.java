@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,8 +24,14 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
+import domain.Game;
+import domain.Game.Controller;
+import domain.ingredients.Ingredient;
+import domain.ingredients.IngredientStorage;
+import domain.publication.PublicationCard;
 import domain.publication.PublicationTrack;
 import domain.theorydeduction.Theory;
+import domain.theorydeduction.TheoryController;
 
 
 public class PublicationTrackDisplay extends JFrame implements Display {
@@ -105,11 +112,37 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		
 		debunkButton.setFont(new Font("Cochin", Font.PLAIN, 20));
 		debunkButton.setBounds(1058, 719, 250, 64);
+		debunkButton.addActionListener(e -> {
+			
+			
+			
+			
+		});
 		getContentPane().add(debunkButton);
 		
 		
 		claimRewardButton.setFont(new Font("Cochin", Font.PLAIN, 20));
 		claimRewardButton.setBounds(200, 719, 250, 64);
+		claimRewardButton.addActionListener(e -> {
+			
+			Game.getGame().selectController(Controller.CLAIM_CARD);
+			PublicationCard selectedCard = getSelectedCard();
+			if (selectedCard.isClaimed())
+				JOptionPane.showMessageDialog(this, "This Publication Card is already claimed by other player.","Card Already Claimed",JOptionPane.ERROR_MESSAGE);
+			else {
+				boolean result = TheoryController.getInstance().initClaimCard(selectedCard);
+				if (result) {
+					JPanel selectedPanel = (JPanel) publicationList.getSelectedValue();
+					JLabel l = new JLabel();
+					l.setIcon(new ImageIcon(new ImageIcon("src/images/claimed.png").getImage().getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT/2, Image.SCALE_SMOOTH)));
+					selectedPanel.add(l);
+					JOptionPane.showMessageDialog(this, "You successfully claimed the publication card! "+selectedCard.getGoldReward()+"amounts of gold and "+selectedCard.getReputationReward()+"amounts of reputation points are added to the "+Game.getGame().getCurrPlayer(),"Card Successfully Claimed",JOptionPane.PLAIN_MESSAGE);
+				}
+				else {
+					JOptionPane.showMessageDialog(this, "You don't have required theories to claim this publication card.","Cannot Claim Card",JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		getContentPane().add(claimRewardButton);
 		
 		
@@ -149,10 +182,6 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		return instance;
 	}
 
-
-
-
-
 	public void initialize() {
 		theoryPanels.clear();
 		getTheoryListItems();
@@ -163,7 +192,29 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		setVisible(true);
 	}
 	
-	
+	private PublicationCard getSelectedCard() {
+		
+		JLabel ingredientPanel1 = (JLabel) ((JPanel) publicationList.getSelectedValue()).getComponent(0);
+		JLabel ingredientPanel2 = (JLabel) ((JPanel) publicationList.getSelectedValue()).getComponent(1);
+		JLabel ingredientPanel3 = (JLabel) ((JPanel) publicationList.getSelectedValue()).getComponent(2);
+		
+		ImageIcon photo1 = (ImageIcon) ingredientPanel1.getIcon();
+		ImageIcon photo2 = (ImageIcon) ingredientPanel2.getIcon();
+		ImageIcon photo3 = (ImageIcon) ingredientPanel3.getIcon();
+		
+		Ingredient ing1 = findIngredientFromPhoto(photo1.getDescription());
+		Ingredient ing2 = findIngredientFromPhoto(photo2.getDescription());
+		Ingredient ing3 = findIngredientFromPhoto(photo3.getDescription());
+		
+		ArrayList<Ingredient> ingredients = new ArrayList<>();
+		ingredients.add(ing1);
+		ingredients.add(ing2);
+		ingredients.add(ing3);
+		PublicationCard card = findPublicationCard(ingredients);
+		return card;
+		
+		
+	}
 	
 	private void getPublishListItems() {
 		
@@ -174,9 +225,9 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 			JLabel l3 = new JLabel();
 			JLabel l4 = new JLabel("Reputation Point Reward: "+pt.getPublicationCards().get(i).getReputationReward());
 			JLabel l5 = new JLabel("Gold Reward: "+pt.getPublicationCards().get(i).getGoldReward());
-			l1.setIcon(new ImageIcon(new ImageIcon(pt.getPublicationCards().get(i).getRequiredTheories().get(0).getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
-			l2.setIcon(new ImageIcon(new ImageIcon(pt.getPublicationCards().get(i).getRequiredTheories().get(1).getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
-			l3.setIcon(new ImageIcon(new ImageIcon(pt.getPublicationCards().get(i).getRequiredTheories().get(2).getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
+			l1.setIcon(new ImageIcon(new ImageIcon(pt.getPublicationCards().get(i).getRequiredTheories().get(0).getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH),pt.getPublicationCards().get(i).getRequiredTheories().get(0).getPhoto()));
+			l2.setIcon(new ImageIcon(new ImageIcon(pt.getPublicationCards().get(i).getRequiredTheories().get(1).getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH),pt.getPublicationCards().get(i).getRequiredTheories().get(1).getPhoto()));
+			l3.setIcon(new ImageIcon(new ImageIcon(pt.getPublicationCards().get(i).getRequiredTheories().get(2).getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH),pt.getPublicationCards().get(i).getRequiredTheories().get(2).getPhoto()));
 			p.add(l1);
 			p.add(l2);
 			p.add(l3);
@@ -186,8 +237,7 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		}
 		
 	}
-		
-			
+
 	private void getTheoryListItems() {
 		
 		for(Theory t : pt.getPublishedTheories()) {
@@ -207,6 +257,27 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 			theoryPanel.add(informationLabel);
 			this.theoryPanels.add(theoryPanel);
 		}
+	}
+	
+	private Ingredient findIngredientFromPhoto(String path) {
+    	
+    	for (Ingredient i : IngredientStorage.getAllingredientcardsarray()) {
+    		if (i.getPhoto().equals(path)) {
+    			return i;
+    		}
+    	}
+    	return null;
+    }
+	
+	private PublicationCard findPublicationCard(List<Ingredient> ingredients) {
+		
+		for (PublicationCard pc : pt.getPublicationCards()) {
+			
+			if (pc.getRequiredTheories().containsAll(ingredients))
+				return pc;
+		}
+		return null;
+		
 	}
 
 	public void openDialog() {
