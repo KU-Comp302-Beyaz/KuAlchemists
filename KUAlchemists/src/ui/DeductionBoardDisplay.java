@@ -830,11 +830,16 @@ public class DeductionBoardDisplay extends JFrame{
 		selectButton.setBounds(341, 466, 117, 29);
 		selectButton.addActionListener(e -> {
 			
-			JLabel selectedPanel = (JLabel) ((JPanel) theoryList.getSelectedValue()).getComponent(0);
-			ImageIcon photo = (ImageIcon) selectedPanel.getIcon();
-			Ingredient ing = findIngredientFromPhoto(photo.getDescription());
-			photoSelectionFrame.dispose();
-			showAlchemicalSelectionDialog(ing);
+			if (theoryList.getSelectedValue() == null) {
+				JOptionPane.showMessageDialog(photoSelectionFrame, "Please select an ingredient to publish theory!","Select Ingredient",JOptionPane.ERROR_MESSAGE);
+			}
+			else {
+				JLabel selectedPanel = (JLabel) ((JPanel) theoryList.getSelectedValue()).getComponent(0);
+				ImageIcon photo = (ImageIcon) selectedPanel.getIcon();
+				Ingredient ing = findIngredientFromPhoto(photo.getDescription());
+				photoSelectionFrame.dispose();
+				showAlchemicalSelectionDialog(ing);
+			}
 		});
 		photoSelectionFrame.getContentPane().add(selectButton);
 		photoSelectionFrame.setVisible(true);
@@ -890,15 +895,18 @@ public class DeductionBoardDisplay extends JFrame{
 		selectButton.setBounds(341, 466, 117, 29);
 		selectButton.addActionListener(e -> {
 			
-			JLabel selectedPanel = (JLabel) ((JPanel) alchemicalList.getSelectedValue()).getComponent(0);
-			ImageIcon photo = (ImageIcon) selectedPanel.getIcon();
-			Alchemical alc = findAlchemicalFromPhoto(photo.getDescription());
-			Game.getGame().selectController(Controller.PUBLISH_THEORY);
-			TheoryController.getInstance().initPublishTheory(alc, ing);
-			photoSelectionFrame.dispose();
-			JOptionPane.showMessageDialog(null, Game.getGame().getCurrPlayer().getUsername()+" Succesfully Published a Theory!","Theory Publication Successful!",JOptionPane.PLAIN_MESSAGE);
-			
-			
+			if (alchemicalList.getSelectedValue()==null) {
+				JOptionPane.showMessageDialog(photoSelectionFrame, "Please select an alchemical to publish theory!","Select Alchemical",JOptionPane.ERROR_MESSAGE);
+			}
+			else {
+				JLabel selectedPanel = (JLabel) ((JPanel) alchemicalList.getSelectedValue()).getComponent(0);
+				ImageIcon photo = (ImageIcon) selectedPanel.getIcon();
+				Alchemical alc = findAlchemicalFromPhoto(photo.getDescription());
+				Game.getGame().selectController(Controller.PUBLISH_THEORY);
+				TheoryController.getInstance().initPublishTheory(alc, ing);
+				photoSelectionFrame.dispose();
+				JOptionPane.showMessageDialog(null, Game.getGame().getCurrPlayer().getUsername()+" Succesfully Published a Theory!","Theory Publication Successful!",JOptionPane.PLAIN_MESSAGE);
+			}
 		});
 		photoSelectionFrame.getContentPane().add(selectButton);
 		photoSelectionFrame.setVisible(true);

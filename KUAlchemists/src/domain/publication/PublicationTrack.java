@@ -122,4 +122,16 @@ public class PublicationTrack {
 		}
 		return false;
 	}
+	
+	public AlchemyMarker returnCorrespondingAlchemyMarker(Theory t, AlchemyMarker selectedAlchemyMarker) {
+		
+		for(AlchemyMarker am : t.getIngredientType().getAlchemical().getAspects()) {
+			
+			if (am.getColor().equals(selectedAlchemyMarker.getColor())) {
+				return am;
+			}
+		}
+		return null;
+		
+	}
 }
