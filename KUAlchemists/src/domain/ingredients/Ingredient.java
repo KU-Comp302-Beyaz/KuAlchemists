@@ -65,6 +65,10 @@ public class Ingredient {
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
+	@Override
+	public String toString() {
+		return "Ingredient [identifier=" + identifier + ", name=" + name + "]";
+	}
 	
 
 	
