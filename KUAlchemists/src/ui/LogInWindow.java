@@ -333,7 +333,7 @@ public class LogInWindow extends JFrame {
 							JOptionPane.showMessageDialog(null, "Username is already taken!","Error",JOptionPane.WARNING_MESSAGE);
 							usernameTaken = true; }
 
-						break;
+						break; 
 					case 3: 
 						if (usernameText.getText().equals(usernames[0]) || usernameText.getText().equals(usernames[1])) {
 							JOptionPane.showMessageDialog(null, "Username is already taken!","Error",JOptionPane.WARNING_MESSAGE);
