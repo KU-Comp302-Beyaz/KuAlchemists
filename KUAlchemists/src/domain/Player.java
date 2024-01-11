@@ -140,9 +140,8 @@ public class Player {
 
 
 	// other methods
-	public int updatePlayerTurn() { // boolean mı dönsün? eğer 3e ulaşırsa false döner ve diğer oyuncuya veya etaba geçilir?
-		this.turnNumber ++;
-		return turnNumber;
+	public void updatePlayerTurn() {
+		this.turnNumber--;
 	}
 
 	
