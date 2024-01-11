@@ -111,8 +111,7 @@ public class PotionController {
 		potion = pba.makePotion(ing_1, ing_2);
 
 		Game.getGame().getCurrPlayer().getPotions().add(potion);	// record new potion
-		initializeTestPotion(potion,p);
-
+		
 		boolean isSellRequestAccepted = PotionBrewingAreaDisplay.isSellRequestAccepted();
 
 		

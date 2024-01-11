@@ -380,9 +380,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
       			ImageIcon icon7 = new ImageIcon("src/images/bottle-icons/green+bottle.png");
       			
       			List<ImageIcon> potionImages = new ArrayList<>();
-      			potionImages.add(icon1);
-      			potionImages.add(icon5);
-      			potionImages.add(icon7);
       			
       			ImageIcon requestedPotionIcon = new ImageIcon();
       			Random random = new Random();		
@@ -412,7 +409,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
       		  catch(Exception e) {}
       	  }
         });
-        
         
         //Coin photograph for placeholder of information of payed gold amount
         JLabel goldPayment = new JLabel();
@@ -493,7 +489,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           		
           		else {
 	          		potionIcon.setVisible(false);
-	          		
 	                acceptButton.setVisible(true);
 	                declineButton.setVisible(true);
 	                
