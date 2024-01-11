@@ -46,9 +46,18 @@ public class PublicationCard {
 	
 	public boolean isClaimed() {
 		
-		return this.rewardClaimer == null;
+		return this.rewardClaimer != null;
 		
 	}
+	
+	public Player getRewardClaimer() {
+		return rewardClaimer;
+	}
+
+	public void setRewardClaimer(Player rewardClaimer) {
+		this.rewardClaimer = rewardClaimer;
+	}
+	
 	
 
 }
