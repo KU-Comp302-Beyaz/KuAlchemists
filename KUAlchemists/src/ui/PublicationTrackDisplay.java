@@ -142,20 +142,22 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 				JOptionPane.showMessageDialog(this, "Please select a publication card to claim!","Select Publication Card",JOptionPane.ERROR_MESSAGE);
 
 			}
-			PublicationCard selectedCard = getSelectedCard();
-			if (selectedCard.isClaimed())
-				JOptionPane.showMessageDialog(this, "This Publication Card is already claimed.","Card Already Claimed",JOptionPane.ERROR_MESSAGE);
 			else {
-				boolean result = TheoryController.getInstance().initClaimCard(selectedCard);
-				if (result) {
-					JPanel selectedPanel = (JPanel) publicationList.getSelectedValue();
-					JLabel l = new JLabel();
-					l.setIcon(new ImageIcon(new ImageIcon("src/images/claimed.png").getImage().getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT/2, Image.SCALE_SMOOTH)));
-					selectedPanel.add(l);
-					JOptionPane.showMessageDialog(this, Game.getGame().getCurrPlayer().getUsername()+" successfully claimed the publication card! "+selectedCard.getGoldReward()+" amount(s) of gold and "+selectedCard.getReputationReward()+" amount(s) of reputation points are added to the "+Game.getGame().getCurrPlayer().getUsername(),"Card Successfully Claimed",JOptionPane.PLAIN_MESSAGE);
-				}
+				PublicationCard selectedCard = getSelectedCard();
+				if (selectedCard.isClaimed())
+					JOptionPane.showMessageDialog(this, "This Publication Card is already claimed.","Card Already Claimed",JOptionPane.ERROR_MESSAGE);
 				else {
-					JOptionPane.showMessageDialog(this, "You don't have required theories to claim this publication card.","Cannot Claim Card",JOptionPane.ERROR_MESSAGE);
+					boolean result = TheoryController.getInstance().initClaimCard(selectedCard);
+					if (result) {
+						JPanel selectedPanel = (JPanel) publicationList.getSelectedValue();
+						JLabel l = new JLabel();
+						l.setIcon(new ImageIcon(new ImageIcon("src/images/claimed.png").getImage().getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT/2, Image.SCALE_SMOOTH)));
+						selectedPanel.add(l);
+						JOptionPane.showMessageDialog(this, Game.getGame().getCurrPlayer().getUsername()+" successfully claimed the publication card! "+selectedCard.getGoldReward()+" amount(s) of gold and "+selectedCard.getReputationReward()+" amount(s) of reputation points are added to the "+Game.getGame().getCurrPlayer().getUsername(),"Card Successfully Claimed",JOptionPane.PLAIN_MESSAGE);
+					}
+					else {
+						JOptionPane.showMessageDialog(this, "You don't have required theories to claim this publication card.","Cannot Claim Card",JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});
