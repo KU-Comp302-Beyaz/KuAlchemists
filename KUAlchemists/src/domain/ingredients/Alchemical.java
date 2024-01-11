@@ -6,20 +6,14 @@ import domain.theorydeduction.AlchemyMarker;
 
 public class Alchemical {
 	
-	private List<AlchemyMarker> aspects = new ArrayList<>();
-
+	private List<AlchemyMarker> aspects = new ArrayList<AlchemyMarker>();
 	private String alchemicalPhoto;
 	
 	
 	public Alchemical (AlchemyMarker red, AlchemyMarker green, AlchemyMarker blue, String alchemicalPhoto) {
-
 		this.aspects.add(red);
 		this.aspects.add(green);
 		this.aspects.add(blue);
-		/*
-		this.red = red;
-		this.green = green;
-		this.blue = blue;*/
 		this.alchemicalPhoto = alchemicalPhoto;
 	}
 	
@@ -37,13 +31,14 @@ public class Alchemical {
 
 	public void setAspects(List<AlchemyMarker> aspects) {
 		this.aspects = aspects;
+
 	}	
 	public String getAlchemicalPhoto() {
 		return alchemicalPhoto;
 	}
 	public void setAlchemicalPhoto(String alchemicalPhoto) {
 		this.alchemicalPhoto = alchemicalPhoto;
-	}
+  }
 	
 	/*
 	 * REQUIRES: -
@@ -64,9 +59,6 @@ public class Alchemical {
 			return a1.getAlchemicalPhoto().equals(a2.getAlchemicalPhoto());
 		}
 	}
-	
-
-	
 	
 	
 }

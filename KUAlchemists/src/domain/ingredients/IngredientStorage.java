@@ -14,7 +14,6 @@ public class IngredientStorage {
 	
 	//fields
 	private static final Ingredient[] allIngredientCardsArray =
-
 		{new Ingredient(1,"Lamia Heart-Blood","src/images/images-icons/ingredient1.jpg", new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"),"")),
 		new Ingredient(2,"Witch's Tear", "src/images/images-icons/ingredient2.jpg",  new Alchemical (new AlchemyMarker ("-", "red", "S"), new AlchemyMarker ("+", "green", "L"), new AlchemyMarker ("+", "blue", "S"),"")), 
 		new Ingredient(3,"Hippocamp's Soul", "src/images/images-icons/ingredient3.jpg", new Alchemical (new AlchemyMarker ("-", "red", "L"), new AlchemyMarker ("-", "green", "S"), new AlchemyMarker ("+", "blue", "S"),"")), 
@@ -34,25 +33,6 @@ public class IngredientStorage {
 	public static Ingredient[] getAllingredientcardsarray() {
 		return allIngredientCardsArray;
 	}
-
-/*
-	private final Ingredient[] allIngredientCardsArray =
-		{new Ingredient("Lamia Heart-Blood"),
-		new Ingredient("Witch's Tear"), 
-		new Ingredient("Hippocamp's Soul"), 
-		new Ingredient("Cockatrice Saliva"),
-		new Ingredient("Goldhorn's Tooth"),
-		new Ingredient("Ghost Barbs"),
-		new Ingredient("Bugbear Bone Meal"),
-		new Ingredient("Strix's Bone"),
-		new Ingredient("Merman Horn"),
-		new Ingredient("Bunyip Oil"),
-		new Ingredient("Hippocamp's Tongue"),
-		new Ingredient("Roc Claw")
-		}; //for testing purposes
-
-*/
-
   
 	private ArrayList<Ingredient> ingredientCards = new ArrayList<Ingredient>();
 	

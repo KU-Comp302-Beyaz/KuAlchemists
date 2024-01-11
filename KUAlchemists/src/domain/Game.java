@@ -47,7 +47,9 @@ public class Game {
 	//Singleton implementation
 	private static Game gameSingleton = new Game();
 	
-	private Game() {}
+	private Game() {
+		this.gameRound = 1;
+	}
 	
 	public static Game getGame() {
 		return gameSingleton;
@@ -83,17 +85,21 @@ public class Game {
 		int chosenAvatarIndex;
 		int j = 0;
 		for (int i = 0; i < numberOfPlayers; i++) {
-			username = LogInWindow.getFirstUsername();
-			chosenAvatarIndex = LogInWindow.getFirstAvatarIndex();
+			username = LogInWindow.getUsernames()[i];
+			chosenAvatarIndex = LogInWindow.getSelectedTokens()[i];
 			players[i] = new Player(username,chosenAvatarIndex);
 			
 			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
 			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
 			
 			players[i].setGoldBalance(10);
+			
 		}
 		currPlayerIndex = 0;
 		currPlayer = players[currPlayerIndex];
+		
+		setNumberOfPlayers(numberOfPlayers);
+		
 	}
 	
 	public void endTurn() {
@@ -108,21 +114,27 @@ public class Game {
 		else {
 			currPlayer = players[currPlayerIndex];	
 		}
-
+		System.out.println("number of players "+numberOfPlayers);
+		System.out.println("curr player index is "+currPlayerIndex);
+		System.out.println("curr player is "+currPlayer);
 				
 		
 	}
 	
 	public void nextRound() {
 		
+		
+		
 		this.gameRound++;
 		if (gameRound > 3) {
 			endGame(players);
 		}
+		
+		System.out.println("next round: "+ gameRound) ;
 	}
 	
 	public void endGame(Player[] players) {
-		Player winner = null;
+		Player winner = getCurrPlayer();
 		for (int i = 0; i < players.length; i++) {
 			if (players[i] != null) {
 				players[i].getScorePoints();
@@ -133,7 +145,6 @@ public class Game {
 				}
 			}
 		}
-		EndGameDisplay.getInstance().displayWinner(winner);
 	}
 
 	/**
@@ -251,6 +262,10 @@ public class Game {
 
 	public  void setNumberOfPlayers(int numberOfPlayers) {
 		this.numberOfPlayers = numberOfPlayers;
+	}
+	
+	public int getGameRound() {
+		return gameRound;
 	}
 	
 }

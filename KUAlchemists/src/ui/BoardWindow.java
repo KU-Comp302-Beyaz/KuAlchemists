@@ -154,11 +154,36 @@ public class BoardWindow extends JFrame {
   		});
   		
   		
+  		JButton endTurnButton = new JButton("End Turn");
+  		endTurnButton.setFont(new Font("Cochin", Font.PLAIN, 20));
+        GridBagConstraints gbcEndTurn = new GridBagConstraints();
+        gbcEndTurn.gridx = 1;
+        gbcEndTurn.gridy = 3;
+        boardDisplay.add(endTurnButton, gbcEndTurn);
+  		endTurnButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				if (Game.getGame().getGameRound() <= 3) {
+					Game.getGame().endTurn();
+				}
+				
+				else {
+					setVisible(false);
+					EndGameDisplay.getInstance().displayWinner();
+					
+				}
+			}
+		});
+  		
+  		
         addButton(ingredientStorageButton, boardDisplay, "Ingredient Storage", 0, 0, GridBagConstraints.NORTHWEST, 0.2);
         addButton(artifactStorageButton, boardDisplay, "Artifact Storage", 2, 0, GridBagConstraints.NORTHEAST, 0.2);
         addButton(potionBrewingAreaButton, boardDisplay, "Potion Brewing Area", 0, 2, GridBagConstraints.SOUTHWEST, 0.2);
         addButton(publicationTrackButton, boardDisplay, "Publication Track", 2, 2, GridBagConstraints.SOUTHEAST, 0.2);
         
+
+
      
     }
 
