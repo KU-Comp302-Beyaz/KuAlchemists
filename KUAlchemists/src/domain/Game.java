@@ -41,7 +41,8 @@ public class Game {
 		BUY_EOI,
 		MAKE_EXPERIMENT,
 		SELL_POTION,
-		PUBLISH_THEORY
+		PUBLISH_THEORY,
+		CLAIM_CARD
 	};
 	
 	//Singleton implementation
@@ -223,6 +224,8 @@ public class Game {
 		case SELL_POTION:
 			PotionController.getInstance().initializePotionSale();	
 		case PUBLISH_THEORY:
+			TheoryController.getInstance().setCurrPlayer(currPlayer);
+		case CLAIM_CARD:
 			TheoryController.getInstance().setCurrPlayer(currPlayer);
 		default:
 			break;
