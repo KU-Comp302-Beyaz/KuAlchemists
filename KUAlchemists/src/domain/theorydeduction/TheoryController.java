@@ -62,5 +62,23 @@ public class TheoryController {
 		
 	}
 	
+	public boolean initDebunkTheory(Theory theory, AlchemyMarker selectedAlchemyMarker) {
+		
+		if(theory==null||selectedAlchemyMarker==null)
+			return false;
+		boolean debunkResult = pt.debunkTheory(theory,selectedAlchemyMarker);
+		if (debunkResult) {
+			Player theoryOwner = theory.getOwner();
+			theoryOwner.getTheories().remove(theory);
+			pt.getPublishedTheories().remove(theory);
+			theoryOwner.updateReputationPoints(-2);
+			currPlayer.updateReputationPoints(2);
+		}
+		else {
+			currPlayer.updateReputationPoints(-1);
+		}
+		return debunkResult;
+	}
+	
 	
 }

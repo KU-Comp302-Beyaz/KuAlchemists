@@ -5,6 +5,7 @@ import java.util.List;
 
 import domain.ingredients.Alchemical;
 import domain.ingredients.Ingredient;
+import domain.theorydeduction.AlchemyMarker;
 import domain.theorydeduction.Theory;
 
 public class PublicationTrack {
@@ -106,11 +107,19 @@ public class PublicationTrack {
 		}
 		
 	}
-
 	
-	
-	
-	
-	
-	
+	public boolean debunkTheory(Theory theory, AlchemyMarker selectedAlchemyMarker) {
+		
+		for(AlchemyMarker am : theory.getIngredientType().getAlchemical().getAspects()) {
+			
+			if (am.getColor().equals(selectedAlchemyMarker.getColor())) {
+				if (am.getSign().equals(selectedAlchemyMarker.getSign()))
+					return false;
+				else {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
