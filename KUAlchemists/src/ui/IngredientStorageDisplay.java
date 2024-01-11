@@ -36,6 +36,7 @@ import domain.Game;
 import domain.Game.Controller;
 import domain.Player;
 import domain.ingredients.Ingredient;
+import domain.ingredients.IngredientController;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -165,6 +166,10 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		forageForIngredientButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Game.getGame().selectController(Controller.FORAGE_FOR_INGREDIENT);
+				Player currPlayer = Game.getGame().getCurrPlayer();
+				Ingredient newIngredient = currPlayer.getIngredientCards().get(currPlayer.getIngredientCards().size()-1);
+				displayCard(newIngredient, getImage(newIngredient));
+				initialize(currPlayer);
 			}
 		});
 		buttonsPanel.add(forageForIngredientButton);
@@ -177,7 +182,10 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		transmuteIngredientButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
+				IngredientController.getInstance().setChosenIngredient(getChosenIngredient());
 				Game.getGame().selectController(Controller.TRANSMUTE_INGREDIENT);
+				displayText("<html>Ingredient transmuted.<br/>One gold added to Player.</html>");
+				initialize(Game.getGame().getCurrPlayer());
 			}
 		});
 		buttonsPanel.add(transmuteIngredientButton);

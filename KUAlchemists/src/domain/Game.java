@@ -198,16 +198,10 @@ public class Game {
 	public void selectController(Controller controller) {
 		switch (controller) {
 		case FORAGE_FOR_INGREDIENT:
-			Ingredient newIngredient = IngredientController.getInstance().addIngredientToPlayer(currPlayer);
-			ImageIcon newIngredientCardImageIcon = IngredientStorageDisplay.getInstance().getImage(newIngredient);
-			IngredientStorageDisplay.getInstance().displayCard(newIngredient, newIngredientCardImageIcon);
-			IngredientStorageDisplay.getInstance().initialize(currPlayer);
+			IngredientController.getInstance().addIngredientToPlayer(currPlayer, Math.random());
 			break;
 		case TRANSMUTE_INGREDIENT:
-			Ingredient chosenIngredient = IngredientStorageDisplay.getInstance().getChosenIngredient();
-			IngredientController.getInstance().transmuteIngredient(currPlayer, chosenIngredient);
-			IngredientStorageDisplay.getInstance().displayText("<html>Ingredient transmuted.<br/>One gold added to Player.</html>");
-			IngredientStorageDisplay.getInstance().initialize(currPlayer);
+			IngredientController.getInstance().transmuteIngredient(currPlayer);
 			break;
 		case BUY_THE_RIVER:
 			ArtifactController.getArtifactController().buyArtifact(new TheRiver() , currPlayer);
