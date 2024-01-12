@@ -8,13 +8,15 @@ public class Alchemical {
 	
 	private List<AlchemyMarker> aspects = new ArrayList<AlchemyMarker>();
 	private String alchemicalPhoto;
+	private String name;
 	
 	
 	public Alchemical (AlchemyMarker red, AlchemyMarker green, AlchemyMarker blue, String alchemicalPhoto) {
 		this.aspects.add(red);
 		this.aspects.add(green);
 		this.aspects.add(blue);
-		this.alchemicalPhoto = alchemicalPhoto;
+		this.alchemicalPhoto = alchemicalPhoto; // "red+S_green-L_blue-S" 
+		this.name = "red " + red.getSign() + " " + red.getSize() + " | " + "green " + green.getSign() + " " + green.getSize() + "blue " + blue.getSign() + " " + blue.getSize() ;
 	}
 	
 	public Alchemical (AlchemyMarker red, AlchemyMarker green, AlchemyMarker blue) {
@@ -22,6 +24,8 @@ public class Alchemical {
 		this.aspects.add(red);
 		this.aspects.add(green);
 		this.aspects.add(blue);
+		this.name = "red " + red.getSign() + " " + red.getSize() + " | " + "green " + green.getSign() + " " + green.getSize() + "blue " + blue.getSign() + " " + blue.getSize() ;
+
 	}
 
 	
@@ -39,6 +43,9 @@ public class Alchemical {
 	public void setAlchemicalPhoto(String alchemicalPhoto) {
 		this.alchemicalPhoto = alchemicalPhoto;
   }
+	public String getName() {
+		return name;
+	}
 	
 	/*
 	 * REQUIRES: -

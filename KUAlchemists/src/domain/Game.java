@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -137,9 +138,13 @@ public class Game {
 	
 	public void endGame(Player[] players) {
 		Player winner = getCurrPlayer();
+		HashMap scoreList = new HashMap();
+		
 		for (int i = 0; i < players.length; i++) {
 			if (players[i] != null) {
 				players[i].getScorePoints();
+				
+				scoreList.put(players[i], players[i].getScorePoints()); // for displaying listed score at the end
 				
 				if (players[i].getScorePoints() > winner.getScorePoints()) {
 				//get max player points
@@ -147,6 +152,8 @@ public class Game {
 				}
 			}
 		}
+		
+		gameRound = 1; // or delete this game singleton
 	}
 
 	/**
@@ -240,7 +247,6 @@ public class Game {
 	public  void setController(Controller gameController) {
 		this.controller = gameController;
 	}
-
 	public Controller getController() {
 		return controller;
 	}
@@ -249,7 +255,6 @@ public class Game {
 	public Player getCurrPlayer() {
 		return currPlayer;
 	}
-
 	public void setCurrPlayer(Player currPlayer) {
 		this.currPlayer = currPlayer;
 	}
@@ -257,7 +262,6 @@ public class Game {
 	public Player[] getPlayers() {
 		return players;
 	}
-
 	public void setPlayers(Player[] players) {
 		this.players = players;
 	}
@@ -265,7 +269,6 @@ public class Game {
 	public  int getNumberOfPlayers() {
 		return numberOfPlayers;
 	}
-
 	public  void setNumberOfPlayers(int numberOfPlayers) {
 		this.numberOfPlayers = numberOfPlayers;
 	}

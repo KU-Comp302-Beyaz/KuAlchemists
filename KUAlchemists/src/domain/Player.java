@@ -26,7 +26,7 @@ public class Player {
 	private List<Theory> theories = new ArrayList<Theory>();
 	private HashMap<String,Artifact> artifacts = new HashMap<String,Artifact>(2);
 	private DeductionBoard playerDeductionBoard;
-
+	private String profilePhoto;
 
 	
 	// constructor
@@ -123,6 +123,13 @@ public class Player {
 	
 	public void addArtifact(Artifact artifact) {
 		this.artifacts.put(artifact.name, artifact);
+	}
+	
+	public String getProfilePhoto() {
+		return profilePhoto;
+	}
+	public void setProfilePhoto(String profilePhoto) {
+		this.profilePhoto = profilePhoto;
 	}
 
 
