@@ -140,9 +140,8 @@ public class Player {
 
 
 	// other methods
-	public int updatePlayerTurn() { // boolean mı dönsün? eğer 3e ulaşırsa false döner ve diğer oyuncuya veya etaba geçilir?
-		this.turnNumber ++;
-		return turnNumber;
+	public void updatePlayerTurn() {
+		this.turnNumber--;
 	}
 
 	
@@ -198,15 +197,19 @@ public class Player {
 		return scorePoints;
 	}
 
+
+
+	@Override
+	public String toString() {
+		return "Player [username=" + username + ", token=" + token + ", goldBalance=" + goldBalance + ", turnNumber="
+				+ turnNumber + ", ingredientCards=" + ingredientCards + ", sicknessLevel=" + sicknessLevel
+				+ ", reputationPoints=" + reputationPoints + ", scorePoints=" + scorePoints + ", potions=" + potions
+				+ ", theories=" + theories + ", artifacts=" + artifacts + ", playerDeductionBoard="
+				+ playerDeductionBoard + "]";
+	}
+	
+	
 	
 
-
-
-
-
-
-
-
 	
-
 }

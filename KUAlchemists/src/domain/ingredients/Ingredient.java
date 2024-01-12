@@ -65,8 +65,29 @@ public class Ingredient {
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
+	@Override
+	public String toString() {
+		return "Ingredient [identifier=" + identifier + ", name=" + name + "]";
+	}
 	
+	/*
+	 * REQUIRES: -
+	 * MODIFIES: -
+	 * EFFECTS: two ingredients are compared to each other by whether they are the same or not and the result is returned.
+	 */
 
+	public static boolean checkEquality(Ingredient i1, Ingredient i2) {
 	
-	
+		if (i1 == null)
+			return false;
+		else if (i2==null)
+			return false;
+		else if (i1.getPhoto()== null)
+			return false;
+		else if (i2.getPhoto()==null)
+			return false;
+		else {
+			return i1.getPhoto().equals(i2.getPhoto());
+		}
+	}
 }
