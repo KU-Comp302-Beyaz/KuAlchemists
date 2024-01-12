@@ -36,6 +36,7 @@ import domain.Game;
 import domain.Game.Controller;
 import domain.Player;
 import domain.ingredients.Ingredient;
+import domain.ingredients.IngredientController;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -164,7 +165,16 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		forageForIngredientButton.setFont(new Font("Cochin", Font.PLAIN, 20));
 		forageForIngredientButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Game.getGame().selectController(Controller.FORAGE_FOR_INGREDIENT);
+				if(Game.getGame().getCurrPlayer().getTurnNumber() > 0) {
+					Game.getGame().selectController(Controller.FORAGE_FOR_INGREDIENT);
+					Player currPlayer = Game.getGame().getCurrPlayer();
+					Ingredient newIngredient = currPlayer.getIngredientCards().get(currPlayer.getIngredientCards().size()-1);
+					displayCard(newIngredient, getImage(newIngredient));
+					initialize(currPlayer);
+				}
+				else {
+					displayText("<html>No turns left.<br/>Please end turn.</html>");
+				}
 			}
 		});
 		buttonsPanel.add(forageForIngredientButton);
@@ -177,7 +187,18 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		transmuteIngredientButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				Game.getGame().selectController(Controller.TRANSMUTE_INGREDIENT);
+				if (Game.getGame().getCurrPlayer().getIngredientCards().isEmpty()) {
+					displayText("<html>No ingredients left.<br/>Please choose another action.</html>");
+				}
+				else if(Game.getGame().getCurrPlayer().getTurnNumber() > 0) {
+					IngredientController.getInstance().setChosenIngredient(getChosenIngredient());
+					Game.getGame().selectController(Controller.TRANSMUTE_INGREDIENT);
+					displayText("<html>Ingredient transmuted.<br/>One gold added to Player.</html>");
+					initialize(Game.getGame().getCurrPlayer());
+				}
+				else {
+					displayText("<html>No turns left.<br/>Please end turn.</html>");
+				}
 			}
 		});
 		buttonsPanel.add(transmuteIngredientButton);
@@ -251,15 +272,17 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 	}
 
 	
-	// CAN BE USE IN POTIONBREWINGAREA TOO
 	/**
 	 * Initialize UI, player cards are updated every time this is called (every button click)
 	 * @param player
 	 */
 	public void initialize(Player player) {
+		System.out.println(player);
+//		displayText("");
 
-		if (player.getIngredientCards() == null || player.getIngredientCards().isEmpty()) {
+		if (player.getIngredientCards() == null) {
 			System.out.println("Player Ingredient Cards null");
+			System.out.println(player);
 			return;			
 		}
 		if (getAllIngredientJListPanels() == null) {

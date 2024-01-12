@@ -27,7 +27,7 @@ public class IngredientStorage {
 		//new Ingredient(10,"Bunyip Oil", "src/images/images-icons/ingredient10.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
 		//new Ingredient(11,"Hippocamp's Tongue", "src/images/images-icons/ingredient11.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
 		//new Ingredient(12,"Roc Claw", "src/images/images-icons/ingredient12.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon()))
-		}; //for testing purposes
+		}; 
 
 
 	public static Ingredient[] getAllingredientcardsarray() {
