@@ -320,40 +320,50 @@ public class LogInWindow extends JFrame {
 		 */
 		loginButtonLast.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				boolean usernameTaken = false; 
+				
 				if (usernameText.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Name field cannot be empty.","Error",JOptionPane.WARNING_MESSAGE);
 				}
 				else {
 					switch (numberOfPlayers) {
 					case 2: 
-						if (usernameText.getText().equals(usernames[0]))
+						if (usernameText.getText().equals(usernames[0])) {
 							JOptionPane.showMessageDialog(null, "Username is already taken!","Error",JOptionPane.WARNING_MESSAGE);
-						break;
+							usernameTaken = true; }
+
+						break; 
 					case 3: 
-						if (usernameText.getText().equals(usernames[0]) || usernameText.getText().equals(usernames[1]))
+						if (usernameText.getText().equals(usernames[0]) || usernameText.getText().equals(usernames[1])) {
 							JOptionPane.showMessageDialog(null, "Username is already taken!","Error",JOptionPane.WARNING_MESSAGE);
+							usernameTaken = true; }
+
 						break;
 					case 4: 
-						if (usernameText.getText().equals(usernames[0]) || usernameText.getText().equals(usernames[1]) || usernameText.getText().equals(usernames[2]))
+						if (usernameText.getText().equals(usernames[0]) || usernameText.getText().equals(usernames[1]) || usernameText.getText().equals(usernames[2])) {
 							JOptionPane.showMessageDialog(null, "Username is already taken!","Error",JOptionPane.WARNING_MESSAGE);
+							usernameTaken = true; }
+
 						break;
 					}
 					
-					//Username of Player Last
-					usernames[numberOfPlayers-1] = usernameText.getText();
-					
-					//Avatar index of Player Last
-					selectedTokens[numberOfPlayers-1] = avatarList.getSelectedIndex();		
-					loginCompleted = true;
-					
-					
+					if (usernameTaken == false) {
 
-	        		Game game = Game.getGame();
-	        		game.initializePlayers(Game.getGame().getPlayers(), getNumberOfPlayers());
-	        		game.initializeBoard();
-					BoardWindow board = BoardWindow.getBoardWindow();
-					board.initialize();
-					dispose();
+						//Username of Player Last
+						usernames[numberOfPlayers-1] = usernameText.getText();
+						
+						//Avatar index of Player Last
+						selectedTokens[numberOfPlayers-1] = avatarList.getSelectedIndex();		
+						loginCompleted = true;
+						
+		        		Game game = Game.getGame();
+		        		game.initializePlayers(Game.getGame().getPlayers(), getNumberOfPlayers());
+		        		game.initializeBoard();
+						BoardWindow board = BoardWindow.getBoardWindow();
+						board.initialize();
+						dispose();
+					}
 					
 				}
 			}
