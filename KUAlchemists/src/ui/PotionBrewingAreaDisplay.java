@@ -378,7 +378,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
       			ImageIcon icon5 = new ImageIcon("src/images/bottle-icons/red+bottle.png");
       			ImageIcon icon6 = new ImageIcon("src/images/bottle-icons/nullnullbottle.png");
       			ImageIcon icon7 = new ImageIcon("src/images/bottle-icons/green+bottle.png");
-      			
+      			ImageIcon icon8 = new ImageIcon("src/images/bottle-icons/bottles.png");
+      	
       			List<ImageIcon> potionImages = new ArrayList<>();
       			
       			ImageIcon requestedPotionIcon = new ImageIcon();
@@ -402,7 +403,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
     	        Thread.sleep(100);
     	        requestedPotion.setIcon(new ImageIcon(icon7.getImage().getScaledInstance(380, 335, 0)));
     	        Thread.sleep(100);
-    	        requestedPotion.setIcon(new ImageIcon(potionImages.get(random.nextInt(3)).getImage().getScaledInstance(380, 335, 0)));     
+    	        requestedPotion.setIcon(new ImageIcon(icon8.getImage().getScaledInstance(380, 335, 0)));     
       			
       	
       		  }

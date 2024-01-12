@@ -70,13 +70,12 @@ public class PotionController {
 					if (guarantee == 3) updatedAmount = 3;
 					else if (guarantee == 2) updatedAmount = 2;
 					break;
-
-				
 				case("0"):
 					if (guarantee == 2) updatedAmount = 2;
-					
+					break;
 				case("-"):
 					if (guarantee == 1) updatedAmount = 1;				
+					break;
 			}
 			
 			System.out.println("Prepared Potion Sign: " + p.getPotionSign());
