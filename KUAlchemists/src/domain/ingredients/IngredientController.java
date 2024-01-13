@@ -1,15 +1,18 @@
 package domain.ingredients;
 
+
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
 import domain.Game;
+
 import domain.Player;
 
 public class IngredientController {
 	
 	private static IngredientController ingredientControllerInstance;
+	private Ingredient chosenIngredient;
 	
 	private IngredientController() {}
 	
@@ -25,14 +28,19 @@ public class IngredientController {
 	
 	/**
 	 * Adds ingredient to player
-	 * gets random from card list, adds it to player cards, returns ingredient so it can be displayed in ui
+	 * gets last card from cards list, adds it to player cards
 	 * @param player
-	 * @return ingredient added to player
+	 * @throws NullPointerException
 	 */
-	public Ingredient addIngredientToPlayer(Player player) {
-		int randomNumber = (int)(Math.random() * (IngredientStorage.getInstance().getIngredientCards().size()));
-		Ingredient newIngredient = IngredientStorage.getInstance().getIngredientCards().get(randomNumber);
+	public void addIngredientToPlayer(Player player) throws NullPointerException {
+		//REQUIRES: player is not null, player.ingredientCards is not null, ingredientStorageSingleton.ingredientCards is not null
+		//MODIFIES: player.ingredientCards, IngredientStorage.ingredientCards
+		//EFFECTS: 	removes last Ingredient from IngredientStorage.ingredientCards and adds it to player.ingredientCards
+			
+		int deckSize = IngredientStorage.getInstance().getIngredientCards().size();
+		Ingredient newIngredient = IngredientStorage.getInstance().getIngredientCards().remove(deckSize-1);
 		player.getIngredientCards().add(newIngredient);
+
 		
 		///// Add action and player to history
 		Game.getGame().getActionHistory().add("Add Ingredient\n"
@@ -40,15 +48,15 @@ public class IngredientController {
 		Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
 		
 		return newIngredient;
+
 	}
 	
 	/**
 	 * Transmute ingredient
 	 * @param player
-	 * @param chosenIngredient
 	 */
-	public void transmuteIngredient(Player player, Ingredient chosenIngredient) {
-		player.getIngredientCards().remove(chosenIngredient); //remove chosen ingredient
+	public void transmuteIngredient(Player player) {
+		player.getIngredientCards().remove(getChosenIngredient()); //remove chosen ingredient
 		player.updateGoldBalance(1);
 		
 		///// Add action and player to history
@@ -56,7 +64,7 @@ public class IngredientController {
 				+ "+1 Gold Balance: " + player.getGoldBalance());
 		Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
 	}
-	
+
 	/**
 	 * To initialize ingredient storage display, give all cards to it
 	 * @return allCardsArray so they can be given to ingredient storage display1
@@ -64,6 +72,16 @@ public class IngredientController {
 	public Ingredient[] giveAllCardsToIngredientStorageDisplay() {
 		return IngredientStorage.getInstance().getAllIngredientCardsArray();
 	}
+
+	public Ingredient getChosenIngredient() {
+		return chosenIngredient;
+	}
+
+	public void setChosenIngredient(Ingredient chosenIngredient) {
+		this.chosenIngredient = chosenIngredient;
+	}
+	
+	
 
 	
 

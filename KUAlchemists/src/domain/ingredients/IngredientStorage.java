@@ -22,12 +22,7 @@ public class IngredientStorage {
 		new Ingredient(6,"Ghost Barbs", "src/images/images-icons/ingredient6.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "L","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker ("+", "green", "S","src/images/alchemyMarker-icons/green+.png"), new AlchemyMarker ("-", "blue", "S","src/images/alchemyMarker-icons/blue-.png"),"")),
 		new Ingredient(7,"Bugbear Bone Meal", "src/images/images-icons/ingredient7.jpg",  new Alchemical (new AlchemyMarker ("-", "red", "L","src/images/alchemyMarker-icons/red-.png"), new AlchemyMarker ("-", "green", "L","src/images/alchemyMarker-icons/green-.png"), new AlchemyMarker ("-", "blue", "L","src/images/alchemyMarker-icons/blue-.png"),"")),
 		new Ingredient(8,"Strix's Bone", "src/images/images-icons/ingredient8.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "L","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker ("+", "green", "L","src/images/alchemyMarker-icons/green+.png"), new AlchemyMarker ("+", "blue", "L","src/images/alchemyMarker-icons/blue+.png"),"")),
-
-		//new Ingredient(9,"Merman Horn", "src/images/images-icons/ingredient9.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
-		//new Ingredient(10,"Bunyip Oil", "src/images/images-icons/ingredient10.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
-		//new Ingredient(11,"Hippocamp's Tongue", "src/images/images-icons/ingredient11.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
-		//new Ingredient(12,"Roc Claw", "src/images/images-icons/ingredient12.jpg",  new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon()))
-		}; //for testing purposes
+		}; 
 
 
 	public static Ingredient[] getAllingredientcardsarray() {
@@ -52,7 +47,9 @@ public class IngredientStorage {
 	 * @return shuffled ingredient cards
 	 */
 	public ArrayList<Ingredient> initializeIngredients() {
-		Collections.addAll(ingredientCards, allIngredientCardsArray);
+		for (int i = 0; i < 4; i++) {
+			Collections.addAll(ingredientCards, allIngredientCardsArray);
+		}
 		Collections.shuffle(ingredientCards);
 		return ingredientCards;
 	}

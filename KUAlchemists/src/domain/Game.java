@@ -61,23 +61,6 @@ public class Game {
 		return gameSingleton;
 	}
 	
-	//Main function
-//	public static void main(String[] args) {
-//		
-//		//Displaying the Login Window:
-//		LogInWindow loginWindow = LogInWindow.getInstance(); 
-//		loginWindow.displayLogInWindow();
-//		
-//		int numberOfPlayers = loginWindow.getNumberOfPlayers();
-//
-//		numberOfPlayers = 2; //for now erase later
-//		
-//		initializePlayers(loginWindow,players,numberOfPlayers);
-//		initializePublicationTrack();
-//		initializeBoard();
-//
-//	}
-	
 	/**
 	 * Initializes players for OFFLINE mode using numberOfPlayers.
 	 * Gives players 2 ingredient cards from ingredients deck.
@@ -123,19 +106,22 @@ public class Game {
 		System.out.println("number of players "+numberOfPlayers);
 		System.out.println("curr player index is "+currPlayerIndex);
 		System.out.println("curr player is "+currPlayer);
-				
-		
 	}
 	
+	/**
+	 * Increases round number
+	 * Makes all players turn number 3
+	 * If game round is greater than 3 then ends game.
+	 */
 	public void nextRound() {
-		
-		
-		
 		this.gameRound++;
+		for (int i = 0; i < players.length; i++) {
+			if (players[i] != null)
+				players[i].setTurnNumber(3);
+		}
 		if (gameRound > 3) {
 			endGame(players);
 		}
-		
 		System.out.println("next round: "+ gameRound) ;
 	}
 	
@@ -163,7 +149,7 @@ public class Game {
 	 * Initializes board
 	 */
 	public void initializeBoard() {
-		IngredientStorageDisplay.getInstance().constructAllImagesDeck(IngredientController.getInstance().giveAllCardsToIngredientStorageDisplay());
+		
 		Random rand = new Random();
 		PublicationTrack pt = PublicationTrack.getInstance();
 		Alchemical a1 = new Alchemical(new AlchemyMarker("+","red","S","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker("-","green","L","src/images/alchemyMarker-icons/green-.png"), new AlchemyMarker("-","blue","S","src/images/alchemyMarker-icons/blue-.png"), "src/images/alchemical-icons/alchemical1.png");
@@ -210,16 +196,16 @@ public class Game {
 	public void selectController(Controller controller) {
 		switch (controller) {
 		case FORAGE_FOR_INGREDIENT:
-			Ingredient newIngredient = IngredientController.getInstance().addIngredientToPlayer(currPlayer);
-			ImageIcon newIngredientCardImageIcon = IngredientStorageDisplay.getInstance().getImage(newIngredient);
-			IngredientStorageDisplay.getInstance().displayCard(newIngredient, newIngredientCardImageIcon);
-			IngredientStorageDisplay.getInstance().initialize(currPlayer);
+			if(currPlayer.getTurnNumber() > 0) {
+				IngredientController.getInstance().addIngredientToPlayer(currPlayer);
+				currPlayer.updatePlayerTurn();
+			}
 			break;
 		case TRANSMUTE_INGREDIENT:
-			Ingredient chosenIngredient = IngredientStorageDisplay.getInstance().getChosenIngredient();
-			IngredientController.getInstance().transmuteIngredient(currPlayer, chosenIngredient);
-			IngredientStorageDisplay.getInstance().displayText("<html>Ingredient transmuted.<br/>One gold added to Player.</html>");
-			IngredientStorageDisplay.getInstance().initialize(currPlayer);
+			if(currPlayer.getTurnNumber() > 0) {
+				IngredientController.getInstance().transmuteIngredient(currPlayer);
+				currPlayer.updatePlayerTurn();
+			}
 			break;
 		case BUY_THE_RIVER:
 			ArtifactController.getArtifactController().buyArtifact(new TheRiver() , currPlayer);
