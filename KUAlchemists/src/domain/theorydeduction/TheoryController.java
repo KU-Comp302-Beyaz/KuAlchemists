@@ -36,8 +36,14 @@ public class TheoryController {
 		
 		boolean result = currPlayer.getPlayerDeductionBoard().publishTheory(alchemical, ingretientType);
 		if (result) {
-			this.currPlayer.updateGoldBalance(-1);
-			this.currPlayer.updateReputationPoints(2);
+			if (currPlayer.getArtifacts().containsKey("printingpress") && currPlayer.getArtifacts().get("printingpress").isConditionSatisfied() == true) {
+				//this.currPlayer.updateGoldBalance(-1);
+				this.currPlayer.updateReputationPoints(2);
+			}
+			else {
+				this.currPlayer.updateGoldBalance(-1);
+				this.currPlayer.updateReputationPoints(2);
+			}
 		}
 		return result;
 	}

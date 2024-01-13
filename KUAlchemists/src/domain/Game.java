@@ -127,6 +127,9 @@ public class Game {
 			if (players[i] != null) {
 				players[i].getScorePoints();
 				
+				if (players[i].getArtifacts().containsKey("wisdomidol")) {
+					players[i].setReputationPoints(players[i].getReputationPoints() + 1);
+				}
 				if (players[i].getScorePoints() > winner.getScorePoints()) {
 				//get max player points
 				winner = players[i]; //for now

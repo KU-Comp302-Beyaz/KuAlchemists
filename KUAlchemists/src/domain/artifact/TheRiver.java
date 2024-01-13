@@ -8,7 +8,7 @@ public class TheRiver extends Artifact {
 	public TheRiver() {
 		this.name = "theriver";
 		this.usage = "immidiate";
-		this.lastUsed = 0;
+		
 		
 		// TODO Auto-generated constructor stub
 	}

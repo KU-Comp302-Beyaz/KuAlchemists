@@ -26,7 +26,8 @@ public class Player {
 	private List<Theory> theories = new ArrayList<Theory>();
 	private HashMap<String,Artifact> artifacts = new HashMap<String,Artifact>(2);
 	private DeductionBoard playerDeductionBoard;
-
+	//player artifact list
+	//private List<Artifact> artifacts = new ArrayList<Artifact>();
 
 	
 	// constructor
