@@ -228,6 +228,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
         backToBoardButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				displayText("");
 				BoardWindow board = BoardWindow.getBoardWindow();
 				board.initialize();
 				setVisible(false);
