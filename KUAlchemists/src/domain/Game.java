@@ -57,23 +57,6 @@ public class Game {
 		return gameSingleton;
 	}
 	
-	//Main function
-//	public static void main(String[] args) {
-//		
-//		//Displaying the Login Window:
-//		LogInWindow loginWindow = LogInWindow.getInstance(); 
-//		loginWindow.displayLogInWindow();
-//		
-//		int numberOfPlayers = loginWindow.getNumberOfPlayers();
-//
-//		numberOfPlayers = 2; //for now erase later
-//		
-//		initializePlayers(loginWindow,players,numberOfPlayers);
-//		initializePublicationTrack();
-//		initializeBoard();
-//
-//	}
-	
 	/**
 	 * Initializes players for OFFLINE mode using numberOfPlayers.
 	 * Gives players 2 ingredient cards from ingredients deck.
@@ -119,8 +102,6 @@ public class Game {
 		System.out.println("number of players "+numberOfPlayers);
 		System.out.println("curr player index is "+currPlayerIndex);
 		System.out.println("curr player is "+currPlayer);
-				
-		
 	}
 	
 	/**
@@ -158,7 +139,7 @@ public class Game {
 	 * Initializes board
 	 */
 	public void initializeBoard() {
-		IngredientStorageDisplay.getInstance().constructAllImagesDeck(IngredientController.getInstance().giveAllCardsToIngredientStorageDisplay());
+		
 		Random rand = new Random();
 		PublicationTrack pt = PublicationTrack.getInstance();
 		Alchemical a1 = new Alchemical(new AlchemyMarker("+","red","S","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker("-","green","L","src/images/alchemyMarker-icons/green-.png"), new AlchemyMarker("-","blue","S","src/images/alchemyMarker-icons/blue-.png"), "src/images/alchemical-icons/alchemical1.png");
@@ -206,7 +187,7 @@ public class Game {
 		switch (controller) {
 		case FORAGE_FOR_INGREDIENT:
 			if(currPlayer.getTurnNumber() > 0) {
-				IngredientController.getInstance().addIngredientToPlayer(currPlayer, Math.random());
+				IngredientController.getInstance().addIngredientToPlayer(currPlayer);
 				currPlayer.updatePlayerTurn();
 			}
 			break;

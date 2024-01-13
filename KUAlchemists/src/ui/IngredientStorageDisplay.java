@@ -233,6 +233,8 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 				setVisible(false);
 			}
 		});
+        
+        constructAllImagesDeck(IngredientController.getInstance().giveAllCardsToIngredientStorageDisplay());
 	}
 	
 	
@@ -277,16 +279,11 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 	 * @param player
 	 */
 	public void initialize(Player player) {
-		System.out.println(player);
-//		displayText("");
 
 		if (player.getIngredientCards() == null) {
-			System.out.println("Player Ingredient Cards null");
-			System.out.println(player);
 			return;			
 		}
 		if (getAllIngredientJListPanels() == null) {
-			System.out.println("all ingredient cards JPANEL null");
 			constructAllImagesDeck(getAllIngredientCards());
 		}
 
@@ -303,9 +300,6 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		ingredientScrollPane.setViewportView(ingredientList);
 	}
 	
-	
-	// CAN BE USE IN POTIONBREWINGAREA TOO
-
 	/**
 	 * Creates the array of player ingredient cards
 	 * @param player
