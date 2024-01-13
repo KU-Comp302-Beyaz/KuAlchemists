@@ -3,6 +3,7 @@ package domain;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Stack;
 
 import javax.swing.ImageIcon;
 
@@ -31,6 +32,8 @@ public class Game {
 	private int currPlayerIndex;
 	private int numberOfPlayers;
 	private int gameRound;
+	private Stack<String> actionHistory = new Stack<String>(); // add action at the end and get the latest action 
+	private Stack<Player> playerTurnHistory = new Stack<Player>(); // add which user take action at the end and get the which user take latest action   
 	
 	private Player[] players = new Player[4];
 	
@@ -276,5 +279,21 @@ public class Game {
 	public int getGameRound() {
 		return gameRound;
 	}
+
+	public Stack<String> getActionHistory() {
+		return actionHistory;
+	}
+	public void setActionHistory(Stack<String> actionHistory) {
+		this.actionHistory = actionHistory;
+	}
+
+	public Stack<Player> getPlayerTurnHistory() {
+		return playerTurnHistory;
+	}
+	public void setPlayerTurnHistory(Stack<Player> playerTurnHistory) {
+		this.playerTurnHistory = playerTurnHistory;
+	}
+	
+	
 	
 }

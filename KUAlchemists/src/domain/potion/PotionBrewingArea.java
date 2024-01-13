@@ -1,5 +1,6 @@
 package domain.potion;
 
+import domain.Game;
 import domain.Player;
 import domain.ingredients.Alchemical;
 import domain.ingredients.Ingredient;
@@ -57,11 +58,16 @@ public class PotionBrewingArea {
 	    AlchemyMarker alchemyMarker = p.getAlchemyMarker();
 	    int sicknessLevel = player.getSicknessLevel();
 
+	    String history = "Make Potion\n";
+	    
 	    if (testMethod.equals("Student")) {
 	        if (gold == 0) {
 	        	// cannot test on student
 	        } else {
 	            player.updateGoldBalanceforPotion(1); // negative potion and test it on a student, you will lose 1 gold
+	            /// for action history
+	            history += "Test on Student\n"
+	            		+ "-1 Gold Balance: " + player.getGoldBalance();
 	        }
 	    } else if (testMethod.equals("Player")) {
 	        if (sicknessLevel == 3) {
@@ -70,12 +76,19 @@ public class PotionBrewingArea {
 	        } else {
 	            player.testOnPlayer(p);
 	            sicknessLevel = player.getSicknessLevel(); // updaion of sicknessLevel after testing on Player
+	            /// for action history
+	            history += "Test on Player\n"
+	            		+ "Sickness Level: " + player.getSicknessLevel();
 	        }
 	    } else {
 	    	// error;
 	        return null; // invalid test method
 	    }
 
+	    ///// For Make Potion Add action and player to history
+		Game.getGame().getActionHistory().add(history);
+		Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
+	    
 	    return alchemyMarker;
 	}
 
