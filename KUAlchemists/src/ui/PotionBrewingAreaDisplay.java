@@ -129,6 +129,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	public PotionBrewingAreaDisplay() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1440, 800);
+		setResizable(false);
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
         
         contentPane = new JPanel();
@@ -483,19 +484,10 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           sellPotionButton.addActionListener(new ActionListener() {
           	public void actionPerformed(ActionEvent e) {
 
-          		if (requestDeclined) {
-          			JOptionPane.showMessageDialog(getContentPane(), "You declined the request, you cannot select SELL POTION again!",
-          	               "Sell Potion Clicked Twice", JOptionPane.WARNING_MESSAGE);
-          		}
-          		
-          		else {
 	          		potionIcon.setVisible(false);
 	                acceptButton.setVisible(true);
 	                declineButton.setVisible(true);
-	                
 	                t.start();
-          		}
-                
                 //Game.setController(Game.controller.SELL_POTION);
           	}
           });

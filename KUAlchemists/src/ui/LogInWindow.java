@@ -67,9 +67,8 @@ public class LogInWindow extends JFrame {
         int screenWidth = dimension.width;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 1920, 1080);
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
-        setResizable(false);
+		setBounds(0, 0, 1440, 800);
+		setResizable(false);        
         
         
         getContentPane().setLayout(null);
@@ -82,14 +81,14 @@ public class LogInWindow extends JFrame {
                 @Override
                 protected void paintComponent(Graphics g) {
                     super.paintComponent(g);
-                    g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
+                    g.drawImage(backgroundImage1, 0, 0, 1440, 800, this);
                 }
             };
         } catch (IOException e) {
             e.printStackTrace();
         }
 		
-		playerPanel1.setBounds(0, 0, 1440, 900);
+		playerPanel1.setBounds(0, 0, 1440, 800);
 		playerPanel1.setLayout(null);
 		playerPanel1.setVisible(false);
 		
@@ -101,7 +100,7 @@ public class LogInWindow extends JFrame {
 		
 		//Mode selection
 		JPanel modeSelectionPanel = new JPanel();
-        modeSelectionPanel.setBounds(0, 0, 1440, 900);
+        modeSelectionPanel.setBounds(0, 0, 1440, 800);
         modeSelectionPanel.setLayout(null);
         modeSelectionPanel.setVisible(true);
         getContentPane().add(modeSelectionPanel);
