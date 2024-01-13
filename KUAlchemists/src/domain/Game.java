@@ -1,7 +1,9 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
+import java.util.Stack;
 
 import javax.swing.ImageIcon;
 
@@ -30,6 +32,8 @@ public class Game {
 	private int currPlayerIndex;
 	private int numberOfPlayers;
 	private int gameRound;
+	private Stack<String> actionHistory = new Stack<String>(); // add action at the end and get the latest action 
+	private Stack<Player> playerTurnHistory = new Stack<Player>(); // add which user take action at the end and get the which user take latest action   
 	
 	private Player[] players = new Player[4];
 	
@@ -123,9 +127,13 @@ public class Game {
 	
 	public void endGame(Player[] players) {
 		Player winner = getCurrPlayer();
+		HashMap scoreList = new HashMap();
+		
 		for (int i = 0; i < players.length; i++) {
 			if (players[i] != null) {
 				players[i].getScorePoints();
+				
+				scoreList.put(players[i], players[i].getScorePoints()); // for displaying listed score at the end
 				
 				if (players[i].getScorePoints() > winner.getScorePoints()) {
 				//get max player points
@@ -133,6 +141,8 @@ public class Game {
 				}
 			}
 		}
+		
+		gameRound = 1; // or delete this game singleton
 	}
 
 	/**
@@ -226,7 +236,6 @@ public class Game {
 	public  void setController(Controller gameController) {
 		this.controller = gameController;
 	}
-
 	public Controller getController() {
 		return controller;
 	}
@@ -235,7 +244,6 @@ public class Game {
 	public Player getCurrPlayer() {
 		return currPlayer;
 	}
-
 	public void setCurrPlayer(Player currPlayer) {
 		this.currPlayer = currPlayer;
 	}
@@ -243,7 +251,6 @@ public class Game {
 	public Player[] getPlayers() {
 		return players;
 	}
-
 	public void setPlayers(Player[] players) {
 		this.players = players;
 	}
@@ -251,7 +258,6 @@ public class Game {
 	public  int getNumberOfPlayers() {
 		return numberOfPlayers;
 	}
-
 	public  void setNumberOfPlayers(int numberOfPlayers) {
 		this.numberOfPlayers = numberOfPlayers;
 	}
@@ -259,5 +265,21 @@ public class Game {
 	public int getGameRound() {
 		return gameRound;
 	}
+
+	public Stack<String> getActionHistory() {
+		return actionHistory;
+	}
+	public void setActionHistory(Stack<String> actionHistory) {
+		this.actionHistory = actionHistory;
+	}
+
+	public Stack<Player> getPlayerTurnHistory() {
+		return playerTurnHistory;
+	}
+	public void setPlayerTurnHistory(Stack<Player> playerTurnHistory) {
+		this.playerTurnHistory = playerTurnHistory;
+	}
+	
+	
 	
 }

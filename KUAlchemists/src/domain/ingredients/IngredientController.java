@@ -1,5 +1,12 @@
 package domain.ingredients;
 
+
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+
+import domain.Game;
+
 import domain.Player;
 
 public class IngredientController {
@@ -33,6 +40,15 @@ public class IngredientController {
 		int deckSize = IngredientStorage.getInstance().getIngredientCards().size();
 		Ingredient newIngredient = IngredientStorage.getInstance().getIngredientCards().remove(deckSize-1);
 		player.getIngredientCards().add(newIngredient);
+
+		
+		///// Add action and player to history
+		Game.getGame().getActionHistory().add("Add Ingredient\n"
+					+ "+1 Ingredient: " + player.getIngredientCards().size());
+		Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
+		
+		return newIngredient;
+
 	}
 	
 	/**
@@ -42,6 +58,11 @@ public class IngredientController {
 	public void transmuteIngredient(Player player) {
 		player.getIngredientCards().remove(getChosenIngredient()); //remove chosen ingredient
 		player.updateGoldBalance(1);
+		
+		///// Add action and player to history
+		Game.getGame().getActionHistory().add("Transmute Ingredient\n"
+				+ "+1 Gold Balance: " + player.getGoldBalance());
+		Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
 	}
 
 	/**
