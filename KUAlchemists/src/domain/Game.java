@@ -173,13 +173,13 @@ public class Game {
 		
 		
 		for (int i=0; i<8;i++) {
-			pt.getAvailableIngredients().add(IngredientStorage.getAllingredientcardsarray()[i]);
+			pt.getAvailableIngredients().add(IngredientStorage.getInstance().getAllingredientcardsarray()[i]);
 		}
 		
 		for (int j=0; j<5; j++) {
 			ArrayList<Ingredient> requiredIngredients = new ArrayList<>();
 			while (requiredIngredients.size() < 3) {
-				Ingredient randIngredient = IngredientStorage.getAllingredientcardsarray()[rand.nextInt(8)];
+				Ingredient randIngredient = IngredientStorage.getInstance().getAllingredientcardsarray()[rand.nextInt(8)];
 				if (!requiredIngredients.contains(randIngredient)) {
 					requiredIngredients.add(randIngredient);
 				}
