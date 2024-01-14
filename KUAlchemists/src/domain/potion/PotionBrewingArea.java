@@ -10,6 +10,11 @@ public class PotionBrewingArea {
 
 	public Potion makePotion(Ingredient ing_1, Ingredient ing_2) { // mixing two ingredients, get the resultToken (alcheyMarkera)
 		
+		//REQUIRES: Ingredients and their alchemaicals are not null.
+		//MODIFIES: Potion, AlchemyMarker
+		//EFFECTS:  Creating new Potion with given ingredients and new AlchemyMarker.
+		
+		
 		Alchemical alchemy_1 = ing_1.getAlchemical();
 		Alchemical alchemy_2 = ing_2.getAlchemical();
 		
@@ -43,7 +48,7 @@ public class PotionBrewingArea {
 		} else {
 			resultToken = new AlchemyMarker(); //nötr 
 		}
-		System.out.println("inside makePotion" + ing_1 + ing_2 + resultToken.getSign()  );
+		//System.out.println("inside makePotion" + ing_1 + ing_2 + resultToken.getSign()  );
 		Potion p = new Potion(ing_1, ing_2, resultToken);	
 		
 		return p;

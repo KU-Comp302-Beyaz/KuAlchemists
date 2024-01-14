@@ -100,12 +100,11 @@ public class PotionController {
 	
 	public void initializeMakeExperiment(Ingredient[] ingredients, Player p) {
 		
-		// PotionBrewingAreaDisplay pbad = new PotionBrewingAreaDisplay();
-		// PotionBrewingArea pba = new PotionBrewingArea();
-
-		//pbad.display();
-		
-		//Ingredient[] ingredients = pbad.getIngredients(); // Player Choose 2 Ingredients
+		//REQUIRES: Ingredients and player are not null.
+		//MODIFIES: Player's Potions and IngredientCards, AlchemyMarker
+		//EFFECTS:  Chosen Ingredients is removed from Player's ingredientCards.
+		//			new Potion is created with given ingredients and added to Player's potions.
+		//			Initialize testPotion function. Player' turn is updated.
 		
 		Ingredient ing_1 = ingredients[0];
 		p.getIngredientCards().remove(ing_1); //remove chosen ingredient
