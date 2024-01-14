@@ -11,6 +11,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -24,6 +25,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -32,6 +34,9 @@ import java.awt.Insets;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -69,9 +74,26 @@ public class ArtifactDeckDisplay extends JFrame {
     }
 
     private ArtifactDeckDisplay() {
+    	
+    	// Add background image
+        try {
+            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
+            setContentPane(new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(0, 0, 1440, 800);
         setResizable(false);
+        
+        
         
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
@@ -101,14 +123,17 @@ public class ArtifactDeckDisplay extends JFrame {
         txtArtifactDeck = new JTextField();
         txtArtifactDeck.setFont(new Font("Cochin", Font.PLAIN, 25));
         txtArtifactDeck.setEditable(false);
-        txtArtifactDeck.setBackground(UIManager.getColor("Button.background"));
+        //txtArtifactDeck.setBackground(UIManager.getColor("Button.background"));
+        txtArtifactDeck.setOpaque(false);
         txtArtifactDeck.setBounds(732, 6, 230, 73);
         txtArtifactDeck.setText("ARTIFACT DECK\n");
         getContentPane().add(txtArtifactDeck, BorderLayout.NORTH);
         txtArtifactDeck.setColumns(10);
         
         JPanel panel = new JPanel();
-        panel.setBackground(UIManager.getColor("Button.background"));
+        
+        
+        panel.setBackground(Color.WHITE);
         panel.setBounds(6, 150, 939, 425);
         getContentPane().add(panel);
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -132,6 +157,7 @@ public class ArtifactDeckDisplay extends JFrame {
         panel.add(buyEOIButton);
         
         txtGold = new JTextField();
+        txtGold.setBackground(new Color(171, 124, 67));
         txtGold.setFont(new Font("Cochin", Font.PLAIN, 15));
         txtGold.setText("Gold: " );
         txtGold.setBounds(537, 648, 218, 45);
@@ -140,7 +166,8 @@ public class ArtifactDeckDisplay extends JFrame {
         
         
         JTextPane txtpnHoverOverTo = new JTextPane();
-        txtpnHoverOverTo.setBackground(UIManager.getColor("Button.background"));
+        //txtpnHoverOverTo.setBackground(UIManager.getColor("Button.background"));
+        txtpnHoverOverTo.setOpaque(false);
         txtpnHoverOverTo.setEditable(false);
         txtpnHoverOverTo.setSelectedTextColor(Color.LIGHT_GRAY);
         txtpnHoverOverTo.setFont(new Font("Cochin", Font.PLAIN, 20));

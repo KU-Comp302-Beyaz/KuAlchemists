@@ -11,6 +11,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,12 +32,14 @@ import domain.Player;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Component;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -79,11 +84,28 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		
 		JPanel ingredientFramePanel = new JPanel();
 		
+		// Add background image
+        try {
+            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
+            ingredientFramePanel = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+		
 		getContentPane().add(ingredientFramePanel, BorderLayout.CENTER);
 		ingredientFramePanel.setLayout(new BoxLayout(ingredientFramePanel, BoxLayout.X_AXIS));
 		
 		//ingredientDeckPanel
 		JPanel ingredientDeckPanel = new JPanel();
+		// Transparent
+		ingredientDeckPanel.setOpaque(false); 
 		ingredientFramePanel.add(ingredientDeckPanel);
 		ingredientDeckPanel.setLayout(new BoxLayout(ingredientDeckPanel, BoxLayout.Y_AXIS));
 		ingredientDeckPanel.add(Box.createRigidArea(new Dimension(1000, 50)));
@@ -95,6 +117,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		
 		//---
 		JPanel allIngredientsScrollPanePanel = new JPanel();
+		allIngredientsScrollPanePanel.setOpaque(false);
 		ingredientDeckPanel.add(allIngredientsScrollPanePanel);
 		allIngredientsScrollPanePanel.setLayout(new BoxLayout(allIngredientsScrollPanePanel, BoxLayout.X_AXIS));
 		allIngredientsScrollPanePanel.add(Box.createRigidArea(new Dimension(100, 50)));
@@ -115,6 +138,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 
 		//---
 		JPanel ingredientDeckScrollPanePanel = new JPanel();
+		ingredientDeckScrollPanePanel.setOpaque(false);
 		ingredientDeckPanel.add(ingredientDeckScrollPanePanel);
 		ingredientDeckScrollPanePanel.setLayout(new BoxLayout(ingredientDeckScrollPanePanel, BoxLayout.X_AXIS));
 		ingredientDeckScrollPanePanel.add(Box.createRigidArea(new Dimension(100, 50)));
@@ -136,6 +160,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		
 		//buttonsPanel
 		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setBackground(new Color(171, 124, 67));
 		ingredientFramePanel.add(buttonsPanel);
 		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 		
