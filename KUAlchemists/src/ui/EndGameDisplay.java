@@ -190,7 +190,7 @@ public class EndGameDisplay extends JFrame{
 	          	        JPanel panel = new JPanel(new BorderLayout());
 	          	        
 	          	        
-	          	        Ingredient[] ingredients = IngredientStorage.getAllingredientcardsarray();
+	          	        Ingredient[] ingredients = IngredientStorage.getInstance().getAllingredientcardsarray();
 	          	        for(Ingredient i: ingredients) {
 	          	        	
 	          	        	JLabel textLabel = new JLabel("Ingredient - Alchemical pair: " + i.getName() + " - " + i.getAlchemical().getName() , JLabel.CENTER);

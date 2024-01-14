@@ -10,7 +10,7 @@ import domain.theorydeduction.AlchemyMarker;
 
 public class MakeExperiment {
 	static PotionBrewingArea pba = new PotionBrewingArea();
-	static Ingredient[] ing = IngredientStorage.getAllingredientcardsarray();
+	static Ingredient[] ing = IngredientStorage.getInstance().getAllingredientcardsarray();
 	/*
 	{(1,new Alchemical (new AlchemyMarker ("+", "red", "S"), new AlchemyMarker ("-", "green", "L"), new AlchemyMarker ("-", "blue", "S"), new ImageIcon())),
 	(2,new Alchemical (new AlchemyMarker ("-", "red", "S"), new AlchemyMarker ("+", "green", "L"), new AlchemyMarker ("+", "blue", "S"), new ImageIcon())), 

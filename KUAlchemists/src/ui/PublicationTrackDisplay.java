@@ -393,7 +393,7 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 	
 	private Ingredient findIngredientFromPhoto(String path) {
     	
-    	for (Ingredient i : IngredientStorage.getAllingredientcardsarray()) {
+    	for (Ingredient i : IngredientStorage.getInstance().getAllingredientcardsarray()) {
     		if (i.getPhoto().equals(path)) {
     			return i;
     		}
