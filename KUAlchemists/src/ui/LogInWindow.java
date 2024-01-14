@@ -100,11 +100,31 @@ public class LogInWindow extends JFrame {
 		
 		//Mode selection
 		JPanel modeSelectionPanel = new JPanel();
-        modeSelectionPanel.setBounds(0, 0, 1440, 800);
+    
+		// Add background image
+		/*
+        try {
+            backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
+        	//backgroundImage1 = ImageIO.read(new File("src/images/entrance.png"));
+            modeSelectionPanel = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
+        
+        modeSelectionPanel.setBounds(0, 0, 1440, 900);
         modeSelectionPanel.setLayout(null);
         modeSelectionPanel.setVisible(true);
         getContentPane().add(modeSelectionPanel);
-     
+        
+        
+        
         
         JLabel modeText = new JLabel("SELECT YOUR MODE");
         modeText.setFont(new Font("Cochin", Font.PLAIN, 36));
@@ -319,40 +339,50 @@ public class LogInWindow extends JFrame {
 		 */
 		loginButtonLast.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				boolean usernameTaken = false; 
+				
 				if (usernameText.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Name field cannot be empty.","Error",JOptionPane.WARNING_MESSAGE);
 				}
 				else {
 					switch (numberOfPlayers) {
 					case 2: 
-						if (usernameText.getText().equals(usernames[0]))
+						if (usernameText.getText().equals(usernames[0])) {
 							JOptionPane.showMessageDialog(null, "Username is already taken!","Error",JOptionPane.WARNING_MESSAGE);
-						break;
+							usernameTaken = true; }
+
+						break; 
 					case 3: 
-						if (usernameText.getText().equals(usernames[0]) || usernameText.getText().equals(usernames[1]))
+						if (usernameText.getText().equals(usernames[0]) || usernameText.getText().equals(usernames[1])) {
 							JOptionPane.showMessageDialog(null, "Username is already taken!","Error",JOptionPane.WARNING_MESSAGE);
+							usernameTaken = true; }
+
 						break;
 					case 4: 
-						if (usernameText.getText().equals(usernames[0]) || usernameText.getText().equals(usernames[1]) || usernameText.getText().equals(usernames[2]))
+						if (usernameText.getText().equals(usernames[0]) || usernameText.getText().equals(usernames[1]) || usernameText.getText().equals(usernames[2])) {
 							JOptionPane.showMessageDialog(null, "Username is already taken!","Error",JOptionPane.WARNING_MESSAGE);
+							usernameTaken = true; }
+
 						break;
 					}
 					
-					//Username of Player Last
-					usernames[numberOfPlayers-1] = usernameText.getText();
-					
-					//Avatar index of Player Last
-					selectedTokens[numberOfPlayers-1] = avatarList.getSelectedIndex();		
-					loginCompleted = true;
-					
-					
+					if (usernameTaken == false) {
 
-	        		Game game = Game.getGame();
-	        		game.initializePlayers(Game.getGame().getPlayers(), getNumberOfPlayers());
-	        		game.initializeBoard();
-					BoardWindow board = BoardWindow.getBoardWindow();
-					board.initialize();
-					dispose();
+						//Username of Player Last
+						usernames[numberOfPlayers-1] = usernameText.getText();
+						
+						//Avatar index of Player Last
+						selectedTokens[numberOfPlayers-1] = avatarList.getSelectedIndex();		
+						loginCompleted = true;
+						
+		        		Game game = Game.getGame();
+		        		game.initializePlayers(Game.getGame().getPlayers(), getNumberOfPlayers());
+		        		game.initializeBoard();
+						BoardWindow board = BoardWindow.getBoardWindow();
+						board.initialize();
+						dispose();
+					}
 					
 				}
 			}

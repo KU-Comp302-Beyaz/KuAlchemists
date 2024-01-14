@@ -1,7 +1,9 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
+import java.util.Stack;
 
 import javax.swing.ImageIcon;
 
@@ -30,6 +32,8 @@ public class Game {
 	private int currPlayerIndex;
 	private int numberOfPlayers;
 	private int gameRound;
+	private Stack<String> actionHistory = new Stack<String>(); // add action at the end and get the latest action 
+	private Stack<Player> playerTurnHistory = new Stack<Player>(); // add which user take action at the end and get the which user take latest action   
 	
 	private Player[] players = new Player[4];
 	
@@ -41,7 +45,9 @@ public class Game {
 		BUY_EOI,
 		MAKE_EXPERIMENT,
 		SELL_POTION,
-		PUBLISH_THEORY
+		PUBLISH_THEORY,
+		CLAIM_CARD,
+		DEBUNK_THEORY
 	};
 	
 	//Singleton implementation
@@ -54,23 +60,6 @@ public class Game {
 	public static Game getGame() {
 		return gameSingleton;
 	}
-	
-	//Main function
-//	public static void main(String[] args) {
-//		
-//		//Displaying the Login Window:
-//		LogInWindow loginWindow = LogInWindow.getInstance(); 
-//		loginWindow.displayLogInWindow();
-//		
-//		int numberOfPlayers = loginWindow.getNumberOfPlayers();
-//
-//		numberOfPlayers = 2; //for now erase later
-//		
-//		initializePlayers(loginWindow,players,numberOfPlayers);
-//		initializePublicationTrack();
-//		initializeBoard();
-//
-//	}
 	
 	/**
 	 * Initializes players for OFFLINE mode using numberOfPlayers.
@@ -117,27 +106,34 @@ public class Game {
 		System.out.println("number of players "+numberOfPlayers);
 		System.out.println("curr player index is "+currPlayerIndex);
 		System.out.println("curr player is "+currPlayer);
-				
-		
 	}
 	
+	/**
+	 * Increases round number
+	 * Makes all players turn number 3
+	 * If game round is greater than 3 then ends game.
+	 */
 	public void nextRound() {
-		
-		
-		
 		this.gameRound++;
+		for (int i = 0; i < players.length; i++) {
+			if (players[i] != null)
+				players[i].setTurnNumber(3);
+		}
 		if (gameRound > 3) {
 			endGame(players);
 		}
-		
 		System.out.println("next round: "+ gameRound) ;
 	}
 	
 	public void endGame(Player[] players) {
 		Player winner = getCurrPlayer();
+		HashMap scoreList = new HashMap();
+		
 		for (int i = 0; i < players.length; i++) {
 			if (players[i] != null) {
 				players[i].getScorePoints();
+				
+				scoreList.put(players[i], players[i].getScorePoints()); // for displaying listed score at the end
 				
 				if (players[i].getScorePoints() > winner.getScorePoints()) {
 				//get max player points
@@ -145,23 +141,25 @@ public class Game {
 				}
 			}
 		}
+		
+		gameRound = 1; // or delete this game singleton
 	}
 
 	/**
 	 * Initializes board
 	 */
 	public void initializeBoard() {
-		IngredientStorageDisplay.getInstance().constructAllImagesDeck(IngredientController.getInstance().giveAllCardsToIngredientStorageDisplay());
+		
 		Random rand = new Random();
 		PublicationTrack pt = PublicationTrack.getInstance();
-		Alchemical a1 = new Alchemical(new AlchemyMarker("+","red","S"), new AlchemyMarker("-","green","L"), new AlchemyMarker("-","blue","S"), "src/images/alchemical-icons/alchemical1.png");
-		Alchemical a2 = new Alchemical(new AlchemyMarker("-","red","S"), new AlchemyMarker("+","green","L"), new AlchemyMarker("+","blue","S"), "src/images/alchemical-icons/alchemical2.png");
-		Alchemical a3 = new Alchemical(new AlchemyMarker("-","red","L"), new AlchemyMarker("-","green","S"), new AlchemyMarker("+","blue","S"), "src/images/alchemical-icons/alchemical3.png");
-		Alchemical a4 = new Alchemical(new AlchemyMarker("+","red","S"), new AlchemyMarker("-","green","S"), new AlchemyMarker("+","blue","L"), "src/images/alchemical-icons/alchemical4.png");
-		Alchemical a5 = new Alchemical(new AlchemyMarker("-","red","S"), new AlchemyMarker("+","green","S"), new AlchemyMarker("-","blue","L"), "src/images/alchemical-icons/alchemical5.png");
-		Alchemical a6 = new Alchemical(new AlchemyMarker("+","red","L"), new AlchemyMarker("+","green","S"), new AlchemyMarker("-","blue","S"), "src/images/alchemical-icons/alchemical6.png");
-		Alchemical a7 = new Alchemical(new AlchemyMarker("-","red","L"), new AlchemyMarker("-","green","L"), new AlchemyMarker("-","blue","L"), "src/images/alchemical-icons/alchemical7.png");
-		Alchemical a8 = new Alchemical(new AlchemyMarker("+","red","L"), new AlchemyMarker("+","green","L"), new AlchemyMarker("+","blue","L"), "src/images/alchemical-icons/alchemical8.png");
+		Alchemical a1 = new Alchemical(new AlchemyMarker("+","red","S","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker("-","green","L","src/images/alchemyMarker-icons/green-.png"), new AlchemyMarker("-","blue","S","src/images/alchemyMarker-icons/blue-.png"), "src/images/alchemical-icons/alchemical1.png");
+		Alchemical a2 = new Alchemical(new AlchemyMarker("-","red","S","src/images/alchemyMarker-icons/red-.png"), new AlchemyMarker("+","green","L","src/images/alchemyMarker-icons/green+.png"), new AlchemyMarker("+","blue","S","src/images/alchemyMarker-icons/blue+.png"), "src/images/alchemical-icons/alchemical2.png");
+		Alchemical a3 = new Alchemical(new AlchemyMarker("-","red","L","src/images/alchemyMarker-icons/red-.png"), new AlchemyMarker("-","green","S","src/images/alchemyMarker-icons/green-.png"), new AlchemyMarker("+","blue","S","src/images/alchemyMarker-icons/blue+.png"), "src/images/alchemical-icons/alchemical3.png");
+		Alchemical a4 = new Alchemical(new AlchemyMarker("+","red","S","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker("-","green","S","src/images/alchemyMarker-icons/green-.png"), new AlchemyMarker("+","blue","L","src/images/alchemyMarker-icons/blue+.png"), "src/images/alchemical-icons/alchemical4.png");
+		Alchemical a5 = new Alchemical(new AlchemyMarker("-","red","S","src/images/alchemyMarker-icons/red-.png"), new AlchemyMarker("+","green","S","src/images/alchemyMarker-icons/green+.png"), new AlchemyMarker("-","blue","L","src/images/alchemyMarker-icons/blue-.png"), "src/images/alchemical-icons/alchemical5.png");
+		Alchemical a6 = new Alchemical(new AlchemyMarker("+","red","L","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker("+","green","S","src/images/alchemyMarker-icons/green+.png"), new AlchemyMarker("-","blue","S","src/images/alchemyMarker-icons/blue-.png"), "src/images/alchemical-icons/alchemical6.png");
+		Alchemical a7 = new Alchemical(new AlchemyMarker("-","red","L","src/images/alchemyMarker-icons/red-.png"), new AlchemyMarker("-","green","L","src/images/alchemyMarker-icons/green-.png"), new AlchemyMarker("-","blue","L","src/images/alchemyMarker-icons/blue-.png"), "src/images/alchemical-icons/alchemical7.png");
+		Alchemical a8 = new Alchemical(new AlchemyMarker("+","red","L","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker("+","green","L","src/images/alchemyMarker-icons/green+.png"), new AlchemyMarker("+","blue","L","src/images/alchemyMarker-icons/blue+.png"), "src/images/alchemical-icons/alchemical8.png");
 		
 		pt.getAvailableAlchemicals().add(a1);
 		pt.getAvailableAlchemicals().add(a2);
@@ -175,13 +173,13 @@ public class Game {
 		
 		
 		for (int i=0; i<8;i++) {
-			pt.getAvailableIngredients().add(IngredientStorage.getAllingredientcardsarray()[i]);
+			pt.getAvailableIngredients().add(IngredientStorage.getInstance().getAllingredientcardsarray()[i]);
 		}
 		
 		for (int j=0; j<5; j++) {
 			ArrayList<Ingredient> requiredIngredients = new ArrayList<>();
 			while (requiredIngredients.size() < 3) {
-				Ingredient randIngredient = IngredientStorage.getAllingredientcardsarray()[rand.nextInt(8)];
+				Ingredient randIngredient = IngredientStorage.getInstance().getAllingredientcardsarray()[rand.nextInt(8)];
 				if (!requiredIngredients.contains(randIngredient)) {
 					requiredIngredients.add(randIngredient);
 				}
@@ -198,16 +196,16 @@ public class Game {
 	public void selectController(Controller controller) {
 		switch (controller) {
 		case FORAGE_FOR_INGREDIENT:
-			Ingredient newIngredient = IngredientController.getInstance().addIngredientToPlayer(currPlayer);
-			ImageIcon newIngredientCardImageIcon = IngredientStorageDisplay.getInstance().getImage(newIngredient);
-			IngredientStorageDisplay.getInstance().displayCard(newIngredient, newIngredientCardImageIcon);
-			IngredientStorageDisplay.getInstance().initialize(currPlayer);
+			if(currPlayer.getTurnNumber() > 0) {
+				IngredientController.getInstance().addIngredientToPlayer(currPlayer);
+				currPlayer.updatePlayerTurn();
+			}
 			break;
 		case TRANSMUTE_INGREDIENT:
-			Ingredient chosenIngredient = IngredientStorageDisplay.getInstance().getChosenIngredient();
-			IngredientController.getInstance().transmuteIngredient(currPlayer, chosenIngredient);
-			IngredientStorageDisplay.getInstance().displayText("<html>Ingredient transmuted.<br/>One gold added to Player.</html>");
-			IngredientStorageDisplay.getInstance().initialize(currPlayer);
+			if(currPlayer.getTurnNumber() > 0) {
+				IngredientController.getInstance().transmuteIngredient(currPlayer);
+				currPlayer.updatePlayerTurn();
+			}
 			break;
 		case BUY_THE_RIVER:
 			ArtifactController.getArtifactController().buyArtifact(new TheRiver() , currPlayer);
@@ -224,6 +222,10 @@ public class Game {
 			PotionController.getInstance().initializePotionSale();	
 		case PUBLISH_THEORY:
 			TheoryController.getInstance().setCurrPlayer(currPlayer);
+		case CLAIM_CARD:
+			TheoryController.getInstance().setCurrPlayer(currPlayer);
+		case DEBUNK_THEORY:
+			TheoryController.getInstance().setCurrPlayer(currPlayer);
 		default:
 			break;
 		}
@@ -234,7 +236,6 @@ public class Game {
 	public  void setController(Controller gameController) {
 		this.controller = gameController;
 	}
-
 	public Controller getController() {
 		return controller;
 	}
@@ -243,7 +244,6 @@ public class Game {
 	public Player getCurrPlayer() {
 		return currPlayer;
 	}
-
 	public void setCurrPlayer(Player currPlayer) {
 		this.currPlayer = currPlayer;
 	}
@@ -251,7 +251,6 @@ public class Game {
 	public Player[] getPlayers() {
 		return players;
 	}
-
 	public void setPlayers(Player[] players) {
 		this.players = players;
 	}
@@ -259,7 +258,6 @@ public class Game {
 	public  int getNumberOfPlayers() {
 		return numberOfPlayers;
 	}
-
 	public  void setNumberOfPlayers(int numberOfPlayers) {
 		this.numberOfPlayers = numberOfPlayers;
 	}
@@ -267,5 +265,21 @@ public class Game {
 	public int getGameRound() {
 		return gameRound;
 	}
+
+	public Stack<String> getActionHistory() {
+		return actionHistory;
+	}
+	public void setActionHistory(Stack<String> actionHistory) {
+		this.actionHistory = actionHistory;
+	}
+
+	public Stack<Player> getPlayerTurnHistory() {
+		return playerTurnHistory;
+	}
+	public void setPlayerTurnHistory(Stack<Player> playerTurnHistory) {
+		this.playerTurnHistory = playerTurnHistory;
+	}
+	
+	
 	
 }

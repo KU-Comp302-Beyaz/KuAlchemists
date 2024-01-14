@@ -3,11 +3,17 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -23,8 +29,15 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
+import domain.Game;
+import domain.Game.Controller;
+import domain.ingredients.Ingredient;
+import domain.ingredients.IngredientStorage;
+import domain.publication.PublicationCard;
 import domain.publication.PublicationTrack;
+import domain.theorydeduction.AlchemyMarker;
 import domain.theorydeduction.Theory;
+import domain.theorydeduction.TheoryController;
 
 
 public class PublicationTrackDisplay extends JFrame implements Display {
@@ -55,9 +68,26 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		
 		setResizable(false);
 		setTitle("KuAlchemists");
-		setBounds(0, 0, 1440, 900);
+		setBounds(0, 0, 1440, 800);
+		
+		// Add background image
+        try {
+            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
+            setContentPane(new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
+		
+		
 		
 		
 		titleLabel.setFont(new Font("Cochin", Font.PLAIN, 30));
@@ -87,6 +117,8 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		publicationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		publicationList.setFixedCellHeight(IMAGE_HEIGHT+50);
 		publicationList.setFixedCellWidth(IMAGE_WIDTH);
+		getPublishListItems();
+		publicationList.setListData(publicationBoardPanels.toArray());
 		publicationScrollPane.setViewportView(publicationList);
 		
 		
@@ -105,17 +137,58 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		
 		debunkButton.setFont(new Font("Cochin", Font.PLAIN, 20));
 		debunkButton.setBounds(1058, 719, 250, 64);
+		debunkButton.addActionListener(e -> {
+			
+			if (theoryList.getSelectedValue() == null) {
+				JOptionPane.showMessageDialog(this, "Please select a theory to debunk!","Select Theory",JOptionPane.ERROR_MESSAGE);
+			}
+			else {
+				JLabel ingredientFromTheoryLabel = (JLabel) ((JPanel) theoryList.getSelectedValue()).getComponent(0);
+				ImageIcon selectedIcon = (ImageIcon) ingredientFromTheoryLabel.getIcon();
+				Ingredient selectedIngredient = findIngredientFromPhoto(selectedIcon.getDescription());
+				Theory selectedTheory = findTheory(selectedIngredient);
+				displayAlchemyMarkerSelectionDialog(selectedTheory);
+			}
+			
+			
+		});
 		getContentPane().add(debunkButton);
 		
 		
 		claimRewardButton.setFont(new Font("Cochin", Font.PLAIN, 20));
 		claimRewardButton.setBounds(200, 719, 250, 64);
+		claimRewardButton.addActionListener(e -> {
+			
+			Game.getGame().selectController(Controller.CLAIM_CARD);
+			if (publicationList.getSelectedValue()==null) {
+				JOptionPane.showMessageDialog(this, "Please select a publication card to claim!","Select Publication Card",JOptionPane.ERROR_MESSAGE);
+
+			}
+			else {
+				PublicationCard selectedCard = getSelectedCard();
+				if (selectedCard.isClaimed())
+					JOptionPane.showMessageDialog(this, "This Publication Card is already claimed.","Card Already Claimed",JOptionPane.ERROR_MESSAGE);
+				else {
+					boolean result = TheoryController.getInstance().initClaimCard(selectedCard);
+					if (result) {
+						JPanel selectedPanel = (JPanel) publicationList.getSelectedValue();
+						JLabel l = new JLabel();
+						l.setIcon(new ImageIcon(new ImageIcon("src/images/claimed.png").getImage().getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT/2, Image.SCALE_SMOOTH)));
+						selectedPanel.add(l);
+						JOptionPane.showMessageDialog(this, Game.getGame().getCurrPlayer().getUsername()+" successfully claimed the publication card! "+selectedCard.getGoldReward()+" amount(s) of gold and "+selectedCard.getReputationReward()+" amount(s) of reputation points are added to the "+Game.getGame().getCurrPlayer().getUsername(),"Card Successfully Claimed",JOptionPane.PLAIN_MESSAGE);
+					}
+					else {
+						JOptionPane.showMessageDialog(this, "You don't have required theories to claim this publication card.","Cannot Claim Card",JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
 		getContentPane().add(claimRewardButton);
 		
 		
         setJMenuBar(menuBar);
 
-        
+ 
         menuBar.add(fileMenu);
         
         
@@ -149,22 +222,154 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		return instance;
 	}
 
-
-
-
-
 	public void initialize() {
 		theoryPanels.clear();
 		getTheoryListItems();
 		theoryList.setListData(theoryPanels.toArray());
-		publicationBoardPanels.clear();
-		getPublishListItems();
-		publicationList.setListData(publicationBoardPanels.toArray());
 		setVisible(true);
 	}
 	
+	private PublicationCard getSelectedCard() {
+		
+		JLabel ingredientPanel1 = (JLabel) ((JPanel) publicationList.getSelectedValue()).getComponent(0);
+		JLabel ingredientPanel2 = (JLabel) ((JPanel) publicationList.getSelectedValue()).getComponent(1);
+		JLabel ingredientPanel3 = (JLabel) ((JPanel) publicationList.getSelectedValue()).getComponent(2);
+		
+		ImageIcon photo1 = (ImageIcon) ingredientPanel1.getIcon();
+		ImageIcon photo2 = (ImageIcon) ingredientPanel2.getIcon();
+		ImageIcon photo3 = (ImageIcon) ingredientPanel3.getIcon();
+		
+		Ingredient ing1 = findIngredientFromPhoto(photo1.getDescription());
+		Ingredient ing2 = findIngredientFromPhoto(photo2.getDescription());
+		Ingredient ing3 = findIngredientFromPhoto(photo3.getDescription());
+		
+		ArrayList<Ingredient> ingredients = new ArrayList<>();
+		ingredients.add(ing1);
+		ingredients.add(ing2);
+		ingredients.add(ing3);
+		PublicationCard card = findPublicationCard(ingredients);
+		return card;
+		
+		
+	}
 	
+	private void displayAlchemyMarkerSelectionDialog(Theory t) {
+		
+		ArrayList<String> alchemyMarkerPaths = new ArrayList<>();
+		
+		for (AlchemyMarker alcm : t.getAlchemical().getAspects()) {
+			alchemyMarkerPaths.add(alcm.getIcon());
+		}
+		
+		ArrayList<JPanel> alchemyMarkerPhotos = new ArrayList<>();
+    	for (String s : alchemyMarkerPaths) {
+    		JPanel p = new JPanel();
+    		JLabel l = new JLabel();
+    		ImageIcon i = new ImageIcon(new ImageIcon(s).getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH),s);
+    		l.setIcon(i);
+    		p.add(l);
+    		alchemyMarkerPhotos.add(p);
+    	}
+		
+		JFrame photoSelectionFrame = new JFrame("Select an Alchemy Marker to Debunk a Theory");
+		photoSelectionFrame.setBounds(100, 100, 800, 600);
+    	photoSelectionFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	photoSelectionFrame.getContentPane().setLayout(null);
+    	photoSelectionFrame.setResizable(false);
+		
+    	JScrollPane alchemyMarkerScrollPane = new JScrollPane();
+    	alchemyMarkerScrollPane.setBounds(6, 54, 788, 400);
+		photoSelectionFrame.getContentPane().add(alchemyMarkerScrollPane);
+		
+		JLabel titleLabel = new JLabel("Please Select an Alchemy Marker");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setBounds(241, 16, 325, 16);
+		photoSelectionFrame.getContentPane().add(titleLabel);
+		
+		JList alchemyMarkerList = new JList();
+		alchemyMarkerList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		alchemyMarkerList.setCellRenderer(new ImageListCellRenderer());
+		
+		alchemyMarkerList.setListData(alchemyMarkerPhotos.toArray());
+		alchemyMarkerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		alchemyMarkerList.setFixedCellHeight(200);
+		alchemyMarkerList.setFixedCellWidth(150);
+		alchemyMarkerList.setVisibleRowCount(2);
+		alchemyMarkerScrollPane.setViewportView(alchemyMarkerList);
+		
+		JButton selectButton = new JButton("Select ");
+		selectButton.setBounds(341, 466, 117, 29);
+		selectButton.addActionListener(e -> {
+			
+			if (alchemyMarkerList.getSelectedValue()!= null) {
+				JLabel selectedPanel = (JLabel) ((JPanel) alchemyMarkerList.getSelectedValue()).getComponent(0);
+				ImageIcon photo = (ImageIcon) selectedPanel.getIcon();
+				AlchemyMarker alm = findAlchemyMarker(photo.getDescription(),t.getAlchemical().getAspects());
+				photoSelectionFrame.dispose();
+				revealAlchemyMarker(t,alm);
+			}
+			else {
+				JOptionPane.showMessageDialog(photoSelectionFrame, "Please select an alchemy marker to debunk!","Select Alchemy Marker",JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		photoSelectionFrame.getContentPane().add(selectButton);
+		photoSelectionFrame.setVisible(true);
+	}
 	
+	private void revealAlchemyMarker(Theory theory ,AlchemyMarker alm) {
+		
+		Game.getGame().selectController(Controller.DEBUNK_THEORY);
+		Boolean result = TheoryController.getInstance().initDebunkTheory(theory, alm);
+		String resultMessage;
+		if (result) {
+			resultMessage="<html>Player "+Game.getGame().getCurrPlayer().getUsername()+" succesfully debunked the theory!</br> 2 reputation points is added to "+Game.getGame().getCurrPlayer().getUsername()+" , and"
+					+ " 2 reputation points is deducted from "+theory.getOwner().getUsername()+" .</html>";
+			theoryPanels.clear();
+			getTheoryListItems();
+			theoryList.setListData(theoryPanels.toArray());
+		}
+		else
+			resultMessage="<html>Player "+Game.getGame().getCurrPlayer().getUsername()+" failed to debunk the theory!</br> 1 reputation point is deducted from player "+Game.getGame().getCurrPlayer().getUsername()+" .</html>";
+		
+		JFrame resultFrame = new JFrame();
+		resultFrame.setBounds(100, 100, 800, 600);
+		resultFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		resultFrame.getContentPane().setLayout(null);
+		
+		JLabel titleLabel = new JLabel("Result");
+		titleLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setBounds(323, 56, 146, 47);
+		resultFrame.getContentPane().add(titleLabel);
+		
+		JPanel alchemyMarkerPanel = new JPanel();
+		alchemyMarkerPanel.setBounds(196, 125, 404, 306);
+		resultFrame.getContentPane().add(alchemyMarkerPanel);
+		
+		JLabel descriptionLabel = new JLabel(resultMessage);
+		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		descriptionLabel.setBounds(50, 464, 698, 77);
+		resultFrame.getContentPane().add(descriptionLabel);
+		
+		JLabel revealedAlchemyMarkerLabel = new JLabel();
+		revealedAlchemyMarkerLabel.setIcon(new ImageIcon(new ImageIcon(pt.returnCorrespondingAlchemyMarker(theory, alm).getIcon()).getImage().getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH)));
+		alchemyMarkerPanel.add(revealedAlchemyMarkerLabel);
+		resultFrame.setVisible(true);
+		
+	}
+
+
+	private AlchemyMarker findAlchemyMarker(String photo, List<AlchemyMarker> aspects) {
+		
+		for (AlchemyMarker alcm : aspects) {
+			if(alcm.getIcon().equals(photo))
+				return alcm;
+		}
+		return null;
+		
+	}
+
+
 	private void getPublishListItems() {
 		
 		for(int i=0; i<pt.getPublicationCards().size(); i++) {
@@ -174,9 +379,9 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 			JLabel l3 = new JLabel();
 			JLabel l4 = new JLabel("Reputation Point Reward: "+pt.getPublicationCards().get(i).getReputationReward());
 			JLabel l5 = new JLabel("Gold Reward: "+pt.getPublicationCards().get(i).getGoldReward());
-			l1.setIcon(new ImageIcon(new ImageIcon(pt.getPublicationCards().get(i).getRequiredTheories().get(0).getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
-			l2.setIcon(new ImageIcon(new ImageIcon(pt.getPublicationCards().get(i).getRequiredTheories().get(1).getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
-			l3.setIcon(new ImageIcon(new ImageIcon(pt.getPublicationCards().get(i).getRequiredTheories().get(2).getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH)));
+			l1.setIcon(new ImageIcon(new ImageIcon(pt.getPublicationCards().get(i).getRequiredTheories().get(0).getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH),pt.getPublicationCards().get(i).getRequiredTheories().get(0).getPhoto()));
+			l2.setIcon(new ImageIcon(new ImageIcon(pt.getPublicationCards().get(i).getRequiredTheories().get(1).getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH),pt.getPublicationCards().get(i).getRequiredTheories().get(1).getPhoto()));
+			l3.setIcon(new ImageIcon(new ImageIcon(pt.getPublicationCards().get(i).getRequiredTheories().get(2).getPhoto()).getImage().getScaledInstance(IMAGE_WIDTH/3, IMAGE_HEIGHT/3, Image.SCALE_SMOOTH),pt.getPublicationCards().get(i).getRequiredTheories().get(2).getPhoto()));
 			p.add(l1);
 			p.add(l2);
 			p.add(l3);
@@ -186,8 +391,7 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		}
 		
 	}
-		
-			
+
 	private void getTheoryListItems() {
 		
 		for(Theory t : pt.getPublishedTheories()) {
@@ -207,6 +411,35 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 			theoryPanel.add(informationLabel);
 			this.theoryPanels.add(theoryPanel);
 		}
+	}
+	
+	private Ingredient findIngredientFromPhoto(String path) {
+    	
+    	for (Ingredient i : IngredientStorage.getInstance().getAllingredientcardsarray()) {
+    		if (i.getPhoto().equals(path)) {
+    			return i;
+    		}
+    	}
+    	return null;
+    }
+	
+	private PublicationCard findPublicationCard(List<Ingredient> ingredients) {
+		
+		for (PublicationCard pc : pt.getPublicationCards()) {
+			
+			if (pc.getRequiredTheories().containsAll(ingredients))
+				return pc;
+		}
+		return null;
+		
+	}
+	
+	private Theory findTheory(Ingredient ing) {
+		for (Theory t : pt.getPublishedTheories()) {
+			if (Ingredient.checkEquality(t.getIngredientType(), ing))
+				return t;
+		}
+		return null;
 	}
 
 	public void openDialog() {

@@ -82,7 +82,12 @@ public class PotionController {
 			System.out.printf("Guarantee Level: %d \n", guarantee);
 			System.out.printf("Updated Amount: %d", updatedAmount);
 			
-			Game.getGame().getCurrPlayer().updateGoldBalance(updatedAmount);			
+			Game.getGame().getCurrPlayer().updateGoldBalance(updatedAmount);
+			
+			///// Add action and player to history
+			Game.getGame().getActionHistory().add("Sale Potion\n"
+					+ "+" + updatedAmount + " Gold Balance: " + Game.getGame().getCurrPlayer().getGoldBalance());
+			Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
 		}
 		
 	}
@@ -119,6 +124,8 @@ public class PotionController {
 			}
 				
 		p.updatePlayerTurn();
+		
+		//// history update is in testPotion since action detai is in there
 	}
 
 
@@ -129,6 +136,7 @@ public class PotionController {
 		String testMethod = PotionBrewingAreaDisplay.getInstance().getTestMethod(); // Player Choose TestMethod (Test on Student / Test on Player)
 		AlchemyMarker alchemyMarker = pba.testPotion(testMethod, potion, player);
 		
+		//// history update is in testPotion since action detai is in there
 		
 	}
 

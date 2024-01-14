@@ -8,17 +8,15 @@ public class Alchemical {
 	
 	private List<AlchemyMarker> aspects = new ArrayList<AlchemyMarker>();
 	private String alchemicalPhoto;
+	private String name;
 	
 	
 	public Alchemical (AlchemyMarker red, AlchemyMarker green, AlchemyMarker blue, String alchemicalPhoto) {
 		this.aspects.add(red);
 		this.aspects.add(green);
 		this.aspects.add(blue);
-		/*
-		this.red = red;
-		this.green = green;
-		this.blue = blue;*/
-		this.alchemicalPhoto = alchemicalPhoto;
+		this.alchemicalPhoto = alchemicalPhoto; // "red+S_green-L_blue-S" 
+		this.name = "red " + red.getSign() + " " + red.getSize() + " | " + "green " + green.getSign() + " " + green.getSize() + "blue " + blue.getSign() + " " + blue.getSize() ;
 	}
 	
 	public Alchemical (AlchemyMarker red, AlchemyMarker green, AlchemyMarker blue) {
@@ -26,6 +24,8 @@ public class Alchemical {
 		this.aspects.add(red);
 		this.aspects.add(green);
 		this.aspects.add(blue);
+		this.name = "red " + red.getSign() + " " + red.getSize() + " | " + "green " + green.getSign() + " " + green.getSize() + "blue " + blue.getSign() + " " + blue.getSize() ;
+
 	}
 
 	
@@ -37,39 +37,35 @@ public class Alchemical {
 		this.aspects = aspects;
 
 	}	
-  public String getAlchemicalPhoto() {
+	public String getAlchemicalPhoto() {
 		return alchemicalPhoto;
 	}
-
 	public void setAlchemicalPhoto(String alchemicalPhoto) {
-    this.alchemicalPhoto = alchemicalPhoto;
+		this.alchemicalPhoto = alchemicalPhoto;
   }
-
-	/*
-	public AlchemyMarker getRed() {
-		return red;
+	public String getName() {
+		return name;
 	}
-	public void setRed(AlchemyMarker red) {
-		this.red = red;
-	}
-
-
 	
-
-	public AlchemyMarker getGreen() {
-		return green;
+	/*
+	 * REQUIRES: -
+	 * MODIFIES: -
+	 * EFFECTS: two alchemicals are compared to each other by whether they are the same or not and the result is returned.
+	 */
+	public static boolean checkEquality(Alchemical a1, Alchemical a2) {
+		
+		if (a1 == null)
+			return false;
+		else if (a2==null)
+			return false;
+		else if (a1.getAlchemicalPhoto()==null)
+			return false;
+		else if (a2.getAlchemicalPhoto()==null)
+			return false;
+		else {
+			return a1.getAlchemicalPhoto().equals(a2.getAlchemicalPhoto());
+		}
 	}
-	public void setGreen(AlchemyMarker green) {
-		this.green = green;
-	}
-
-	public AlchemyMarker getBlue() {
-		return blue;
-	}
-	public void setBlue(AlchemyMarker blue) {
-		this.blue = blue;
-	}
-	*/
 	
 	
 }

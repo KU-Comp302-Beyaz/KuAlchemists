@@ -5,30 +5,24 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.ScrollPane;
 
@@ -36,13 +30,16 @@ import domain.Game;
 import domain.Game.Controller;
 import domain.Player;
 import domain.ingredients.Ingredient;
+import domain.ingredients.IngredientController;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Component;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -87,11 +84,28 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		
 		JPanel ingredientFramePanel = new JPanel();
 		
+		// Add background image
+        try {
+            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
+            ingredientFramePanel = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+		
 		getContentPane().add(ingredientFramePanel, BorderLayout.CENTER);
 		ingredientFramePanel.setLayout(new BoxLayout(ingredientFramePanel, BoxLayout.X_AXIS));
 		
 		//ingredientDeckPanel
 		JPanel ingredientDeckPanel = new JPanel();
+		// Transparent
+		ingredientDeckPanel.setOpaque(false); 
 		ingredientFramePanel.add(ingredientDeckPanel);
 		ingredientDeckPanel.setLayout(new BoxLayout(ingredientDeckPanel, BoxLayout.Y_AXIS));
 		ingredientDeckPanel.add(Box.createRigidArea(new Dimension(1000, 50)));
@@ -103,6 +117,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		
 		//---
 		JPanel allIngredientsScrollPanePanel = new JPanel();
+		allIngredientsScrollPanePanel.setOpaque(false);
 		ingredientDeckPanel.add(allIngredientsScrollPanePanel);
 		allIngredientsScrollPanePanel.setLayout(new BoxLayout(allIngredientsScrollPanePanel, BoxLayout.X_AXIS));
 		allIngredientsScrollPanePanel.add(Box.createRigidArea(new Dimension(100, 50)));
@@ -123,6 +138,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 
 		//---
 		JPanel ingredientDeckScrollPanePanel = new JPanel();
+		ingredientDeckScrollPanePanel.setOpaque(false);
 		ingredientDeckPanel.add(ingredientDeckScrollPanePanel);
 		ingredientDeckScrollPanePanel.setLayout(new BoxLayout(ingredientDeckScrollPanePanel, BoxLayout.X_AXIS));
 		ingredientDeckScrollPanePanel.add(Box.createRigidArea(new Dimension(100, 50)));
@@ -144,6 +160,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		
 		//buttonsPanel
 		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setBackground(new Color(171, 124, 67));
 		ingredientFramePanel.add(buttonsPanel);
 		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 		
@@ -164,7 +181,16 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		forageForIngredientButton.setFont(new Font("Cochin", Font.PLAIN, 20));
 		forageForIngredientButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Game.getGame().selectController(Controller.FORAGE_FOR_INGREDIENT);
+				if(Game.getGame().getCurrPlayer().getTurnNumber() > 0) {
+					Game.getGame().selectController(Controller.FORAGE_FOR_INGREDIENT);
+					Player currPlayer = Game.getGame().getCurrPlayer();
+					Ingredient newIngredient = currPlayer.getIngredientCards().get(currPlayer.getIngredientCards().size()-1);
+					displayCard(newIngredient, getImage(newIngredient));
+					initialize(currPlayer);
+				}
+				else {
+					displayText("<html>No turns left.<br/>Please end turn.</html>");
+				}
 			}
 		});
 		buttonsPanel.add(forageForIngredientButton);
@@ -177,7 +203,18 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		transmuteIngredientButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				Game.getGame().selectController(Controller.TRANSMUTE_INGREDIENT);
+				if (Game.getGame().getCurrPlayer().getIngredientCards().isEmpty()) {
+					displayText("<html>No ingredients left.<br/>Please choose another action.</html>");
+				}
+				else if(Game.getGame().getCurrPlayer().getTurnNumber() > 0) {
+					IngredientController.getInstance().setChosenIngredient(getChosenIngredient());
+					Game.getGame().selectController(Controller.TRANSMUTE_INGREDIENT);
+					displayText("<html>Ingredient transmuted.<br/>One gold added to Player.</html>");
+					initialize(Game.getGame().getCurrPlayer());
+				}
+				else {
+					displayText("<html>No turns left.<br/>Please end turn.</html>");
+				}
 			}
 		});
 		buttonsPanel.add(transmuteIngredientButton);
@@ -212,6 +249,8 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 				setVisible(false);
 			}
 		});
+        
+        constructAllImagesDeck(IngredientController.getInstance().giveAllCardsToIngredientStorageDisplay());
 	}
 	
 	
@@ -251,19 +290,16 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 	}
 
 	
-	// CAN BE USE IN POTIONBREWINGAREA TOO
 	/**
 	 * Initialize UI, player cards are updated every time this is called (every button click)
 	 * @param player
 	 */
 	public void initialize(Player player) {
 
-		if (player.getIngredientCards() == null || player.getIngredientCards().isEmpty()) {
-			System.out.println("Player Ingredient Cards null");
+		if (player.getIngredientCards() == null) {
 			return;			
 		}
 		if (getAllIngredientJListPanels() == null) {
-			System.out.println("all ingredient cards JPANEL null");
 			constructAllImagesDeck(getAllIngredientCards());
 		}
 
@@ -280,9 +316,6 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 		ingredientScrollPane.setViewportView(ingredientList);
 	}
 	
-	
-	// CAN BE USE IN POTIONBREWINGAREA TOO
-
 	/**
 	 * Creates the array of player ingredient cards
 	 * @param player
