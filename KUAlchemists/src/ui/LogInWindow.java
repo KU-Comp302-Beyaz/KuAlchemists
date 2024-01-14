@@ -101,11 +101,31 @@ public class LogInWindow extends JFrame {
 		
 		//Mode selection
 		JPanel modeSelectionPanel = new JPanel();
+		
+		// Add background image
+		/*
+        try {
+            backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
+        	//backgroundImage1 = ImageIO.read(new File("src/images/entrance.png"));
+            modeSelectionPanel = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
+        
         modeSelectionPanel.setBounds(0, 0, 1440, 900);
         modeSelectionPanel.setLayout(null);
         modeSelectionPanel.setVisible(true);
         getContentPane().add(modeSelectionPanel);
-     
+        
+        
+        
         
         JLabel modeText = new JLabel("SELECT YOUR MODE");
         modeText.setFont(new Font("Cochin", Font.PLAIN, 36));

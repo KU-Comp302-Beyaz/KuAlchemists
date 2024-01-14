@@ -401,6 +401,7 @@ public class DeductionBoardDisplay extends JFrame{
     	deductionGridPanel.setLayout(new GridLayout(9, 9, 0, 0)); 
     	*/
     	JPanel deductionGridPanel = new JPanel();
+    	deductionGridPanel.setBackground(new Color(104, 71, 40));
         deductionGridPanel.setBounds(98, 314, 1089, 428);
         backgroundLabel.add(deductionGridPanel);
         //deductionGridPanel.setBackground(new Color(221, 160, 221));
