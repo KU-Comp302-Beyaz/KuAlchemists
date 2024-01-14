@@ -46,9 +46,6 @@ public class EndGameDisplay extends JFrame{
 		        this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
 		        
 		        JPanel contentPane = new JPanel();
-		        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		        setContentPane(contentPane);
-		        contentPane.setLayout(null);
 		        
 		        // Add background image
 		        try {
@@ -64,30 +61,37 @@ public class EndGameDisplay extends JFrame{
 		            e.printStackTrace();
 		        }
 		        
+		        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		        setContentPane(contentPane);
+		        contentPane.setLayout(null);
+		        
+		        
+		        
 		        
 		        JLabel lblNewLabel = new JLabel("GAME OVER");
 		        lblNewLabel.setBounds(291, 85, 225, 41);
 		        lblNewLabel.setFont(new Font("Cochin", Font.BOLD, 35));
 		        getContentPane().add(lblNewLabel);
+		        contentPane.setLayout(null);
 		        
-		        JLabel lblNewLabel_1 = new JLabel("Winner: " + "");//Game.getCurrPlayer().getUsername());
-		        lblNewLabel_1.setBounds(102, 176, 414, 23);
+		        JLabel lblNewLabel_1 = new JLabel("Winner: " + "");
+		        lblNewLabel_1.setBounds(6, 23, 74, 23);
 		        lblNewLabel_1.setFont(new Font("Cochin", Font.PLAIN, 20));
 		        contentPane.add(lblNewLabel_1);
 		        
 		        JLabel lblNewLabel_2 = new JLabel("Winner Score: ");
-		        lblNewLabel_2.setBounds(102, 204, 414, 25);
+		        lblNewLabel_2.setBounds(88, 11, 127, 23);
 		        lblNewLabel_2.setFont(new Font("Cochin", Font.PLAIN, 20));
 		        contentPane.add(lblNewLabel_2);
 		        
 		        JLabel lblPlayers = new JLabel("PLAYERS");
-		        lblPlayers.setBounds(291, 293, 225, 36);
+		        lblPlayers.setBounds(220, 5, 143, 36);
 		        lblPlayers.setFont(new Font("Cochin", Font.BOLD, 30));
 		        contentPane.add(lblPlayers);
 		        
 		        // PLAYER 1
 		        JLabel lblPlayer_1 = new JLabel("Player 1");
-		        lblPlayer_1.setBounds(102, 399, 144, 25);
+		        lblPlayer_1.setBounds(368, 11, 69, 23);
 		        lblPlayer_1.setFont(new Font("Cochin", Font.PLAIN, 20));
 		        contentPane.add(lblPlayer_1);
 		        
@@ -97,16 +101,17 @@ public class EndGameDisplay extends JFrame{
 		        
 		        ImageIcon image_Player1 = new ImageIcon(players[0].getProfilePhoto());
 		        JLabel lblPlayerProfilePhoto_1 = new JLabel(image_Player1);
+		        lblPlayerProfilePhoto_1.setBounds(442, 23, -1, -1);
 		        contentPane.add(lblPlayerProfilePhoto_1);
 		        
 		        JLabel lblScore_1 = new JLabel("Final Score: " + players[0].getScorePoints());
-		        lblScore_1.setBounds(102, 429, 414, 23);
+		        lblScore_1.setBounds(67, 46, 116, 23);
 		        lblScore_1.setFont(new Font("Cochin", Font.PLAIN, 20));
 		        contentPane.add(lblScore_1);
 		        
 		        // PLAYER 2
 		        JLabel lblPlayer_2 = new JLabel("Player 2");
-		        lblPlayer_2.setBounds(1241, 431, 69, 23);
+		        lblPlayer_2.setBounds(188, 46, 69, 23);
 		        lblPlayer_2.setFont(new Font("Cochin", Font.PLAIN, 20));
 		        contentPane.add(lblPlayer_2);
 		        
@@ -116,10 +121,11 @@ public class EndGameDisplay extends JFrame{
 		        
 		        ImageIcon image_Player2 = new ImageIcon(players[1].getProfilePhoto());
 		        JLabel lblPlayerProfilePhoto_2 = new JLabel(image_Player2);
+		        lblPlayerProfilePhoto_2.setBounds(262, 58, -1, -1);
 		        contentPane.add(lblPlayerProfilePhoto_2); 
 		        
 		        JLabel lblScore_2 = new JLabel("Final Score: " + players[1].getScorePoints());
-		        lblScore_2.setBounds(1241, 459, 254, 25);
+		        lblScore_2.setBounds(266, 46, 116, 23);
 		        lblScore_2.setFont(new Font("Cochin", Font.PLAIN, 20));
 		        contentPane.add(lblScore_2);
 		        
@@ -169,8 +175,9 @@ public class EndGameDisplay extends JFrame{
 		        
 		        // For displaying user Ingredient with alchemyMarker pair
 		        JButton btnShowResult = new JButton("Show Results");
+		        btnShowResult.setBounds(89, 75, 127, 29);
 		                
-		        //Event handler of the accept button
+		        //Event handler Show Result Button
 		        btnShowResult.addActionListener(new ActionListener() {
 		        	public void actionPerformed(ActionEvent e) {
 		        		
@@ -207,19 +214,17 @@ public class EndGameDisplay extends JFrame{
 	          	        frame.setVisible(true);
 		        	}
 		        });
-		        
-		        btnShowResult.setBounds(915, 650, 139, 29);
 		        contentPane.add(btnShowResult);
 		        
 		        
 		        JButton btnNewGame = new JButton("New Game");
+		        btnNewGame.setBounds(221, 74, 139, 31);
 		        //Event handler of the accept button
 		        btnNewGame.addActionListener(new ActionListener() {
 		        	public void actionPerformed(ActionEvent e) {
 		        		//game = new Game();
 		        	}
 		        });
-		        btnNewGame.setBounds(915, 684, 139, 31);
 		        btnNewGame.setFont(new Font("Cochin", Font.PLAIN, 20));
 		        contentPane.add(btnNewGame);
 
