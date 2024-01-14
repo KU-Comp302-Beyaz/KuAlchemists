@@ -1,10 +1,5 @@
 package domain.ingredients;
 
-
-import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
-
 import domain.Game;
 
 import domain.Player;
@@ -46,8 +41,6 @@ public class IngredientController {
 		Game.getGame().getActionHistory().add("Add Ingredient\n"
 					+ "+1 Ingredient: " + player.getIngredientCards().size());
 		Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
-		
-		return newIngredient;
 
 	}
 	
@@ -70,7 +63,7 @@ public class IngredientController {
 	 * @return allCardsArray so they can be given to ingredient storage display1
 	 */
 	public Ingredient[] giveAllCardsToIngredientStorageDisplay() {
-		return IngredientStorage.getInstance().getAllIngredientCardsArray();
+		return IngredientStorage.getInstance().getAllingredientcardsarray();
 	}
 
 	public Ingredient getChosenIngredient() {
