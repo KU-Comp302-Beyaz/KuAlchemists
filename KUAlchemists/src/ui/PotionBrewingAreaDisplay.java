@@ -129,6 +129,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	public PotionBrewingAreaDisplay() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1440, 800);
+		setResizable(false);
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
         
         contentPane = new JPanel();
@@ -402,11 +403,9 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
       			ImageIcon icon5 = new ImageIcon("src/images/bottle-icons/red+bottle.png");
       			ImageIcon icon6 = new ImageIcon("src/images/bottle-icons/nullnullbottle.png");
       			ImageIcon icon7 = new ImageIcon("src/images/bottle-icons/green+bottle.png");
-      			
+      			ImageIcon icon8 = new ImageIcon("src/images/bottle-icons/bottles.png");
+      	
       			List<ImageIcon> potionImages = new ArrayList<>();
-      			potionImages.add(icon1);
-      			potionImages.add(icon5);
-      			potionImages.add(icon7);
       			
       			ImageIcon requestedPotionIcon = new ImageIcon();
       			Random random = new Random();		
@@ -429,14 +428,13 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
     	        Thread.sleep(100);
     	        requestedPotion.setIcon(new ImageIcon(icon7.getImage().getScaledInstance(380, 335, 0)));
     	        Thread.sleep(100);
-    	        requestedPotion.setIcon(new ImageIcon(potionImages.get(random.nextInt(3)).getImage().getScaledInstance(380, 335, 0)));     
+    	        requestedPotion.setIcon(new ImageIcon(icon8.getImage().getScaledInstance(380, 335, 0)));     
       			
       	
       		  }
       		  catch(Exception e) {}
       	  }
         });
-        
         
         //Coin photograph for placeholder of information of payed gold amount
         JLabel goldPayment = new JLabel();
@@ -510,20 +508,10 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           sellPotionButton.addActionListener(new ActionListener() {
           	public void actionPerformed(ActionEvent e) {
 
-          		if (requestDeclined) {
-          			JOptionPane.showMessageDialog(getContentPane(), "You declined the request, you cannot select SELL POTION again!",
-          	               "Sell Potion Clicked Twice", JOptionPane.WARNING_MESSAGE);
-          		}
-          		
-          		else {
 	          		potionIcon.setVisible(false);
-	          		
 	                acceptButton.setVisible(true);
 	                declineButton.setVisible(true);
-	                
 	                t.start();
-          		}
-                
                 //Game.setController(Game.controller.SELL_POTION);
           	}
           });
