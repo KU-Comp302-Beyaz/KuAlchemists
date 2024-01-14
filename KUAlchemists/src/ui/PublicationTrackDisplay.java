@@ -68,7 +68,7 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		
 		setResizable(false);
 		setTitle("KuAlchemists");
-		setBounds(0, 0, 1440, 900);
+		setBounds(0, 0, 1440, 800);
 		
 		// Add background image
         try {
