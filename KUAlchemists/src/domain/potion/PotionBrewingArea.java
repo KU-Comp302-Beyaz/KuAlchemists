@@ -5,6 +5,7 @@ import domain.Player;
 import domain.ingredients.Alchemical;
 import domain.ingredients.Ingredient;
 import domain.theorydeduction.AlchemyMarker;
+import ui.BoardWindow;
 
 public class PotionBrewingArea {
 
@@ -86,8 +87,11 @@ public class PotionBrewingArea {
 	    }
 
 	    ///// For Make Potion Add action and player to history
+	    /*
 		Game.getGame().getActionHistory().add(history);
 		Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
+		*/
+		BoardWindow.getGameLogObservable().notifyObservers(history, player);
 	    
 	    return alchemyMarker;
 	}

@@ -5,7 +5,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import domain.Game;
+import domain.GameLogObservable;
 import domain.Game.Controller;
+import domain.GameLogObserver;
 import domain.Player;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
@@ -17,7 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class BoardWindow extends JFrame {
+public class BoardWindow extends JFrame implements GameLogObserver{
 	
 	private static BoardWindow boardWindow;
 
@@ -26,7 +28,18 @@ public class BoardWindow extends JFrame {
     private JPanel boardDisplay_1;
     
     private JPanel[] playerDashboards = new JPanel[4];
+    private static GameLogObservable gameLogObservable = new GameLogObservable();
+   
+   
     
+    
+	public static GameLogObservable getGameLogObservable() {
+		return gameLogObservable;
+	}
+	public  static void setGameLogObservable(GameLogObservable gameLogObservable) {
+		gameLogObservable = gameLogObservable;
+	}
+
 	/**
 	 * Singleton implementation
 	 * @return unique instance
@@ -36,6 +49,12 @@ public class BoardWindow extends JFrame {
 			boardWindow = new BoardWindow();
 		return boardWindow;
 	}
+	
+	@Override
+	public void historyUpdate(String history, Player player) {
+		// TODO Auto-generated method stub
+		player.setHistory(player.getHistory() + "\n" + history);
+	}
 
     /**
      * Create the frame.
@@ -43,6 +62,7 @@ public class BoardWindow extends JFrame {
     private BoardWindow() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1440, 800);
+		 gameLogObservable.addObserver(this); ////
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
         
         contentPane = new JPanel();
@@ -170,6 +190,17 @@ public class BoardWindow extends JFrame {
         	avatarImageLabel.setBounds(6, 6, 128, 128);
         	playerDashboards[i].add(avatarImageLabel);
         	
+        	
+        	// display game log history
+        	/*
+        	GameLogController.getInstance().historyUpdate();
+        	if(Game.getGame().getPlayerTurnHistory().peek().equals(player)) {
+        		JLabel historyLabel = new JLabel(Game.getGame().getActionHistory().peek());
+        		playerDashboards[i].add(historyLabel);
+        	}
+        	*/
+        	JLabel historyLabel = new JLabel(player.getHistory());
+    		playerDashboards[i].add(historyLabel);
 		}
         
         
@@ -495,5 +526,7 @@ public class BoardWindow extends JFrame {
 		
 		setVisible(true);
 	}
+
+	
 }
    

@@ -35,6 +35,7 @@ public class Game {
 	private Stack<String> actionHistory = new Stack<String>(); // add action at the end and get the latest action 
 	private Stack<Player> playerTurnHistory = new Stack<Player>(); // add which user take action at the end and get the which user take latest action   
 	
+	
 	private Player[] players = new Player[4];
 	
 	//Controller as enum

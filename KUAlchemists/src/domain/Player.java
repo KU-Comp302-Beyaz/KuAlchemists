@@ -27,6 +27,7 @@ public class Player {
 	private HashMap<String,Artifact> artifacts = new HashMap<String,Artifact>(2);
 	private DeductionBoard playerDeductionBoard;
 	private String profilePhoto;
+	private String history;
 
 	
 	// constructor
@@ -52,6 +53,23 @@ public class Player {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	
+
+	public String getHistory() {
+		return history;
+	}
+	public void setHistory(String history) {
+		this.history = history;
+	}
+
+
+
+	public void setArtifacts(HashMap<String, Artifact> artifacts) {
+		this.artifacts = artifacts;
+	}
+
+
 
 	public int getToken() {
 		return token;

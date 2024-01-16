@@ -6,6 +6,7 @@ import domain.ingredients.Alchemical;
 import domain.ingredients.Ingredient;
 import domain.publication.PublicationCard;
 import domain.publication.PublicationTrack;
+import ui.BoardWindow;
 
 
 public class TheoryController {
@@ -67,10 +68,15 @@ public class TheoryController {
 			card.setRewardClaimer(currPlayer);
 			
 			///// Add action and player to history
+			/*
 			Game.getGame().getActionHistory().add("Claim Card\n"
 							+ "+" + card.getGoldReward() + " Gold Balance: " + currPlayer.getGoldBalance()
 							+ "\n+" + card.getReputationReward() + " Reputation Point: " + currPlayer.getReputationPoints());
 			Game.getGame().getPlayerTurnHistory().add(currPlayer);
+			*/
+			BoardWindow.getGameLogObservable().notifyObservers("Claim Card\n"
+					+ "+" + card.getGoldReward() + " Gold Balance: " + currPlayer.getGoldBalance()
+					+ "\n+" + card.getReputationReward() + " Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);
 		}
 		return result;
 		
@@ -104,8 +110,14 @@ public class TheoryController {
 		}
 		
 		///// Add action and player to history
+		/*
 		Game.getGame().getActionHistory().add(history);
 		Game.getGame().getPlayerTurnHistory().add(currPlayer);
+		*/
+		BoardWindow.getGameLogObservable().notifyObservers(history, currPlayer);
+		
+		
+		
 		
 		return debunkResult;
 	}

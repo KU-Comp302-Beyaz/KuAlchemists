@@ -8,6 +8,7 @@ import domain.Player;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
 import domain.theorydeduction.AlchemyMarker;
+import ui.BoardWindow;
 import ui.IngredientStorageDisplay;
 import ui.PlayerIngredientList;
 import ui.PotionBrewingAreaDisplay;
@@ -84,9 +85,14 @@ public class PotionController {
 			player.updateGoldBalance(updatedAmount);
 			
 			///// Add action and player to history
+			/*
 			Game.getGame().getActionHistory().add("Sale Potion\n"
 					+ "+" + updatedAmount + " Gold Balance: " + player.getGoldBalance());
 			Game.getGame().getPlayerTurnHistory().add(player);
+			*/
+			
+			BoardWindow.getGameLogObservable().notifyObservers("Sale Potion\n"
+					+ "+" + updatedAmount + " Gold Balance: " + player.getGoldBalance(), player);
 		}
 		
 	}
