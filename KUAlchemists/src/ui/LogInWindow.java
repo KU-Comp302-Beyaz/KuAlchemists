@@ -130,7 +130,7 @@ public class LogInWindow extends JFrame {
         modeText.setFont(new Font("Cochin", Font.PLAIN, 36));
         modeText.setBounds((screenWidth-400)/2, 225, 400, 64);
         modeSelectionPanel.add(modeText);
-        modeSelectionPanel.add(gameTitle);
+     //   modeSelectionPanel.add(gameTitle);
      
         
         //Login time
@@ -214,9 +214,30 @@ public class LogInWindow extends JFrame {
         onlineButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                 	
-                	//TO BE IMPLEMENTED FOR NETWORK
-                }
-        });
+                	String IP;
+                	String playerIP;
+                    Object[] options1 = {"Join", "Host"};
+                    JPanel panel = new JPanel();
+                    panel.add(new JLabel("Host or Join"));
+                    //Host: 1
+                    //Join: 0
+                    
+                    int hostOrJoin = JOptionPane.showOptionDialog(null, panel, "Login Choice",
+                            JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
+                            null, options1, null);
+                    
+                    if (hostOrJoin == 1) {
+                    	//Host IP
+                        IP = JOptionPane.showInputDialog("Enter IP address");
+	               	    if (IP != null) {
+	               	    	OnlineLoginWindow.getInstance().initialize();
+	               	    }
+                    }
+               
+                    else if (hostOrJoin == 0) {
+                        playerIP = JOptionPane.showInputDialog("Enter IP address to Join the Game");
+                    }
+        }});
         
         onlineButton.setFont(new Font("Cochin", Font.PLAIN, 48));
         onlineButton.setBounds((screenWidth-278)/2, 379, 278, 81);
