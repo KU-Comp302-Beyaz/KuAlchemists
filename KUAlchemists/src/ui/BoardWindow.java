@@ -6,6 +6,9 @@ import javax.swing.border.EmptyBorder;
 
 import domain.Game;
 import domain.Game.Controller;
+import domain.Player;
+import domain.ingredients.Ingredient;
+import domain.ingredients.IngredientController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,14 +19,23 @@ import java.io.IOException;
 
 public class BoardWindow extends JFrame {
 	
-	private static BoardWindow boardWindow = new BoardWindow();
+	private static BoardWindow boardWindow;
 
     private JPanel contentPane;
+    private JPanel contentPane_1;
     private JPanel boardDisplay_1;
     
-    public static BoardWindow getBoardWindow() {
-    	return boardWindow;
-    }
+    private JPanel[] playerDashboards = new JPanel[4];
+    
+	/**
+	 * Singleton implementation
+	 * @return unique instance
+	 */
+	public static synchronized BoardWindow getBoardWindow() {
+		if (boardWindow == null)
+			boardWindow = new BoardWindow();
+		return boardWindow;
+	}
 
     /**
      * Create the frame.
@@ -38,7 +50,7 @@ public class BoardWindow extends JFrame {
      // Add background image
         try {
             BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
-            contentPane = new JPanel() {
+            contentPane_1 = new JPanel() {
                 @Override
                 protected void paintComponent(Graphics g) {
                     super.paintComponent(g);
@@ -49,14 +61,14 @@ public class BoardWindow extends JFrame {
             e.printStackTrace();
         }
         
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        contentPane.setLayout(null);
+        contentPane_1.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane_1);
+        contentPane_1.setLayout(null);
         
         
         JButton ingredientStorageButton = new JButton("Ingredient Storage");
-        ingredientStorageButton.setBounds(218, 70, 344, 70);
-        contentPane.add(ingredientStorageButton);
+        ingredientStorageButton.setBounds(140, 70, 344, 70);
+        contentPane_1.add(ingredientStorageButton);
         ingredientStorageButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -69,8 +81,8 @@ public class BoardWindow extends JFrame {
 		});
         
         JButton artifactStorageButton = new JButton("Artifact Storage");
-        artifactStorageButton.setBounds(218, 470, 344, 70);
-        contentPane.add(artifactStorageButton);
+        artifactStorageButton.setBounds(140, 470, 344, 70);
+        contentPane_1.add(artifactStorageButton);
   		artifactStorageButton.addActionListener(new ActionListener() {
   			public void actionPerformed(ActionEvent e) {
 				ArtifactDeckDisplay isDisplay = ArtifactDeckDisplay.getArtifactDeckDisplay();
@@ -81,9 +93,8 @@ public class BoardWindow extends JFrame {
 		});
         
         JButton potionBrewingAreaButton = new JButton("Potion Brewing Area");
-        potionBrewingAreaButton.setBounds(218, 170, 344, 70);
-        contentPane.add(potionBrewingAreaButton);
-        
+        potionBrewingAreaButton.setBounds(140, 170, 344, 70);
+        contentPane_1.add(potionBrewingAreaButton);
   		potionBrewingAreaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PotionBrewingAreaDisplay pbdDisplay = new PotionBrewingAreaDisplay();
@@ -93,8 +104,8 @@ public class BoardWindow extends JFrame {
 		});
         
         JButton publicationTrackButton = new JButton("Publication Track");
-        publicationTrackButton.setBounds(218, 370, 344, 70);
-        contentPane.add(publicationTrackButton);
+        publicationTrackButton.setBounds(140, 370, 344, 70);
+        contentPane_1.add(publicationTrackButton);
   		publicationTrackButton.addActionListener(e -> {
   			PublicationTrackDisplay ptDisplay = PublicationTrackDisplay.getInstance();
   			setVisible(false);
@@ -112,13 +123,13 @@ public class BoardWindow extends JFrame {
 				dispose(); //closes BoardWindow
 			}
 		});
-        deductionBoardButton.setBounds(218, 270, 344, 70);
-        contentPane.add(deductionBoardButton);        
+        deductionBoardButton.setBounds(140, 270, 344, 70);
+        contentPane_1.add(deductionBoardButton);        
         
         
         JButton endTurnButton = new JButton("End Turn");
-        endTurnButton.setBounds(268, 600, 244, 60);
-        contentPane.add(endTurnButton);
+        endTurnButton.setBounds(190, 600, 244, 60);
+        contentPane_1.add(endTurnButton);
   		endTurnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {			
 				if (Game.getGame().getGameRound() <= 3) {
@@ -130,8 +141,42 @@ public class BoardWindow extends JFrame {
 				}
 			}
 		});
+  		
+        
+  		//Player Dashboard Panels
+  		
+        
+        
+        //Player Dashboard TabbedPane
+        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+        tabbedPane.setBounds(596, 70, 758, 462);
+        contentPane_1.add(tabbedPane);
+        
+//        JPanel playerDashboard = new JPanel();
+//    	tabbedPane.addTab("wheee",playerDashboard);
+//    	playerDashboard.setLayout(null);
+//    	
+//    	JLabel avatarImageLabe = new JLabel("photo here");
+//    	avatarImageLabe.setBounds(6, 6, 128, 128);
+//    	playerDashboard.add(avatarImageLabe);
+
+        for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
+        	Player player = Game.getGame().getPlayers()[i];
+        	playerDashboards[i] = new JPanel();
+        	tabbedPane.addTab(player.getUsername(), playerDashboards[i]);
+        	
+        	playerDashboards[i].setLayout(null);
+        	JLabel avatarImageLabel = new JLabel(new ImageIcon(player.getProfilePhoto()), JLabel.CENTER);
+        	avatarImageLabel.setBounds(6, 6, 128, 128);
+        	playerDashboards[i].add(avatarImageLabel);
+        	
+		}
+        
         
     
+        
+        
+        
         // Menu bar
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
