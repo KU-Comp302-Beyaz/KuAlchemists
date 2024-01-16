@@ -206,15 +206,29 @@ public class Player {
 	}
 
 	public String getPlayerInfo() {
-		String info = "<html>"+username + 
-						"<br>Gold Balance: " + goldBalance + 
-						"<br>Turn Number: "+ turnNumber + 
-						"<br>Sickness Level: " + sicknessLevel +
-						"<br>Reputation Points: " + reputationPoints +
-						"<br>Score Points: " + getScorePoints() +
-						"<br>Ingredient Cards: " + getIngredientCardsInfo() + 
-						"<br>Artifact Cards: " + getArtifactCardsInfo() +
-						"</html>";
+//		String info = "<html>"+username + 
+//						"<br> <h2>Gold Balance: </h2>" + goldBalance + 
+//						"<br> <h2>Turn Number: "+ turnNumber + 
+//						"<br> <h2>Sickness Level: " + sicknessLevel +
+//						"<br>Reputation Points: " + reputationPoints +
+//						"<br>Score Points: " + getScorePoints() +
+//						"<br>Ingredient Cards: " + getIngredientCardsInfo() + 
+//						"<br>Artifact Cards: " + getArtifactCardsInfo() +
+//						"</html>";
+		String info = "<html>\n"
+				+ "  <body>\n"
+				+ "    <h1>" + username + "</h1>\n"
+				+ "    <p>\n"
+				+ "      <strong>Gold Balance:</strong> <" + goldBalance +"<br>\n"
+				+ "      <strong>Turn Number:</strong> <" + turnNumber + "<br>\n"
+				+ "      <strong>Sickness Level:</strong> <" + sicknessLevel + "<br>\n"
+				+ "      <strong>Reputation Points:</strong> <" + reputationPoints + "<br>\n"
+				+ "      <strong>Score Points:</strong> <" + getScorePoints() + "<br>\n"
+				+ "      <strong>Ingredient Cards:</strong> <" + getIngredientCardsInfo() + "<br>\n"
+				+ "      <strong>Artifact Cards:</strong> <" + getArtifactCardsInfo() + "\n"
+				+ "    </p>\n"
+				+ "  </body>\n"
+				+ "</html>";
 		return info;
 	}
 

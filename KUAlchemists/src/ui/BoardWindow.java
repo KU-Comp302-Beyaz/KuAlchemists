@@ -195,7 +195,7 @@ public class BoardWindow extends JFrame {
         	JPanel infoPanel = new JPanel();
         	infoPanel.setBounds(0, 150, 500, 50);
         	
-        	playerInfoLabels[i] = new JLabel("");
+        	playerInfoLabels[i] = new JLabel("", JLabel.LEFT);
         	playerInfoLabels[i].setBounds(0, 0, 650, 220);
         	
         	JScrollPane scrollPane = new JScrollPane();
