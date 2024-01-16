@@ -19,6 +19,7 @@ public class BoardWindow extends JFrame {
 	private static BoardWindow boardWindow = new BoardWindow();
 
     private JPanel contentPane;
+    private JPanel boardDisplay_1;
     
     public static BoardWindow getBoardWindow() {
     	return boardWindow;
@@ -37,9 +38,98 @@ public class BoardWindow extends JFrame {
         
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        contentPane.setLayout(new BorderLayout());
         setContentPane(contentPane);
+        contentPane.setLayout(null);
+        
+        JButton ingredientStorageButton = new JButton("Ingredient Storage");
+        ingredientStorageButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
+        ingredientStorageButton.setBounds(6, 6, 344, 77);
+        contentPane.add(ingredientStorageButton);
+        
+        ingredientStorageButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				IngredientStorageDisplay isDisplay = IngredientStorageDisplay.getInstance();
+				setVisible(false);
+				isDisplay.initialize(Game.getGame().getCurrPlayer());
+				isDisplay.setVisible(true);
+				
+			}
+		});
+        
 
+        JButton artifactStorageButton = new JButton("Artifact Storage");
+        artifactStorageButton.setBounds(6, 667, 344, 77);
+        contentPane.add(artifactStorageButton);
+        
+  		artifactStorageButton.addActionListener(new ActionListener() {
+  			public void actionPerformed(ActionEvent e) {
+				ArtifactDeckDisplay isDisplay = ArtifactDeckDisplay.getArtifactDeckDisplay();
+				setVisible(false);
+				isDisplay.initialize(Game.getGame().getCurrPlayer());
+				isDisplay.setVisible(true);
+				
+			}
+		});
+        
+        JButton potionBrewingAreaButton = new JButton("Potion Brewing Area");
+        potionBrewingAreaButton.setBounds(1090, 6, 344, 77);
+        contentPane.add(potionBrewingAreaButton);
+        
+  		potionBrewingAreaButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				
+				PotionBrewingAreaDisplay pbdDisplay = new PotionBrewingAreaDisplay();
+				pbdDisplay.initialize();
+				dispose(); //closes BoardWindow
+
+			}
+		});
+        
+        JButton publicationTrackButton = new JButton("Publication Track");
+        publicationTrackButton.setBounds(1090, 667, 344, 77);
+        contentPane.add(publicationTrackButton);
+ 
+  		publicationTrackButton.addActionListener(e -> {
+  			
+  			PublicationTrackDisplay ptDisplay = PublicationTrackDisplay.getInstance();
+  			setVisible(false);
+  			ptDisplay.initialize();
+  			
+  		});
+  		
+        
+        JButton deductionBoardButton = new JButton("Deduction Board");
+        deductionBoardButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
+        deductionBoardButton.setBounds(647, 294, 146, 42);
+        contentPane.add(deductionBoardButton);        
+        
+        
+        JButton endTurnButton = new JButton("End Turn");
+        endTurnButton.setBounds(647, 667, 146, 42);
+        contentPane.add(endTurnButton);
+  		endTurnButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {			
+				if (Game.getGame().getGameRound() <= 3) {
+					Game.getGame().endTurn();
+				}
+				
+				else {
+					setVisible(false);
+					EndGameDisplay.getInstance().displayWinner();
+				}
+			}
+		});
+        
+    
         // Menu bar
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
@@ -57,7 +147,10 @@ public class BoardWindow extends JFrame {
                 openDialog();
             }
         });
+        }
 
+        
+        /*
         // Board display panel
         JPanel boardDisplay = new JPanel(new GridBagLayout());
         //boardDisplay.setBackground(new Color(255, 39, 57));
@@ -69,124 +162,26 @@ public class BoardWindow extends JFrame {
         // Add background image
         try {
             BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
-            boardDisplay = new JPanel(new GridBagLayout()) {
+            boardDisplay_1 = new JPanel(new GridBagLayout()) {
                 @Override
                 protected void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
                 }
             };
+            boardDisplay_1.setBounds(5, 5, 1430, 740);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        contentPane.setLayout(null);
 
-        contentPane.add(boardDisplay, BorderLayout.CENTER);
-
-        // Deduction Board in the middle as a button
-        JButton deductionBoardButton = new JButton("Deduction Board");
-        deductionBoardButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-        GridBagConstraints gbcDeductionBoard = new GridBagConstraints();
-        gbcDeductionBoard.gridx = 1;
-        gbcDeductionBoard.gridy = 1;
-        boardDisplay.add(deductionBoardButton, gbcDeductionBoard);
-        
-        deductionBoardButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				DeductionBoardDisplay dbDisplay = DeductionBoardDisplay.getIsDisplay();
-				setVisible(false);
-				dbDisplay.initialize();
-				dispose(); //closes BoardWindow
-
-			}
-		});
-
-        
-        // Buttons in the corners
-        JButton ingredientStorageButton = new JButton("Ingredient Storage");
-        ingredientStorageButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-        
-        ingredientStorageButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				IngredientStorageDisplay isDisplay = IngredientStorageDisplay.getInstance();
-				setVisible(false);
-				isDisplay.initialize(Game.getGame().getCurrPlayer());
-				isDisplay.setVisible(true);
-				
-			}
-		});
-        
-  		JButton artifactStorageButton = new JButton("Artifact Storage");
-  		artifactStorageButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-  		
-  		artifactStorageButton.addActionListener(new ActionListener() {
-  			public void actionPerformed(ActionEvent e) {
-				ArtifactDeckDisplay isDisplay = ArtifactDeckDisplay.getArtifactDeckDisplay();
-				setVisible(false);
-				isDisplay.initialize(Game.getGame().getCurrPlayer());
-				isDisplay.setVisible(true);
-				
-			}
-		});
-  		
-  		JButton potionBrewingAreaButton = new JButton("Potion Brewing Area");
-  		potionBrewingAreaButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-  		
-  		potionBrewingAreaButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				
-				PotionBrewingAreaDisplay pbdDisplay = new PotionBrewingAreaDisplay();
-				pbdDisplay.initialize();
-				dispose(); //closes BoardWindow
-
-			}
-		});
-	
-  		
-  		JButton publicationTrackButton = new JButton("Publication Track");
-  		publicationTrackButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-  		publicationTrackButton.addActionListener(e -> {
-  			
-  			PublicationTrackDisplay ptDisplay = PublicationTrackDisplay.getInstance();
-  			setVisible(false);
-  			ptDisplay.initialize();
-  			
-  		});
-  		
-  		
-  		JButton endTurnButton = new JButton("End Turn");
-  		endTurnButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-        GridBagConstraints gbcEndTurn = new GridBagConstraints();
-        gbcEndTurn.gridx = 1;
-        gbcEndTurn.gridy = 3;
-        boardDisplay.add(endTurnButton, gbcEndTurn);
-  		endTurnButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-				if (Game.getGame().getGameRound() <= 3) {
-					Game.getGame().endTurn();
-				}
-				
-				else {
-					setVisible(false);
-					EndGameDisplay.getInstance().displayWinner();
-					
-				}
-			}
-		});
-  		
-  		
+        contentPane.add(boardDisplay_1);
        
         
-        
-        addButton(ingredientStorageButton, boardDisplay, "Ingredient Storage", 0, 0, GridBagConstraints.NORTHWEST, 1);
-        addButton(artifactStorageButton, boardDisplay, "Artifact Storage", 2, 0, GridBagConstraints.NORTHEAST, 1);
-        addButton(potionBrewingAreaButton, boardDisplay, "Potion Brewing Area", 0, 2, GridBagConstraints.SOUTHWEST, 1);
-        addButton(publicationTrackButton, boardDisplay, "Publication Track", 2, 2, GridBagConstraints.SOUTHEAST, 1);
+        addButton(ingredientStorageButton, boardDisplay_1, "Ingredient Storage", 0, 0, GridBagConstraints.NORTHWEST, 1);
+        addButton(artifactStorageButton, boardDisplay_1, "Artifact Storage", 2, 0, GridBagConstraints.NORTHEAST, 1);
+        addButton(potionBrewingAreaButton, boardDisplay_1, "Potion Brewing Area", 0, 2, GridBagConstraints.SOUTHWEST, 1);
+        addButton(publicationTrackButton, boardDisplay_1, "Publication Track", 2, 2, GridBagConstraints.SOUTHEAST, 1);
         
 
 
@@ -205,6 +200,7 @@ public class BoardWindow extends JFrame {
         panel.add(button, gbc);
     }
 
+*/
     private void openDialog() {
         // Create a small dialog
         JDialog dialog = new JDialog(this, "In Game Menu", true);
@@ -256,6 +252,7 @@ public class BoardWindow extends JFrame {
         		+ "Login Screen: Appears before the game starts, allowing players to enter a unique username and select an avatar.\n"
         		+ "Game Over Screen: Appears at the end of the game, displaying final scores and announcing the winner.");
         */
+        
         
         // JLabel için HTML formatında metin
         String labelText = "<html><h1> Welcome to KU Alchemists: The Academic Concoction Help</h1><br><br>"
@@ -451,7 +448,5 @@ public class BoardWindow extends JFrame {
 		
 		setVisible(true);
 	}
-
-    
 }
    
