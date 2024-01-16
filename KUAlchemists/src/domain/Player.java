@@ -2,6 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import domain.ingredients.Ingredient;
@@ -204,7 +205,34 @@ public class Player {
 		return scorePoints;
 	}
 
+	public String getPlayerInfo() {
+		String info = "<html>"+username + 
+						"<br>Gold Balance: " + goldBalance + 
+						"<br>Turn Number: "+ turnNumber + 
+						"<br>Sickness Level: " + sicknessLevel +
+						"<br>Reputation Points: " + reputationPoints +
+						"<br>Score Points: " + getScorePoints() +
+						"<br>Ingredient Cards: " + getIngredientCardsInfo() + 
+						"<br>Artifact Cards: " + getArtifactCardsInfo() +
+						"</html>";
+		return info;
+	}
 
+	public String getIngredientCardsInfo() {
+		String ingredientInfo = "";
+		for (Ingredient ingredient : ingredientCards) {
+			ingredientInfo += "<br>- " + ingredient.getName();
+		}
+		return ingredientInfo;
+	}
+	
+	public String getArtifactCardsInfo() {
+		String artifactInfo = "";
+		for (Artifact artifact : artifacts.values()) {
+			artifactInfo += "<br>- " + artifact.getName();
+		}
+		return artifactInfo;
+	}
 
 	@Override
 	public String toString() {
@@ -214,6 +242,8 @@ public class Player {
 				+ ", theories=" + theories + ", artifacts=" + artifacts + ", playerDeductionBoard="
 				+ playerDeductionBoard + "]";
 	}
+	
+	
 	
 	
 	

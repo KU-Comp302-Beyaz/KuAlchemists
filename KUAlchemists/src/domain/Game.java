@@ -144,7 +144,7 @@ public class Game {
 			}
 		}
 		
-		gameRound = 1; // or delete this game singleton
+//		gameRound = 1; // or delete this game singleton
 	}
 
 	/**
