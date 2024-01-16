@@ -480,7 +480,7 @@ public class DeductionBoardDisplay extends JFrame{
   		    }
   		    JPanel p = new JPanel();
   		    JLabel l = new JLabel();
-  		    l.setIcon(new ImageIcon(new ImageIcon("src/images/alchemical-icons/alchemical"+(xAxisLabel)+".png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+  		    l.setIcon(new ImageIcon(new ImageIcon("src/images/alchemical-icons/"+ Alchemical.getAlchemicalphotos()[xAxisLabel-1]+".png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
   		    JButton b = new JButton();
   		    b.setPreferredSize(new Dimension(40 ,40));
   		    b.addActionListener(e -> {

@@ -197,8 +197,10 @@ public class EndGameDisplay extends JFrame{
 	  	          	      
 		          	        ImageIcon ingredientImage = new ImageIcon(i.getPhoto()); 
 		          	        JLabel ingredientImageLabel = new JLabel(ingredientImage);
+		          	        
 		          	        ImageIcon alchemicalImage = new ImageIcon(i.getAlchemical().getAlchemicalPhoto()); 
 		          	        JLabel alchemicalImageLabel = new JLabel(ingredientImage);
+		          	        
 		          	        panel.add(textLabel, BorderLayout.LINE_START);
 		          	        panel.add(ingredientImageLabel, BorderLayout.CENTER);
 		          	        panel.add(alchemicalImageLabel, BorderLayout.LINE_END);
