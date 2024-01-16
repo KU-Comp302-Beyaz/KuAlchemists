@@ -78,6 +78,8 @@ public class Game {
 			chosenAvatarIndex = LogInWindow.getSelectedTokens()[i];
 			players[i] = new Player(username,chosenAvatarIndex);
 			
+			players[i].setProfilePhoto("src/images/avatar-icons/avatar"+(chosenAvatarIndex+1)+".png");
+			
 			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
 			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
 			
@@ -152,14 +154,14 @@ public class Game {
 		
 		Random rand = new Random();
 		PublicationTrack pt = PublicationTrack.getInstance();
-		Alchemical a1 = new Alchemical(new AlchemyMarker("+","red","S","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker("-","green","L","src/images/alchemyMarker-icons/green-.png"), new AlchemyMarker("-","blue","S","src/images/alchemyMarker-icons/blue-.png"), "src/images/alchemical-icons/alchemical1.png");
-		Alchemical a2 = new Alchemical(new AlchemyMarker("-","red","S","src/images/alchemyMarker-icons/red-.png"), new AlchemyMarker("+","green","L","src/images/alchemyMarker-icons/green+.png"), new AlchemyMarker("+","blue","S","src/images/alchemyMarker-icons/blue+.png"), "src/images/alchemical-icons/alchemical2.png");
-		Alchemical a3 = new Alchemical(new AlchemyMarker("-","red","L","src/images/alchemyMarker-icons/red-.png"), new AlchemyMarker("-","green","S","src/images/alchemyMarker-icons/green-.png"), new AlchemyMarker("+","blue","S","src/images/alchemyMarker-icons/blue+.png"), "src/images/alchemical-icons/alchemical3.png");
-		Alchemical a4 = new Alchemical(new AlchemyMarker("+","red","S","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker("-","green","S","src/images/alchemyMarker-icons/green-.png"), new AlchemyMarker("+","blue","L","src/images/alchemyMarker-icons/blue+.png"), "src/images/alchemical-icons/alchemical4.png");
-		Alchemical a5 = new Alchemical(new AlchemyMarker("-","red","S","src/images/alchemyMarker-icons/red-.png"), new AlchemyMarker("+","green","S","src/images/alchemyMarker-icons/green+.png"), new AlchemyMarker("-","blue","L","src/images/alchemyMarker-icons/blue-.png"), "src/images/alchemical-icons/alchemical5.png");
-		Alchemical a6 = new Alchemical(new AlchemyMarker("+","red","L","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker("+","green","S","src/images/alchemyMarker-icons/green+.png"), new AlchemyMarker("-","blue","S","src/images/alchemyMarker-icons/blue-.png"), "src/images/alchemical-icons/alchemical6.png");
-		Alchemical a7 = new Alchemical(new AlchemyMarker("-","red","L","src/images/alchemyMarker-icons/red-.png"), new AlchemyMarker("-","green","L","src/images/alchemyMarker-icons/green-.png"), new AlchemyMarker("-","blue","L","src/images/alchemyMarker-icons/blue-.png"), "src/images/alchemical-icons/alchemical7.png");
-		Alchemical a8 = new Alchemical(new AlchemyMarker("+","red","L","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker("+","green","L","src/images/alchemyMarker-icons/green+.png"), new AlchemyMarker("+","blue","L","src/images/alchemyMarker-icons/blue+.png"), "src/images/alchemical-icons/alchemical8.png");
+		Alchemical a1 = new Alchemical(new AlchemyMarker("+","red","S","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker("-","green","L","src/images/alchemyMarker-icons/green-.png"), new AlchemyMarker("-","blue","S","src/images/alchemyMarker-icons/blue-.png"));
+		Alchemical a2 = new Alchemical(new AlchemyMarker("-","red","S","src/images/alchemyMarker-icons/red-.png"), new AlchemyMarker("+","green","L","src/images/alchemyMarker-icons/green+.png"), new AlchemyMarker("+","blue","S","src/images/alchemyMarker-icons/blue+.png"));
+		Alchemical a3 = new Alchemical(new AlchemyMarker("-","red","L","src/images/alchemyMarker-icons/red-.png"), new AlchemyMarker("-","green","S","src/images/alchemyMarker-icons/green-.png"), new AlchemyMarker("+","blue","S","src/images/alchemyMarker-icons/blue+.png"));
+		Alchemical a4 = new Alchemical(new AlchemyMarker("+","red","S","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker("-","green","S","src/images/alchemyMarker-icons/green-.png"), new AlchemyMarker("+","blue","L","src/images/alchemyMarker-icons/blue+.png"));
+		Alchemical a5 = new Alchemical(new AlchemyMarker("-","red","S","src/images/alchemyMarker-icons/red-.png"), new AlchemyMarker("+","green","S","src/images/alchemyMarker-icons/green+.png"), new AlchemyMarker("-","blue","L","src/images/alchemyMarker-icons/blue-.png"));
+		Alchemical a6 = new Alchemical(new AlchemyMarker("+","red","L","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker("+","green","S","src/images/alchemyMarker-icons/green+.png"), new AlchemyMarker("-","blue","S","src/images/alchemyMarker-icons/blue-.png"));
+		Alchemical a7 = new Alchemical(new AlchemyMarker("-","red","L","src/images/alchemyMarker-icons/red-.png"), new AlchemyMarker("-","green","L","src/images/alchemyMarker-icons/green-.png"), new AlchemyMarker("-","blue","L","src/images/alchemyMarker-icons/blue-.png"));
+		Alchemical a8 = new Alchemical(new AlchemyMarker("+","red","L","src/images/alchemyMarker-icons/red+.png"), new AlchemyMarker("+","green","L","src/images/alchemyMarker-icons/green+.png"), new AlchemyMarker("+","blue","L","src/images/alchemyMarker-icons/blue+.png"));
 		
 		pt.getAvailableAlchemicals().add(a1);
 		pt.getAvailableAlchemicals().add(a2);

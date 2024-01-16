@@ -6,6 +6,9 @@ import javax.swing.border.EmptyBorder;
 
 import domain.Game;
 import domain.Game.Controller;
+import domain.Player;
+import domain.ingredients.Ingredient;
+import domain.ingredients.IngredientController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,17 +19,24 @@ import java.io.IOException;
 
 public class BoardWindow extends JFrame {
 	
-	private static BoardWindow boardWindow = new BoardWindow();
+	private static BoardWindow boardWindow;
 
     private JPanel contentPane;
+    private JPanel contentPane_1;
+    private JPanel boardDisplay_1;
     
-    public static BoardWindow getBoardWindow() {
-    	return boardWindow;
-    }
+    private JPanel[] playerDashboards = new JPanel[4];
+    
+	/**
+	 * Singleton implementation
+	 * @return unique instance
+	 */
+	public static synchronized BoardWindow getBoardWindow() {
+		if (boardWindow == null)
+			boardWindow = new BoardWindow();
+		return boardWindow;
+	}
 
-    
-
-    
     /**
      * Create the frame.
      */
@@ -36,10 +46,137 @@ public class BoardWindow extends JFrame {
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
         
         contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        contentPane.setLayout(new BorderLayout());
-        setContentPane(contentPane);
+        
+     // Add background image
+        try {
+            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
+            contentPane_1 = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        contentPane_1.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane_1);
+        contentPane_1.setLayout(null);
+        
+        
+        JButton ingredientStorageButton = new JButton("Ingredient Storage");
+        ingredientStorageButton.setBounds(140, 70, 344, 70);
+        contentPane_1.add(ingredientStorageButton);
+        ingredientStorageButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				IngredientStorageDisplay isDisplay = IngredientStorageDisplay.getInstance();
+				setVisible(false);
+				isDisplay.initialize(Game.getGame().getCurrPlayer());
+				isDisplay.setVisible(true);
+				
+			}
+		});
+        
+        JButton artifactStorageButton = new JButton("Artifact Storage");
+        artifactStorageButton.setBounds(140, 470, 344, 70);
+        contentPane_1.add(artifactStorageButton);
+  		artifactStorageButton.addActionListener(new ActionListener() {
+  			public void actionPerformed(ActionEvent e) {
+				ArtifactDeckDisplay isDisplay = ArtifactDeckDisplay.getArtifactDeckDisplay();
+				setVisible(false);
+				isDisplay.initialize(Game.getGame().getCurrPlayer());
+				isDisplay.setVisible(true);
+			}
+		});
+        
+        JButton potionBrewingAreaButton = new JButton("Potion Brewing Area");
+        potionBrewingAreaButton.setBounds(140, 170, 344, 70);
+        contentPane_1.add(potionBrewingAreaButton);
+  		potionBrewingAreaButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PotionBrewingAreaDisplay pbdDisplay = new PotionBrewingAreaDisplay();
+				pbdDisplay.initialize();
+				dispose(); //closes BoardWindow
+			}
+		});
+        
+        JButton publicationTrackButton = new JButton("Publication Track");
+        publicationTrackButton.setBounds(140, 370, 344, 70);
+        contentPane_1.add(publicationTrackButton);
+  		publicationTrackButton.addActionListener(e -> {
+  			PublicationTrackDisplay ptDisplay = PublicationTrackDisplay.getInstance();
+  			setVisible(false);
+  			ptDisplay.initialize();
+  			
+  		});
+  		
+        
+        JButton deductionBoardButton = new JButton("Deduction Board");
+        deductionBoardButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DeductionBoardDisplay dbDisplay = DeductionBoardDisplay.getIsDisplay();
+				setVisible(false);
+				dbDisplay.initialize();
+				dispose(); //closes BoardWindow
+			}
+		});
+        deductionBoardButton.setBounds(140, 270, 344, 70);
+        contentPane_1.add(deductionBoardButton);        
+        
+        
+        JButton endTurnButton = new JButton("End Turn");
+        endTurnButton.setBounds(190, 600, 244, 60);
+        contentPane_1.add(endTurnButton);
+  		endTurnButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {			
+				if (Game.getGame().getGameRound() <= 3) {
+					Game.getGame().endTurn();
+				}
+				else {
+					setVisible(false);
+					EndGameDisplay.getInstance().displayWinner();
+				}
+			}
+		});
+  		
+        
+  		//Player Dashboard Panels
+  		
+        
+        
+        //Player Dashboard TabbedPane
+        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+        tabbedPane.setBounds(596, 70, 758, 462);
+        contentPane_1.add(tabbedPane);
+        
+//        JPanel playerDashboard = new JPanel();
+//    	tabbedPane.addTab("wheee",playerDashboard);
+//    	playerDashboard.setLayout(null);
+//    	
+//    	JLabel avatarImageLabe = new JLabel("photo here");
+//    	avatarImageLabe.setBounds(6, 6, 128, 128);
+//    	playerDashboard.add(avatarImageLabe);
 
+        for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
+        	Player player = Game.getGame().getPlayers()[i];
+        	playerDashboards[i] = new JPanel();
+        	tabbedPane.addTab(player.getUsername(), playerDashboards[i]);
+        	
+        	playerDashboards[i].setLayout(null);
+        	JLabel avatarImageLabel = new JLabel(new ImageIcon(player.getProfilePhoto()), JLabel.CENTER);
+        	avatarImageLabel.setBounds(6, 6, 128, 128);
+        	playerDashboards[i].add(avatarImageLabel);
+        	
+		}
+        
+        
+    
+        
+        
+        
         // Menu bar
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
@@ -57,7 +194,10 @@ public class BoardWindow extends JFrame {
                 openDialog();
             }
         });
+        }
 
+        
+        /*
         // Board display panel
         JPanel boardDisplay = new JPanel(new GridBagLayout());
         //boardDisplay.setBackground(new Color(255, 39, 57));
@@ -69,124 +209,26 @@ public class BoardWindow extends JFrame {
         // Add background image
         try {
             BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
-            boardDisplay = new JPanel(new GridBagLayout()) {
+            boardDisplay_1 = new JPanel(new GridBagLayout()) {
                 @Override
                 protected void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
                 }
             };
+            boardDisplay_1.setBounds(5, 5, 1430, 740);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        contentPane.setLayout(null);
 
-        contentPane.add(boardDisplay, BorderLayout.CENTER);
-
-        // Deduction Board in the middle as a button
-        JButton deductionBoardButton = new JButton("Deduction Board");
-        deductionBoardButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-        GridBagConstraints gbcDeductionBoard = new GridBagConstraints();
-        gbcDeductionBoard.gridx = 1;
-        gbcDeductionBoard.gridy = 1;
-        boardDisplay.add(deductionBoardButton, gbcDeductionBoard);
-        
-        deductionBoardButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				DeductionBoardDisplay dbDisplay = DeductionBoardDisplay.getIsDisplay();
-				setVisible(false);
-				dbDisplay.initialize();
-				dispose(); //closes BoardWindow
-
-			}
-		});
-
-        
-        // Buttons in the corners
-        JButton ingredientStorageButton = new JButton("Ingredient Storage");
-        ingredientStorageButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-        
-        ingredientStorageButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				IngredientStorageDisplay isDisplay = IngredientStorageDisplay.getInstance();
-				setVisible(false);
-				isDisplay.initialize(Game.getGame().getCurrPlayer());
-				isDisplay.setVisible(true);
-				
-			}
-		});
-        
-  		JButton artifactStorageButton = new JButton("Artifact Storage");
-  		artifactStorageButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-  		
-  		artifactStorageButton.addActionListener(new ActionListener() {
-  			public void actionPerformed(ActionEvent e) {
-				ArtifactDeckDisplay isDisplay = ArtifactDeckDisplay.getArtifactDeckDisplay();
-				setVisible(false);
-				isDisplay.initialize(Game.getGame().getCurrPlayer());
-				isDisplay.setVisible(true);
-				
-			}
-		});
-  		
-  		JButton potionBrewingAreaButton = new JButton("Potion Brewing Area");
-  		potionBrewingAreaButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-  		
-  		potionBrewingAreaButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				
-				PotionBrewingAreaDisplay pbdDisplay = new PotionBrewingAreaDisplay();
-				pbdDisplay.initialize();
-				dispose(); //closes BoardWindow
-
-			}
-		});
-	
-  		
-  		JButton publicationTrackButton = new JButton("Publication Track");
-  		publicationTrackButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-  		publicationTrackButton.addActionListener(e -> {
-  			
-  			PublicationTrackDisplay ptDisplay = PublicationTrackDisplay.getInstance();
-  			setVisible(false);
-  			ptDisplay.initialize();
-  			
-  		});
-  		
-  		
-  		JButton endTurnButton = new JButton("End Turn");
-  		endTurnButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-        GridBagConstraints gbcEndTurn = new GridBagConstraints();
-        gbcEndTurn.gridx = 1;
-        gbcEndTurn.gridy = 3;
-        boardDisplay.add(endTurnButton, gbcEndTurn);
-  		endTurnButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-				if (Game.getGame().getGameRound() <= 3) {
-					Game.getGame().endTurn();
-				}
-				
-				else {
-					setVisible(false);
-					EndGameDisplay.getInstance().displayWinner();
-					
-				}
-			}
-		});
-  		
-  		
+        contentPane.add(boardDisplay_1);
        
         
-        
-        addButton(ingredientStorageButton, boardDisplay, "Ingredient Storage", 0, 0, GridBagConstraints.NORTHWEST, 1);
-        addButton(artifactStorageButton, boardDisplay, "Artifact Storage", 2, 0, GridBagConstraints.NORTHEAST, 1);
-        addButton(potionBrewingAreaButton, boardDisplay, "Potion Brewing Area", 0, 2, GridBagConstraints.SOUTHWEST, 1);
-        addButton(publicationTrackButton, boardDisplay, "Publication Track", 2, 2, GridBagConstraints.SOUTHEAST, 1);
+        addButton(ingredientStorageButton, boardDisplay_1, "Ingredient Storage", 0, 0, GridBagConstraints.NORTHWEST, 1);
+        addButton(artifactStorageButton, boardDisplay_1, "Artifact Storage", 2, 0, GridBagConstraints.NORTHEAST, 1);
+        addButton(potionBrewingAreaButton, boardDisplay_1, "Potion Brewing Area", 0, 2, GridBagConstraints.SOUTHWEST, 1);
+        addButton(publicationTrackButton, boardDisplay_1, "Publication Track", 2, 2, GridBagConstraints.SOUTHEAST, 1);
         
 
 
@@ -205,6 +247,7 @@ public class BoardWindow extends JFrame {
         panel.add(button, gbc);
     }
 
+*/
     private void openDialog() {
         // Create a small dialog
         JDialog dialog = new JDialog(this, "In Game Menu", true);
@@ -256,6 +299,7 @@ public class BoardWindow extends JFrame {
         		+ "Login Screen: Appears before the game starts, allowing players to enter a unique username and select an avatar.\n"
         		+ "Game Over Screen: Appears at the end of the game, displaying final scores and announcing the winner.");
         */
+        
         
         // JLabel için HTML formatında metin
         String labelText = "<html><h1> Welcome to KU Alchemists: The Academic Concoction Help</h1><br><br>"
@@ -451,7 +495,5 @@ public class BoardWindow extends JFrame {
 		
 		setVisible(true);
 	}
-
-    
 }
    

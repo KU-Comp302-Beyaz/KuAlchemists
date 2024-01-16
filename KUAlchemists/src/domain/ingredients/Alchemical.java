@@ -9,21 +9,25 @@ public class Alchemical {
 	private List<AlchemyMarker> aspects = new ArrayList<AlchemyMarker>();
 	private String alchemicalPhoto;
 	private String name;
+	private static final String[] alchemicalPhotos = {
+			"red+S_green-L_blue-S",
+			"red-S_green+L_blue+S",
+			"red-L_green-S_blue+S",
+			"red+S_green-S_blue+L",
+			"red-S_green+S_blue-L",
+			"red+L_green+S_blue-S",
+			"red-L_green-L_blue-L",
+			"red+L_green+L_blue+L"
+			};
 	
-	
-	public Alchemical (AlchemyMarker red, AlchemyMarker green, AlchemyMarker blue, String alchemicalPhoto) {
-		this.aspects.add(red);
-		this.aspects.add(green);
-		this.aspects.add(blue);
-		this.alchemicalPhoto = alchemicalPhoto; // "red+S_green-L_blue-S" 
-		this.name = "red " + red.getSign() + " " + red.getSize() + " | " + "green " + green.getSign() + " " + green.getSize() + "blue " + blue.getSign() + " " + blue.getSize() ;
-	}
 	
 	public Alchemical (AlchemyMarker red, AlchemyMarker green, AlchemyMarker blue) {
 		
 		this.aspects.add(red);
 		this.aspects.add(green);
 		this.aspects.add(blue);
+		// "red+S_green-L_blue-S" 
+		this.alchemicalPhoto = "red" + red.getSign() + red.getSize() +"_green" + green.getSign() + green.getSize() + "_blue" + blue.getSign() + blue.getSize();
 		this.name = "red " + red.getSign() + " " + red.getSize() + " | " + "green " + green.getSign() + " " + green.getSize() + "blue " + blue.getSign() + " " + blue.getSize() ;
 
 	}
@@ -42,11 +46,23 @@ public class Alchemical {
 	}
 	public void setAlchemicalPhoto(String alchemicalPhoto) {
 		this.alchemicalPhoto = alchemicalPhoto;
-  }
+	}
 	public String getName() {
 		return name;
 	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	
+	
+	public static String[] getAlchemicalphotos() {
+		return alchemicalPhotos;
+	}
+
+
+	
+
+
 	/*
 	 * REQUIRES: -
 	 * MODIFIES: -
