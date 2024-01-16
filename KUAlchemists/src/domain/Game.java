@@ -219,7 +219,7 @@ public class Game {
 			//PlayerIngredientList.initialize(currPlayer);
 			PotionBrewingAreaDisplay.getInstance().updateIngredient(currPlayer);
 		case SELL_POTION:
-			PotionController.getInstance().initializePotionSale();	
+			PotionController.getInstance().initializePotionSale(currPlayer);	
 		case PUBLISH_THEORY:
 			TheoryController.getInstance().setCurrPlayer(currPlayer);
 		case CLAIM_CARD:

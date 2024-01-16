@@ -79,7 +79,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	private static boolean requestAccepted = false;
 	private static boolean requestDeclined = false;
 	private ImageIcon coinIcon;
-	private Player player = Game.getGame().getCurrPlayer();
 	private static String testMethod ;
 	private Ingredient[] ingredients; 	
 	private JList<JPanel> ingredientList;
@@ -263,7 +262,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		//JList ingredientList = new JList<>(ingredientListModel);
         ingredientList = new JList<>();
         ingredientList.setFont(new Font("Cochin", Font.PLAIN, 12));
-		JPanel[] ingredientCardPanelsArray = PlayerIngredientList.createIngredientArray(player);
+		JPanel[] ingredientCardPanelsArray = PlayerIngredientList.createIngredientArray(Game.getGame().getCurrPlayer());
 		//ingredientList.setListData(ingredientCardPanelsArray);
 		
 		//This model allows multiple selecting in a scroll pane
@@ -507,11 +506,17 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           //Event handler for Sell Potion button
           sellPotionButton.addActionListener(new ActionListener() {
           	public void actionPerformed(ActionEvent e) {
-
+          			
+          		if (Game.getGame().getCurrPlayer().getTurnNumber() == 0) {
+          			JOptionPane.showMessageDialog(null, "No turn numbers left! Please end your turn." );
+          		}
+          		
+          		else {
 	          		potionIcon.setVisible(false);
 	                acceptButton.setVisible(true);
 	                declineButton.setVisible(true);
 	                t.start();
+          		}
                 //Game.setController(Game.controller.SELL_POTION);
           	}
           });
@@ -538,7 +543,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           		} else {
           			//Game.setController(Game.Controller.MAKE_EXPERIMENT);
           			Game.getGame().selectController(Controller.MAKE_EXPERIMENT);
-          			Potion potion = player.getPotions().get(player.getPotions().size() - 1);
+          			Potion potion = Game.getGame().getCurrPlayer().getPotions().get(Game.getGame().getCurrPlayer().getPotions().size() - 1);
           			//JOptionPane.showMessageDialog(contentPane,
             			//    "" + potion.getRecipe()[0].getName() + " + "+ potion.getRecipe()[1].getName() + " = " + new ImageIcon("src/images/bottle-icons/blue+bottle.png")); 
           		
