@@ -19,6 +19,7 @@ public class BoardWindow extends JFrame {
 	private static BoardWindow boardWindow = new BoardWindow();
 
     private JPanel contentPane;
+    private JPanel boardDisplay_1;
     
     public static BoardWindow getBoardWindow() {
     	return boardWindow;
@@ -37,8 +38,36 @@ public class BoardWindow extends JFrame {
         
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        contentPane.setLayout(new BorderLayout());
         setContentPane(contentPane);
+        contentPane.setLayout(null);
+        
+        JButton btnNewButton = new JButton("New button");
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
+        btnNewButton.setBounds(6, 6, 344, 77);
+        contentPane.add(btnNewButton);
+        
+        JButton btnNewButton_1 = new JButton("New button");
+        btnNewButton_1.setBounds(6, 667, 344, 77);
+        contentPane.add(btnNewButton_1);
+        
+        JButton btnNewButton_2 = new JButton("New button");
+        btnNewButton_2.setBounds(1090, 6, 344, 77);
+        contentPane.add(btnNewButton_2);
+        
+        JButton btnNewButton_2_1 = new JButton("New button");
+        btnNewButton_2_1.setBounds(1090, 667, 344, 77);
+        contentPane.add(btnNewButton_2_1);
+        
+        JButton btnNewButton_1_1 = new JButton("New button");
+        btnNewButton_1_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
+        btnNewButton_1_1.setBounds(656, 702, 146, 42);
+        contentPane.add(btnNewButton_1_1);
 
         // Menu bar
         JMenuBar menuBar = new JMenuBar();
@@ -58,6 +87,11 @@ public class BoardWindow extends JFrame {
             }
         });
 
+        
+    }
+        
+        
+        /*
         // Board display panel
         JPanel boardDisplay = new JPanel(new GridBagLayout());
         //boardDisplay.setBackground(new Color(255, 39, 57));
@@ -69,18 +103,20 @@ public class BoardWindow extends JFrame {
         // Add background image
         try {
             BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
-            boardDisplay = new JPanel(new GridBagLayout()) {
+            boardDisplay_1 = new JPanel(new GridBagLayout()) {
                 @Override
                 protected void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
                 }
             };
+            boardDisplay_1.setBounds(5, 5, 1430, 740);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        contentPane.setLayout(null);
 
-        contentPane.add(boardDisplay, BorderLayout.CENTER);
+        contentPane.add(boardDisplay_1);
 
         // Deduction Board in the middle as a button
         JButton deductionBoardButton = new JButton("Deduction Board");
@@ -88,7 +124,7 @@ public class BoardWindow extends JFrame {
         GridBagConstraints gbcDeductionBoard = new GridBagConstraints();
         gbcDeductionBoard.gridx = 1;
         gbcDeductionBoard.gridy = 1;
-        boardDisplay.add(deductionBoardButton, gbcDeductionBoard);
+        boardDisplay_1.add(deductionBoardButton, gbcDeductionBoard);
         
         deductionBoardButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -162,7 +198,7 @@ public class BoardWindow extends JFrame {
         GridBagConstraints gbcEndTurn = new GridBagConstraints();
         gbcEndTurn.gridx = 1;
         gbcEndTurn.gridy = 3;
-        boardDisplay.add(endTurnButton, gbcEndTurn);
+        boardDisplay_1.add(endTurnButton, gbcEndTurn);
   		endTurnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -183,10 +219,10 @@ public class BoardWindow extends JFrame {
        
         
         
-        addButton(ingredientStorageButton, boardDisplay, "Ingredient Storage", 0, 0, GridBagConstraints.NORTHWEST, 1);
-        addButton(artifactStorageButton, boardDisplay, "Artifact Storage", 2, 0, GridBagConstraints.NORTHEAST, 1);
-        addButton(potionBrewingAreaButton, boardDisplay, "Potion Brewing Area", 0, 2, GridBagConstraints.SOUTHWEST, 1);
-        addButton(publicationTrackButton, boardDisplay, "Publication Track", 2, 2, GridBagConstraints.SOUTHEAST, 1);
+        addButton(ingredientStorageButton, boardDisplay_1, "Ingredient Storage", 0, 0, GridBagConstraints.NORTHWEST, 1);
+        addButton(artifactStorageButton, boardDisplay_1, "Artifact Storage", 2, 0, GridBagConstraints.NORTHEAST, 1);
+        addButton(potionBrewingAreaButton, boardDisplay_1, "Potion Brewing Area", 0, 2, GridBagConstraints.SOUTHWEST, 1);
+        addButton(publicationTrackButton, boardDisplay_1, "Publication Track", 2, 2, GridBagConstraints.SOUTHEAST, 1);
         
 
 
@@ -205,6 +241,7 @@ public class BoardWindow extends JFrame {
         panel.add(button, gbc);
     }
 
+*/
     private void openDialog() {
         // Create a small dialog
         JDialog dialog = new JDialog(this, "In Game Menu", true);
@@ -256,6 +293,7 @@ public class BoardWindow extends JFrame {
         		+ "Login Screen: Appears before the game starts, allowing players to enter a unique username and select an avatar.\n"
         		+ "Game Over Screen: Appears at the end of the game, displaying final scores and announcing the winner.");
         */
+        
         
         // JLabel için HTML formatında metin
         String labelText = "<html><h1> Welcome to KU Alchemists: The Academic Concoction Help</h1><br><br>"
@@ -451,7 +489,5 @@ public class BoardWindow extends JFrame {
 		
 		setVisible(true);
 	}
-
-    
 }
    
