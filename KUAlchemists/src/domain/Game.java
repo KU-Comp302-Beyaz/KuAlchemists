@@ -78,6 +78,8 @@ public class Game {
 			chosenAvatarIndex = LogInWindow.getSelectedTokens()[i];
 			players[i] = new Player(username,chosenAvatarIndex);
 			
+			players[i].setProfilePhoto("src/images/avatar-icons/avatar"+(chosenAvatarIndex+1)+".png");
+			
 			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
 			players[i].getIngredientCards().add(IngredientStorage.getInstance().getIngredientCards().get(j++));
 			
