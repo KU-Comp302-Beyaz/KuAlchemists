@@ -25,9 +25,6 @@ public class BoardWindow extends JFrame {
     	return boardWindow;
     }
 
-    
-
-    
     /**
      * Create the frame.
      */
@@ -37,20 +34,30 @@ public class BoardWindow extends JFrame {
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
         
         contentPane = new JPanel();
+        
+     // Add background image
+        try {
+            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
+            contentPane = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
         
-        JButton ingredientStorageButton = new JButton("Ingredient Storage");
-        ingredientStorageButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        	}
-        });
-        ingredientStorageButton.setBounds(6, 6, 344, 77);
-        contentPane.add(ingredientStorageButton);
         
+        JButton ingredientStorageButton = new JButton("Ingredient Storage");
+        ingredientStorageButton.setBounds(218, 70, 344, 70);
+        contentPane.add(ingredientStorageButton);
         ingredientStorageButton.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				IngredientStorageDisplay isDisplay = IngredientStorageDisplay.getInstance();
@@ -61,42 +68,34 @@ public class BoardWindow extends JFrame {
 			}
 		});
         
-
         JButton artifactStorageButton = new JButton("Artifact Storage");
-        artifactStorageButton.setBounds(6, 667, 344, 77);
+        artifactStorageButton.setBounds(218, 470, 344, 70);
         contentPane.add(artifactStorageButton);
-        
   		artifactStorageButton.addActionListener(new ActionListener() {
   			public void actionPerformed(ActionEvent e) {
 				ArtifactDeckDisplay isDisplay = ArtifactDeckDisplay.getArtifactDeckDisplay();
 				setVisible(false);
 				isDisplay.initialize(Game.getGame().getCurrPlayer());
 				isDisplay.setVisible(true);
-				
 			}
 		});
         
         JButton potionBrewingAreaButton = new JButton("Potion Brewing Area");
-        potionBrewingAreaButton.setBounds(1090, 6, 344, 77);
+        potionBrewingAreaButton.setBounds(218, 170, 344, 70);
         contentPane.add(potionBrewingAreaButton);
         
   		potionBrewingAreaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				
 				PotionBrewingAreaDisplay pbdDisplay = new PotionBrewingAreaDisplay();
 				pbdDisplay.initialize();
 				dispose(); //closes BoardWindow
-
 			}
 		});
         
         JButton publicationTrackButton = new JButton("Publication Track");
-        publicationTrackButton.setBounds(1090, 667, 344, 77);
+        publicationTrackButton.setBounds(218, 370, 344, 70);
         contentPane.add(publicationTrackButton);
- 
   		publicationTrackButton.addActionListener(e -> {
-  			
   			PublicationTrackDisplay ptDisplay = PublicationTrackDisplay.getInstance();
   			setVisible(false);
   			ptDisplay.initialize();
@@ -106,22 +105,25 @@ public class BoardWindow extends JFrame {
         
         JButton deductionBoardButton = new JButton("Deduction Board");
         deductionBoardButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        	}
-        });
-        deductionBoardButton.setBounds(647, 294, 146, 42);
+			public void actionPerformed(ActionEvent e) {
+				DeductionBoardDisplay dbDisplay = DeductionBoardDisplay.getIsDisplay();
+				setVisible(false);
+				dbDisplay.initialize();
+				dispose(); //closes BoardWindow
+			}
+		});
+        deductionBoardButton.setBounds(218, 270, 344, 70);
         contentPane.add(deductionBoardButton);        
         
         
         JButton endTurnButton = new JButton("End Turn");
-        endTurnButton.setBounds(647, 667, 146, 42);
+        endTurnButton.setBounds(268, 600, 244, 60);
         contentPane.add(endTurnButton);
   		endTurnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {			
 				if (Game.getGame().getGameRound() <= 3) {
 					Game.getGame().endTurn();
 				}
-				
 				else {
 					setVisible(false);
 					EndGameDisplay.getInstance().displayWinner();
