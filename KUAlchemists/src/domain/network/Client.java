@@ -16,6 +16,9 @@ public class Client {
 	String serverName = "127.0.0.1";
 	int port = 6068;
     private Socket socket;
+    private String localServer;
+
+
 
 
     public void connectToServer() {
@@ -42,4 +45,43 @@ public class Client {
 			e.printStackTrace();
 		}
     }
+    
+    
+    public void createOrJoin() {
+
+        try {
+            String nextServerIP = Server.next();
+			if (nextServerIP.equals(localServer)) {
+				serverName = "localhost";
+            } else {
+                Thread.sleep(300);
+                int doubleDotIndex = nextServerIP.indexOf(":");
+                if (nextServerIP == "" || doubleDotIndex == -1 || nextServerIP.contains((localServer).substring(0, doubleDotIndex))) {
+                	serverName = "localhost";
+                }
+                serverName = nextServerIP.substring(0, doubleDotIndex);
+            }
+
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //this.run();
+    }
+
+    public int getPortNumber() {
+        return port;
+    }
+
+    public void setPortNumber(int portNumber) {
+        this.port = portNumber;
+    }
+    
+    
+    
+  //  @Override
+  //  public void run() {
+   // }
+    
+  //  }
 }

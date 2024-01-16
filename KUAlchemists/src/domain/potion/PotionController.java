@@ -70,20 +70,24 @@ public class PotionController {
 					if (guarantee == 3) updatedAmount = 3;
 					else if (guarantee == 2) updatedAmount = 2;
 					break;
-
-				
 				case("0"):
 					if (guarantee == 2) updatedAmount = 2;
-					
+					break;
 				case("-"):
 					if (guarantee == 1) updatedAmount = 1;				
+					break;
 			}
 			
 			System.out.println("Prepared Potion Sign: " + p.getPotionSign());
 			System.out.printf("Guarantee Level: %d \n", guarantee);
 			System.out.printf("Updated Amount: %d", updatedAmount);
 			
-			Game.getGame().getCurrPlayer().updateGoldBalance(updatedAmount);			
+			Game.getGame().getCurrPlayer().updateGoldBalance(updatedAmount);
+			
+			///// Add action and player to history
+			Game.getGame().getActionHistory().add("Sale Potion\n"
+					+ "+" + updatedAmount + " Gold Balance: " + Game.getGame().getCurrPlayer().getGoldBalance());
+			Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
 		}
 		
 	}
@@ -111,8 +115,7 @@ public class PotionController {
 		potion = pba.makePotion(ing_1, ing_2);
 
 		Game.getGame().getCurrPlayer().getPotions().add(potion);	// record new potion
-		initializeTestPotion(potion,p);
-
+		
 		boolean isSellRequestAccepted = PotionBrewingAreaDisplay.isSellRequestAccepted();
 
 		
@@ -121,6 +124,8 @@ public class PotionController {
 			}
 				
 		p.updatePlayerTurn();
+		
+		//// history update is in testPotion since action detai is in there
 	}
 
 
@@ -131,6 +136,7 @@ public class PotionController {
 		String testMethod = PotionBrewingAreaDisplay.getInstance().getTestMethod(); // Player Choose TestMethod (Test on Student / Test on Player)
 		AlchemyMarker alchemyMarker = pba.testPotion(testMethod, potion, player);
 		
+		//// history update is in testPotion since action detai is in there
 		
 	}
 

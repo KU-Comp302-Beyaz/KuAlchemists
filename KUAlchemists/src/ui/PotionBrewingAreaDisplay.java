@@ -129,6 +129,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	public PotionBrewingAreaDisplay() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1440, 800);
+		setResizable(false);
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
         
         contentPane = new JPanel();
@@ -189,7 +190,9 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         //Panel to make and test experiments 
         experimentPanel = new JPanel();
         experimentPanel.setBounds(6, 6, 860, 860);
-        experimentPanel.setBackground(new Color(237, 238, 238));
+        //experimentPanel.setBackground(new Color(237, 238, 238));
+        // Make the panel transparent
+        experimentPanel.setOpaque(false);
         contentPane.add(experimentPanel);
         experimentPanel.setLayout(null);
         
@@ -279,8 +282,18 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		ingredientList.setVisibleRowCount(1); // Set the visible row count to 1 for horizontal layout
 
         
+		JLabel lblIngredients = new JLabel("INGREDIENTS");
+        lblIngredients.setBounds(0, 0, 842, 82);
+        experimentPanel.add(lblIngredients);
+        lblIngredients.setFont(new Font("Cochin", Font.PLAIN, 45));
+        lblIngredients.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		// TEST PANEL
+		
         JPanel testPanel = new JPanel();
         testPanel.setBounds(0, 272, 871, 167);
+        // Transparent
+        testPanel.setOpaque(false); 
         experimentPanel.add(testPanel);
         testPanel.setLayout(new GridLayout(0, 1, 0, 0));
         
@@ -309,16 +322,26 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         btnTestOnStudent.setFont(new Font("Cochin", Font.PLAIN, 20));
         testPanel.add(btnTestOnStudent);
         
+        
+        // MAKE POTION PANEL
         JPanel makePotionPanel = new JPanel();
+        makePotionPanel.setOpaque(false);
         makePotionPanel.setBounds(0, 500, 871, 195);
         experimentPanel.add(makePotionPanel);
-        makePotionPanel.setLayout(new BorderLayout(0, 0));
-       
-        JLabel lblIngredients = new JLabel("INGREDIENTS");
-        lblIngredients.setBounds(0, 0, 842, 82);
-        experimentPanel.add(lblIngredients);
-        lblIngredients.setFont(new Font("Cochin", Font.PLAIN, 45));
-        lblIngredients.setHorizontalAlignment(SwingConstants.CENTER);
+        makePotionPanel.setLayout(new GridLayout(0, 1, 0, 0));
+        
+        JLabel makePotionIcon = new JLabel();
+        makePotionIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        //makePotionIcon.setBounds(43, 95, 420, 406);
+        ImageIcon witchCauldron = new ImageIcon("src/images/witchCauldron.jpg");
+        //ImageIcon witchCauldron = new ImageIcon("src/images/witch_cauldron.jpeg");
+        Image witchCauldronImage = witchCauldron.getImage().getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_HEIGHT); // size picture disabling cutting it
+        witchCauldron = new ImageIcon(witchCauldronImage);
+        makePotionIcon.setIcon(witchCauldron);
+        makePotionPanel.add(makePotionIcon);
+        
+        
+        
         
      
         ///////////////////////////////////////////////// 
@@ -327,13 +350,15 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         //Panel for potion sale
         potionSalePanel = new JPanel();
         potionSalePanel.setBounds(878, 6, 556, 860);
-        potionSalePanel.setBackground(new Color(237, 238, 238));
+        //potionSalePanel.setBackground(new Color(237, 238, 238));
+        // Make the panel transparent
+        potionSalePanel.setOpaque(false);
         contentPane.add(potionSalePanel);
         potionSalePanel.setLayout(null);
         
         //Panel for showing Adventurer's request
         JPanel requestPanel = new JPanel();
-        requestPanel.setBackground(new Color(214, 244, 215));
+        requestPanel.setBackground(new Color(171, 124, 67));
         requestPanel.setForeground(new Color(204, 204, 255));
         requestPanel.setBounds(47, 22, 488, 675);
         potionSalePanel.add(requestPanel);
@@ -378,11 +403,9 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
       			ImageIcon icon5 = new ImageIcon("src/images/bottle-icons/red+bottle.png");
       			ImageIcon icon6 = new ImageIcon("src/images/bottle-icons/nullnullbottle.png");
       			ImageIcon icon7 = new ImageIcon("src/images/bottle-icons/green+bottle.png");
-      			
+      			ImageIcon icon8 = new ImageIcon("src/images/bottle-icons/bottles.png");
+      	
       			List<ImageIcon> potionImages = new ArrayList<>();
-      			potionImages.add(icon1);
-      			potionImages.add(icon5);
-      			potionImages.add(icon7);
       			
       			ImageIcon requestedPotionIcon = new ImageIcon();
       			Random random = new Random();		
@@ -405,7 +428,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
     	        Thread.sleep(100);
     	        requestedPotion.setIcon(new ImageIcon(icon7.getImage().getScaledInstance(380, 335, 0)));
     	        Thread.sleep(100);
-    	        requestedPotion.setIcon(new ImageIcon(potionImages.get(random.nextInt(3)).getImage().getScaledInstance(380, 335, 0)));     
+    	        requestedPotion.setIcon(new ImageIcon(icon8.getImage().getScaledInstance(380, 335, 0)));     
       			
       	
       		  }
@@ -413,10 +436,9 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
       	  }
         });
         
-        
         //Coin photograph for placeholder of information of payed gold amount
         JLabel goldPayment = new JLabel();
-        goldPayment.setBackground(new Color(203, 217, 192));
+        goldPayment.setBackground(new Color(222, 184, 135));
         goldPayment.setOpaque(true);
         goldPayment.setBounds(43, 522, 420, 48);
         coinIcon = new ImageIcon("src/images/coin.png");
@@ -486,20 +508,10 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           sellPotionButton.addActionListener(new ActionListener() {
           	public void actionPerformed(ActionEvent e) {
 
-          		if (requestDeclined) {
-          			JOptionPane.showMessageDialog(getContentPane(), "You declined the request, you cannot select SELL POTION again!",
-          	               "Sell Potion Clicked Twice", JOptionPane.WARNING_MESSAGE);
-          		}
-          		
-          		else {
 	          		potionIcon.setVisible(false);
-	          		
 	                acceptButton.setVisible(true);
 	                declineButton.setVisible(true);
-	                
 	                t.start();
-          		}
-                
                 //Game.setController(Game.controller.SELL_POTION);
           	}
           });
@@ -508,6 +520,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
             
           //MAKE POTION BUTTON
           JButton btnMakePotion = new JButton("MAKE POTION");
+          //btnMakePotion.setBounds(0, 0, 871, 195);
           btnMakePotion.addActionListener(new ActionListener() {
           	public void actionPerformed(ActionEvent e) {
           		
@@ -529,6 +542,9 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           			//JOptionPane.showMessageDialog(contentPane,
             			//    "" + potion.getRecipe()[0].getName() + " + "+ potion.getRecipe()[1].getName() + " = " + new ImageIcon("src/images/bottle-icons/blue+bottle.png")); 
           		
+          			
+          			
+          			
           			/////////// Message Dialog Result Token
           			JFrame frame = new JFrame("ResultToken Dialog");
           	        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -541,7 +557,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           	        JLabel imageLabel = new JLabel(imageIcon);
           	        panel.add(textLabel, BorderLayout.NORTH);
           	        panel.add(imageLabel, BorderLayout.CENTER);
-
+          	        
           	        // Show the option pane with the custom panel
           	        JOptionPane.showMessageDialog(frame, panel, "Custom Image Dialog", JOptionPane.INFORMATION_MESSAGE);
 
@@ -567,19 +583,14 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           		}		
           	}
           });
+                    
           
           btnMakePotion.setFont(new Font("Cochin", Font.PLAIN, 20));
           //ImageIcon icon = createImageIcon("path/to/your/image.jpg"); // Replace with the actual path to your image
-          ImageIcon icon = new ImageIcon("src/images/witchCauldron.jpg");
-          Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-          icon = new ImageIcon(img);
-          
-          btnMakePotion.setIcon(icon);
-          // Use BoxLayout to arrange the components vertically
-          btnMakePotion.setLayout(new BoxLayout(btnMakePotion, BoxLayout.Y_AXIS));
-          
-          makePotionPanel.add(btnMakePotion, BorderLayout.CENTER);
-          
+          //ImageIcon icon = new ImageIcon("src/images/witchCauldron.jpg");
+          //Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+          //icon = new ImageIcon(img);
+          makePotionPanel.add(btnMakePotion);
 
 	}
 	

@@ -3,12 +3,17 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -63,9 +68,26 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		
 		setResizable(false);
 		setTitle("KuAlchemists");
-		setBounds(0, 0, 1440, 900);
+		setBounds(0, 0, 1440, 800);
+		
+		// Add background image
+        try {
+            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
+            setContentPane(new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
+		
+		
 		
 		
 		titleLabel.setFont(new Font("Cochin", Font.PLAIN, 30));
@@ -393,7 +415,7 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 	
 	private Ingredient findIngredientFromPhoto(String path) {
     	
-    	for (Ingredient i : IngredientStorage.getAllingredientcardsarray()) {
+    	for (Ingredient i : IngredientStorage.getInstance().getAllingredientcardsarray()) {
     		if (i.getPhoto().equals(path)) {
     			return i;
     		}
