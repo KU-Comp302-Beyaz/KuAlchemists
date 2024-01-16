@@ -219,7 +219,7 @@ public class Game {
 			Ingredient[] ing = PotionBrewingAreaDisplay.getInstance().getChosenIngredients();
 			PotionController.getInstance().initializeMakeExperiment(ing,currPlayer);
 			//PlayerIngredientList.initialize(currPlayer);
-			PotionBrewingAreaDisplay.getInstance().updateIngredient(currPlayer);
+			
 		case SELL_POTION:
 			PotionController.getInstance().initializePotionSale(currPlayer);	
 		case PUBLISH_THEORY:

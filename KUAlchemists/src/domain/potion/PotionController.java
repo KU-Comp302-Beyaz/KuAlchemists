@@ -120,6 +120,8 @@ public class PotionController {
 		
 		if (!isSellRequestAccepted) {
 			initializeTestPotion(potion,p);
+			// for updating ingredient
+			PotionBrewingAreaDisplay.getInstance().updateIngredient(p); // move here for model-view seperation
 			}
 				
 		p.updatePlayerTurn();
