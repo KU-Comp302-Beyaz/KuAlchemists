@@ -534,10 +534,20 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           		
           		System.out.println(chosenIngredients.length);
           		
-          		if (chosenIngredients == null || chosenIngredients.length != 2) {
+          		// end turn
+          		if(Game.getGame().getCurrPlayer().getTurnNumber() == 0) {
+          			JOptionPane.showMessageDialog(contentPane,
+            			    "End Turn, please");   
+          		} // ingredient number is not valid
+          		else if (chosenIngredients == null || chosenIngredients.length != 2) {
           			JOptionPane.showMessageDialog(contentPane,
             			    "Choose 2 ingredients for making potion!");   
-          		}else if (testMethod == null && !(requestAccepted)) {
+          		}// same ingredients
+          		else if (chosenIngredients[0].equals(chosenIngredients[1])) {
+          			JOptionPane.showMessageDialog(contentPane,
+            			    "Choose different Ingredient, please");   
+          		}// not selected option
+          		else if (testMethod == null && !(requestAccepted)) {
           			JOptionPane.showMessageDialog(contentPane,
             			    "Choose test method for making potion!");   
           		} else {
