@@ -27,6 +27,7 @@ public class Player {
 	private HashMap<String,Artifact> artifacts = new HashMap<String,Artifact>(2);
 	private DeductionBoard playerDeductionBoard;
 	private String profilePhoto;
+	private String history;
 
 	
 	// constructor
@@ -130,6 +131,17 @@ public class Player {
 	}
 	public void setProfilePhoto(String profilePhoto) {
 		this.profilePhoto = profilePhoto;
+	}
+	
+	
+
+
+
+	public String getHistory() {
+		return history;
+	}
+	public void setHistory(String history) {
+		this.history = history;
 	}
 
 

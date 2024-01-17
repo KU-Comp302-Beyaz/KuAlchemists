@@ -27,6 +27,17 @@ public class BoardWindow extends JFrame {
     
     private JPanel[] playerDashboards = new JPanel[4];
     
+	public JPanel[] getPlayerDashboards() {
+		return playerDashboards;
+	}
+	public void setPlayerDashboards(JPanel[] playerDashboards) {
+		this.playerDashboards = playerDashboards;
+	}	
+
+	public static void setBoardWindow(BoardWindow boardWindow) {
+		BoardWindow.boardWindow = boardWindow;
+	}
+	
 	/**
 	 * Singleton implementation
 	 * @return unique instance
@@ -35,6 +46,53 @@ public class BoardWindow extends JFrame {
 		if (boardWindow == null)
 			boardWindow = new BoardWindow();
 		return boardWindow;
+	}
+	
+	/**
+	 * Initialize UI, player history are updated every time this is called (every button click)
+	 * @param player
+	 */
+	public void rewriteHistory(Player player) {
+
+		JTextArea textArea = new JTextArea("no history");
+		int index = 0;
+		
+		// find Dashboard index
+		for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
+        	Player p = Game.getGame().getPlayers()[i];
+        	if(p.equals(player)) {
+        		index = i;
+        	}
+        	
+		}
+		
+    	// update history
+		if (player.getHistory() != null) {
+			textArea = new JTextArea(player.getHistory());
+		} 
+		
+    	textArea.setEditable(false);
+    	textArea.setBounds(146, 6, 550, 400);
+    	//playerDashboards[index].add(textArea);
+    	// will automatically wrap the contents of the text field to the end of the line
+    	textArea.setAutoscrolls(true);
+
+    	
+    	// Clear the existing components and add the updated textArea
+    	// Iterate over components in playerDashboards[index]
+        Component[] components = playerDashboards[index].getComponents();
+        for (Component component : components) {
+            if (component instanceof JTextArea) {
+                // Remove only JTextArea
+                playerDashboards[index].remove(component);
+                break;  // Assuming there is only one JTextArea, break after removing it
+            }
+        }
+        playerDashboards[index].add(textArea);
+
+        // Repaint the component to reflect the changes
+        playerDashboards[index].revalidate();
+        playerDashboards[index].repaint();
 	}
 
     /**
@@ -151,14 +209,20 @@ public class BoardWindow extends JFrame {
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.setBounds(596, 70, 758, 462);
         contentPane_1.add(tabbedPane);
-        
-//        JPanel playerDashboard = new JPanel();
-//    	tabbedPane.addTab("wheee",playerDashboard);
-//    	playerDashboard.setLayout(null);
-//    	
-//    	JLabel avatarImageLabe = new JLabel("photo here");
-//    	avatarImageLabe.setBounds(6, 6, 128, 128);
-//    	playerDashboard.add(avatarImageLabe);
+        /*     
+        JPanel playerDashboard = new JPanel();
+    	tabbedPane.addTab("wheee",playerDashboard);
+    	playerDashboard.setLayout(null);
+    	
+    	JLabel avatarImageLabe = new JLabel("photo here");
+    	avatarImageLabe.setBounds(6, 6, 128, 128);
+    	playerDashboard.add(avatarImageLabe);
+    	
+    	JTextArea textArea = new JTextArea("heyı");
+    	textArea.setEditable(false);
+    	textArea.setBounds(146, 6, 450, 300);
+    	playerDashboard.add(textArea);
+*/
 
         for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
         	Player player = Game.getGame().getPlayers()[i];
@@ -169,6 +233,11 @@ public class BoardWindow extends JFrame {
         	JLabel avatarImageLabel = new JLabel(new ImageIcon(player.getProfilePhoto()), JLabel.CENTER);
         	avatarImageLabel.setBounds(6, 6, 128, 128);
         	playerDashboards[i].add(avatarImageLabel);
+        	
+        	//JLabel hisyoryLabel = new JLabel(player.getHistory());
+        	//playerDashboards[i].add(hisyoryLabel);
+        	rewriteHistory(player);
+        	
         	
 		}
         
