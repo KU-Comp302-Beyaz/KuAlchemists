@@ -84,9 +84,14 @@ public class PotionController {
 			player.updateGoldBalance(updatedAmount);
 			
 			///// Add action and player to history
+			/*
 			Game.getGame().getActionHistory().add("Sale Potion\n"
 					+ "+" + updatedAmount + " Gold Balance: " + player.getGoldBalance());
 			Game.getGame().getPlayerTurnHistory().add(player);
+			*/
+			
+			Game.getGame().updateHistory("Sale Potion\n"
+					+ "+" + updatedAmount + " Gold Balance: " + player.getGoldBalance(), player);
 		}
 		
 	}

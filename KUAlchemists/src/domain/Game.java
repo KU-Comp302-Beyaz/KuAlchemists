@@ -19,6 +19,7 @@ import domain.publication.PublicationCard;
 import domain.publication.PublicationTrack;
 import domain.theorydeduction.AlchemyMarker;
 import domain.theorydeduction.TheoryController;
+import ui.BoardWindow;
 import ui.EndGameDisplay;
 import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
@@ -59,6 +60,18 @@ public class Game {
 	
 	public static Game getGame() {
 		return gameSingleton;
+	}
+	
+	public void updateHistory(String history, Player p) {
+		this.actionHistory.add(history);
+		this.playerTurnHistory.add(p);
+		if(p.getHistory() == null) {
+			p.setHistory("---------- New Action ----------\n" + history);
+		} else {
+			p.setHistory(p.getHistory() + "\n\n---------- New Action ----------\n" + history);
+		}
+		
+		BoardWindow.getBoardWindow().rewriteHistory(p); // move somewhere for modal-view seperation
 	}
 	
 	/**

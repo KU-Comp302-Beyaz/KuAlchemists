@@ -86,9 +86,12 @@ public class PotionBrewingArea {
 	    }
 
 	    ///// For Make Potion Add action and player to history
+	    /*
 		Game.getGame().getActionHistory().add(history);
 		Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
+	    */
 	    
+	    Game.getGame().updateHistory(history, player);
 	    return alchemyMarker;
 	}
 
