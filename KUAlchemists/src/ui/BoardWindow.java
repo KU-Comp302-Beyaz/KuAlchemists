@@ -84,62 +84,59 @@ public class BoardWindow extends JFrame {
 	   public void setSelectionInterval(final int index0, final int index1) { }
 	}
     
-  /**
-	 * Initialize UI, player history are updated every time this is called (every button click)
+	/**
+	 * Initialize UI, player history is updated every time this is called (every button click)
 	 * @param player
 	 */
 	public void rewriteHistory(Player player) {
 
-		JTextArea textArea = new JTextArea("no history");
-		JLabel lblCurrentPlayer = new JLabel("Current Player: " + Game.getGame().getCurrPlayer().getUsername() + "\nTurn Left: " + Game.getGame().getCurrPlayer().getTurnNumber());
+	    JTextArea textArea = new JTextArea("no history");
+	    JLabel lblCurrentPlayer = new JLabel("Current Player: " + Game.getGame().getCurrPlayer().getUsername() + "\nTurn Left: " + Game.getGame().getCurrPlayer().getTurnNumber());
 
-		int index = 0;
-		
-		// find Dashboard index
-		for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
-        	Player p = Game.getGame().getPlayers()[i];
-        	if(p.equals(player)) {
-        		index = i;
-        	}
-        	
-		}
-		
-    	// update history
-		if (player.getHistory() != null) {
-			textArea = new JTextArea(player.getHistory());
-		} 
-		
-    	textArea.setEditable(false);
-    	textArea.setBounds(146, 6, 550, 400);
-    	//playerDashboards[index].add(textArea);
-    	// will automatically wrap the contents of the text field to the end of the line
-    	textArea.setAutoscrolls(true);
+	    int index = 0;
 
-    	
-    	// Clear the existing components and add the updated textArea
-    	// Iterate over components in playerDashboards[index]
-        Component[] components = playerDashboards[index].getComponents();
-        for (Component component : components) {
-            if (component instanceof JTextArea) {
-                // Remove only JTextArea
-                playerDashboards[index].remove(component);
-                break;  // Assuming there is only one JTextArea, break after removing it
-            }
-        }
-        playerDashboards[index].add(textArea);
-        
+	    // find Dashboard index
+	    for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
+	        Player p = Game.getGame().getPlayers()[i];
+	        if (p.equals(player)) {
+	            index = i;
+	        }
+	    }
 
-        // Repaint the component to reflect the changes
-        playerDashboards[index].revalidate();
-        playerDashboards[index].repaint();
-        
-        contentPane_1.remove(lblCurrentPlayer);
-        lblCurrentPlayer.setText("Current Player: " + Game.getGame().getCurrPlayer().getUsername() + "\nTurn Left: " + Game.getGame().getCurrPlayer().getTurnNumber());
-        lblCurrentPlayer.setFont(new Font("Cochin", Font.PLAIN, 20));
-        lblCurrentPlayer.setBounds(607, 561, 400, 100);
-        contentPane_1.add(lblCurrentPlayer);
+	    // update history
+	    if (player.getHistory() != null) {
+	        textArea = new JTextArea(player.getHistory());
+	    }
 
+	    textArea.setEditable(false);
+
+	    // Wrap the JTextArea in a JScrollPane for scrolling
+	    JScrollPane scrollPane = new JScrollPane(textArea);
+	    scrollPane.setBounds(146, 6, 550, 100);
+	    scrollPane.setAutoscrolls(true);
+
+	    // Remove the existing JScrollPane and add the updated one
+	    Component[] components = playerDashboards[index].getComponents();
+	    for (Component component : components) {
+	    	if (component instanceof JScrollPane && component.getBounds().equals(scrollPane.getBounds())) {
+	            playerDashboards[index].remove(component);
+	            break;
+	        }
+	    }
+	    playerDashboards[index].add(scrollPane);
+
+	    // Repaint the component to reflect the changes
+	    playerDashboards[index].revalidate();
+	    playerDashboards[index].repaint();
+
+	    contentPane_1.remove(lblCurrentPlayer);
+	    lblCurrentPlayer.setText("Current Player: " + Game.getGame().getCurrPlayer().getUsername() + "\nTurn Left: " + Game.getGame().getCurrPlayer().getTurnNumber());
+	    lblCurrentPlayer.setFont(new Font("Cochin", Font.PLAIN, 20));
+	    lblCurrentPlayer.setBounds(607, 561, 400, 100);
+	    contentPane_1.add(lblCurrentPlayer);
 	}
+
+
 
     /**
      * Create the frame.
