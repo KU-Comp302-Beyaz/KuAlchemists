@@ -82,6 +82,7 @@ public class BoardWindow extends JFrame {
 
 	   @Override
 	   public void setSelectionInterval(final int index0, final int index1) { }
+	}
     
   /**
 	 * Initialize UI, player history are updated every time this is called (every button click)
