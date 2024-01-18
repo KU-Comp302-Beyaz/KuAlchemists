@@ -147,7 +147,12 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 				ImageIcon selectedIcon = (ImageIcon) ingredientFromTheoryLabel.getIcon();
 				Ingredient selectedIngredient = findIngredientFromPhoto(selectedIcon.getDescription());
 				Theory selectedTheory = findTheory(selectedIngredient);
-				displayAlchemyMarkerSelectionDialog(selectedTheory);
+				if (selectedTheory.getOwner().equals(Game.getGame().getCurrPlayer())) {
+					JOptionPane.showMessageDialog(this, "You cannot debunk your own theory!","Debunk Theory Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					displayAlchemyMarkerSelectionDialog(selectedTheory);
+				}
 			}
 			
 			
