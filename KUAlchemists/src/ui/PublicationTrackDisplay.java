@@ -92,23 +92,23 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		
 		titleLabel.setFont(new Font("Cochin", Font.PLAIN, 30));
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		titleLabel.setBounds(632, 74, 250, 50);
+		titleLabel.setBounds(611, 25, 250, 50);
 		getContentPane().add(titleLabel);
 		
 		
 		trackInfoLabel.setFont(new Font("Cochin", Font.PLAIN, 25));
 		trackInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		trackInfoLabel.setBounds(252, 169, 250, 50);
+		trackInfoLabel.setBounds(200, 95, 250, 50);
 		getContentPane().add(trackInfoLabel);
 		
 		
 		theoryInfoPanel.setFont(new Font("Cochin", Font.PLAIN, 25));
 		theoryInfoPanel.setHorizontalAlignment(SwingConstants.CENTER);
-		theoryInfoPanel.setBounds(1044, 169, 250, 50);
+		theoryInfoPanel.setBounds(1042, 95, 250, 50);
 		getContentPane().add(theoryInfoPanel);
 		
 		
-		publicationScrollPane.setBounds(50, 221, 560, 480);
+		publicationScrollPane.setBounds(50, 160, 560, 480);
 		getContentPane().add(publicationScrollPane);
 		
 		
@@ -122,7 +122,7 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		publicationScrollPane.setViewportView(publicationList);
 		
 		
-		theoryScrollPane.setBounds(855, 221, 560, 480);
+		theoryScrollPane.setBounds(855, 160, 560, 480);
 		getContentPane().add(theoryScrollPane);
 		
 		
@@ -136,7 +136,7 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		
 		
 		debunkButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-		debunkButton.setBounds(1058, 719, 250, 64);
+		debunkButton.setBounds(1055, 652, 250, 64);
 		debunkButton.addActionListener(e -> {
 			
 			if (theoryList.getSelectedValue() == null) {
@@ -147,7 +147,12 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 				ImageIcon selectedIcon = (ImageIcon) ingredientFromTheoryLabel.getIcon();
 				Ingredient selectedIngredient = findIngredientFromPhoto(selectedIcon.getDescription());
 				Theory selectedTheory = findTheory(selectedIngredient);
-				displayAlchemyMarkerSelectionDialog(selectedTheory);
+				if (selectedTheory.getOwner().equals(Game.getGame().getCurrPlayer())) {
+					JOptionPane.showMessageDialog(this, "You cannot debunk your own theory!","Debunk Theory Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					displayAlchemyMarkerSelectionDialog(selectedTheory);
+				}
 			}
 			
 			
@@ -156,7 +161,7 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		
 		
 		claimRewardButton.setFont(new Font("Cochin", Font.PLAIN, 20));
-		claimRewardButton.setBounds(200, 719, 250, 64);
+		claimRewardButton.setBounds(200, 652, 250, 64);
 		claimRewardButton.addActionListener(e -> {
 			
 			Game.getGame().selectController(Controller.CLAIM_CARD);

@@ -9,6 +9,7 @@ import domain.Game.Controller;
 import domain.Player;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
+import ui.PotionBrewingAreaDisplay.ImageListCellRenderer;
 import domain.ingredients.IngredientStorage;
 
 import java.awt.*;
@@ -25,9 +26,10 @@ public class BoardWindow extends JFrame {
     private JPanel contentPane;
     private JPanel contentPane_1;
     private JPanel boardDisplay_1;
-    
-    
+    private JTabbedPane tabbedPane;
+
     private JPanel[] playerDashboards = new JPanel[4];
+    private JLabel[] playerInfoLabels = new JLabel[4];
     
 	public JPanel[] getPlayerDashboards() {
 		return playerDashboards;
@@ -51,6 +53,38 @@ public class BoardWindow extends JFrame {
 	}
 	
 	/**
+	 * Needed for the ingredient jlist - it contains jpanels with imageicons instead of a list
+	 */
+	public class ImageListCellRenderer implements ListCellRenderer {
+
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+		      Component component = (Component) value;
+		      component.setForeground(Color.white);
+		      component.setBackground(isSelected ? UIManager.getColor("Table.focusCellForeground") : Color.white);
+		      return component;
+		}
+	}
+	
+	/**
+	 * Needed for ingredient cards panel in player dashboard, so they cannot be selected
+	 */
+	private static class NoSelectionModel extends DefaultListSelectionModel {
+	   @Override
+	   public void setAnchorSelectionIndex(final int anchorIndex) {}
+
+	   @Override
+	   public void setLeadAnchorNotificationEnabled(final boolean flag) {}
+
+	   @Override
+	   public void setLeadSelectionIndex(final int leadIndex) {}
+
+	   @Override
+	   public void setSelectionInterval(final int index0, final int index1) { }
+	}
+    
+  /**
 	 * Initialize UI, player history are updated every time this is called (every button click)
 	 * @param player
 	 */
@@ -212,32 +246,11 @@ public class BoardWindow extends JFrame {
 			}
 		});
   		
-        
-  		//Player Dashboard Panels
-  		
-        
-        
+
         //Player Dashboard TabbedPane
-        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.setBounds(596, 70, 758, 462);
+        tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+        tabbedPane.setBounds(600, 70, 760, 460);
         contentPane_1.add(tabbedPane);
-        
-        
-        
-        /*     
-        JPanel playerDashboard = new JPanel();
-    	tabbedPane.addTab("wheee",playerDashboard);
-    	playerDashboard.setLayout(null);
-    	
-    	JLabel avatarImageLabe = new JLabel("photo here");
-    	avatarImageLabe.setBounds(6, 6, 128, 128);
-    	playerDashboard.add(avatarImageLabe);
-    	
-    	JTextArea textArea = new JTextArea("heyı");
-    	textArea.setEditable(false);
-    	textArea.setBounds(146, 6, 450, 300);
-    	playerDashboard.add(textArea);
-*/
 
         for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
         	Player player = Game.getGame().getPlayers()[i];
@@ -249,18 +262,35 @@ public class BoardWindow extends JFrame {
         	avatarImageLabel.setBounds(6, 6, 128, 128);
         	playerDashboards[i].add(avatarImageLabel);
         	
+
+        	JPanel infoPanel = new JPanel();
+        	infoPanel.setBounds(0, 150, 500, 50);
+        	
+        	playerInfoLabels[i] = new JLabel("", JLabel.LEFT);
+        	playerInfoLabels[i].setBounds(0, 0, 650, 220);
+        	
+        	JScrollPane scrollPane = new JScrollPane();
+        	scrollPane.setFont(new Font("Cochin", Font.PLAIN, 13));
+        	scrollPane.setBounds(16, 158, 683, 234);
+        	scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        	scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        	
+        	infoPanel.add(playerInfoLabels[i]);
+        	
+        	scrollPane.setViewportView(infoPanel);
+        	
+        	playerDashboards[i].add(scrollPane);
         	//JLabel hisyoryLabel = new JLabel(player.getHistory());
         	//playerDashboards[i].add(hisyoryLabel);
         	rewriteHistory(player);
         	
         	
+
 		}
         
-        
-    
-        
-        
-        
+        initializeDashboard();
+
+   
         // Menu bar
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
@@ -279,6 +309,13 @@ public class BoardWindow extends JFrame {
             }
         });
         }
+    
+    	private void initializeDashboard() {
+            for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
+            	Player player = Game.getGame().getPlayers()[i];
+            	playerInfoLabels[i].setText(player.getPlayerInfo());
+    		}
+    	}
 
         
         /*
@@ -576,7 +613,7 @@ public class BoardWindow extends JFrame {
     }
     
     public void initialize() {
-		
+    	initializeDashboard();
 		setVisible(true);
 	}
 }

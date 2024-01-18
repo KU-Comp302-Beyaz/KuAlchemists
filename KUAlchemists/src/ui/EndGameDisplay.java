@@ -236,7 +236,7 @@ public class EndGameDisplay extends JFrame{
 		          	        ImageIcon ingredientImage = new ImageIcon(i.getPhoto()); 
 		          	        JLabel ingredientImageLabel = new JLabel(new ImageIcon(ingredientImage.getImage().getScaledInstance(75, 75, Image.SCALE_DEFAULT)));
 		          	        
-		          	        ImageIcon alchemicalImage = new ImageIcon("src/images/alchemical-icons/" + i.getAlchemical().getAlchemicalPhoto() + ".png"); 
+		          	        ImageIcon alchemicalImage = new ImageIcon(i.getAlchemical().getAlchemicalPhoto()); 
 		          	        JLabel alchemicalImageLabel = new JLabel(new ImageIcon(alchemicalImage.getImage().getScaledInstance(75, 75, Image.SCALE_DEFAULT)));
 		          	        
 		          	        panel.add(textLabel);

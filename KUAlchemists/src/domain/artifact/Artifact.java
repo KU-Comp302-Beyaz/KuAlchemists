@@ -27,6 +27,12 @@ public abstract class Artifact {
 	public abstract void applyEffect(Player player);
 	
 	public abstract String message(Player player);
+
+	public String getName() {
+		return name;
+	}
+
+	
 	
 	
 
