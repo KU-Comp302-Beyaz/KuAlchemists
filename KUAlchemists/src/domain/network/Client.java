@@ -5,10 +5,8 @@ import java.io.*;
 
 public class Client {
 
-//	public static void main(String[] args) {
-
-	public void openServer() throws ClassNotFoundException {
-		// Server's IP and port.
+	public static void main(String[] args) {
+		
 		String serverName = "172.20.148.220";
 		int port = 6068;
 		
@@ -43,5 +41,12 @@ public class Client {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+	
+	
 }
+
+
