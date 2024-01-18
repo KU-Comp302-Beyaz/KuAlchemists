@@ -28,7 +28,7 @@ public class Alchemical {
 		this.aspects.add(blue);
 		// "red+S_green-L_blue-S" 
 		this.alchemicalPhoto = "red" + red.getSign() + red.getSize() +"_green" + green.getSign() + green.getSize() + "_blue" + blue.getSign() + blue.getSize();
-		this.name = "red " + red.getSign() + " " + red.getSize() + " | " + "green " + green.getSign() + " " + green.getSize() + "blue " + blue.getSign() + " " + blue.getSize() ;
+		this.name = "(red " + red.getSign() + " " + red.getSize() + ") | (" + "green " + green.getSign() + " " + green.getSize() + ") | (" + "blue " + blue.getSign() + " " + blue.getSize() + ")" ;
 
 	}
 

@@ -9,6 +9,7 @@ import domain.Game.Controller;
 import domain.Player;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
+import domain.ingredients.IngredientStorage;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -219,6 +220,7 @@ public class BoardWindow extends JFrame {
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.setBounds(596, 70, 758, 462);
         contentPane_1.add(tabbedPane);
+        
         
         
         /*     
