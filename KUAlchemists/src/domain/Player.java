@@ -214,7 +214,7 @@ public class Player {
 		}
 		
 		score += (int) goldsFromArtifacts / 3;
-		return scorePoints;
+		return score;
 	}
 
 
