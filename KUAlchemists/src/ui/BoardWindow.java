@@ -25,6 +25,7 @@ public class BoardWindow extends JFrame {
     private JPanel contentPane_1;
     private JPanel boardDisplay_1;
     
+    
     private JPanel[] playerDashboards = new JPanel[4];
     
 	public JPanel[] getPlayerDashboards() {
@@ -55,6 +56,8 @@ public class BoardWindow extends JFrame {
 	public void rewriteHistory(Player player) {
 
 		JTextArea textArea = new JTextArea("no history");
+		JLabel lblCurrentPlayer = new JLabel("Current Player: " + Game.getGame().getCurrPlayer().getUsername() + "\nTurn Left: " + Game.getGame().getCurrPlayer().getTurnNumber());
+
 		int index = 0;
 		
 		// find Dashboard index
@@ -93,6 +96,13 @@ public class BoardWindow extends JFrame {
         // Repaint the component to reflect the changes
         playerDashboards[index].revalidate();
         playerDashboards[index].repaint();
+        
+        contentPane_1.remove(lblCurrentPlayer);
+        lblCurrentPlayer.setText("Current Player: " + Game.getGame().getCurrPlayer().getUsername() + "\nTurn Left: " + Game.getGame().getCurrPlayer().getTurnNumber());
+        lblCurrentPlayer.setFont(new Font("Cochin", Font.PLAIN, 20));
+        lblCurrentPlayer.setBounds(607, 561, 400, 100);
+        contentPane_1.add(lblCurrentPlayer);
+
 	}
 
     /**
@@ -209,6 +219,8 @@ public class BoardWindow extends JFrame {
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.setBounds(596, 70, 758, 462);
         contentPane_1.add(tabbedPane);
+        
+        
         /*     
         JPanel playerDashboard = new JPanel();
     	tabbedPane.addTab("wheee",playerDashboard);
