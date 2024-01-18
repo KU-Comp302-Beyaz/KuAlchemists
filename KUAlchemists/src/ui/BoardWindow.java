@@ -93,6 +93,7 @@ public class BoardWindow extends JFrame {
             }
         }
         playerDashboards[index].add(textArea);
+        
 
         // Repaint the component to reflect the changes
         playerDashboards[index].revalidate();
