@@ -29,6 +29,7 @@ public class Player {
 	private DeductionBoard playerDeductionBoard;
 	private String profilePhoto;
 	private String history;
+	private Artifact currArtifact;
 
 	
 	// constructor
@@ -121,6 +122,13 @@ public class Player {
 	
 	public HashMap<String, Artifact> getArtifacts() {
 		return artifacts;
+	}
+
+	public void setCurrArtifact(Artifact artifact) {
+		this.currArtifact = artifact;
+	}
+	public Artifact getCurrArtifact() {
+		return this.currArtifact;
 	}
 	
 	public void addArtifact(Artifact artifact) {
