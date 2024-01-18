@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
+import domain.artifact.*;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Stack;
