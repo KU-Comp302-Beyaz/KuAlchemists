@@ -43,17 +43,17 @@ public class Server extends Thread {
 	            System.out.println("Player 2 connected.");
 
 				
-	            BufferedReader fromPlayer1 = new BufferedReader(new InputStreamReader(player1.getInputStream()));
-	            PrintWriter toPlayer1 = new PrintWriter(player1.getOutputStream(), true);
-	            BufferedReader fromPlayer2 = new BufferedReader(new InputStreamReader(player2.getInputStream()));
-	            PrintWriter toPlayer2 = new PrintWriter(player2.getOutputStream(), true);
+	            ObjectInputStream fromPlayer1 = new ObjectInputStream(player1.getInputStream());
+	            ObjectOutputStream toPlayer1 = new ObjectOutputStream(player1.getOutputStream());
+	            ObjectInputStream fromPlayer2 = new ObjectInputStream(player2.getInputStream());
+	            ObjectOutputStream toPlayer2 = new ObjectOutputStream(player1.getOutputStream());
 
-	            toPlayer1.println("You are Player 1.");
-	            toPlayer2.println("You are Player 2.");
+	            toPlayer1.writeObject("You are Player 1.");
+	            toPlayer2.writeObject("You are Player 2.");
 
 	            while (true) {
-	                String choice1 = fromPlayer1.readLine();
-	                String choice2 = fromPlayer2.readLine();
+	                String choice1 = (String) fromPlayer1.readObject();
+	                String choice2 = (String) fromPlayer2.readObject();
 	                
 	        		if (choice1 == null || choice2 == null) {
 	                    break;
@@ -62,14 +62,14 @@ public class Server extends Thread {
 	        		int result = play(choice1, choice2);
 	        		
 	        		if (result == 0) {
-	        			toPlayer1.println("It's a tie!");
-	                    toPlayer2.println("It's a tie!");
+	        			toPlayer1.writeObject("It's a tie!");
+	                    toPlayer2.writeObject("It's a tie!");
 	        		} else if (result == 1) {
-	        			toPlayer1.println("You win!");
-	                    toPlayer2.println("You lose!");
+	        			toPlayer1.writeObject("You win!");
+	                    toPlayer2.writeObject("You lose!");
 	        		} else if (result == 2) {
-	        			toPlayer1.println("You lose!");
-	                    toPlayer2.println("You win!");
+	        			toPlayer1.writeObject("You lose!");
+	                    toPlayer2.writeObject("You win!");
 	        		}
 	            }
 
@@ -84,6 +84,8 @@ public class Server extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 				break;
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -91,7 +93,7 @@ public class Server extends Thread {
 	public static void main(String[] args) {
 		
 		// Port number
-		int port = 6067;
+		int port = 6068;
 		
 		try {
 			

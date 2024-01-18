@@ -7,9 +7,9 @@ public class Client {
 
 //	public static void main(String[] args) {
 
-	public void openServer() {
+	public void openServer() throws ClassNotFoundException {
 		// Server's IP and port.
-		String serverName = "172.21.224.166";
+		String serverName = "172.20.148.220";
 		int port = 6068;
 		
 		
@@ -25,18 +25,18 @@ public class Client {
 			@SuppressWarnings("resource")
 			Socket client = new Socket(serverName, port);
 
-            BufferedReader fromServer = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            PrintWriter toServer = new PrintWriter(client.getOutputStream(), true);
-            BufferedReader fromUser = new BufferedReader(new InputStreamReader(System.in));
+			ObjectInputStream fromServer = new ObjectInputStream(client.getInputStream());
+			ObjectOutputStream toServer = new ObjectOutputStream(client.getOutputStream());
+			ObjectInputStream fromUser = new ObjectInputStream(System.in);
 
-            System.out.println(fromServer.readLine());
+            System.out.println((String) fromServer.readObject());
 
             while (true) {
                 System.out.print("Enter your choice (rock, paper, scissors): ");
-                String choice = fromUser.readLine();
-                toServer.println(choice);
+                String choice = (String) fromUser.readObject();
+                toServer.writeObject(choice);
 
-                String result = fromServer.readLine();
+                String result = (String) fromServer.readObject();
                 System.out.println("Result: " + result);
             }
 			
