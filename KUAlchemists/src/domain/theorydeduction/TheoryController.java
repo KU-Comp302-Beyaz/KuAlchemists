@@ -45,10 +45,17 @@ public class TheoryController {
 			this.currPlayer.updateReputationPoints(2);
 			
 			///// Add action and player to history
+			/*
 			Game.getGame().getActionHistory().add("Publish Theory\n"
 					+ "-1 Gold Balance: " + currPlayer.getGoldBalance()
 					+ "\n+2 Reputation Point: " + currPlayer.getReputationPoints());
 			Game.getGame().getPlayerTurnHistory().add(currPlayer);
+			*/
+			
+			Game.getGame().updateHistory("Publish Theory\n"
+					+ "-1 Gold Balance: " + currPlayer.getGoldBalance()
+					+ "\n+2 Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);
+	
 			
 		}
 		return result;
@@ -67,10 +74,16 @@ public class TheoryController {
 			card.setRewardClaimer(currPlayer);
 			
 			///// Add action and player to history
+			/*
 			Game.getGame().getActionHistory().add("Claim Card\n"
 							+ "+" + card.getGoldReward() + " Gold Balance: " + currPlayer.getGoldBalance()
 							+ "\n+" + card.getReputationReward() + " Reputation Point: " + currPlayer.getReputationPoints());
 			Game.getGame().getPlayerTurnHistory().add(currPlayer);
+			*/
+			
+			Game.getGame().updateHistory("Claim Card\n"
+					+ "+" + card.getGoldReward() + " Gold Balance: " + currPlayer.getGoldBalance()
+					+ "\n+" + card.getReputationReward() + " Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);
 		}
 		return result;
 		
@@ -104,9 +117,13 @@ public class TheoryController {
 		}
 		
 		///// Add action and player to history
+		/*
 		Game.getGame().getActionHistory().add(history);
 		Game.getGame().getPlayerTurnHistory().add(currPlayer);
+		*/
 		
+		Game.getGame().updateHistory(history, currPlayer);
+
 		return debunkResult;
 	}
 	

@@ -10,6 +10,7 @@ import domain.Player;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
 import ui.PotionBrewingAreaDisplay.ImageListCellRenderer;
+import domain.ingredients.IngredientStorage;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -26,9 +27,21 @@ public class BoardWindow extends JFrame {
     private JPanel contentPane_1;
     private JPanel boardDisplay_1;
     private JTabbedPane tabbedPane;
+
     private JPanel[] playerDashboards = new JPanel[4];
     private JLabel[] playerInfoLabels = new JLabel[4];
     
+	public JPanel[] getPlayerDashboards() {
+		return playerDashboards;
+	}
+	public void setPlayerDashboards(JPanel[] playerDashboards) {
+		this.playerDashboards = playerDashboards;
+	}	
+
+	public static void setBoardWindow(BoardWindow boardWindow) {
+		BoardWindow.boardWindow = boardWindow;
+	}
+	
 	/**
 	 * Singleton implementation
 	 * @return unique instance
@@ -69,6 +82,61 @@ public class BoardWindow extends JFrame {
 
 	   @Override
 	   public void setSelectionInterval(final int index0, final int index1) { }
+    
+  /**
+	 * Initialize UI, player history are updated every time this is called (every button click)
+	 * @param player
+	 */
+	public void rewriteHistory(Player player) {
+
+		JTextArea textArea = new JTextArea("no history");
+		JLabel lblCurrentPlayer = new JLabel("Current Player: " + Game.getGame().getCurrPlayer().getUsername() + "\nTurn Left: " + Game.getGame().getCurrPlayer().getTurnNumber());
+
+		int index = 0;
+		
+		// find Dashboard index
+		for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
+        	Player p = Game.getGame().getPlayers()[i];
+        	if(p.equals(player)) {
+        		index = i;
+        	}
+        	
+		}
+		
+    	// update history
+		if (player.getHistory() != null) {
+			textArea = new JTextArea(player.getHistory());
+		} 
+		
+    	textArea.setEditable(false);
+    	textArea.setBounds(146, 6, 550, 400);
+    	//playerDashboards[index].add(textArea);
+    	// will automatically wrap the contents of the text field to the end of the line
+    	textArea.setAutoscrolls(true);
+
+    	
+    	// Clear the existing components and add the updated textArea
+    	// Iterate over components in playerDashboards[index]
+        Component[] components = playerDashboards[index].getComponents();
+        for (Component component : components) {
+            if (component instanceof JTextArea) {
+                // Remove only JTextArea
+                playerDashboards[index].remove(component);
+                break;  // Assuming there is only one JTextArea, break after removing it
+            }
+        }
+        playerDashboards[index].add(textArea);
+
+        // Repaint the component to reflect the changes
+        playerDashboards[index].revalidate();
+        playerDashboards[index].repaint();
+        
+        contentPane_1.remove(lblCurrentPlayer);
+        lblCurrentPlayer.setText("Current Player: " + Game.getGame().getCurrPlayer().getUsername() + "\nTurn Left: " + Game.getGame().getCurrPlayer().getTurnNumber());
+        lblCurrentPlayer.setFont(new Font("Cochin", Font.PLAIN, 20));
+        lblCurrentPlayer.setBounds(607, 561, 400, 100);
+        contentPane_1.add(lblCurrentPlayer);
+
 	}
 
     /**
@@ -192,6 +260,7 @@ public class BoardWindow extends JFrame {
         	avatarImageLabel.setBounds(6, 6, 128, 128);
         	playerDashboards[i].add(avatarImageLabel);
         	
+
         	JPanel infoPanel = new JPanel();
         	infoPanel.setBounds(0, 150, 500, 50);
         	
@@ -209,6 +278,12 @@ public class BoardWindow extends JFrame {
         	scrollPane.setViewportView(infoPanel);
         	
         	playerDashboards[i].add(scrollPane);
+        	//JLabel hisyoryLabel = new JLabel(player.getHistory());
+        	//playerDashboards[i].add(hisyoryLabel);
+        	rewriteHistory(player);
+        	
+        	
+
 		}
         
         initializeDashboard();

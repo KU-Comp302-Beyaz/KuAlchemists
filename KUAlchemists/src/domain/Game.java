@@ -19,10 +19,12 @@ import domain.publication.PublicationCard;
 import domain.publication.PublicationTrack;
 import domain.theorydeduction.AlchemyMarker;
 import domain.theorydeduction.TheoryController;
+import ui.BoardWindow;
 import ui.EndGameDisplay;
 import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
 import ui.PotionBrewingAreaDisplay;
+import ui.PublicationTrackDisplay;
 
 public class Game {
 
@@ -59,6 +61,19 @@ public class Game {
 	
 	public static Game getGame() {
 		return gameSingleton;
+	}
+	
+	public void updateHistory(String history, Player p) {
+		this.actionHistory.add(history);
+		this.playerTurnHistory.add(p);
+		if(p.getHistory() == null) {
+			p.setHistory("---------- New Action ----------\n" + history);
+		} else {
+			p.setHistory(p.getHistory() + "\n\n---------- New Action ----------\n" + history);
+		}
+		
+		BoardWindow.getBoardWindow().rewriteHistory(p); // move somewhere for modal-view seperation		
+  		
 	}
 	
 	/**
@@ -127,7 +142,7 @@ public class Game {
 		System.out.println("next round: "+ gameRound) ;
 	}
 	
-	public void endGame(Player[] players) {
+	public Player getWinner(Player[] players) {
 		Player winner = getCurrPlayer();
 		HashMap scoreList = new HashMap();
 		
@@ -144,7 +159,17 @@ public class Game {
 			}
 		}
 		
-//		gameRound = 1; // or delete this game singleton
+		return winner;
+	}
+	
+	public void endGame(Player[] players) {
+		
+		
+		//gameRound = 1; // or delete this game singleton
+		
+		//	Move it modal-view seperation
+		EndGameDisplay ptDisplay = EndGameDisplay.getInstance();		
+		ptDisplay.initialize();
 	}
 
 	/**
@@ -219,9 +244,9 @@ public class Game {
 			Ingredient[] ing = PotionBrewingAreaDisplay.getInstance().getChosenIngredients();
 			PotionController.getInstance().initializeMakeExperiment(ing,currPlayer);
 			//PlayerIngredientList.initialize(currPlayer);
-			PotionBrewingAreaDisplay.getInstance().updateIngredient(currPlayer);
+			
 		case SELL_POTION:
-			PotionController.getInstance().initializePotionSale();	
+			PotionController.getInstance().initializePotionSale(currPlayer);	
 		case PUBLISH_THEORY:
 			TheoryController.getInstance().setCurrPlayer(currPlayer);
 		case CLAIM_CARD:

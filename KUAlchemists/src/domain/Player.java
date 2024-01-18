@@ -28,6 +28,7 @@ public class Player {
 	private HashMap<String,Artifact> artifacts = new HashMap<String,Artifact>(2);
 	private DeductionBoard playerDeductionBoard;
 	private String profilePhoto;
+	private String history;
 
 	
 	// constructor
@@ -132,6 +133,17 @@ public class Player {
 	public void setProfilePhoto(String profilePhoto) {
 		this.profilePhoto = profilePhoto;
 	}
+	
+	
+
+
+
+	public String getHistory() {
+		return history;
+	}
+	public void setHistory(String history) {
+		this.history = history;
+	}
 
 
 
@@ -170,23 +182,24 @@ public class Player {
 	    AlchemyMarker alchemyMarker = p.getAlchemyMarker();
 
 		System.out.println(alchemyMarker);
-	    if (alchemyMarker.getSign().equals("-")) {
-	    	//sicknessLevel ++;
-	        setSicknessLevel(getSicknessLevel() + 1);
+		if(alchemyMarker.getSign() != null) {
+			if (alchemyMarker.getSign().equals("-")) {
+				
+		        setSicknessLevel(getSicknessLevel() + 1); //sicknessLevel ++;
 
-	        if (getSicknessLevel() != 3) {
-	        	if (getGoldBalance() > 0) {
-		            updateGoldBalance(-1); // Decrease gold balance by 1
-	        		}	       
-	        }
-	  	  //} else if (alchemyMarker.getSign().equals("+")){
-			// ou can use it to decrease your sickness level by 1? How ??
+		        if (getSicknessLevel() != 3) {
+		        	if (getGoldBalance() > 0) {
+			            updateGoldBalance(-1); // Decrease gold balance by 1
+		        		}	       
+		        }
+		  	  //} else if (alchemyMarker.getSign().equals("+")){
+				// ou can use it to decrease your sickness level by 1? How ??
 
-		//if(sicknessLevel == 3) { // sickness level increases to 3, e.g., you get sick 3 times, you lose all of your golds to have surgery and get well.
-		//	setGoldBalance(0);
-	    }
-	  
-	
+			//if(sicknessLevel == 3) { // sickness level increases to 3, e.g., you get sick 3 times, you lose all of your golds to have surgery and get well.
+			//	setGoldBalance(0);
+		    }
+		}
+	    
 	    return alchemyMarker;
 	}
 	
@@ -202,7 +215,7 @@ public class Player {
 		}
 		
 		score += (int) goldsFromArtifacts / 3;
-		return scorePoints;
+		return score;
 	}
 
 	public String getPlayerInfo() {

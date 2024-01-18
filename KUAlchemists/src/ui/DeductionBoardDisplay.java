@@ -762,7 +762,7 @@ public class DeductionBoardDisplay extends JFrame{
         		"src/images/alchemyMarker-icons/blue+.png",
         		"src/images/alchemyMarker-icons/green+.png",
         		"src/images/alchemyMarker-icons/red+.png",
-        		"src/images/alchemyMarker-icons/null.png",
+        		"src/images/alchemyMarker-icons/nullnull.png",
         		"src/images/alchemyMarker-icons/blue-.png",
                 "src/images/alchemyMarker-icons/green-.png",
                 "src/images/alchemyMarker-icons/red-.png"

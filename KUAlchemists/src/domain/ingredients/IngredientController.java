@@ -38,10 +38,13 @@ public class IngredientController {
 
 		
 		///// Add action and player to history
+		/*
 		Game.getGame().getActionHistory().add("Add Ingredient\n"
 					+ "+1 Ingredient: " + player.getIngredientCards().size());
 		Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
-
+		*/
+		Game.getGame().updateHistory("Add Ingredient\n"
+					+ "+1 Ingredient: " + player.getIngredientCards().size(), player);
 	}
 	
 	/**
@@ -53,9 +56,14 @@ public class IngredientController {
 		player.updateGoldBalance(1);
 		
 		///// Add action and player to history
+		/*
 		Game.getGame().getActionHistory().add("Transmute Ingredient\n"
 				+ "+1 Gold Balance: " + player.getGoldBalance());
 		Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
+		*/
+		
+		Game.getGame().updateHistory("Transmute Ingredient\n"
+				+ "+1 Gold Balance: " + player.getGoldBalance(), player);
 	}
 
 	/**

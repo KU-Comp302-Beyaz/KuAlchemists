@@ -11,7 +11,6 @@ import domain.theorydeduction.AlchemyMarker;
 import ui.IngredientStorageDisplay;
 import ui.PlayerIngredientList;
 import ui.PotionBrewingAreaDisplay;
-import ui.PotionBrewingAreaDisplayHelp;
 import ui.IngredientStorageDisplay;
 import ui.PlayerIngredientList;
 
@@ -46,7 +45,7 @@ public class PotionController {
 	}
 	
 
-	public void initializePotionSale() {
+	public void initializePotionSale(Player player) {
 		System.out.println("Potion sale initialized");
 		
 		//Rewards (Gold Coins) in return of a potion:
@@ -82,12 +81,17 @@ public class PotionController {
 			System.out.printf("Guarantee Level: %d \n", guarantee);
 			System.out.printf("Updated Amount: %d", updatedAmount);
 			
-			Game.getGame().getCurrPlayer().updateGoldBalance(updatedAmount);
+			player.updateGoldBalance(updatedAmount);
 			
 			///// Add action and player to history
+			/*
 			Game.getGame().getActionHistory().add("Sale Potion\n"
-					+ "+" + updatedAmount + " Gold Balance: " + Game.getGame().getCurrPlayer().getGoldBalance());
-			Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
+					+ "+" + updatedAmount + " Gold Balance: " + player.getGoldBalance());
+			Game.getGame().getPlayerTurnHistory().add(player);
+			*/
+			
+			Game.getGame().updateHistory("Sale Potion\n"
+					+ "+" + updatedAmount + " Gold Balance: " + player.getGoldBalance(), player);
 		}
 		
 	}
@@ -121,6 +125,8 @@ public class PotionController {
 		
 		if (!isSellRequestAccepted) {
 			initializeTestPotion(potion,p);
+			// for updating ingredient
+			PotionBrewingAreaDisplay.getInstance().updateIngredient(p); // move here for model-view seperation
 			}
 				
 		p.updatePlayerTurn();
