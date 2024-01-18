@@ -2,6 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import domain.ingredients.Ingredient;
@@ -217,7 +218,48 @@ public class Player {
 		return score;
 	}
 
+	public String getPlayerInfo() {
+//		String info = "<html>"+username + 
+//						"<br> <h2>Gold Balance: </h2>" + goldBalance + 
+//						"<br> <h2>Turn Number: "+ turnNumber + 
+//						"<br> <h2>Sickness Level: " + sicknessLevel +
+//						"<br>Reputation Points: " + reputationPoints +
+//						"<br>Score Points: " + getScorePoints() +
+//						"<br>Ingredient Cards: " + getIngredientCardsInfo() + 
+//						"<br>Artifact Cards: " + getArtifactCardsInfo() +
+//						"</html>";
+		String info = "<html>\n"
+				+ "  <body>\n"
+				+ "    <h1>" + username + "</h1>\n"
+				+ "    <p>\n"
+				+ "      <strong>Gold Balance:</strong> <" + goldBalance +"<br>\n"
+				+ "      <strong>Turn Number:</strong> <" + turnNumber + "<br>\n"
+				+ "      <strong>Sickness Level:</strong> <" + sicknessLevel + "<br>\n"
+				+ "      <strong>Reputation Points:</strong> <" + reputationPoints + "<br>\n"
+				+ "      <strong>Score Points:</strong> <" + getScorePoints() + "<br>\n"
+				+ "      <strong>Ingredient Cards:</strong> <" + getIngredientCardsInfo() + "<br>\n"
+				+ "      <strong>Artifact Cards:</strong> <" + getArtifactCardsInfo() + "\n"
+				+ "    </p>\n"
+				+ "  </body>\n"
+				+ "</html>";
+		return info;
+	}
 
+	public String getIngredientCardsInfo() {
+		String ingredientInfo = "";
+		for (Ingredient ingredient : ingredientCards) {
+			ingredientInfo += "<br>- " + ingredient.getName();
+		}
+		return ingredientInfo;
+	}
+	
+	public String getArtifactCardsInfo() {
+		String artifactInfo = "";
+		for (Artifact artifact : artifacts.values()) {
+			artifactInfo += "<br>- " + artifact.getName();
+		}
+		return artifactInfo;
+	}
 
 	@Override
 	public String toString() {
@@ -227,6 +269,8 @@ public class Player {
 				+ ", theories=" + theories + ", artifacts=" + artifacts + ", playerDeductionBoard="
 				+ playerDeductionBoard + "]";
 	}
+	
+	
 	
 	
 	
