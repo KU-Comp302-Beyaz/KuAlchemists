@@ -112,6 +112,7 @@ public class ArtifactDeckDisplay extends JFrame {
         });
 
         JTextPane effectDisplay = new JTextPane();
+        effectDisplay.setEditable(false);
         effectDisplay.setText("");
         effectDisplay.setBounds(1013, 329, 367, 237);
         getContentPane().add(effectDisplay);
@@ -123,64 +124,161 @@ public class ArtifactDeckDisplay extends JFrame {
         txtArtifactDeck = new JTextField();
         txtArtifactDeck.setFont(new Font("Cochin", Font.PLAIN, 25));
         txtArtifactDeck.setEditable(false);
-        //txtArtifactDeck.setBackground(UIManager.getColor("Button.background"));
-        txtArtifactDeck.setOpaque(false);
+        txtArtifactDeck.setBackground(UIManager.getColor("Button.background"));
         txtArtifactDeck.setBounds(732, 6, 230, 73);
         txtArtifactDeck.setText("ARTIFACT DECK\n");
         getContentPane().add(txtArtifactDeck, BorderLayout.NORTH);
         txtArtifactDeck.setColumns(10);
         
         JPanel panel = new JPanel();
-        
-        
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(UIManager.getColor("Button.background"));
         panel.setBounds(6, 150, 939, 425);
         getContentPane().add(panel);
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         
+        JButton buyWisdomIdolButton = new JButton("");
+        buyWisdomIdolButton.setToolTipText("WisdomIdol\n\nUse Type: One-Time\n\nWhen used this artifact will let the player keep their reputation points when their theory is debunked.\nCan be bought once per turn.");
+        buyWisdomIdolButton.setIcon(new ImageIcon(ArtifactDeckDisplay.class.getResource("/images/artifacts/wisdomidol.jpg")));
+        panel.add(buyWisdomIdolButton);
+        
+        buyWisdomIdolButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if(!isGold()) {
+        			effectDisplay.setText("You do not have enough coins. Back to selling potions!");
+        		}
+        		else if(!isTurn()) {
+        			effectDisplay.setText("You do not have actions left this turn.");
+        		}
+        		else if(Game.getGame().getCurrPlayer().getArtifacts().containsKey("wisdomidol")) {
+        			effectDisplay.setText("You can not hold two of the same artifact simultaneously");
+        		}
+        		else {
+				Game.getGame().selectController(Controller.BUY_WISDOM_IDOL); //buys the card utilising the controller
+				effectDisplay.setText(ArtifactController.getArtifactController().displayMessage(Game.getGame().getCurrPlayer() , new WisdomIdol())); //displays the cards message. normally located
+        		}																													
+			}
+		});
+        
         JButton buyTheRiverButton = new JButton("");
-        buyTheRiverButton.setIcon(new ImageIcon(ArtifactDeckDisplay.class.getResource("/images/artifacts/riverartifact 2.png")));
+        buyTheRiverButton.setIcon(new ImageIcon(ArtifactDeckDisplay.class.getResource("/images/artifacts/riverartifact.png")));
         buyTheRiverButton.setToolTipText("The River\n\nUse Type: Immediate\n\nWhen used this artifact will boost player's turn points by 2. \nThis artifact costs no turn points to buy.\nCan be bought once per turn.");
         panel.add(buyTheRiverButton);
          
         buyTheRiverButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		if(!isGold()) {
+        			effectDisplay.setText("You do not have enough coins. Back to selling potions!");
+        		}
+        		else if(!isTurn()) {
+        			effectDisplay.setText("You do not have actions left this turn.");
+        		}
+        		else {
 				Game.getGame().selectController(Controller.BUY_THE_RIVER); //buys the card utilising the controller
 				effectDisplay.setText(ArtifactController.getArtifactController().displayMessage(Game.getGame().getCurrPlayer() , new TheRiver())); //displays the cards message. normally located
-																																	//use artifact however as this artifact is immidiate use this will happen here
+        		}																													//use artifact however as this artifact is immidiate use this will happen here
 			}
 		});
         
         JButton buyEOIButton = new JButton("");
-        buyEOIButton.setIcon(new ImageIcon(ArtifactDeckDisplay.class.getResource("/images/artifacts/eoiartifact 2.png")));
+        buyEOIButton.setIcon(new ImageIcon("/images/artifacts/eoiartifact.png"));
         buyEOIButton.setToolTipText("Elixir of Insight:\n\nUse Type: Immidiate\n\nThis artifact allows the player to see and shuffle the top 3 ingredient cards in the deck");
         panel.add(buyEOIButton);
         
+        JButton buyPrintingPressButton = new JButton("");
+        buyPrintingPressButton.setIcon(new ImageIcon(ArtifactDeckDisplay.class.getResource("/images/artifacts/printingpress.jpg")));
+        panel.add(buyPrintingPressButton);
+        buyEOIButton.setIcon(new ImageIcon(ArtifactDeckDisplay.class.getResource("/images/artifacts/eoiartifact.png")));
+        buyEOIButton.setToolTipText("Printing Press:\n\nUse Type: Immidiate\n\nThis artifact allows the player to publish a theory free of charge");
+        
+        buyPrintingPressButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if(!isGold()) {
+        			effectDisplay.setText("You do not have enough coins. Back to selling potions!");
+        		}
+        		else if(!isTurn()) {
+        			effectDisplay.setText("You do not have actions left this turn.");
+        		}
+        		else if(Game.getGame().getCurrPlayer().getArtifacts().containsKey("printingpress")) {
+        			effectDisplay.setText("You can not hold two of the same artifact simultaneously");
+        		}
+        		else {
+				Game.getGame().selectController(Controller.BUY_PRINTING_PRESS); //buys the card utilising the controller
+				effectDisplay.setText(ArtifactController.getArtifactController().displayMessage(Game.getGame().getCurrPlayer() , new PrintingPress())); //displays the cards message. normally located
+        		}																													
+			}
+		});
+        
+        JButton buyMagicMortarButton = new JButton("");
+        buyMagicMortarButton.setIcon(new ImageIcon(ArtifactDeckDisplay.class.getResource("/images/artifacts/printingpress.jpg")));
+        panel.add(buyMagicMortarButton);
+        buyMagicMortarButton.setIcon(new ImageIcon(ArtifactDeckDisplay.class.getResource("/images/artifacts/magicmortar.png")));
+        buyMagicMortarButton.setToolTipText("Magic Mortar:\n\nUse Type: Immidiate\n\nThis artifact allows the player to make a potion while saving the first ingredient they have used");
+        
+        buyMagicMortarButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if(!isGold()) {
+        			effectDisplay.setText("You do not have enough coins. Back to selling potions!");
+        		}
+        		else if(!isTurn()) {
+        			effectDisplay.setText("You do not have actions left this turn.");
+        		}
+        		else if(Game.getGame().getCurrPlayer().getArtifacts().containsKey("magicmortar")) {
+        			effectDisplay.setText("You can not hold two of the same artifact simultaneously");
+        		}
+        		else {
+				Game.getGame().selectController(Controller.BUY_MAGIC_MORTAR); //buys the card utilising the controller
+				effectDisplay.setText(ArtifactController.getArtifactController().displayMessage(Game.getGame().getCurrPlayer() , new MagicMortar())); //displays the cards message. normally located
+        		}																													
+			}
+		});
+        
         txtGold = new JTextField();
-        txtGold.setBackground(new Color(171, 124, 67));
+        txtGold.setEditable(false);
         txtGold.setFont(new Font("Cochin", Font.PLAIN, 15));
-        txtGold.setText("Gold: " );
+        txtGold.setText("Gold: " + updateGold());
         txtGold.setBounds(537, 648, 218, 45);
         getContentPane().add(txtGold);
         txtGold.setColumns(10);
         
+        JButton storageButton = new JButton("Artifact Storage");
+        storageButton.setBounds(1114, 242, 149, 45);
+        getContentPane().add(storageButton);
+        
+        storageButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		javax.swing.SwingUtilities.invokeLater(() -> {
+                    ArtifactStorage artifactStorageFrame = new ArtifactStorage();
+                    artifactStorageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    artifactStorageFrame.setVisible(true);
+                });
+
+        		
+        	}
+			});
         
         JTextPane txtpnHoverOverTo = new JTextPane();
-        //txtpnHoverOverTo.setBackground(UIManager.getColor("Button.background"));
-        txtpnHoverOverTo.setOpaque(false);
+        txtpnHoverOverTo.setBackground(UIManager.getColor("Button.background"));
         txtpnHoverOverTo.setEditable(false);
         txtpnHoverOverTo.setSelectedTextColor(Color.LIGHT_GRAY);
         txtpnHoverOverTo.setFont(new Font("Cochin", Font.PLAIN, 20));
         txtpnHoverOverTo.setSelectionColor(Color.LIGHT_GRAY);
         txtpnHoverOverTo.setText("Click on an artifact to purchase.\nHover over to see detailes.");
-        txtpnHoverOverTo.setBounds(1014, 150, 357, 180);
+        txtpnHoverOverTo.setBounds(1014, 150, 357, 73);
         getContentPane().add(txtpnHoverOverTo);
         
         
         buyEOIButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		if(!isGold()) {
+        			effectDisplay.setText("You do not have enough coins. Back to selling potions!");
+        		}
+        		else if(!isTurn()) {
+        			effectDisplay.setText("You do not have actions left this turn.");
+        		}
+        		else {
 				Game.getGame().selectController(Controller.BUY_EOI);  // same as the other artifact
 				effectDisplay.setText(ArtifactController.getArtifactController().displayMessage(Game.getGame().getCurrPlayer(), new ElixirOfInsight()));
+        		}
 			}
 		});
         
@@ -204,7 +302,27 @@ public class ArtifactDeckDisplay extends JFrame {
         
     }
 
+   public int updateGold() {
+	   return Game.getGame().getCurrPlayer().getGoldBalance();
+   }
    
+   public boolean isGold() {
+	   if(Game.getGame().getCurrPlayer().getGoldBalance() >= 3) {
+		   return true;
+	   }
+	   else {
+		   return false;
+	   }
+   }
+   
+   public boolean isTurn() {
+	   if(Game.getGame().getCurrPlayer().getTurnNumber() >= 1) {
+		   return true;
+	   }
+	   else {
+		   return false;
+	   }
+   }
    
 
     protected void openDialog() {
@@ -264,4 +382,5 @@ public class ArtifactDeckDisplay extends JFrame {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
-}
+    
+    }
