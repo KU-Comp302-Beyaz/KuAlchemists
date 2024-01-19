@@ -26,10 +26,11 @@ public class BoardWindow extends JFrame {
     private JPanel contentPane;
     private JPanel contentPane_1;
     private JPanel boardDisplay_1;
+    private JLabel lblCurrentPlayer;
     private JTabbedPane tabbedPane;
 
     private JPanel[] playerDashboards = new JPanel[4];
-    private JLabel[] playerInfoLabels = new JLabel[4];
+    private JTextArea[] playerInfoTextAreas = new JTextArea[4];
     
 	public JPanel[] getPlayerDashboards() {
 		return playerDashboards;
@@ -91,7 +92,7 @@ public class BoardWindow extends JFrame {
 	public void rewriteHistory(Player player) {
 
 	    JTextArea textArea = new JTextArea("no history");
-	    JLabel lblCurrentPlayer = new JLabel("Current Player: " + Game.getGame().getCurrPlayer().getUsername() + "\nTurn Left: " + Game.getGame().getCurrPlayer().getTurnNumber());
+	    
 
 	    int index = 0;
 
@@ -112,7 +113,7 @@ public class BoardWindow extends JFrame {
 
 	    // Wrap the JTextArea in a JScrollPane for scrolling
 	    JScrollPane scrollPane = new JScrollPane(textArea);
-	    scrollPane.setBounds(146, 6, 550, 100);
+	    scrollPane.setBounds(10, 450, 650, 100);
 	    scrollPane.setAutoscrolls(true);
 
 	    // Remove the existing JScrollPane and add the updated one
@@ -128,12 +129,6 @@ public class BoardWindow extends JFrame {
 	    // Repaint the component to reflect the changes
 	    playerDashboards[index].revalidate();
 	    playerDashboards[index].repaint();
-
-	    contentPane_1.remove(lblCurrentPlayer);
-	    lblCurrentPlayer.setText("Current Player: " + Game.getGame().getCurrPlayer().getUsername() + "\nTurn Left: " + Game.getGame().getCurrPlayer().getTurnNumber());
-	    lblCurrentPlayer.setFont(new Font("Cochin", Font.PLAIN, 20));
-	    lblCurrentPlayer.setBounds(607, 561, 400, 100);
-	    contentPane_1.add(lblCurrentPlayer);
 	}
 
 
@@ -144,8 +139,7 @@ public class BoardWindow extends JFrame {
     private BoardWindow() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1440, 800);
-        //this.setExtendedState(JFrame.MAXIMIZED_BOTH); // automatically extends frame to desktop size (full size)
-        
+ 
         contentPane = new JPanel();
         
      // Add background image
@@ -229,7 +223,7 @@ public class BoardWindow extends JFrame {
         
         
         JButton endTurnButton = new JButton("End Turn");
-        endTurnButton.setBounds(190, 600, 244, 60);
+        endTurnButton.setBounds(190, 636, 244, 60);
         contentPane_1.add(endTurnButton);
   		endTurnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {			
@@ -240,15 +234,20 @@ public class BoardWindow extends JFrame {
 					setVisible(false);
 					EndGameDisplay.getInstance().displayWinner();
 				}
+				lblCurrentPlayer.setText("Current Player: " + Game.getGame().getCurrPlayer().getUsername());
 			}
 		});
   		
+  		lblCurrentPlayer = new JLabel("Current Player: " + Game.getGame().getCurrPlayer().getUsername());
+	    lblCurrentPlayer.setFont(new Font("Cochin", Font.PLAIN, 20));
+	    lblCurrentPlayer.setBounds(190, 567, 400, 46);
+	    contentPane_1.add(lblCurrentPlayer);
 
         //Player Dashboard TabbedPane
         tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.setBounds(600, 70, 760, 460);
+        tabbedPane.setBounds(600, 70, 760, 626);
         contentPane_1.add(tabbedPane);
-
+        
         for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
         	Player player = Game.getGame().getPlayers()[i];
         	playerDashboards[i] = new JPanel();
@@ -258,31 +257,19 @@ public class BoardWindow extends JFrame {
         	JLabel avatarImageLabel = new JLabel(new ImageIcon(player.getProfilePhoto()), JLabel.CENTER);
         	avatarImageLabel.setBounds(6, 6, 128, 128);
         	playerDashboards[i].add(avatarImageLabel);
-        	
 
-        	JPanel infoPanel = new JPanel();
-        	infoPanel.setBounds(0, 150, 500, 50);
+        	playerInfoTextAreas[i] = new JTextArea("");
+        	playerInfoTextAreas[i].setEditable(false);
+        	playerInfoTextAreas[i].setBounds(0, 0, 200, 150);
         	
-        	playerInfoLabels[i] = new JLabel("", JLabel.LEFT);
-        	playerInfoLabels[i].setBounds(0, 0, 650, 220);
-        	
-        	JScrollPane scrollPane = new JScrollPane();
+        	JScrollPane scrollPane = new JScrollPane(playerInfoTextAreas[i]);
         	scrollPane.setFont(new Font("Cochin", Font.PLAIN, 13));
-        	scrollPane.setBounds(16, 158, 683, 234);
+        	scrollPane.setBounds(160, 6, 200, 150);
         	scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        	scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        	
-        	infoPanel.add(playerInfoLabels[i]);
-        	
-        	scrollPane.setViewportView(infoPanel);
-        	
+        	scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         	playerDashboards[i].add(scrollPane);
-        	//JLabel hisyoryLabel = new JLabel(player.getHistory());
-        	//playerDashboards[i].add(hisyoryLabel);
-        	rewriteHistory(player);
-        	
-        	
 
+        	rewriteHistory(player);	
 		}
         
         initializeDashboard();
@@ -310,62 +297,11 @@ public class BoardWindow extends JFrame {
     	private void initializeDashboard() {
             for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
             	Player player = Game.getGame().getPlayers()[i];
-            	playerInfoLabels[i].setText(player.getPlayerInfo());
+            	playerInfoTextAreas[i].setText(player.getPlayerInfo());
     		}
     	}
 
         
-        /*
-        // Board display panel
-        JPanel boardDisplay = new JPanel(new GridBagLayout());
-        //boardDisplay.setBackground(new Color(255, 39, 57));
-        
-        //ImageIcon backgroundImage = new ImageIcon("src/images/board.jpeg");
-       // JLabel backgroundLabel = new JLabel(backgroundImage);
-        //boardDisplay.add(backgroundLabel); 
-     
-        // Add background image
-        try {
-            BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
-            boardDisplay_1 = new JPanel(new GridBagLayout()) {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    g.drawImage(backgroundImage1, 0, 0, getWidth(), getHeight(), this);
-                }
-            };
-            boardDisplay_1.setBounds(5, 5, 1430, 740);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        contentPane.setLayout(null);
-
-        contentPane.add(boardDisplay_1);
-       
-        
-        addButton(ingredientStorageButton, boardDisplay_1, "Ingredient Storage", 0, 0, GridBagConstraints.NORTHWEST, 1);
-        addButton(artifactStorageButton, boardDisplay_1, "Artifact Storage", 2, 0, GridBagConstraints.NORTHEAST, 1);
-        addButton(potionBrewingAreaButton, boardDisplay_1, "Potion Brewing Area", 0, 2, GridBagConstraints.SOUTHWEST, 1);
-        addButton(publicationTrackButton, boardDisplay_1, "Publication Track", 2, 2, GridBagConstraints.SOUTHEAST, 1);
-        
-
-
-     
-    }
-
-    private void addButton(JButton button,JPanel panel, String text, int gridx, int gridy, int anchor, double weight) {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = gridx;
-        gbc.gridy = gridy;
-        gbc.anchor = anchor;
-        gbc.weightx = weight; // Spread out horizontally
-        gbc.weighty = weight; // Spread out vertically
-        gbc.insets = new Insets(5, 5, 5, 5); // Adjust padding
-        button.setPreferredSize(new Dimension(150, 50)); // Set preferred size
-        panel.add(button, gbc);
-    }
-
-*/
     private void openDialog() {
         // Create a small dialog
         JDialog dialog = new JDialog(this, "In Game Menu", true);
@@ -379,45 +315,7 @@ public class BoardWindow extends JFrame {
         JButton helpButton = new JButton("Help");
         JButton pauseButton = new JButton("Pause");
         JButton exitButton = new JButton("Exit");
-        
-        /*
-        JLabel lblHelp = new JLabel("Welcome to KU Alchemists: The Academic Concoction Help\n"
-        		+ "\n"
-        		+ "Game Overview:\n"
-        		+ "KU Alchemists is an engaging board game that thrusts players into the captivating world of potion-making and deduction. Inspired by the acclaimed \"Alchemists\" game[1], KU Alchemists challenges players to become ambitious alchemists, unravel the secrets of magical ingredients, and craft powerful potions. Success in this game requires a blend of wit, strategy, and intuition.\n"
-        		+ "\n"
-        		+ "Game Phases:\n"
-        		+ "The game unfolds in the prestigious Alchemical University, where each player takes on the role of a dedicated alchemist striving for recognition and influence. By conducting experiments, publishing theories, and navigating the complexities of alchemy, players earn reputation points and ascend the ranks of the Alchemical community.\n"
-        		+ "\n"
-        		+ "Game Components:\n"
-        		+ "\n"
-        		+ "Board: Represents the laboratory setting where players conduct experiments.\n"
-        		+ "Player Tokens: Unique avatars tracking player position, resources, and scores.\n"
-        		+ "Ingredients: Various types with unique attributes, stored in the Ingredient Storage area.\n"
-        		+ "Potions: Primary objective cards with unique recipes and point values.\n"
-        		+ "Publication Cards: Represent theories or publications with specific requirements.\n"
-        		+ "Artifact Cards: Special cards providing unique abilities or effects lasting the entire game.\n"
-        		+ "Alchemy Markers: Used to track players' hypotheses about ingredient properties.\n"
-        		+ "Deduction Board: Dedicated area for forming and testing theories about ingredient properties.\n"
-        		+ "User Interface (UI):\n"
-        		+ "\n"
-        		+ "Main Game Screen: Displays the entire game board and comprehensive information about each player's resources, scores, and progress.\n"
-        		+ "Player Dashboard: Showcases the current player's avatar, available resources, and interactive buttons for actions.\n"
-        		+ "Ingredient Storage, Potion Brewing Area, Publication Area, Deduction Board: Visual representations with interactive functionalities.\n"
-        		+ "Game Log: Logs actions taken during the game for reference.\n"
-        		+ "Game Play:\n"
-        		+ "\n"
-        		+ "Game Setup: Two-player game with three rounds. Players login with a unique username and select an avatar. Rounds include specific allowed actions.\n"
-        		+ "Actions: Forage for Ingredient, Transmute Ingredient, Make Experiments, Buy Artifacts, Sell a Potion, Publish a Theory, Debunk or Endorse a Theory.\n"
-        		+ "Scoring: Reputation points, artifact card conversion, and gold piece conversion contribute to final scores.\n"
-        		+ "Game Features:\n"
-        		+ "\n"
-        		+ "Pause/Resume: Players can pause the game and resume later.\n"
-        		+ "Help Screen: Provides information about game objects, features, and how to play.\n"
-        		+ "Login Screen: Appears before the game starts, allowing players to enter a unique username and select an avatar.\n"
-        		+ "Game Over Screen: Appears at the end of the game, displaying final scores and announcing the winner.");
-        */
-        
+      
         
         // JLabel için HTML formatında metin
         String labelText = "<html><h1> Welcome to KU Alchemists: The Academic Concoction Help</h1><br><br>"
