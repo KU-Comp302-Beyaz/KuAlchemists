@@ -20,10 +20,16 @@ public class PotionController {
 	
 	
 	//private static Player player;
-	private static Potion potion;
-	private static int updatedAmount;
 	private static PotionController potionControllerInstance;
 	
+	private Potion potion;
+	private int updatedAmount; //Sell Potion updated amount
+	private boolean isSellRequestAccepted;
+	private int guaranteeLevel;
+	private Ingredient[] chosenIngredients;
+	private String testMethod;
+
+
 	private PotionController() {}
 
 	/**
@@ -37,60 +43,35 @@ public class PotionController {
 	}
 	
 	
-	// ?! Her fonksiyon için ayrı açılması yerine ortak bir tane olsun (Yoksa make experimentta iki kez iç içe açılır)
-	static PotionBrewingAreaDisplay pbad = PotionBrewingAreaDisplay.getInstance(); 
 	static PotionBrewingArea pba = new PotionBrewingArea();
-	
-	public PotionController(Potion potion){
-		this.potion = potion;
-	}
-	
 
 	public void initializePotionSale(Player player) {
 		
-		//Rewards (Gold Coins) in return of a potion:
-		Map<String, Integer> rewardTable= new HashMap<String, Integer>();
-		rewardTable.put("positive", 3);
-		rewardTable.put("positive_neutral", 2);
-		rewardTable.put("no_guarantee", 1);
-
-		boolean requestAccepted = pbad.isRequestAccepted();
-		
-		if (requestAccepted) {
+		if (isSellRequestAccepted) {
 			
-			int guarantee = pbad.getGuaranteeLevel(); //Guarantee
-			Ingredient[] ingredients = pbad.getChosenIngredients();
-			Potion p = pba.makePotion(ingredients[0], ingredients[1]); //Making potion
+			Potion p = pba.makePotion(chosenIngredients[0], chosenIngredients[1]); //Making potion
 			String sign = p.getPotionSign(); //Sign of the prepared potion
 			updatedAmount = 0;
 			
 			switch (sign) {
 				case ("+"):
-					if (guarantee == 3) updatedAmount = 3;
-					else if (guarantee == 2) updatedAmount = 2;
+					if (guaranteeLevel == 3) updatedAmount = 3;
+					else if (guaranteeLevel == 2) updatedAmount = 2;
 					break;
 				case("0"):
-					if (guarantee == 2) updatedAmount = 2;
+					if (guaranteeLevel == 2) updatedAmount = 2;
 					break;
 				case("-"):
-					if (guarantee == 1) updatedAmount = 1;				
+					if (guaranteeLevel == 1) updatedAmount = 1;				
 					break;
 			}
 
 			
 			player.updateGoldBalance(updatedAmount);
 			
-			///// Add action and player to history
-			/*
-			Game.getGame().getActionHistory().add("Sale Potion\n"
-					+ "+" + updatedAmount + " Gold Balance: " + player.getGoldBalance());
-			Game.getGame().getPlayerTurnHistory().add(player);
-			*/
-			
-			GameController.getInstance().updateHistory("Sale Potion\n"
+			GameController.getInstance().updateHistory("Potion Sale\n"
 					+ "+" + updatedAmount + " Gold Balance: " + player.getGoldBalance(), player);
 		}
-		
 	}
 	
 	
@@ -100,9 +81,7 @@ public class PotionController {
 		
 	
 	public void initializeMakeExperiment(Ingredient[] ingredients, Player p) {
-		
-		//Ingredient[] ingredients = pbad.getIngredients(); // Player Choose 2 Ingredients
-		
+				
 		Ingredient ing_1 = ingredients[0];
 		p.getIngredientCards().remove(ing_1); //remove chosen ingredient
 		Ingredient ing_2 = ingredients[1];
@@ -112,29 +91,34 @@ public class PotionController {
 
 		Game.getGame().getCurrPlayer().getPotions().add(potion);	// record new potion
 		
-		boolean isSellRequestAccepted = PotionBrewingAreaDisplay.isSellRequestAccepted();
-
-		
 		if (!isSellRequestAccepted) {
 			initializeTestPotion(potion,p);
-			// for updating ingredient
-			PotionBrewingAreaDisplay.getInstance().updateIngredient(p); // move here for model-view seperation
-			}
+		}
 				
 		p.updatePlayerTurn();
 		
-		//// history update is in testPotion since action detai is in there
 	}
 
-
+	
 	public void initializeTestPotion(Potion potion, Player player) {
 
-		String testMethod = PotionBrewingAreaDisplay.getInstance().getTestMethod(); // Player Choose TestMethod (Test on Student / Test on Player)
 		AlchemyMarker alchemyMarker = pba.testPotion(testMethod, potion, player);
-		
-		//// history update is in testPotion since action detail is in there
-		
+		//// history update is in testPotion since action detail is in there	
+	}
+	
+	public void setSellRequestAccepted(boolean isSellRequestAccepted) {
+		this.isSellRequestAccepted = isSellRequestAccepted;
 	}
 
-	//}
+	public  void setGuaranteeLevel(int guaranteeLevel) {
+		this.guaranteeLevel = guaranteeLevel;
+	}
+	
+	public void setChosenIngredients(Ingredient[] chosenIngredients) {
+		this.chosenIngredients = chosenIngredients;
+	}
+	
+	public void setTestMethod(String testMethod) {
+		this.testMethod = testMethod;
+	}
 }

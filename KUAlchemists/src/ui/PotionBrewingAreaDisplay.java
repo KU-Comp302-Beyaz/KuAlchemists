@@ -76,8 +76,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	private JPanel contentPane;
 	private JPanel experimentPanel;
 	private JPanel potionSalePanel;
-	private static boolean requestAccepted = false;
-	private static boolean requestDeclined = false;
+	private boolean requestAccepted = false;
+	private boolean requestDeclined = false;
 	private ImageIcon coinIcon;
 	private static String testMethod ;
 	private Ingredient[] ingredients; 	
@@ -91,9 +91,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	private static int guaranteeLevel; //3: Positive, 2: Positive/Neutral 1: No guarantee 
 	int coinsEarned = 0; //Shows the coins earned from the potion sale
 	
-	public static void setTestMethod(String testMethod) {
-		PotionBrewingAreaDisplay.testMethod = testMethod;
-	}
 
 	//Singleton implementation
     private static PotionBrewingAreaDisplay instance;
@@ -104,23 +101,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         }
         return instance;
     }
-	/**
-	 * Needed for the Avatar jlist - it contains jpanels with imageicons instead of a list
-	 */
-	public class ImageListCellRenderer implements ListCellRenderer {
-
-		@Override
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-				boolean cellHasFocus) {
-		      Component component = (Component) value;
-		      component.setForeground(Color.white);
-		      component.setBackground(isSelected ? UIManager.getColor("Table.focusCellForeground") : Color.white);
-		      return component;
-		}
-
-	}
-
 	
+    
 	
 	/**
 	 * Create the frame.
@@ -248,7 +230,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         JButton btnTestOnPlayer = new JButton("Player");
         btnTestOnPlayer.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		setTestMethod("Player");
+        		testMethod = "Player";
+        		PotionController.getInstance().setTestMethod(testMethod);
         		System.out.println(testMethod);
         	}
         });
@@ -258,7 +241,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         JButton btnTestOnStudent = new JButton("Student");
         btnTestOnStudent.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		setTestMethod("Student");
+        		testMethod = "Student";
+        		PotionController.getInstance().setTestMethod(testMethod);
         		System.out.println(testMethod);
         	}
         });
@@ -349,12 +333,16 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
                 String[] guaranteeLevels = {"1", "2", "3"};
                 String guaranteeLevelStr = (String)JOptionPane.showInputDialog(null,"Choose guarantee level:","Guarantee Level",
                 		JOptionPane.QUESTION_MESSAGE,null,guaranteeLevels,guaranteeLevels[0]);
-                guaranteeLevel = Integer.valueOf(guaranteeLevelStr);
                 
-        		JOptionPane.showMessageDialog(contentPane,
-        			    "Make potion for Adventurer's request!");   
+                if (guaranteeLevelStr != null) {
+	                guaranteeLevel = Integer.valueOf(guaranteeLevelStr);
+	                PotionController.getInstance().setGuaranteeLevel(guaranteeLevel);
+	                
+	        		JOptionPane.showMessageDialog(contentPane,
+	        			    "Make potion for Adventurer's request!");  
+                }
         		
-        		PotionController.setSellRequestAccepted(true);
+        		PotionController.getInstance().setSellRequestAccepted(true);
         		requestAccepted = true;
         	    
         }
@@ -408,10 +396,10 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	                acceptButton.setVisible(true);
 	                declineButton.setVisible(true);
 	                requestedPotion.setVisible(true);
+	          		Game.getGame().selectController(Controller.SELL_POTION);
 	                
           		}
-                //Game.setController(Game.controller.SELL_POTION);
-          	}
+           	}
           });
           
           sellPotionButton.setFont(new Font("Cochin", Font.PLAIN, 30));
@@ -424,8 +412,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           		
           		// make potion 
           		chosenIngredients = PlayerIngredientList.getChosenIngredients(ingredientList);
-          		
-          		System.out.println(chosenIngredients.length);
+          		PotionController.getInstance().setChosenIngredients(chosenIngredients);
           		
           		// end turn
           		if(Game.getGame().getCurrPlayer().getTurnNumber() == 0) {
@@ -448,9 +435,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           			Game.getGame().selectController(Controller.MAKE_EXPERIMENT);
           			Potion potion = Game.getGame().getCurrPlayer().getPotions().get(Game.getGame().getCurrPlayer().getPotions().size() - 1);
           			updateIngredient(Game.getGame().getCurrPlayer());
-          			//JOptionPane.showMessageDialog(contentPane,
-            			//    "" + potion.getRecipe()[0].getName() + " + "+ potion.getRecipe()[1].getName() + " = " + new ImageIcon("src/images/bottle-icons/blue+bottle.png")); 
-          			
+
           			/////////// Message Dialog Result Token
           	        // Create a panel with a label for text and an image
           	        JPanel panel = new JPanel(new BorderLayout());
@@ -642,16 +627,14 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		return ingredients;
 	}
 
-	
-	public boolean isRequestAccepted() {
-		return requestAccepted;
-	}
-
 	public static Ingredient[] getChosenIngredients() {
 		//return PlayerIngredientList.getChosenIngredients(ingredientList);
 		return chosenIngredients;
     }
 
+	public static void setTestMethod(String testMethod) {
+		PotionBrewingAreaDisplay.testMethod = testMethod;
+	}
 
 	
 	/**
