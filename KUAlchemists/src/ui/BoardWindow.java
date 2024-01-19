@@ -353,8 +353,8 @@ public class BoardWindow extends JFrame {
 
 
 	public void updatePlayerArtifactsList(Player player, int i) {
-		playerArtifactsJPanelsArray[i] = createPlayerPotionsJPanelArray(player);
-		playerArtifactsJLists[i].setListData(playerPotionsJPanelsArray[i]);
+		playerArtifactsJPanelsArray[i] = createPlayerArtifactsJPanelArray(player);
+		playerArtifactsJLists[i].setListData(playerArtifactsJPanelsArray[i]);
 		playerArtifactsJLists[i].setLayoutOrientation(JList.VERTICAL_WRAP);
 		playerArtifactsJLists[i].setFixedCellHeight(IMAGE_HEIGHT+50);
 		playerArtifactsJLists[i].setFixedCellWidth(IMAGE_WIDTH);
@@ -374,10 +374,10 @@ public class BoardWindow extends JFrame {
 		ArrayList<JPanel> playerArtifactJPanels = new ArrayList<JPanel>(0);
 		
 		for (Artifact artifact : player.getArtifacts().values()) {
-			
-			ImageIcon artifactImage = new ImageIcon();
-//			ImageIcon artifactImage = new ImageIcon(new ImageIcon(artifact.getPhoto()).getImage()
-//					.getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH));
+			String imagePath = "src" + artifact.getImagePath();
+			System.out.println("artifact: "+imagePath);
+			ImageIcon artifactImage = new ImageIcon(new ImageIcon(imagePath).getImage()
+					.getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH));
 			
 			
 			label = new JLabel(artifactImage, JLabel.LEFT);
@@ -398,13 +398,9 @@ public class BoardWindow extends JFrame {
         	rewriteHistory(player);
         	updatePlayerPotionsList(player,i);
         	updatePlayerArtifactsList(player, i);
-        	
 		}
 	}
 
-	
-
-        
     private void openDialog() {
         // Create a small dialog
         JDialog dialog = new JDialog(this, "In Game Menu", true);

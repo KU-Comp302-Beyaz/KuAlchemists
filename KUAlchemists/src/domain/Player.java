@@ -2,7 +2,6 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import domain.ingredients.Ingredient;
@@ -30,7 +29,7 @@ public class Player {
 	private String profilePhoto;
 	private String history;
 	private Artifact currArtifact;
-	private ArrayList activatedArtifacts = new ArrayList<String>();
+	private ArrayList<String> activatedArtifacts = new ArrayList<String>();
 
 	
 	// constructor
@@ -223,60 +222,30 @@ public class Player {
 	
 	public int getScorePoints() {
 		
-		int score = 0;
-		int goldsFromArtifacts = 0;
+		double score = 0;
 		score += reputationPoints * 10;
+		double addedGold = 0;
 		
 		if (!artifacts.isEmpty()) {
 			int artifactNum = artifacts.size();
-			goldsFromArtifacts = 2 * artifactNum;
+			addedGold += 2 * artifactNum;
 		}
 		
-		score += (int) goldsFromArtifacts / 3;
-		return score;
+		addedGold += goldBalance;
+		
+		score += addedGold / 3;
+		
+		return (int) Math.ceil(score);
 	}
 
 	public String getPlayerInfo() {
-
-//		String info = "<html>\n"
-//				+ "  <body>\n"
-//				+ "    <h1>" + username + "</h1>\n"
-//				+ "    <p>\n"
-//				+ "      <strong>Gold Balance:</strong> <" + goldBalance +"<br>\n"
-//				+ "      <strong>Turn Number:</strong> <" + turnNumber + "<br>\n"
-//				+ "      <strong>Sickness Level:</strong> <" + sicknessLevel + "<br>\n"
-//				+ "      <strong>Reputation Points:</strong> <" + reputationPoints + "<br>\n"
-//				+ "      <strong>Score Points:</strong> <" + getScorePoints() + "<br>\n"
-//				+ "      <strong>Ingredient Cards:</strong> <" + getIngredientCardsInfo() + "<br>\n"
-//				+ "      <strong>Artifact Cards:</strong> <" + getArtifactCardsInfo() + "\n"
-//				+ "    </p>\n"
-//				+ "  </body>\n"
-//				+ "</html>";
-		
 		String info =  	"\n  Turn Number: "+ turnNumber + 
 						"\n  Gold Balance: " + goldBalance + 		
 						"\n  Sickness Level: " + sicknessLevel +
-						"\n  Reputation Points: " + reputationPoints +
-						"\n  Score Points: " + getScorePoints();
-//						"\nArtifact Cards: " + getArtifactCardsInfo();
+						"\n  Reputation Points: " + reputationPoints;
 		return info;
 	}
 
-//	public String getIngredientCardsInfo() {
-//		String ingredientInfo = "";
-//		for (Ingredient ingredient : ingredientCards) {
-//			ingredientInfo += "<br>- " + ingredient.getName();
-//		}
-//		return ingredientInfo;
-//	}
-//	
-//	public String getArtifactCardsInfo() {
-//		String artifactInfo = "";
-//		for (Artifact artifact : artifacts.values()) {
-//			artifactInfo += "- " + artifact.getName();
-//		}
-//		return artifactInfo;
-//	}
 
 	@Override
 	public String toString() {
