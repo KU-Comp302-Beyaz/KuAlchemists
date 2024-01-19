@@ -417,9 +417,10 @@ public class DeductionBoardDisplay extends JFrame{
  	
     	JButton publishButton = new JButton("Publish a Theory");
     	publishButton.addActionListener(e -> {
+				Game.getGame().selectController(Controller.PUBLISH_THEORY);
     			TheoryController.TCReturnMessage message = TheoryController.getInstance().checkRoundAndTurnForPublish();
     			if (message.equals(TheoryController.TCReturnMessage.ROUND_ERROR_SECOND))
-					JOptionPane.showMessageDialog(this, "Null Pointer Error!","Something Wrong!",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, "You can only publish a theory after second round!","Round Error",JOptionPane.ERROR_MESSAGE);
     			else if (message.equals(TheoryController.TCReturnMessage.TURN_ERROR))
 					JOptionPane.showMessageDialog(this, "You have no turns left! Please end your turn.","Turn Error",JOptionPane.ERROR_MESSAGE);
     			else {
@@ -921,7 +922,6 @@ public class DeductionBoardDisplay extends JFrame{
 				JLabel selectedPanel = (JLabel) ((JPanel) alchemicalList.getSelectedValue()).getComponent(0);
 				ImageIcon photo = (ImageIcon) selectedPanel.getIcon();
 				Alchemical alc = DeductionBoard.findAlchemicalFromPhoto(photo.getDescription());
-				Game.getGame().selectController(Controller.PUBLISH_THEORY);
 				TheoryController.TCReturnMessage result = TheoryController.getInstance().initPublishTheory(alc, ing);
 				if (result.equals(TheoryController.TCReturnMessage.NULL_ERROR))
 					JOptionPane.showMessageDialog(this, "Null Pointer Error!","Something Wrong!",JOptionPane.ERROR_MESSAGE);

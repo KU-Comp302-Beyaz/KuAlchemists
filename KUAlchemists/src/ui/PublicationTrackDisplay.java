@@ -136,7 +136,7 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		debunkButton.setFont(new Font("Cochin", Font.PLAIN, 20));
 		debunkButton.setBounds(1055, 652, 250, 64);
 		debunkButton.addActionListener(e -> {
-			
+			Game.getGame().selectController(Controller.DEBUNK_THEORY);
 			if (theoryList.getSelectedValue() == null) {
 				JOptionPane.showMessageDialog(this, "Please select a theory to debunk!","Select Theory",JOptionPane.ERROR_MESSAGE);
 			}
@@ -332,7 +332,6 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 	
 	private void revealAlchemyMarker(Theory theory ,AlchemyMarker alm) {
 		
-		Game.getGame().selectController(Controller.DEBUNK_THEORY);
 		TheoryController.TCReturnMessage result = TController.initDebunkTheory(theory, alm);
 		String resultMessage="";
 		if (result.equals(TheoryController.TCReturnMessage.NULL_ERROR))
