@@ -1,7 +1,6 @@
 package domain.theorydeduction;
 
 import domain.Game;
-import domain.GameController;
 import domain.Player;
 import domain.ingredients.Alchemical;
 import domain.ingredients.Ingredient;
@@ -16,6 +15,23 @@ public class TheoryController {
 	private PublicationTrack pt = PublicationTrack.getInstance();
 
 	
+	public enum TCReturnMessage {
+		
+		EMPTY_MESSAGE,
+		NULL_ERROR,
+		SUCCESS_PUBLISH,
+		SUCCESS_CARD,
+		SUCCESS_DEBUNK_DONE,
+		SUCCESS_DEBUNK_FAILED,
+		ROUND_ERROR_SECOND,
+		ROUND_ERROR_FINAL,
+		GOLD_ERROR,
+		TURN_ERROR,
+		NOT_ENOUGH_ALCHEMY_MARKERS_ERROR,
+		NO_SUFFICENT_THEORIES_ERROR,
+		CARD_ALREADY_CLAIMED_ERROR,
+		SELF_DEBUNK_ERROR
+	}
 	
 	
 	public static synchronized TheoryController getInstance() {
@@ -34,17 +50,24 @@ public class TheoryController {
 		this.currPlayer = currPlayer;
 	}
 
+	public TCReturnMessage checkRoundAndTurnForPublish() {
+		if (Game.getGame().getGameRound() < 2)
+			return TCReturnMessage.ROUND_ERROR_SECOND;
+		else if (currPlayer.getTurnNumber() < 1)
+			return TCReturnMessage.TURN_ERROR;
+		else
+			return TCReturnMessage.EMPTY_MESSAGE;
+	}
 
-
-	public boolean initPublishTheory(Alchemical alchemical, Ingredient ingretientType) {
+	public TCReturnMessage initPublishTheory(Alchemical alchemical, Ingredient ingredientType) {
 		
-		// if game round < 2 ise ...
-		
-		boolean result = currPlayer.getPlayerDeductionBoard().publishTheory(alchemical, ingretientType);
+		if (alchemical == null || ingredientType == null)
+			return TCReturnMessage.NULL_ERROR;
+		boolean result = currPlayer.getPlayerDeductionBoard().publishTheory(alchemical, ingredientType);
 		if (result) {
 			this.currPlayer.updateGoldBalance(-1);
 			this.currPlayer.updateReputationPoints(2);
-			
+			this.currPlayer.updatePlayerTurn();
 			///// Add action and player to history
 			/*
 			Game.getGame().getActionHistory().add("Publish Theory\n"
@@ -53,26 +76,39 @@ public class TheoryController {
 			Game.getGame().getPlayerTurnHistory().add(currPlayer);
 			*/
 			
-			GameController.getInstance().updateHistory("Publish Theory\n"
+			Game.getGame().updateHistory("Publish Theory\n"
 					+ "-1 Gold Balance: " + currPlayer.getGoldBalance()
-					+ "\n+2 Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);
-	
-			
+					+ "\n+2 Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);	
+			return TCReturnMessage.SUCCESS_PUBLISH;
 		}
-		return result;
+		else {
+			return TCReturnMessage.GOLD_ERROR;
+		}
+		
 	}
 	
-	public boolean initClaimCard(PublicationCard card) {
+	public TCReturnMessage checkAvailableAlchemicals() {
+		if (pt.getAvailableAlchemicals().isEmpty())
+			return TCReturnMessage.NOT_ENOUGH_ALCHEMY_MARKERS_ERROR;
+		return TCReturnMessage.EMPTY_MESSAGE;
+	}
+	
+	
+	public TCReturnMessage initClaimCard(PublicationCard card) {
 		
 		if (card == null) {
-			return false;
+			return TCReturnMessage.NULL_ERROR;
 		}
-		
+		else if (card.isClaimed())
+			return TCReturnMessage.CARD_ALREADY_CLAIMED_ERROR;
+		else if (currPlayer.getTurnNumber() < 1)
+			return TCReturnMessage.TURN_ERROR;
 		boolean result = pt.claimCard(currPlayer.getTheories(), card);
 		if (result) {
 			this.currPlayer.updateGoldBalance(card.getGoldReward());
 			this.currPlayer.updateReputationPoints(card.getReputationReward());
 			card.setRewardClaimer(currPlayer);
+			this.currPlayer.updatePlayerTurn();
 			
 			///// Add action and player to history
 			/*
@@ -82,20 +118,23 @@ public class TheoryController {
 			Game.getGame().getPlayerTurnHistory().add(currPlayer);
 			*/
 			
-			GameController.getInstance().updateHistory("Claim Card\n"
+			Game.getGame().updateHistory("Claim Card\n"
 					+ "+" + card.getGoldReward() + " Gold Balance: " + currPlayer.getGoldBalance()
 					+ "\n+" + card.getReputationReward() + " Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);
+			return TCReturnMessage.SUCCESS_CARD;
 		}
-		return result;
+		else 
+			return TCReturnMessage.NO_SUFFICENT_THEORIES_ERROR;
+		
+		
 		
 	}
 	
-	public boolean initDebunkTheory(Theory theory, AlchemyMarker selectedAlchemyMarker) {
+	public TCReturnMessage initDebunkTheory(Theory theory, AlchemyMarker selectedAlchemyMarker) {
 		
 		if(theory==null||selectedAlchemyMarker==null)
-			return false;
+			return TCReturnMessage.NULL_ERROR;
 		boolean debunkResult = pt.debunkTheory(theory,selectedAlchemyMarker);
-		
 		/// action history
 		String history = "Debunk Theory\n";
 		
@@ -105,28 +144,47 @@ public class TheoryController {
 			pt.getPublishedTheories().remove(theory);
 			theoryOwner.updateReputationPoints(-2);
 			currPlayer.updateReputationPoints(2);
-			
+			currPlayer.updatePlayerTurn();
 			/// update action history
 			history += "Theory Owner " + theoryOwner.getUsername() + " -1 Theories: " + theoryOwner.getTheories().size() + " -2 Reputation Point: " + theoryOwner.getReputationPoints()
 					+ " +2 Reputation Point: " + currPlayer.getReputationPoints();
+			Game.getGame().updateHistory(history, currPlayer);
+			return TCReturnMessage.SUCCESS_DEBUNK_DONE;
+			
 		}
 		else {
 			currPlayer.updateReputationPoints(-1);
-			
+			currPlayer.updatePlayerTurn();
 			/// update action history
 			history += "-1 Reputation Point: " + currPlayer.getReputationPoints();
+			Game.getGame().updateHistory(history, currPlayer);
+			return TCReturnMessage.SUCCESS_DEBUNK_FAILED;
 		}
-		
 		///// Add action and player to history
 		/*
 		Game.getGame().getActionHistory().add(history);
 		Game.getGame().getPlayerTurnHistory().add(currPlayer);
 		*/
-		
-		GameController.getInstance().updateHistory(history, currPlayer);
-
-		return debunkResult;
 	}
+	
+	public TCReturnMessage checkRoundAndTurnForDebunk() {
+		if (Game.getGame().getGameRound() < 3)
+			return TCReturnMessage.ROUND_ERROR_FINAL;
+		else if (currPlayer.getTurnNumber() < 1)
+			return TCReturnMessage.TURN_ERROR;
+		else
+			return TCReturnMessage.EMPTY_MESSAGE;
+	}
+	
+	public TCReturnMessage lookTheoryOwner(Theory t) {
+		if (t.getOwner().equals(currPlayer))
+			return TCReturnMessage.SELF_DEBUNK_ERROR;
+		else
+			return TCReturnMessage.EMPTY_MESSAGE;
+	}
+	
+	
+	
 	
 	
 }

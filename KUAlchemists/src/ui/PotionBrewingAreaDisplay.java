@@ -538,6 +538,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           		} else {
           			//Game.setController(Game.Controller.MAKE_EXPERIMENT);
           			Game.getGame().selectController(Controller.MAKE_EXPERIMENT);
+          			controller.initializeMakeExperiment(chosenIngredients, controller.getCurrPlayer());
           			Potion potion = Game.getGame().getCurrPlayer().getPotions().get(Game.getGame().getCurrPlayer().getPotions().size() - 1);
           			//JOptionPane.showMessageDialog(contentPane,
             			//    "" + potion.getRecipe()[0].getName() + " + "+ potion.getRecipe()[1].getName() + " = " + new ImageIcon("src/images/bottle-icons/blue+bottle.png")); 

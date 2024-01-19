@@ -112,6 +112,17 @@ public class Game {
 		System.out.println("curr player is "+currPlayer);
 	}
 	
+	public void updateHistory(String history, Player p) {
+		Game.getGame().getActionHistory().add(history);
+		Game.getGame().getPlayerTurnHistory().add(p);
+		if(p.getHistory() == null) {
+			p.setHistory("---------- New Action ----------\n" + history);
+		} else {
+			p.setHistory(p.getHistory() + "\n\n---------- New Action ----------\n" + history);
+		}
+		
+	}
+	
 	/**
 	 * Increases round number
 	 * Makes all players turn number 3
@@ -122,9 +133,6 @@ public class Game {
 		for (int i = 0; i < players.length; i++) {
 			if (players[i] != null)
 				players[i].setTurnNumber(3);
-		}
-		if (gameRound > 3) {
-			GameController.getInstance().endGame(players);
 		}
 		System.out.println("next round: "+ gameRound) ;
 	}
@@ -220,8 +228,7 @@ public class Game {
 			ArtifactController.getArtifactController().buyArtifact(new ElixirOfInsight() , currPlayer);
 			break;
 		case MAKE_EXPERIMENT:
-			Ingredient[] ing = PotionBrewingAreaDisplay.getInstance().getChosenIngredients();
-			PotionController.getInstance().initializeMakeExperiment(ing,currPlayer);
+			PotionController.getInstance().setCurrPlayer(currPlayer);
 			//PlayerIngredientList.initialize(currPlayer);
 			
 		case SELL_POTION:
