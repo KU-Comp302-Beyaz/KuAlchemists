@@ -29,6 +29,8 @@ public class Player {
 	private DeductionBoard playerDeductionBoard;
 	private String profilePhoto;
 	private String history;
+	private Artifact currArtifact;
+	private ArrayList activatedArtifacts = new ArrayList<String>();
 
 	
 	// constructor
@@ -46,7 +48,16 @@ public class Player {
 	}
 	
 	
+	public ArrayList<String> getActivatedArtifacts() {
+		return this.activatedArtifacts;
+	}
+	public void addActivatedArtifacts(Artifact artifact) {
+		this.activatedArtifacts.add(artifact.getName());
+	}
 	
+	public void removeActivatedArtifact(String name) {
+		this.activatedArtifacts.remove(name);
+	}
 	// getter - setter
 	public String getUsername() {
 		return username;
@@ -121,6 +132,13 @@ public class Player {
 	
 	public HashMap<String, Artifact> getArtifacts() {
 		return artifacts;
+	}
+
+	public void setCurrArtifact(Artifact artifact) {
+		this.currArtifact = artifact;
+	}
+	public Artifact getCurrArtifact() {
+		return this.currArtifact;
 	}
 	
 	public void addArtifact(Artifact artifact) {
@@ -219,47 +237,46 @@ public class Player {
 	}
 
 	public String getPlayerInfo() {
-//		String info = "<html>"+username + 
-//						"<br> <h2>Gold Balance: </h2>" + goldBalance + 
-//						"<br> <h2>Turn Number: "+ turnNumber + 
-//						"<br> <h2>Sickness Level: " + sicknessLevel +
-//						"<br>Reputation Points: " + reputationPoints +
-//						"<br>Score Points: " + getScorePoints() +
-//						"<br>Ingredient Cards: " + getIngredientCardsInfo() + 
-//						"<br>Artifact Cards: " + getArtifactCardsInfo() +
-//						"</html>";
-		String info = "<html>\n"
-				+ "  <body>\n"
-				+ "    <h1>" + username + "</h1>\n"
-				+ "    <p>\n"
-				+ "      <strong>Gold Balance:</strong> <" + goldBalance +"<br>\n"
-				+ "      <strong>Turn Number:</strong> <" + turnNumber + "<br>\n"
-				+ "      <strong>Sickness Level:</strong> <" + sicknessLevel + "<br>\n"
-				+ "      <strong>Reputation Points:</strong> <" + reputationPoints + "<br>\n"
-				+ "      <strong>Score Points:</strong> <" + getScorePoints() + "<br>\n"
-				+ "      <strong>Ingredient Cards:</strong> <" + getIngredientCardsInfo() + "<br>\n"
-				+ "      <strong>Artifact Cards:</strong> <" + getArtifactCardsInfo() + "\n"
-				+ "    </p>\n"
-				+ "  </body>\n"
-				+ "</html>";
+
+//		String info = "<html>\n"
+//				+ "  <body>\n"
+//				+ "    <h1>" + username + "</h1>\n"
+//				+ "    <p>\n"
+//				+ "      <strong>Gold Balance:</strong> <" + goldBalance +"<br>\n"
+//				+ "      <strong>Turn Number:</strong> <" + turnNumber + "<br>\n"
+//				+ "      <strong>Sickness Level:</strong> <" + sicknessLevel + "<br>\n"
+//				+ "      <strong>Reputation Points:</strong> <" + reputationPoints + "<br>\n"
+//				+ "      <strong>Score Points:</strong> <" + getScorePoints() + "<br>\n"
+//				+ "      <strong>Ingredient Cards:</strong> <" + getIngredientCardsInfo() + "<br>\n"
+//				+ "      <strong>Artifact Cards:</strong> <" + getArtifactCardsInfo() + "\n"
+//				+ "    </p>\n"
+//				+ "  </body>\n"
+//				+ "</html>";
+		
+		String info =  	"\n  Turn Number: "+ turnNumber + 
+						"\n  Gold Balance: " + goldBalance + 		
+						"\n  Sickness Level: " + sicknessLevel +
+						"\n  Reputation Points: " + reputationPoints +
+						"\n  Score Points: " + getScorePoints();
+//						"\nArtifact Cards: " + getArtifactCardsInfo();
 		return info;
 	}
 
-	public String getIngredientCardsInfo() {
-		String ingredientInfo = "";
-		for (Ingredient ingredient : ingredientCards) {
-			ingredientInfo += "<br>- " + ingredient.getName();
-		}
-		return ingredientInfo;
-	}
-	
-	public String getArtifactCardsInfo() {
-		String artifactInfo = "";
-		for (Artifact artifact : artifacts.values()) {
-			artifactInfo += "<br>- " + artifact.getName();
-		}
-		return artifactInfo;
-	}
+//	public String getIngredientCardsInfo() {
+//		String ingredientInfo = "";
+//		for (Ingredient ingredient : ingredientCards) {
+//			ingredientInfo += "<br>- " + ingredient.getName();
+//		}
+//		return ingredientInfo;
+//	}
+//	
+//	public String getArtifactCardsInfo() {
+//		String artifactInfo = "";
+//		for (Artifact artifact : artifacts.values()) {
+//			artifactInfo += "- " + artifact.getName();
+//		}
+//		return artifactInfo;
+//	}
 
 	@Override
 	public String toString() {

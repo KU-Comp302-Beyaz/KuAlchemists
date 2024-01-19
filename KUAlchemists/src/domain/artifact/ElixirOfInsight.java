@@ -36,6 +36,24 @@ public class ElixirOfInsight extends Artifact{
 				+ IngredientStorage.getInstance().getIngredientCards().get(1).getName() + ", " 
 				+ IngredientStorage.getInstance().getIngredientCards().get(2).getName() ;
 	}
+
+	@Override
+	public void setActive(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return "Elixir of Insight:\n\nUse Type: Immidiate\n\nThis artifact allows the player to see and shuffle the top 3 ingredient cards in the deck";
+	}
+
+	@Override
+	public String getImagePath() {
+		// TODO Auto-generated method stub
+		return "/images/artifacts/eoiartifact.png";
+	}
 	
 
 }

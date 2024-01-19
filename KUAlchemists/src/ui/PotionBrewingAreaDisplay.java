@@ -101,7 +101,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         }
         return instance;
     }
-	
+
 	/**
 	 * Create the frame.
 	 */
@@ -435,6 +435,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           		} else {
           			//Game.setController(Game.Controller.MAKE_EXPERIMENT);
           			Game.getGame().selectController(Controller.MAKE_EXPERIMENT);
+          			controller.initializeMakeExperiment(chosenIngredients, controller.getCurrPlayer());
           			Potion potion = Game.getGame().getCurrPlayer().getPotions().get(Game.getGame().getCurrPlayer().getPotions().size() - 1);
           			updateIngredient(Game.getGame().getCurrPlayer());
 

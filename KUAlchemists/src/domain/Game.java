@@ -1,11 +1,11 @@
 package domain;
 
 import java.util.ArrayList;
+import domain.artifact.*;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Stack;
 
-import javax.swing.ImageIcon;
 
 import domain.artifact.ArtifactController;
 import domain.artifact.ElixirOfInsight;
@@ -19,12 +19,7 @@ import domain.publication.PublicationCard;
 import domain.publication.PublicationTrack;
 import domain.theorydeduction.AlchemyMarker;
 import domain.theorydeduction.TheoryController;
-import ui.BoardWindow;
-import ui.EndGameDisplay;
-import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
-import ui.PotionBrewingAreaDisplay;
-import ui.PublicationTrackDisplay;
 
 public class Game {
 
@@ -36,8 +31,11 @@ public class Game {
 	private int gameRound;
 	private Stack<String> actionHistory = new Stack<String>(); // add action at the end and get the latest action 
 	private Stack<Player> playerTurnHistory = new Stack<Player>(); // add which user take action at the end and get the which user take latest action   
+	private ArtifactFactory artifactfactory = new ArtifactFactory();
 	
 	private Player[] players = new Player[4];
+	private String[] usernames = new String[4];
+	private int[] tokens = new int[4];
 	
 	//Controller as enum
 	public enum Controller {
@@ -49,7 +47,11 @@ public class Game {
 		SELL_POTION,
 		PUBLISH_THEORY,
 		CLAIM_CARD,
-		DEBUNK_THEORY
+		DEBUNK_THEORY,
+		BUY_WISDOM_IDOL,
+		BUY_PRINTING_PRESS,
+		BUY_MAGIC_MORTAR,
+		USE_ARTIFACT
 	};
 	
 	//Singleton implementation
@@ -69,17 +71,16 @@ public class Game {
 	 * Initializes players for OFFLINE mode using numberOfPlayers.
 	 * Gives players 2 ingredient cards from ingredients deck.
 	 * Gives players 10 gold.
-	 * @param loginWindow
 	 * @param players
 	 * @param numberOfPlayers
 	 */
-	public void initializePlayers(Player[] players, int numberOfPlayers) {
+	public void initializePlayers(Player[] players) {
 		String username;
 		int chosenAvatarIndex;
 		int j = 0;
-		for (int i = 0; i < numberOfPlayers; i++) {
-			username = LogInWindow.getUsernames()[i];
-			chosenAvatarIndex = LogInWindow.getSelectedTokens()[i];
+		for (int i = 0; i < getNumberOfPlayers(); i++) {
+			username = getUsernames()[i];
+			chosenAvatarIndex = getTokens()[i];
 			players[i] = new Player(username,chosenAvatarIndex);
 			
 			players[i].setProfilePhoto("src/images/avatar-icons/avatar"+(chosenAvatarIndex+1)+".png");
@@ -91,10 +92,7 @@ public class Game {
 			
 		}
 		currPlayerIndex = 0;
-		currPlayer = players[currPlayerIndex];
-		
-		setNumberOfPlayers(numberOfPlayers);
-		
+		currPlayer = players[currPlayerIndex];	
 	}
 	
 	public void endTurn() {
@@ -114,6 +112,17 @@ public class Game {
 		System.out.println("curr player is "+currPlayer);
 	}
 	
+	public void updateHistory(String history, Player p) {
+		Game.getGame().getActionHistory().add(history);
+		Game.getGame().getPlayerTurnHistory().add(p);
+		if(p.getHistory() == null) {
+			p.setHistory("---------- New Action ----------\n" + history);
+		} else {
+			p.setHistory(p.getHistory() + "\n\n---------- New Action ----------\n" + history);
+		}
+		
+	}
+	
 	/**
 	 * Increases round number
 	 * Makes all players turn number 3
@@ -124,9 +133,6 @@ public class Game {
 		for (int i = 0; i < players.length; i++) {
 			if (players[i] != null)
 				players[i].setTurnNumber(3);
-		}
-		if (gameRound > 3) {
-			GameController.getInstance().endGame(players);
 		}
 		System.out.println("next round: "+ gameRound) ;
 	}
@@ -222,8 +228,7 @@ public class Game {
 			ArtifactController.getArtifactController().buyArtifact(new ElixirOfInsight() , currPlayer);
 			break;
 		case MAKE_EXPERIMENT:
-			Ingredient[] ing = PotionBrewingAreaDisplay.getInstance().getChosenIngredients();
-			PotionController.getInstance().initializeMakeExperiment(ing,currPlayer);
+			PotionController.getInstance().setCurrPlayer(currPlayer);
 			//PlayerIngredientList.initialize(currPlayer);
 			
 		case SELL_POTION:
@@ -234,6 +239,18 @@ public class Game {
 			TheoryController.getInstance().setCurrPlayer(currPlayer);
 		case DEBUNK_THEORY:
 			TheoryController.getInstance().setCurrPlayer(currPlayer);
+			break;
+		case BUY_WISDOM_IDOL:
+			ArtifactController.getArtifactController().buyArtifact(artifactfactory.getArtifact("wisdomidol") , currPlayer);
+			break;
+		case BUY_PRINTING_PRESS:
+			ArtifactController.getArtifactController().buyArtifact(artifactfactory.getArtifact("printingpress") , currPlayer);
+			break;
+		case BUY_MAGIC_MORTAR:
+			ArtifactController.getArtifactController().buyArtifact(artifactfactory.getArtifact("magicmortar") , currPlayer);
+			break;
+		case USE_ARTIFACT:
+			ArtifactController.getArtifactController().useArtifact(currPlayer.getCurrArtifact() , currPlayer);
 		default:
 			break;
 		}
@@ -287,6 +304,19 @@ public class Game {
 	public void setPlayerTurnHistory(Stack<Player> playerTurnHistory) {
 		this.playerTurnHistory = playerTurnHistory;
 	}
+	public String[] getUsernames() {
+		return usernames;
+	}
+	public void setUsernames(String[] usernames) {
+		this.usernames = usernames;
+	}
+	public int[] getTokens() {
+		return tokens;
+	}
+	public void setTokens(int[] tokens) {
+		this.tokens = tokens;
+	}
+	
 	
 	
 	
