@@ -120,8 +120,9 @@ public class TheoryController {
 			Player theoryOwner = theory.getOwner();
 			theoryOwner.getTheories().remove(theory);
 			pt.getPublishedTheories().remove(theory);
-			if (currPlayer.getArtifacts().containsKey("wisdomidol") && currPlayer.getArtifacts().get("wisdomidol").isConditionSatisfied() == true) {
+			if (currPlayer.getActivatedArtifacts().contains("printingpress")) {
 			//theoryOwner.updateReputationPoints(-2);
+				currPlayer.removeActivatedArtifact("printingpress");
 			}
 			
 			else {

@@ -59,7 +59,7 @@ public class ArtifactStorage extends JFrame {
             		Game.getGame().getCurrPlayer().setCurrArtifact(artifact);	
             		Game.getGame().selectController(Controller.USE_ARTIFACT);
             		panel.remove(artifactButton);
-            		showMessageDialog(null, artifact.name + "activated!");
+            		showMessageDialog(null, artifact.name + " activated!");
     			}
     		});
            
