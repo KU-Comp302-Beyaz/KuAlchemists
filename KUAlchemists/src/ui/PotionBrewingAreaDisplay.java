@@ -102,8 +102,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         return instance;
     }
 	
-    
-	
 	/**
 	 * Create the frame.
 	 */
@@ -389,6 +387,10 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           			
           		if (Game.getGame().getCurrPlayer().getTurnNumber() == 0) {
           			JOptionPane.showMessageDialog(null, "No turns left! Please end your turn." );
+          		}
+          		
+          		else if (Game.getGame().getGameRound() == 1) {
+          			JOptionPane.showMessageDialog(null, "This action is not allowed in Round 1!");
           		}
           		
           		else {
