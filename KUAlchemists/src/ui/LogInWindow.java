@@ -185,10 +185,10 @@ public class LogInWindow extends JFrame {
 		/**
 		 * Taking the avatar images from the /Images/avatar-icons folder 
 		 */
-		JLabel[] avatarIcons = new JLabel[6];
-		JPanel[] avatarPanels = new JPanel[6];
-		for (int i = 0; i < 6; i++) {
-			avatarIcons[i] = new JLabel("", new ImageIcon("src/images/avatar-icons/avatar"+(i+1)+".png"), JLabel.CENTER);
+		JLabel[] avatarIcons = new JLabel[13];
+		JPanel[] avatarPanels = new JPanel[13];
+		for (int i = 0; i < 13; i++) {
+			avatarIcons[i] = new JLabel("", new ImageIcon("src/images/avatar-icons/avatar"+(i+1)+".jpg"), JLabel.CENTER);
 			avatarPanels[i] = new JPanel();
 			avatarPanels[i].add(avatarIcons[i]);
 		}
