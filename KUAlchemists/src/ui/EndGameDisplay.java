@@ -264,7 +264,7 @@ public class EndGameDisplay extends JFrame{
 		        //Event handler of the accept button
 		        btnNewGame.addActionListener(new ActionListener() {
 		        	public void actionPerformed(ActionEvent e) {
-		        		//game = new Game();
+		        		//game = new Game();		        		
 		        	}
 		        });
 		        btnNewGame.setFont(new Font("Cochin", Font.PLAIN, 20));

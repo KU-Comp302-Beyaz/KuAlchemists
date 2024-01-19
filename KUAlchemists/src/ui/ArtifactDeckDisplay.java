@@ -65,7 +65,7 @@ public class ArtifactDeckDisplay extends JFrame {
 
     private static ArtifactDeckDisplay artifactDeckDisplay; // Singleton
     private JTextField txtArtifactDeck;
-    private JTextField txtGold;
+    //private JTextField txtGold;
 
     public static ArtifactDeckDisplay getArtifactDeckDisplay() {
         if (artifactDeckDisplay == null) {
@@ -232,14 +232,7 @@ public class ArtifactDeckDisplay extends JFrame {
         		}																													
 			}
 		});
-        
-        txtGold = new JTextField();
-        txtGold.setEditable(false);
-        txtGold.setFont(new Font("Cochin", Font.PLAIN, 15));
-        txtGold.setText("Gold: " + updateGold());
-        txtGold.setBounds(537, 648, 218, 45);
-        getContentPane().add(txtGold);
-        txtGold.setColumns(10);
+                
         
         JButton storageButton = new JButton("Artifact Storage");
         storageButton.setBounds(1114, 242, 149, 45);

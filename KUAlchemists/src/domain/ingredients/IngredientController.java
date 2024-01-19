@@ -31,8 +31,8 @@ public class IngredientController {
 		//MODIFIES: player.ingredientCards, IngredientStorage.ingredientCards
 		//EFFECTS: 	removes last Ingredient from IngredientStorage.ingredientCards and adds it to player.ingredientCards
 			
-		int deckSize = IngredientStorage.getInstance().getIngredientCards().size();
-		Ingredient newIngredient = IngredientStorage.getInstance().getIngredientCards().remove(deckSize-1);
+		
+		Ingredient newIngredient = IngredientStorage.getInstance().getIngredientCards().remove(0);
 		player.getIngredientCards().add(newIngredient);
 
 		

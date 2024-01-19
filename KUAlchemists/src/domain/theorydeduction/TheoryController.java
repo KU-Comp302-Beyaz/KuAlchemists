@@ -171,7 +171,7 @@ public class TheoryController {
 			pt.getAvailableIngredients().add(theory.getIngredientType());
 			if (theoryOwner.getActivatedArtifacts().contains("wisdomidol")) {
 			//theoryOwner.updateReputationPoints(-2);
-				theoryOwner.removeActivatedArtifact("printingpress");
+				//theoryOwner.removeActivatedArtifact("wisdomidol");
 			}
 			else {
 				theoryOwner.updateReputationPoints(-2);
@@ -180,10 +180,18 @@ public class TheoryController {
 			currPlayer.updatePlayerTurn();
 			/// update action history
 			
+			if(theoryOwner.getActivatedArtifacts().contains("wisdomidol")) {
+				history += "Theory Owner " + theoryOwner.getUsername() + " -1 Theories: " + theoryOwner.getTheories().size() + " Reputation Point unchanged (wisdom idol): " + theoryOwner.getReputationPoints()
+				+ " +2 Reputation Point: " + currPlayer.getReputationPoints();
+				
+				theoryOwner.removeActivatedArtifact("wisdomidol");
+				
+			}
 			
+			else {
 				history += "Theory Owner " + theoryOwner.getUsername() + " -1 Theories: " + theoryOwner.getTheories().size() + " -2 Reputation Point: " + theoryOwner.getReputationPoints()
 				+ " +2 Reputation Point: " + currPlayer.getReputationPoints();
-			
+			}
 
 			Game.getGame().updateHistory(history, currPlayer);
 			return TCReturnMessage.SUCCESS_DEBUNK_DONE;
