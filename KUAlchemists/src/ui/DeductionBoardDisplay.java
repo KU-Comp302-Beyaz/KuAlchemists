@@ -105,11 +105,14 @@ public class DeductionBoardDisplay extends JFrame{
     	publishButton = new JButton("Publish a Theory");
     	publishButton.addActionListener(e -> {
 				Game.getGame().selectController(Controller.PUBLISH_THEORY);
-    			TheoryController.TCReturnMessage message = TheoryController.getInstance().checkRoundAndTurnForPublish();
-    			if (message.equals(TheoryController.TCReturnMessage.ROUND_ERROR_SECOND))
+    			TheoryController.TCReturnMessage roundMessage = TheoryController.getInstance().checkRoundAndTurnForPublish();
+    			TheoryController.TCReturnMessage alchemicalMessage = TheoryController.getInstance().checkAvailableAlchemicals();
+    			if (roundMessage.equals(TheoryController.TCReturnMessage.ROUND_ERROR_SECOND))
 					JOptionPane.showMessageDialog(this, "You can only publish a theory after second round!","Round Error",JOptionPane.ERROR_MESSAGE);
-    			else if (message.equals(TheoryController.TCReturnMessage.TURN_ERROR))
+    			else if (roundMessage.equals(TheoryController.TCReturnMessage.TURN_ERROR))
 					JOptionPane.showMessageDialog(this, "You have no turns left! Please end your turn.","Turn Error",JOptionPane.ERROR_MESSAGE);
+    			else if (alchemicalMessage.equals(TheoryController.TCReturnMessage.NOT_ENOUGH_ALCHEMY_MARKERS_ERROR))
+					JOptionPane.showMessageDialog(this, "There are no ingredients left to publish theory about! ","No Ingredient Left",JOptionPane.ERROR_MESSAGE);
     			else {
     				showIngredientSelectionDialog();
     			}
@@ -550,12 +553,15 @@ public class DeductionBoardDisplay extends JFrame{
 				TheoryController.TCReturnMessage result = TheoryController.getInstance().initPublishTheory(alc, ing);
 				if (result.equals(TheoryController.TCReturnMessage.NULL_ERROR))
 					JOptionPane.showMessageDialog(this, "Null Pointer Error!","Something Wrong!",JOptionPane.ERROR_MESSAGE);
-				else if (result.equals(TheoryController.TCReturnMessage.GOLD_ERROR))
+				else if (result.equals(TheoryController.TCReturnMessage.GOLD_ERROR)) {
+					photoSelectionFrame.dispose();
 					JOptionPane.showMessageDialog(this, "You don't have enough gold to publish a theory!","Not Enough Gold!",JOptionPane.ERROR_MESSAGE);
+				}
 				else if (result.equals(TheoryController.TCReturnMessage.SUCCESS_PUBLISH)) {
+					photoSelectionFrame.dispose();
 					JOptionPane.showMessageDialog(null, Game.getGame().getCurrPlayer().getUsername()+" Succesfully Published a Theory!","Theory Publication Successful!",JOptionPane.PLAIN_MESSAGE);
 				}
-				photoSelectionFrame.dispose();
+				
 			}
 		});
 		photoSelectionFrame.getContentPane().add(selectButton);
