@@ -1,7 +1,5 @@
 package domain;
 
-import ui.BoardWindow;
-import ui.EndGameDisplay;
 
 public class GameController {
 
@@ -26,14 +24,8 @@ public class GameController {
 			p.setHistory(p.getHistory() + "\n\n---------- New Action ----------\n" + history);
 		}
 		
-		BoardWindow.getBoardWindow().rewriteHistory(p); 	
   		
 	}
 	
 	
-	public void endGame(Player[] players) {
-		
-		EndGameDisplay ptDisplay = EndGameDisplay.getInstance();		
-		ptDisplay.initialize();
-	}
 }

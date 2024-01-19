@@ -125,9 +125,6 @@ public class Game {
 			if (players[i] != null)
 				players[i].setTurnNumber(3);
 		}
-		if (gameRound > 3) {
-			GameController.getInstance().endGame(players);
-		}
 		System.out.println("next round: "+ gameRound) ;
 	}
 	

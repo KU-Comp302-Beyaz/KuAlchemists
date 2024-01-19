@@ -30,6 +30,7 @@ public class BoardWindow extends JFrame {
 
     private JPanel[] playerDashboards = new JPanel[4];
     private JLabel[] playerInfoLabels = new JLabel[4];
+    private JScrollPane[] playerHistoryLabels = new JScrollPane[4];
     
 	public JPanel[] getPlayerDashboards() {
 		return playerDashboards;
@@ -266,21 +267,22 @@ public class BoardWindow extends JFrame {
         	playerInfoLabels[i] = new JLabel("", JLabel.LEFT);
         	playerInfoLabels[i].setBounds(0, 0, 650, 220);
         	
+ 	
+        	infoPanel.add(playerInfoLabels[i]);
+        	
+
         	JScrollPane scrollPane = new JScrollPane();
         	scrollPane.setFont(new Font("Cochin", Font.PLAIN, 13));
         	scrollPane.setBounds(16, 158, 683, 234);
         	scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        	scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        	scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);    	
         	
-        	infoPanel.add(playerInfoLabels[i]);
         	
         	scrollPane.setViewportView(infoPanel);
         	
         	playerDashboards[i].add(scrollPane);
-        	//JLabel hisyoryLabel = new JLabel(player.getHistory());
-        	//playerDashboards[i].add(hisyoryLabel);
+
         	rewriteHistory(player);
-        	
         	
 
 		}
@@ -311,6 +313,7 @@ public class BoardWindow extends JFrame {
             for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
             	Player player = Game.getGame().getPlayers()[i];
             	playerInfoLabels[i].setText(player.getPlayerInfo());
+            	rewriteHistory(player);
     		}
     	}
 
