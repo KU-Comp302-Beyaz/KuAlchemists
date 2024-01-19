@@ -27,6 +27,9 @@ public class AlchemyMarker {
 	
 	
 	public AlchemyMarker () { // nötr
+		this.sign = null;
+		this.color = null;
+		this.icon = "src/images/bottle-icons/nullnullbottle.png"; // creating path for displaying result Token after make potion
 
 	}
 
