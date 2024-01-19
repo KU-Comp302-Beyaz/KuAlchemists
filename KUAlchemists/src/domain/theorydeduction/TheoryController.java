@@ -1,7 +1,6 @@
 package domain.theorydeduction;
 
 import domain.Game;
-import domain.GameController;
 import domain.Player;
 import domain.ingredients.Alchemical;
 import domain.ingredients.Ingredient;
@@ -77,7 +76,7 @@ public class TheoryController {
 			Game.getGame().getPlayerTurnHistory().add(currPlayer);
 			*/
 			
-			GameController.getInstance().updateHistory("Publish Theory\n"
+			Game.getGame().updateHistory("Publish Theory\n"
 					+ "-1 Gold Balance: " + currPlayer.getGoldBalance()
 					+ "\n+2 Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);	
 			return TCReturnMessage.SUCCESS_PUBLISH;
@@ -119,7 +118,7 @@ public class TheoryController {
 			Game.getGame().getPlayerTurnHistory().add(currPlayer);
 			*/
 			
-			GameController.getInstance().updateHistory("Claim Card\n"
+			Game.getGame().updateHistory("Claim Card\n"
 					+ "+" + card.getGoldReward() + " Gold Balance: " + currPlayer.getGoldBalance()
 					+ "\n+" + card.getReputationReward() + " Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);
 			return TCReturnMessage.SUCCESS_CARD;
@@ -149,7 +148,7 @@ public class TheoryController {
 			/// update action history
 			history += "Theory Owner " + theoryOwner.getUsername() + " -1 Theories: " + theoryOwner.getTheories().size() + " -2 Reputation Point: " + theoryOwner.getReputationPoints()
 					+ " +2 Reputation Point: " + currPlayer.getReputationPoints();
-			GameController.getInstance().updateHistory(history, currPlayer);
+			Game.getGame().updateHistory(history, currPlayer);
 			return TCReturnMessage.SUCCESS_DEBUNK_DONE;
 			
 		}
@@ -158,7 +157,7 @@ public class TheoryController {
 			currPlayer.updatePlayerTurn();
 			/// update action history
 			history += "-1 Reputation Point: " + currPlayer.getReputationPoints();
-			GameController.getInstance().updateHistory(history, currPlayer);
+			Game.getGame().updateHistory(history, currPlayer);
 			return TCReturnMessage.SUCCESS_DEBUNK_FAILED;
 		}
 		///// Add action and player to history
