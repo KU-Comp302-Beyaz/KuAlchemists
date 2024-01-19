@@ -156,6 +156,7 @@ public class EndGameDisplay extends JFrame{
 			        contentPane.add(lblPlayer_3);
 			        
 			        JLabel lblPlayerUserName_3 = new JLabel("Username: " + players[2].getUsername());
+			        lblPlayerUserName_3.setFont(new Font("Cochin", Font.PLAIN, 20));
 			        lblPlayerUserName_3.setLocation(947, 336);
 			        lblPlayerUserName_3.setSize(150, 25);
 			        lblPlayer_3.setFont(new Font("Cochin", Font.PLAIN, 20));
@@ -184,6 +185,7 @@ public class EndGameDisplay extends JFrame{
 			        contentPane.add(lblPlayer_4);
 			        
 			        JLabel lblPlayerUserName_4 = new JLabel("Username: " + players[3].getUsername());
+			        lblPlayerUserName_4.setFont(new Font("Cochin", Font.PLAIN, 20));
 			        lblPlayerUserName_4.setLocation(947, 527);
 			        lblPlayerUserName_4.setSize(150, 25);
 			        lblPlayer_4.setFont(new Font("Cochin", Font.PLAIN, 20));
