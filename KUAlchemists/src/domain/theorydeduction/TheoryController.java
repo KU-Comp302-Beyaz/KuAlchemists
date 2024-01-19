@@ -112,7 +112,7 @@ public class TheoryController {
 	}
 	
 	public TCReturnMessage checkAvailableAlchemicals() {
-		if (pt.getAvailableAlchemicals().isEmpty())
+		if (pt.getPublishedTheories().size()>7)
 			return TCReturnMessage.NOT_ENOUGH_ALCHEMY_MARKERS_ERROR;
 		return TCReturnMessage.EMPTY_MESSAGE;
 	}
@@ -167,11 +167,12 @@ public class TheoryController {
 			Player theoryOwner = theory.getOwner();
 			theoryOwner.getTheories().remove(theory);
 			pt.getPublishedTheories().remove(theory);
-			if (currPlayer.getActivatedArtifacts().contains("printingpress")) {
+			pt.getAvailableAlchemicals().add(theory.getAlchemical());
+			pt.getAvailableIngredients().add(theory.getIngredientType());
+			if (theoryOwner.getActivatedArtifacts().contains("wisdomidol")) {
 			//theoryOwner.updateReputationPoints(-2);
-				currPlayer.removeActivatedArtifact("printingpress");
+				theoryOwner.removeActivatedArtifact("printingpress");
 			}
-			
 			else {
 				theoryOwner.updateReputationPoints(-2);
 			}

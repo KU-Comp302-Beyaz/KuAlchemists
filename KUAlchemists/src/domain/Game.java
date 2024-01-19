@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Stack;
 
-import javax.swing.ImageIcon;
 
 import domain.artifact.ArtifactController;
 import domain.artifact.ElixirOfInsight;
@@ -20,12 +19,7 @@ import domain.publication.PublicationCard;
 import domain.publication.PublicationTrack;
 import domain.theorydeduction.AlchemyMarker;
 import domain.theorydeduction.TheoryController;
-import ui.BoardWindow;
-import ui.EndGameDisplay;
-import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
-import ui.PotionBrewingAreaDisplay;
-import ui.PublicationTrackDisplay;
 
 public class Game {
 
