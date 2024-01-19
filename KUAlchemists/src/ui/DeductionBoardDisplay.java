@@ -47,7 +47,6 @@ public class DeductionBoardDisplay extends JFrame{
 		return isDisplay;
 	}
     
-    
     private List<Player> players;
     private int currentPlayerIndex;
     private DeductionBoard currentPlayerDeductionBoard;
@@ -417,15 +416,16 @@ public class DeductionBoardDisplay extends JFrame{
         
  	
     	JButton publishButton = new JButton("Publish a Theory");
-    	publishButton.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
-    			if (PublicationTrack.getInstance().getAvailableAlchemicals().isEmpty()) {
-    				JOptionPane.showMessageDialog(DeductionBoardDisplay.getIsDisplay(), "There are no Alchemy Markers left to publish theory!","No Alchemy Markers Left",JOptionPane.ERROR_MESSAGE);
-    			}
+    	publishButton.addActionListener(e -> {
+    			TheoryController.TCReturnMessage message = TheoryController.getInstance().checkRoundAndTurnForPublish();
+    			if (message.equals(TheoryController.TCReturnMessage.ROUND_ERROR_SECOND))
+					JOptionPane.showMessageDialog(this, "Null Pointer Error!","Something Wrong!",JOptionPane.ERROR_MESSAGE);
+    			else if (message.equals(TheoryController.TCReturnMessage.TURN_ERROR))
+					JOptionPane.showMessageDialog(this, "You have no turns left! Please end your turn.","Turn Error",JOptionPane.ERROR_MESSAGE);
     			else {
     				showIngredientSelectionDialog();
     			}
-    		}
+    		
     	});
         /*
       	publishButton.setFont(new Font("Cochin", Font.PLAIN, 20));
@@ -808,10 +808,9 @@ public class DeductionBoardDisplay extends JFrame{
     	
     	JFrame photoSelectionFrame = new JFrame("Select an Ingredient to Publish a Theory");
     	
-    	ArrayList<String> photoPaths = new ArrayList<>();
-    	for (Ingredient i : PublicationTrack.getInstance().getAvailableIngredients()) {
-    		photoPaths.add(i.getPhoto());
-    	}
+    	ArrayList<String> photoPaths = DeductionBoard.getIngredientPhotoPaths();
+    	
+    	
     	ArrayList<JPanel> ingredientPhotos = new ArrayList<>();
     	for (String s : photoPaths) {
     		JPanel p = new JPanel();
@@ -859,7 +858,7 @@ public class DeductionBoardDisplay extends JFrame{
 			else {
 				JLabel selectedPanel = (JLabel) ((JPanel) theoryList.getSelectedValue()).getComponent(0);
 				ImageIcon photo = (ImageIcon) selectedPanel.getIcon();
-				Ingredient ing = findIngredientFromPhoto(photo.getDescription());
+				Ingredient ing = DeductionBoard.findIngredientFromPhoto(photo.getDescription());
 				photoSelectionFrame.dispose();
 				showAlchemicalSelectionDialog(ing);
 			}
@@ -873,10 +872,7 @@ public class DeductionBoardDisplay extends JFrame{
     	
     	JFrame photoSelectionFrame = new JFrame("Select an Alchemical to Publish a Theory");
     	
-    	ArrayList<String> photoPaths = new ArrayList<>();
-    	for (Alchemical a : PublicationTrack.getInstance().getAvailableAlchemicals()) {
-    		photoPaths.add(a.getAlchemicalPhoto());
-    	}
+    	ArrayList<String> photoPaths = DeductionBoard.getAlchemicalPhotoPaths();
     	ArrayList<JPanel> alchemicalPhotos = new ArrayList<>();
     	for (String s : photoPaths) {
     		JPanel p = new JPanel();
@@ -924,11 +920,17 @@ public class DeductionBoardDisplay extends JFrame{
 			else {
 				JLabel selectedPanel = (JLabel) ((JPanel) alchemicalList.getSelectedValue()).getComponent(0);
 				ImageIcon photo = (ImageIcon) selectedPanel.getIcon();
-				Alchemical alc = findAlchemicalFromPhoto(photo.getDescription());
+				Alchemical alc = DeductionBoard.findAlchemicalFromPhoto(photo.getDescription());
 				Game.getGame().selectController(Controller.PUBLISH_THEORY);
-				TheoryController.getInstance().initPublishTheory(alc, ing);
+				TheoryController.TCReturnMessage result = TheoryController.getInstance().initPublishTheory(alc, ing);
+				if (result.equals(TheoryController.TCReturnMessage.NULL_ERROR))
+					JOptionPane.showMessageDialog(this, "Null Pointer Error!","Something Wrong!",JOptionPane.ERROR_MESSAGE);
+				else if (result.equals(TheoryController.TCReturnMessage.GOLD_ERROR))
+					JOptionPane.showMessageDialog(this, "You don't have enough gold to publish a theory!","Not Enough Gold!",JOptionPane.ERROR_MESSAGE);
+				else if (result.equals(TheoryController.TCReturnMessage.SUCCESS_PUBLISH)) {
+					JOptionPane.showMessageDialog(null, Game.getGame().getCurrPlayer().getUsername()+" Succesfully Published a Theory!","Theory Publication Successful!",JOptionPane.PLAIN_MESSAGE);
+				}
 				photoSelectionFrame.dispose();
-				JOptionPane.showMessageDialog(null, Game.getGame().getCurrPlayer().getUsername()+" Succesfully Published a Theory!","Theory Publication Successful!",JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 		photoSelectionFrame.getContentPane().add(selectButton);
@@ -936,25 +938,7 @@ public class DeductionBoardDisplay extends JFrame{
     	
     }
     
-    private Ingredient findIngredientFromPhoto(String path) {
-    	
-    	for (Ingredient i : IngredientStorage.getInstance().getAllingredientcardsarray()) {
-    		if (i.getPhoto().equals(path)) {
-    			return i;
-    		}
-    	}
-    	return null;
-    }
     
-    private Alchemical findAlchemicalFromPhoto(String path) {
-    	
-    	for (Alchemical a : PublicationTrack.getInstance().getAvailableAlchemicals()) {
-    		if (a.getAlchemicalPhoto().equals(path))
-    			return a;
-    	}
-    	return null;
-    	
-    }
     
     
     private void setCurrentPlayerDeductionBoard() {

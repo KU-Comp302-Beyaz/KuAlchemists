@@ -64,9 +64,6 @@ public class TheoryController {
 		
 		if (alchemical == null || ingredientType == null)
 			return TCReturnMessage.NULL_ERROR;
-		else if (pt.getAvailableAlchemicals().isEmpty())
-			return TCReturnMessage.NOT_ENOUGH_ALCHEMY_MARKERS_ERROR;
-		
 		boolean result = currPlayer.getPlayerDeductionBoard().publishTheory(alchemical, ingredientType);
 		if (result) {
 			this.currPlayer.updateGoldBalance(-1);
@@ -89,6 +86,12 @@ public class TheoryController {
 			return TCReturnMessage.GOLD_ERROR;
 		}
 		
+	}
+	
+	public TCReturnMessage checkAvailableAlchemicals() {
+		if (pt.getAvailableAlchemicals().isEmpty())
+			return TCReturnMessage.NOT_ENOUGH_ALCHEMY_MARKERS_ERROR;
+		return TCReturnMessage.EMPTY_MESSAGE;
 	}
 	
 	
