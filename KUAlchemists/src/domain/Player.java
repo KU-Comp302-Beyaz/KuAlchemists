@@ -231,6 +231,10 @@ public class Player {
 			addedGold += 2 * artifactNum;
 		}
 		
+		if(artifacts.containsKey("wisdomidol")) {
+			score += 10;
+		}
+		
 		addedGold += goldBalance;
 		
 		score += addedGold / 3;

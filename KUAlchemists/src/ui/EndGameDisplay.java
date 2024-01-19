@@ -261,16 +261,7 @@ public class EndGameDisplay extends JFrame{
 		        contentPane.add(btnShowResult);
 		        
 		        
-//		        JButton btnNewGame = new JButton("New Game");
-//		        btnNewGame.setBounds(700, 700, 150, 50);
-//		        //Event handler of the accept button
-//		        btnNewGame.addActionListener(new ActionListener() {
-//		        	public void actionPerformed(ActionEvent e) {
-//		        		//game = new Game();
-//		        	}
-//		        });
-//		        btnNewGame.setFont(new Font("Cochin", Font.PLAIN, 20));
-//		        contentPane.add(btnNewGame);
+
 
 		}
 		

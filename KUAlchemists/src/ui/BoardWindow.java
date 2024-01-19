@@ -137,13 +137,7 @@ public class BoardWindow extends JFrame {
         JButton ingredientStorageButton = new JButton("Ingredient Storage");
         ingredientStorageButton.setFont(new Font("Cochin", Font.PLAIN, 25));
         ingredientStorageButton.setBounds(140, 70, 344, 70);
-        // Button content transparent
-        ingredientStorageButton.setOpaque(false);
-        ingredientStorageButton.setContentAreaFilled(false);
-
-        // Button Frame invisible
-        ingredientStorageButton.setBorderPainted(false);
-        
+      
         contentPane_1.add(ingredientStorageButton);
         ingredientStorageButton.addActionListener(new ActionListener() {
 			@Override
@@ -159,12 +153,7 @@ public class BoardWindow extends JFrame {
         JButton artifactStorageButton = new JButton("Artifact Storage");
         artifactStorageButton.setFont(new Font("Cochin", Font.PLAIN, 25));
         artifactStorageButton.setBounds(140, 470, 344, 70);
-    	// Button content transparent
-        artifactStorageButton.setOpaque(false);
-        artifactStorageButton.setContentAreaFilled(false);
-
-        // Button Frame invisible
-        artifactStorageButton.setBorderPainted(false);
+ 
         contentPane_1.add(artifactStorageButton);
   		artifactStorageButton.addActionListener(new ActionListener() {
   			public void actionPerformed(ActionEvent e) {
@@ -178,12 +167,7 @@ public class BoardWindow extends JFrame {
         JButton potionBrewingAreaButton = new JButton("Potion Brewing Area");
         potionBrewingAreaButton.setFont(new Font("Cochin", Font.PLAIN, 25));
         potionBrewingAreaButton.setBounds(140, 170, 344, 70);
-    	// Button content transparent
-        potionBrewingAreaButton.setOpaque(false);
-        potionBrewingAreaButton.setContentAreaFilled(false);
 
-        // Button Frame invisible
-        potionBrewingAreaButton.setBorderPainted(false);
         contentPane_1.add(potionBrewingAreaButton);
   		potionBrewingAreaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -196,12 +180,7 @@ public class BoardWindow extends JFrame {
         JButton publicationTrackButton = new JButton("Publication Track");
         publicationTrackButton.setFont(new Font("Cochin", Font.PLAIN, 25));
         publicationTrackButton.setBounds(140, 370, 344, 70);
-        // Button content transparent
-        publicationTrackButton.setOpaque(false);
-        publicationTrackButton.setContentAreaFilled(false);
 
-        // Button Frame invisible
-        publicationTrackButton.setBorderPainted(false);
         contentPane_1.add(publicationTrackButton);
   		publicationTrackButton.addActionListener(e -> {
   			PublicationTrackDisplay ptDisplay = PublicationTrackDisplay.getInstance();
@@ -213,12 +192,7 @@ public class BoardWindow extends JFrame {
         
         JButton deductionBoardButton = new JButton("Deduction Board");
         deductionBoardButton.setFont(new Font("Cochin", Font.PLAIN, 25));
-        // Button content transparent
-        deductionBoardButton.setOpaque(false);
-        deductionBoardButton.setContentAreaFilled(false);
 
-        // Button Frame invisible
-        deductionBoardButton.setBorderPainted(false);
         deductionBoardButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DeductionBoardDisplay dbDisplay = DeductionBoardDisplay.getIsDisplay();
@@ -421,6 +395,7 @@ public class BoardWindow extends JFrame {
         for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
         	Player player = Game.getGame().getPlayers()[i];
         	playerInfoTextAreas[i].setText(player.getPlayerInfo());
+        	rewriteHistory(player);
         	updatePlayerPotionsList(player,i);
         	updatePlayerArtifactsList(player, i);
 		}
