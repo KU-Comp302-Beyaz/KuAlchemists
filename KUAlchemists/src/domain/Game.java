@@ -128,6 +128,18 @@ public class Game {
 		System.out.println("next round: "+ gameRound) ;
 	}
 	
+	public void updateHistory(String history, Player p) {
+		Game.getGame().getActionHistory().add(history);
+		Game.getGame().getPlayerTurnHistory().add(p);
+		if(p.getHistory() == null) {
+			p.setHistory("---------- New Action ----------\n" + history);
+		} else {
+			p.setHistory(p.getHistory() + "\n\n---------- New Action ----------\n" + history);
+		}
+		
+  		
+	}
+	
 	public Player getWinner(Player[] players) {
 		Player winner = getCurrPlayer();
 		HashMap scoreList = new HashMap();

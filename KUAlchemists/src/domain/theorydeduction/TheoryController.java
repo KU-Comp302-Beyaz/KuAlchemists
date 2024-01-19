@@ -1,7 +1,6 @@
 package domain.theorydeduction;
 
 import domain.Game;
-import domain.GameController;
 import domain.Player;
 import domain.ingredients.Alchemical;
 import domain.ingredients.Ingredient;
@@ -53,7 +52,7 @@ public class TheoryController {
 			Game.getGame().getPlayerTurnHistory().add(currPlayer);
 			*/
 			
-			GameController.getInstance().updateHistory("Publish Theory\n"
+			Game.getGame().updateHistory("Publish Theory\n"
 					+ "-1 Gold Balance: " + currPlayer.getGoldBalance()
 					+ "\n+2 Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);
 	
@@ -82,7 +81,7 @@ public class TheoryController {
 			Game.getGame().getPlayerTurnHistory().add(currPlayer);
 			*/
 			
-			GameController.getInstance().updateHistory("Claim Card\n"
+			Game.getGame().updateHistory("Claim Card\n"
 					+ "+" + card.getGoldReward() + " Gold Balance: " + currPlayer.getGoldBalance()
 					+ "\n+" + card.getReputationReward() + " Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);
 		}
@@ -123,7 +122,7 @@ public class TheoryController {
 		Game.getGame().getPlayerTurnHistory().add(currPlayer);
 		*/
 		
-		GameController.getInstance().updateHistory(history, currPlayer);
+		Game.getGame().updateHistory(history, currPlayer);
 
 		return debunkResult;
 	}
