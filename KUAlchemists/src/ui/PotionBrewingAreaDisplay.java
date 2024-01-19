@@ -104,21 +104,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         }
         return instance;
     }
-	/**
-	 * Needed for the Avatar jlist - it contains jpanels with imageicons instead of a list
-	 */
-	public class ImageListCellRenderer implements ListCellRenderer {
-
-		@Override
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-				boolean cellHasFocus) {
-		      Component component = (Component) value;
-		      component.setForeground(Color.white);
-		      component.setBackground(isSelected ? UIManager.getColor("Table.focusCellForeground") : Color.white);
-		      return component;
-		}
-
-	}
 
 	
 	

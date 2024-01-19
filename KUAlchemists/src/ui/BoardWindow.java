@@ -5,12 +5,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import domain.Game;
-import domain.Game.Controller;
 import domain.Player;
 import domain.ingredients.Ingredient;
-import domain.ingredients.IngredientController;
-import ui.PotionBrewingAreaDisplay.ImageListCellRenderer;
-import domain.ingredients.IngredientStorage;
+import domain.potion.Potion;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,9 +15,14 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class BoardWindow extends JFrame {
 	
+	private static final int IMAGE_WIDTH = 128;
+
+	private static final int IMAGE_HEIGHT = 128;
+
 	private static BoardWindow boardWindow;
 
     private JPanel contentPane;
@@ -31,13 +33,9 @@ public class BoardWindow extends JFrame {
 
     private JPanel[] playerDashboards = new JPanel[4];
     private JTextArea[] playerInfoTextAreas = new JTextArea[4];
-    
-	public JPanel[] getPlayerDashboards() {
-		return playerDashboards;
-	}
-	public void setPlayerDashboards(JPanel[] playerDashboards) {
-		this.playerDashboards = playerDashboards;
-	}	
+    private JList<JPanel>[] playerPotionsJLists = new JList[4];
+    private JScrollPane[] playerPotionsScrollPanes = new JScrollPane[4];
+    private JPanel[][] playerPotionsJPanelsArray = new JPanel[4][20];
 
 	public static void setBoardWindow(BoardWindow boardWindow) {
 		BoardWindow.boardWindow = boardWindow;
@@ -53,37 +51,6 @@ public class BoardWindow extends JFrame {
 		return boardWindow;
 	}
 	
-	/**
-	 * Needed for the ingredient jlist - it contains jpanels with imageicons instead of a list
-	 */
-	public class ImageListCellRenderer implements ListCellRenderer {
-
-		@Override
-		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-				boolean cellHasFocus) {
-		      Component component = (Component) value;
-		      component.setForeground(Color.white);
-		      component.setBackground(isSelected ? UIManager.getColor("Table.focusCellForeground") : Color.white);
-		      return component;
-		}
-	}
-	
-	/**
-	 * Needed for ingredient cards panel in player dashboard, so they cannot be selected
-	 */
-	private static class NoSelectionModel extends DefaultListSelectionModel {
-	   @Override
-	   public void setAnchorSelectionIndex(final int anchorIndex) {}
-
-	   @Override
-	   public void setLeadAnchorNotificationEnabled(final boolean flag) {}
-
-	   @Override
-	   public void setLeadSelectionIndex(final int leadIndex) {}
-
-	   @Override
-	   public void setSelectionInterval(final int index0, final int index1) { }
-	}
     
 	/**
 	 * Initialize UI, player history is updated every time this is called (every button click)
@@ -249,6 +216,8 @@ public class BoardWindow extends JFrame {
         contentPane_1.add(tabbedPane);
         
         for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
+        	
+        	// player info
         	Player player = Game.getGame().getPlayers()[i];
         	playerDashboards[i] = new JPanel();
         	tabbedPane.addTab(player.getUsername(), playerDashboards[i]);
@@ -262,13 +231,27 @@ public class BoardWindow extends JFrame {
         	playerInfoTextAreas[i].setEditable(false);
         	playerInfoTextAreas[i].setBounds(0, 0, 200, 150);
         	
-        	JScrollPane scrollPane = new JScrollPane(playerInfoTextAreas[i]);
-        	scrollPane.setFont(new Font("Cochin", Font.PLAIN, 13));
-        	scrollPane.setBounds(160, 6, 200, 150);
-        	scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        	scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        	playerDashboards[i].add(scrollPane);
+        	JScrollPane playerInfoScrollPane = new JScrollPane(playerInfoTextAreas[i]);
+        	playerInfoScrollPane.setFont(new Font("Cochin", Font.PLAIN, 13));
+        	playerInfoScrollPane.setBounds(160, 6, 200, 150);
+        	playerInfoScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        	playerInfoScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        	playerDashboards[i].add(playerInfoScrollPane);
 
+        	//player potions
+			playerPotionsScrollPanes[i] = new JScrollPane();
+			playerPotionsScrollPanes[i].setBounds(10, 180, 650, 140);
+			playerPotionsScrollPanes[i].setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			playerPotionsScrollPanes[i].setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+			playerPotionsJLists[i] = new JList<JPanel>();
+			playerPotionsJLists[i].setCellRenderer(new ImageListCellRenderer());  
+			playerPotionsJLists[i].setSelectionModel(new NoSelectionModel());
+			
+			playerPotionsScrollPanes[i].setViewportView(playerPotionsJLists[i]);
+			playerDashboards[i].add(playerPotionsScrollPanes[i]);
+        	
+        	//player history
         	rewriteHistory(player);	
 		}
         
@@ -294,12 +277,59 @@ public class BoardWindow extends JFrame {
         });
         }
     
-    	private void initializeDashboard() {
-            for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
-            	Player player = Game.getGame().getPlayers()[i];
-            	playerInfoTextAreas[i].setText(player.getPlayerInfo());
-    		}
-    	}
+    
+	public void updatePlayerPotionsList(Player player, int i) {
+		playerPotionsJPanelsArray[i] = createPlayerPotionsJPanelArray(player);
+		playerPotionsJLists[i].setListData(playerPotionsJPanelsArray[i]);
+		playerPotionsJLists[i].setLayoutOrientation(JList.VERTICAL_WRAP);
+		playerPotionsJLists[i].setFixedCellHeight(IMAGE_HEIGHT+50);
+		playerPotionsJLists[i].setFixedCellWidth(IMAGE_WIDTH);
+		playerPotionsJLists[i].setVisibleRowCount(1);
+		playerPotionsJLists[i].setSelectedIndex(0);
+		playerPotionsScrollPanes[i].setViewportView(playerPotionsJLists[i]);
+	}
+	
+	/**
+	 * Creates the array of player potions
+	 * @param player
+	 * @return 
+	 * @return Jpanel array of player potions to be put into JList
+	 */
+
+  public JPanel[] createPlayerPotionsJPanelArray(Player player) {
+		JLabel label;
+		JPanel panel;
+		ArrayList<JPanel> playerPotionJPanels = new ArrayList<JPanel>(0);
+		
+		for (Potion potion : player.getPotions()) {
+			ImageIcon potionImage = new ImageIcon(new ImageIcon(potion.getAlchemyMarker().getIcon()).getImage()
+					.getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH));
+			
+			label = new JLabel(potionImage, JLabel.LEFT);
+			label.setHorizontalTextPosition(JLabel.CENTER);
+			label.setVerticalTextPosition(JLabel.BOTTOM);
+			
+			panel = new JPanel();
+			panel.add(label);
+			playerPotionJPanels.add(panel);
+		}
+		
+		System.out.println("size of potions is " + playerPotionJPanels.size());
+
+		return playerPotionJPanels.toArray(new JPanel[playerPotionJPanels.size()]);
+	}
+
+    
+	private void initializeDashboard() {
+        for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
+        	Player player = Game.getGame().getPlayers()[i];
+        	playerInfoTextAreas[i].setText(player.getPlayerInfo());
+        	updatePlayerPotionsList(player,i);
+        	
+		}
+	}
+
+	
 
         
     private void openDialog() {
@@ -511,5 +541,13 @@ public class BoardWindow extends JFrame {
     	initializeDashboard();
 		setVisible(true);
 	}
+    
+	public JPanel[] getPlayerDashboards() {
+		return playerDashboards;
+	}
+	public void setPlayerDashboards(JPanel[] playerDashboards) {
+		this.playerDashboards = playerDashboards;
+	}	
+
 }
    

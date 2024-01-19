@@ -239,26 +239,26 @@ public class Player {
 						"\nGold Balance: " + goldBalance + 		
 						"\nSickness Level: " + sicknessLevel +
 						"\nReputation Points: " + reputationPoints +
-						"\nScore Points: " + getScorePoints() +
-						"\nArtifact Cards: " + getArtifactCardsInfo();
+						"\nScore Points: " + getScorePoints();
+//						"\nArtifact Cards: " + getArtifactCardsInfo();
 		return info;
 	}
 
-	public String getIngredientCardsInfo() {
-		String ingredientInfo = "";
-		for (Ingredient ingredient : ingredientCards) {
-			ingredientInfo += "<br>- " + ingredient.getName();
-		}
-		return ingredientInfo;
-	}
-	
-	public String getArtifactCardsInfo() {
-		String artifactInfo = "";
-		for (Artifact artifact : artifacts.values()) {
-			artifactInfo += "- " + artifact.getName();
-		}
-		return artifactInfo;
-	}
+//	public String getIngredientCardsInfo() {
+//		String ingredientInfo = "";
+//		for (Ingredient ingredient : ingredientCards) {
+//			ingredientInfo += "<br>- " + ingredient.getName();
+//		}
+//		return ingredientInfo;
+//	}
+//	
+//	public String getArtifactCardsInfo() {
+//		String artifactInfo = "";
+//		for (Artifact artifact : artifacts.values()) {
+//			artifactInfo += "- " + artifact.getName();
+//		}
+//		return artifactInfo;
+//	}
 
 	@Override
 	public String toString() {
