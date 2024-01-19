@@ -282,9 +282,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         makePotionIcon.setIcon(witchCauldron);
         makePotionPanel.add(makePotionIcon);
         
-        
-        
-        
      
         ///////////////////////////////////////////////// 
         
@@ -348,17 +345,19 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         //Event handler of the accept button
         acceptButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		
-        	    guaranteeLevel = Integer.valueOf(JOptionPane.showInputDialog("Do you give any guarantee? 3: Positive 2: Positive/Neutral 1: No Guarantee"));
-        	    if (guaranteeLevel < 1 || guaranteeLevel > 3) {
-        	        JOptionPane.showMessageDialog(null, "Invalid input. Please enter a value between 1 and 3.");
-        	    }
-        	    
+        		        
+                String[] guaranteeLevels = {"1", "2", "3"};
+                String guaranteeLevelStr = (String)JOptionPane.showInputDialog(null,"Choose guarantee level:","Guarantee Level",
+                		JOptionPane.QUESTION_MESSAGE,null,guaranteeLevels,guaranteeLevels[0]);
+                guaranteeLevel = Integer.valueOf(guaranteeLevelStr);
+                
         		JOptionPane.showMessageDialog(contentPane,
         			    "Make potion for Adventurer's request!");   
         		
+        		PotionController.setSellRequestAccepted(true);
         		requestAccepted = true;
-        	}
+        	    
+        }
         });
         acceptButton.setFont(new Font("Cochin", Font.PLAIN, 20));
         
@@ -401,7 +400,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           	public void actionPerformed(ActionEvent e) {
           			
           		if (Game.getGame().getCurrPlayer().getTurnNumber() == 0) {
-          			JOptionPane.showMessageDialog(null, "No turn numbers left! Please end your turn." );
+          			JOptionPane.showMessageDialog(null, "No turns left! Please end your turn." );
           		}
           		
           		else {
@@ -653,9 +652,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		return chosenIngredients;
     }
 
-	public static boolean isSellRequestAccepted() {
-		return requestAccepted;
-	}
 
 	
 	/**
