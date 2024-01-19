@@ -15,7 +15,7 @@ import java.util.*;
 
 public class EOISwapper extends JFrame {
     private ArrayList<Ingredient> ingredients = IngredientStorage.getInstance().getIngredientCards();
-    private Ingredient first, second, third;
+    private Ingredient first, second, third = null;
     private int num;
 
     public EOISwapper() {
@@ -73,18 +73,19 @@ public class EOISwapper extends JFrame {
     private class RearrangeButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-           
+           if(first == null || second == null || third == null ) {
+        	   JOptionPane.showMessageDialog(EOISwapper.this, "Choose a valid order!!");
+           }
+           else {
         	ingredients.set(0, first);
         	ingredients.set(1, second);
         	ingredients.set(2, third);
             JOptionPane.showMessageDialog(EOISwapper.this, "Rearrangement completed!");
+            dispose();
+           }
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new EOISwapper().setVisible(true);
-        });
-    }
+    
 }
 
