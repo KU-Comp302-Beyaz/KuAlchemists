@@ -47,7 +47,6 @@ public class PotionController {
 	
 
 	public void initializePotionSale(Player player) {
-		System.out.println("Potion sale initialized");
 		
 		//Rewards (Gold Coins) in return of a potion:
 		Map<String, Integer> rewardTable= new HashMap<String, Integer>();
@@ -77,10 +76,7 @@ public class PotionController {
 					if (guarantee == 1) updatedAmount = 1;				
 					break;
 			}
-			
-			System.out.println("Prepared Potion Sign: " + p.getPotionSign());
-			System.out.printf("Guarantee Level: %d \n", guarantee);
-			System.out.printf("Updated Amount: %d", updatedAmount);
+
 			
 			player.updateGoldBalance(updatedAmount);
 			
@@ -104,11 +100,6 @@ public class PotionController {
 		
 	
 	public void initializeMakeExperiment(Ingredient[] ingredients, Player p) {
-		
-		// PotionBrewingAreaDisplay pbad = new PotionBrewingAreaDisplay();
-		// PotionBrewingArea pba = new PotionBrewingArea();
-
-		//pbad.display();
 		
 		//Ingredient[] ingredients = pbad.getIngredients(); // Player Choose 2 Ingredients
 		
@@ -138,12 +129,10 @@ public class PotionController {
 
 	public void initializeTestPotion(Potion potion, Player player) {
 
-		// pbad.display(); // ???
-
 		String testMethod = PotionBrewingAreaDisplay.getInstance().getTestMethod(); // Player Choose TestMethod (Test on Student / Test on Player)
 		AlchemyMarker alchemyMarker = pba.testPotion(testMethod, potion, player);
 		
-		//// history update is in testPotion since action detai is in there
+		//// history update is in testPotion since action detail is in there
 		
 	}
 
