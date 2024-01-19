@@ -1,7 +1,6 @@
 package domain.ingredients;
 
 import domain.Game;
-
 import domain.Player;
 
 public class IngredientController {

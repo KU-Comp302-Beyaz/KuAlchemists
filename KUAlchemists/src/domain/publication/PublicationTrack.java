@@ -5,6 +5,7 @@ import java.util.List;
 
 import domain.ingredients.Alchemical;
 import domain.ingredients.Ingredient;
+import domain.ingredients.IngredientStorage;
 import domain.theorydeduction.AlchemyMarker;
 import domain.theorydeduction.Theory;
 
@@ -90,6 +91,45 @@ public class PublicationTrack {
 		for(Alchemical alc : availableAlchemicals) {
 			if(Alchemical.checkEquality(a, alc))
 				return alc;
+		}
+		return null;
+	}
+	
+	public AlchemyMarker findAlchemyMarker(String photo, List<AlchemyMarker> aspects) {
+		
+		for (AlchemyMarker alcm : aspects) {
+			if(alcm.getIcon().equals(photo))
+				return alcm;
+		}
+		return null;
+		
+	}
+	
+	public Ingredient findIngredientFromPhoto(String path) {
+    	
+    	for (Ingredient i : IngredientStorage.getInstance().getAllingredientcardsarray()) {
+    		if (i.getPhoto().equals(path)) {
+    			return i;
+    		}
+    	}
+    	return null;
+    }
+	
+	public PublicationCard findPublicationCard(List<Ingredient> ingredients) {
+		
+		for (PublicationCard pc : getPublicationCards()) {
+			
+			if (pc.getRequiredTheories().containsAll(ingredients))
+				return pc;
+		}
+		return null;
+		
+	}
+	
+	public Theory findTheory(Ingredient ing) {
+		for (Theory t : getPublishedTheories()) {
+			if (Ingredient.checkEquality(t.getIngredientType(), ing))
+				return t;
 		}
 		return null;
 	}

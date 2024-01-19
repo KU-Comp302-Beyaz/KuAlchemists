@@ -1,8 +1,12 @@
 package domain.theorydeduction;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import domain.Player;
 import domain.ingredients.Alchemical;
 import domain.ingredients.Ingredient;
+import domain.ingredients.IngredientStorage;
 import domain.publication.PublicationTrack;
 
 public class DeductionBoard {
@@ -56,10 +60,43 @@ public class DeductionBoard {
 		return true;
 	}
 
+	public static Ingredient findIngredientFromPhoto(String path) {
+    	
+    	for (Ingredient i : IngredientStorage.getInstance().getAllingredientcardsarray()) {
+    		if (i.getPhoto().equals(path)) {
+    			return i;
+    		}
+    	}
+    	return null;
+    }
+    
+    public static Alchemical findAlchemicalFromPhoto(String path) {
+    	
+    	for (Alchemical a : PublicationTrack.getInstance().getAvailableAlchemicals()) {
+    		if (a.getAlchemicalPhoto().equals(path))
+    			return a;
+    	}
+    	return null;
+    	
+    }
 	
+    public static ArrayList<String> getIngredientPhotoPaths() {
+    	
+    	ArrayList<String> photoPaths = new ArrayList<>();
+    	for (Ingredient i : PublicationTrack.getInstance().getAvailableIngredients()) {
+    		photoPaths.add(i.getPhoto());
+    	}
+    	return photoPaths;
+    }
 	
-	
-	
+    public static ArrayList<String> getAlchemicalPhotoPaths() {
+    	
+    	ArrayList<String> photoPaths = new ArrayList<>();
+    	for (Alchemical i : PublicationTrack.getInstance().getAvailableAlchemicals()) {
+    		photoPaths.add(i.getAlchemicalPhoto());
+    	}
+    	return photoPaths;
+    }
 	
 	
 }

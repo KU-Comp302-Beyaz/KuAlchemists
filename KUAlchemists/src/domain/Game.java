@@ -40,6 +40,8 @@ public class Game {
 	private ArtifactFactory artifactfactory = new ArtifactFactory();
 	
 	private Player[] players = new Player[4];
+	private String[] usernames = new String[4];
+	private int[] tokens = new int[4];
 	
 	//Controller as enum
 	public enum Controller {
@@ -69,34 +71,22 @@ public class Game {
 		return gameSingleton;
 	}
 	
-	public void updateHistory(String history, Player p) {
-		this.actionHistory.add(history);
-		this.playerTurnHistory.add(p);
-		if(p.getHistory() == null) {
-			p.setHistory("---------- New Action ----------\n" + history);
-		} else {
-			p.setHistory(p.getHistory() + "\n\n---------- New Action ----------\n" + history);
-		}
-		
-		BoardWindow.getBoardWindow().rewriteHistory(p); // move somewhere for modal-view seperation		
-  		
-	}
+	
 	
 	/**
 	 * Initializes players for OFFLINE mode using numberOfPlayers.
 	 * Gives players 2 ingredient cards from ingredients deck.
 	 * Gives players 10 gold.
-	 * @param loginWindow
 	 * @param players
 	 * @param numberOfPlayers
 	 */
-	public void initializePlayers(Player[] players, int numberOfPlayers) {
+	public void initializePlayers(Player[] players) {
 		String username;
 		int chosenAvatarIndex;
 		int j = 0;
-		for (int i = 0; i < numberOfPlayers; i++) {
-			username = LogInWindow.getUsernames()[i];
-			chosenAvatarIndex = LogInWindow.getSelectedTokens()[i];
+		for (int i = 0; i < getNumberOfPlayers(); i++) {
+			username = getUsernames()[i];
+			chosenAvatarIndex = getTokens()[i];
 			players[i] = new Player(username,chosenAvatarIndex);
 			
 			players[i].setProfilePhoto("src/images/avatar-icons/avatar"+(chosenAvatarIndex+1)+".png");
@@ -108,10 +98,7 @@ public class Game {
 			
 		}
 		currPlayerIndex = 0;
-		currPlayer = players[currPlayerIndex];
-		
-		setNumberOfPlayers(numberOfPlayers);
-		
+		currPlayer = players[currPlayerIndex];	
 	}
 	
 	public void endTurn() {
@@ -131,6 +118,17 @@ public class Game {
 		System.out.println("curr player is "+currPlayer);
 	}
 	
+	public void updateHistory(String history, Player p) {
+		Game.getGame().getActionHistory().add(history);
+		Game.getGame().getPlayerTurnHistory().add(p);
+		if(p.getHistory() == null) {
+			p.setHistory("---------- New Action ----------\n" + history);
+		} else {
+			p.setHistory(p.getHistory() + "\n\n---------- New Action ----------\n" + history);
+		}
+		
+	}
+	
 	/**
 	 * Increases round number
 	 * Makes all players turn number 3
@@ -141,9 +139,6 @@ public class Game {
 		for (int i = 0; i < players.length; i++) {
 			if (players[i] != null)
 				players[i].setTurnNumber(3);
-		}
-		if (gameRound > 3) {
-			endGame(players);
 		}
 		System.out.println("next round: "+ gameRound) ;
 	}
@@ -168,15 +163,7 @@ public class Game {
 		return winner;
 	}
 	
-	public void endGame(Player[] players) {
-		
-		
-		//gameRound = 1; // or delete this game singleton
-		
-		//	Move it modal-view seperation
-		EndGameDisplay ptDisplay = EndGameDisplay.getInstance();		
-		ptDisplay.initialize();
-	}
+	
 
 	/**
 	 * Initializes board
@@ -247,8 +234,7 @@ public class Game {
 			ArtifactController.getArtifactController().buyArtifact(new ElixirOfInsight() , currPlayer);
 			break;
 		case MAKE_EXPERIMENT:
-			Ingredient[] ing = PotionBrewingAreaDisplay.getInstance().getChosenIngredients();
-			PotionController.getInstance().initializeMakeExperiment(ing,currPlayer);
+			PotionController.getInstance().setCurrPlayer(currPlayer);
 			//PlayerIngredientList.initialize(currPlayer);
 			
 		case SELL_POTION:
@@ -324,6 +310,19 @@ public class Game {
 	public void setPlayerTurnHistory(Stack<Player> playerTurnHistory) {
 		this.playerTurnHistory = playerTurnHistory;
 	}
+	public String[] getUsernames() {
+		return usernames;
+	}
+	public void setUsernames(String[] usernames) {
+		this.usernames = usernames;
+	}
+	public int[] getTokens() {
+		return tokens;
+	}
+	public void setTokens(int[] tokens) {
+		this.tokens = tokens;
+	}
+	
 	
 	
 	
