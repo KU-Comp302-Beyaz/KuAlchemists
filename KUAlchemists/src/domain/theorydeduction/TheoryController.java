@@ -64,7 +64,7 @@ public class TheoryController {
 		if (alchemical == null || ingredientType == null)
 			return TCReturnMessage.NULL_ERROR;
 		boolean result = currPlayer.getPlayerDeductionBoard().publishTheory(alchemical, ingredientType);
-		if (result) {
+		if (result || currPlayer.getActivatedArtifacts().contains("printingpress")) {
 			if (currPlayer.getActivatedArtifacts().contains("printingpress")) {
 				//this.currPlayer.updateGoldBalance(-1);
 				this.currPlayer.updateReputationPoints(2);
@@ -106,6 +106,7 @@ public class TheoryController {
 			}
 		}
 		else {
+			
 			return TCReturnMessage.GOLD_ERROR;
 		}
 		
