@@ -235,11 +235,11 @@ public class Player {
 //				+ "  </body>\n"
 //				+ "</html>";
 		
-		String info =  	"Turn Number: "+ turnNumber + 
-						"\nGold Balance: " + goldBalance + 		
-						"\nSickness Level: " + sicknessLevel +
-						"\nReputation Points: " + reputationPoints +
-						"\nScore Points: " + getScorePoints();
+		String info =  	"\n  Turn Number: "+ turnNumber + 
+						"\n  Gold Balance: " + goldBalance + 		
+						"\n  Sickness Level: " + sicknessLevel +
+						"\n  Reputation Points: " + reputationPoints +
+						"\n  Score Points: " + getScorePoints();
 //						"\nArtifact Cards: " + getArtifactCardsInfo();
 		return info;
 	}

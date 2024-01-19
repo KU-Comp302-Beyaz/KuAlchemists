@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 
 import domain.Game;
 import domain.Player;
+import domain.artifact.Artifact;
 import domain.ingredients.Ingredient;
 import domain.potion.Potion;
 
@@ -33,9 +34,14 @@ public class BoardWindow extends JFrame {
 
     private JPanel[] playerDashboards = new JPanel[4];
     private JTextArea[] playerInfoTextAreas = new JTextArea[4];
+    
     private JList<JPanel>[] playerPotionsJLists = new JList[4];
     private JScrollPane[] playerPotionsScrollPanes = new JScrollPane[4];
     private JPanel[][] playerPotionsJPanelsArray = new JPanel[4][20];
+    
+    private JList<JPanel>[] playerArtifactsJLists = new JList[4];
+    private JScrollPane[] playerArtifactsScrollPanes = new JScrollPane[4];
+    private JPanel[][] playerArtifactsJPanelsArray = new JPanel[4][20];
 
 	public static void setBoardWindow(BoardWindow boardWindow) {
 		BoardWindow.boardWindow = boardWindow;
@@ -80,7 +86,7 @@ public class BoardWindow extends JFrame {
 
 	    // Wrap the JTextArea in a JScrollPane for scrolling
 	    JScrollPane scrollPane = new JScrollPane(textArea);
-	    scrollPane.setBounds(10, 450, 650, 100);
+	    scrollPane.setBounds(10, 450, 700, 140);
 	    scrollPane.setAutoscrolls(true);
 
 	    // Remove the existing JScrollPane and add the updated one
@@ -212,7 +218,7 @@ public class BoardWindow extends JFrame {
 
         //Player Dashboard TabbedPane
         tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.setBounds(600, 70, 760, 626);
+        tabbedPane.setBounds(600, 47, 760, 649);
         contentPane_1.add(tabbedPane);
         
         for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
@@ -229,18 +235,24 @@ public class BoardWindow extends JFrame {
 
         	playerInfoTextAreas[i] = new JTextArea("");
         	playerInfoTextAreas[i].setEditable(false);
-        	playerInfoTextAreas[i].setBounds(0, 0, 200, 150);
         	
-        	JScrollPane playerInfoScrollPane = new JScrollPane(playerInfoTextAreas[i]);
-        	playerInfoScrollPane.setFont(new Font("Cochin", Font.PLAIN, 13));
-        	playerInfoScrollPane.setBounds(160, 6, 200, 150);
-        	playerInfoScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        	playerInfoScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        	playerDashboards[i].add(playerInfoScrollPane);
+        	playerInfoTextAreas[i].setBounds(160, 6, 160, 120);
+        	playerDashboards[i].add(playerInfoTextAreas[i]);
+        	
+//        	playerInfoTextAreas[i].setBounds(0, 0, 200, 120);
+        	
+//        	JScrollPane playerInfoScrollPane = new JScrollPane(playerInfoTextAreas[i]);
+//        	playerInfoScrollPane.setFont(new Font("Cochin", Font.PLAIN, 13));
+//        	playerInfoScrollPane.setBounds(160, 6, 200, 150);
+//        	playerInfoScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+//        	playerInfoScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+//        	playerDashboards[i].add(playerInfoScrollPane);
+        	
+        	
 
         	//player potions
 			playerPotionsScrollPanes[i] = new JScrollPane();
-			playerPotionsScrollPanes[i].setBounds(10, 180, 650, 140);
+			playerPotionsScrollPanes[i].setBounds(10, 140, 700, 140);
 			playerPotionsScrollPanes[i].setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			playerPotionsScrollPanes[i].setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
@@ -250,6 +262,19 @@ public class BoardWindow extends JFrame {
 			
 			playerPotionsScrollPanes[i].setViewportView(playerPotionsJLists[i]);
 			playerDashboards[i].add(playerPotionsScrollPanes[i]);
+			
+			//player artifacts
+			playerArtifactsScrollPanes[i] = new JScrollPane();
+			playerArtifactsScrollPanes[i].setBounds(10, 295, 700, 140);
+			playerArtifactsScrollPanes[i].setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			playerArtifactsScrollPanes[i].setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+			playerArtifactsJLists[i] = new JList<JPanel>();
+			playerArtifactsJLists[i].setCellRenderer(new ImageListCellRenderer());  
+			playerArtifactsJLists[i].setSelectionModel(new NoSelectionModel());
+			
+			playerArtifactsScrollPanes[i].setViewportView(playerArtifactsJLists[i]);
+			playerDashboards[i].add(playerArtifactsScrollPanes[i]);
         	
         	//player history
         	rewriteHistory(player);	
@@ -292,11 +317,9 @@ public class BoardWindow extends JFrame {
 	/**
 	 * Creates the array of player potions
 	 * @param player
-	 * @return 
 	 * @return Jpanel array of player potions to be put into JList
 	 */
-
-  public JPanel[] createPlayerPotionsJPanelArray(Player player) {
+	public JPanel[] createPlayerPotionsJPanelArray(Player player) {
 		JLabel label;
 		JPanel panel;
 		ArrayList<JPanel> playerPotionJPanels = new ArrayList<JPanel>(0);
@@ -313,18 +336,54 @@ public class BoardWindow extends JFrame {
 			panel.add(label);
 			playerPotionJPanels.add(panel);
 		}
-		
-		System.out.println("size of potions is " + playerPotionJPanels.size());
-
 		return playerPotionJPanels.toArray(new JPanel[playerPotionJPanels.size()]);
 	}
 
+	public void updatePlayerArtifactsList(Player player, int i) {
+		playerArtifactsJPanelsArray[i] = createPlayerPotionsJPanelArray(player);
+		playerArtifactsJLists[i].setListData(playerPotionsJPanelsArray[i]);
+		playerArtifactsJLists[i].setLayoutOrientation(JList.VERTICAL_WRAP);
+		playerArtifactsJLists[i].setFixedCellHeight(IMAGE_HEIGHT+50);
+		playerArtifactsJLists[i].setFixedCellWidth(IMAGE_WIDTH);
+		playerArtifactsJLists[i].setVisibleRowCount(1);
+		playerArtifactsJLists[i].setSelectedIndex(0);
+		playerArtifactsScrollPanes[i].setViewportView(playerArtifactsJLists[i]);
+	}
+	
+	/**
+	 * Creates the array of player artifacts
+	 * @param player
+	 * @return Jpanel array of player artifacts to be put into JList
+	 */
+	public JPanel[] createPlayerArtifactsJPanelArray(Player player) {
+		JLabel label;
+		JPanel panel;
+		ArrayList<JPanel> playerArtifactJPanels = new ArrayList<JPanel>(0);
+		
+		for (Artifact artifact : player.getArtifacts().values()) {
+			
+			ImageIcon artifactImage = new ImageIcon();
+//			ImageIcon artifactImage = new ImageIcon(new ImageIcon(artifact.getPhoto()).getImage()
+//					.getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH));
+			
+			
+			label = new JLabel(artifactImage, JLabel.LEFT);
+			label.setHorizontalTextPosition(JLabel.CENTER);
+			label.setVerticalTextPosition(JLabel.BOTTOM);
+			
+			panel = new JPanel();
+			panel.add(label);
+			playerArtifactJPanels.add(panel);
+		}
+		return playerArtifactJPanels.toArray(new JPanel[playerArtifactJPanels.size()]);
+	}
     
 	private void initializeDashboard() {
         for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
         	Player player = Game.getGame().getPlayers()[i];
         	playerInfoTextAreas[i].setText(player.getPlayerInfo());
         	updatePlayerPotionsList(player,i);
+        	updatePlayerArtifactsList(player, i);
         	
 		}
 	}
