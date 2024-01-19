@@ -11,23 +11,23 @@ import domain.publication.PublicationTrack;
 
 public class DeductionBoard {
 	
-	private boolean[][] deductionGrid;
+	private boolean[] deductionGrid;
 	private Player owner;
 	private String[][] deductionTriangle;
 	
 	public DeductionBoard(Player owner) {
 
-		this.deductionGrid = new boolean[8][8];
+		this.deductionGrid = new boolean[64];
 		this.owner = owner;
 		this.deductionTriangle = new String[8][8];
 		
 	}
 
-	public boolean[][] getDeductionGrid() {
+	public boolean[] getDeductionGrid() {
 		return deductionGrid;
 	}
 
-	public void setDeductionGrid(boolean[][] deductionGrid) {
+	public void setDeductionGrid(boolean[] deductionGrid) {
 		this.deductionGrid = deductionGrid;
 	}
 
