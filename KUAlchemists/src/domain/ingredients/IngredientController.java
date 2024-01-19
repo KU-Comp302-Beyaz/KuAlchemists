@@ -1,7 +1,7 @@
 package domain.ingredients;
 
 import domain.Game;
-
+import domain.GameController;
 import domain.Player;
 
 public class IngredientController {
@@ -43,7 +43,7 @@ public class IngredientController {
 					+ "+1 Ingredient: " + player.getIngredientCards().size());
 		Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
 		*/
-		Game.getGame().updateHistory("Add Ingredient\n"
+		GameController.getInstance().updateHistory("Add Ingredient\n"
 					+ "+1 Ingredient: " + player.getIngredientCards().size(), player);
 	}
 	
@@ -62,7 +62,7 @@ public class IngredientController {
 		Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
 		*/
 		
-		Game.getGame().updateHistory("Transmute Ingredient\n"
+		GameController.getInstance().updateHistory("Transmute Ingredient\n"
 				+ "+1 Gold Balance: " + player.getGoldBalance(), player);
 	}
 

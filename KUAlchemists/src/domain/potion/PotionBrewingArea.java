@@ -1,6 +1,7 @@
 package domain.potion;
 
 import domain.Game;
+import domain.GameController;
 import domain.Player;
 import domain.ingredients.Alchemical;
 import domain.ingredients.Ingredient;
@@ -91,7 +92,7 @@ public class PotionBrewingArea {
 		Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
 	    */
 	    
-	    Game.getGame().updateHistory(history, player);
+	    GameController.getInstance().updateHistory(history, player);
 	    return alchemyMarker;
 	}
 

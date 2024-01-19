@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import domain.Game;
+import domain.GameController;
 import domain.Player;
 import domain.ingredients.Ingredient;
 import domain.ingredients.IngredientController;
@@ -90,7 +91,7 @@ public class PotionController {
 			Game.getGame().getPlayerTurnHistory().add(player);
 			*/
 			
-			Game.getGame().updateHistory("Sale Potion\n"
+			GameController.getInstance().updateHistory("Sale Potion\n"
 					+ "+" + updatedAmount + " Gold Balance: " + player.getGoldBalance(), player);
 		}
 		

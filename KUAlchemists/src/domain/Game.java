@@ -63,18 +63,7 @@ public class Game {
 		return gameSingleton;
 	}
 	
-	public void updateHistory(String history, Player p) {
-		this.actionHistory.add(history);
-		this.playerTurnHistory.add(p);
-		if(p.getHistory() == null) {
-			p.setHistory("---------- New Action ----------\n" + history);
-		} else {
-			p.setHistory(p.getHistory() + "\n\n---------- New Action ----------\n" + history);
-		}
-		
-		BoardWindow.getBoardWindow().rewriteHistory(p); // move somewhere for modal-view seperation		
-  		
-	}
+	
 	
 	/**
 	 * Initializes players for OFFLINE mode using numberOfPlayers.
@@ -137,7 +126,7 @@ public class Game {
 				players[i].setTurnNumber(3);
 		}
 		if (gameRound > 3) {
-			endGame(players);
+			GameController.getInstance().endGame(players);
 		}
 		System.out.println("next round: "+ gameRound) ;
 	}
@@ -162,15 +151,7 @@ public class Game {
 		return winner;
 	}
 	
-	public void endGame(Player[] players) {
-		
-		
-		//gameRound = 1; // or delete this game singleton
-		
-		//	Move it modal-view seperation
-		EndGameDisplay ptDisplay = EndGameDisplay.getInstance();		
-		ptDisplay.initialize();
-	}
+	
 
 	/**
 	 * Initializes board
