@@ -43,6 +43,7 @@ import java.util.Map.Entry;
 
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
@@ -188,7 +189,7 @@ public class ArtifactDeckDisplay extends JFrame {
         buyPrintingPressButton.setIcon(new ImageIcon(ArtifactDeckDisplay.class.getResource("/images/artifacts/printingpress.jpg")));
         panel.add(buyPrintingPressButton);
         buyEOIButton.setIcon(new ImageIcon(ArtifactDeckDisplay.class.getResource("/images/artifacts/eoiartifact.png")));
-        buyEOIButton.setToolTipText("Printing Press:\n\nUse Type: Immidiate\n\nThis artifact allows the player to publish a theory free of charge");
+        buyPrintingPressButton.setToolTipText("Printing Press:\n\nUse Type: Immidiate\n\nThis artifact allows the player to publish a theory free of charge");
         
         buyPrintingPressButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -278,6 +279,14 @@ public class ArtifactDeckDisplay extends JFrame {
         		else {
 				Game.getGame().selectController(Controller.BUY_EOI);  // same as the other artifact
 				effectDisplay.setText(ArtifactController.getArtifactController().displayMessage(Game.getGame().getCurrPlayer(), new ElixirOfInsight()));
+				
+				//THIS IS THE NEW LINE
+				//
+				//
+				SwingUtilities.invokeLater(() -> {
+		            new EOISwapper().setVisible(true);
+		        });
+				
         		}
 			}
 		});
