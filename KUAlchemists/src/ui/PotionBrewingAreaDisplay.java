@@ -461,7 +461,7 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           	        JLabel imageLabel = new JLabel(imageIcon);
           	        panel.add(textLabel, BorderLayout.NORTH);
           	        panel.add(imageLabel, BorderLayout.CENTER);
-          	        
+          	        //
           	        // Show the option pane with the custom panel
           	        
           	        JOptionPane.showMessageDialog(null, panel, "Custom Image Dialog", JOptionPane.INFORMATION_MESSAGE);
