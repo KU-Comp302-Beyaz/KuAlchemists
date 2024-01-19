@@ -8,7 +8,7 @@ public class TheRiver extends Artifact {
 	public TheRiver() {
 		this.name = "theriver";
 		this.usage = "immidiate";
-		this.lastUsed = 0;
+		
 		
 		// TODO Auto-generated constructor stub
 	}
@@ -28,6 +28,24 @@ public class TheRiver extends Artifact {
 	
 	public String message(Player player) {
 		return "The player now has " + player.getTurnNumber() + " turns left" ;
+	}
+
+	@Override
+	public void setActive(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return "The River\n\nUse Type: Immediate\n\nWhen used this artifact will boost player's turn points by 2. \nThis artifact costs no turn points to buy.\nCan be bought once per turn.";
+	}
+
+	@Override
+	public String getImagePath() {
+		// TODO Auto-generated method stub
+		return "/images/artifacts/riverartifact.png";
 	}
 
 

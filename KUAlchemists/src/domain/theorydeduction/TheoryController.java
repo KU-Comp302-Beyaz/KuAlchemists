@@ -1,7 +1,6 @@
 package domain.theorydeduction;
 
 import domain.Game;
-import domain.GameController;
 import domain.Player;
 import domain.ingredients.Alchemical;
 import domain.ingredients.Ingredient;
@@ -66,9 +65,21 @@ public class TheoryController {
 			return TCReturnMessage.NULL_ERROR;
 		boolean result = currPlayer.getPlayerDeductionBoard().publishTheory(alchemical, ingredientType);
 		if (result) {
-			this.currPlayer.updateGoldBalance(-1);
-			this.currPlayer.updateReputationPoints(2);
-			this.currPlayer.updatePlayerTurn();
+			if (currPlayer.getActivatedArtifacts().contains("printingpress")) {
+				//this.currPlayer.updateGoldBalance(-1);
+				this.currPlayer.updateReputationPoints(2);
+				//currPlayer.removeActivatedArtifact("printingpress");
+        this.currPlayer.updatePlayerTurn();
+			}
+			
+			else {
+				this.currPlayer.updateGoldBalance(-1);
+				this.currPlayer.updateReputationPoints(2);
+        this.currPlayer.updatePlayerTurn();
+			}
+
+			
+
 			///// Add action and player to history
 			/*
 			Game.getGame().getActionHistory().add("Publish Theory\n"
@@ -77,10 +88,22 @@ public class TheoryController {
 			Game.getGame().getPlayerTurnHistory().add(currPlayer);
 			*/
 			
-			GameController.getInstance().updateHistory("Publish Theory\n"
-					+ "-1 Gold Balance: " + currPlayer.getGoldBalance()
-					+ "\n+2 Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);	
-			return TCReturnMessage.SUCCESS_PUBLISH;
+
+			if (currPlayer.getActivatedArtifacts().contains("printingpress")) {
+				Game.getGame().updateHistory("Publish Theory\n"
+					+ "Gold Balance unchanged (Printing Press): " + currPlayer.getGoldBalance()
+					+ "\n+2 Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);
+				// removes the artifact from the usable artifacts of the user
+				currPlayer.removeActivatedArtifact("printingpress");
+        return TCReturnMessage.SUCCESS_PUBLISH;
+			}
+			
+			else {
+				Game.getGame().updateHistory("Publish Theory\n"
+						+ "-1 Gold Balance: " + currPlayer.getGoldBalance()
+						+ "\n+2 Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);
+        return TCReturnMessage.SUCCESS_PUBLISH;
+			}
 		}
 		else {
 			return TCReturnMessage.GOLD_ERROR;
@@ -119,7 +142,7 @@ public class TheoryController {
 			Game.getGame().getPlayerTurnHistory().add(currPlayer);
 			*/
 			
-			GameController.getInstance().updateHistory("Claim Card\n"
+			Game.getGame().updateHistory("Claim Card\n"
 					+ "+" + card.getGoldReward() + " Gold Balance: " + currPlayer.getGoldBalance()
 					+ "\n+" + card.getReputationReward() + " Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);
 			return TCReturnMessage.SUCCESS_CARD;
@@ -140,27 +163,39 @@ public class TheoryController {
 		String history = "Debunk Theory\n";
 		
 		if (debunkResult) {
+			
 			Player theoryOwner = theory.getOwner();
 			theoryOwner.getTheories().remove(theory);
 			pt.getPublishedTheories().remove(theory);
 			pt.getAvailableAlchemicals().add(theory.getAlchemical());
 			pt.getAvailableIngredients().add(theory.getIngredientType());
-			theoryOwner.updateReputationPoints(-2);
+			if (theoryOwner.getActivatedArtifacts().contains("wisdomidol")) {
+			//theoryOwner.updateReputationPoints(-2);
+				theoryOwner.removeActivatedArtifact("printingpress");
+			}
+			else {
+				theoryOwner.updateReputationPoints(-2);
+			}
 			currPlayer.updateReputationPoints(2);
 			currPlayer.updatePlayerTurn();
 			/// update action history
-			history += "Theory Owner " + theoryOwner.getUsername() + " -1 Theories: " + theoryOwner.getTheories().size() + " -2 Reputation Point: " + theoryOwner.getReputationPoints()
-					+ " +2 Reputation Point: " + currPlayer.getReputationPoints();
-			GameController.getInstance().updateHistory(history, currPlayer);
+			
+			
+				history += "Theory Owner " + theoryOwner.getUsername() + " -1 Theories: " + theoryOwner.getTheories().size() + " -2 Reputation Point: " + theoryOwner.getReputationPoints()
+				+ " +2 Reputation Point: " + currPlayer.getReputationPoints();
+			
+
+			Game.getGame().updateHistory(history, currPlayer);
 			return TCReturnMessage.SUCCESS_DEBUNK_DONE;
 			
+
 		}
 		else {
 			currPlayer.updateReputationPoints(-1);
 			currPlayer.updatePlayerTurn();
 			/// update action history
 			history += "-1 Reputation Point: " + currPlayer.getReputationPoints();
-			GameController.getInstance().updateHistory(history, currPlayer);
+			Game.getGame().updateHistory(history, currPlayer);
 			return TCReturnMessage.SUCCESS_DEBUNK_FAILED;
 		}
 		///// Add action and player to history

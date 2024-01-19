@@ -20,35 +20,28 @@ private static ArtifactController ArtifactControllerSingleton = new ArtifactCont
 	public void buyArtifact(Artifact artifact, Player player) {
 		
 		if(player.getGoldBalance() >= 3) {
-			if(artifact.usage == "immidiate") {
-				player.setTurnNumber(player.getTurnNumber() - 1);
-				player.setGoldBalance(player.getGoldBalance() - 3);
-				useArtifact(artifact, player);
+			if(player.getTurnNumber() >= 1) {
+				if(artifact.usage == "immidiate") {
+					player.setTurnNumber(player.getTurnNumber() - 1);
+					player.setGoldBalance(player.getGoldBalance() - 3);
+					useArtifact(artifact, player);
+				}
 				
-				///// Add action and player to history
-				Game.getGame().getActionHistory().add("Buy artifact\n"
-						+ "-3 Gold Balance: " + player.getGoldBalance());
-				Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
-				
-			}
-			
-			else{
-				player.setGoldBalance(player.getGoldBalance() - 3); 
-				player.addArtifact(artifact);
-				//update the lastUsed field of the artifact
-				
-				
-				///// Add action and player to history
-				Game.getGame().getActionHistory().add("Buy artifact\n"
-						+ "-3 Gold Balance: " + player.getGoldBalance());
-				Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
+				else{
+					player.setGoldBalance(player.getGoldBalance() - 3); 
+					player.addArtifact(artifact);
+					//update the lastUsed field of the artifact
+				}
 			}
 		}
 	}
 	
 	public void useArtifact(Artifact artifact, Player player){
-		if(artifact.usage == "perround") {
+		if(artifact.usage == "one-time") {
 			// cannot do anything for this yet as there is no way to know what round the player is currently in
+			artifact.setActive(true);
+			Game.getGame().getCurrPlayer().addActivatedArtifacts(artifact);
+			player.getArtifacts().remove(artifact.name);
 		}
 		else {
 			artifact.applyEffect(player);

@@ -377,7 +377,10 @@ public class LogInWindow extends JFrame {
 						loginCompleted = true;
 						
 		        		Game game = Game.getGame();
-		        		game.initializePlayers(Game.getGame().getPlayers(), getNumberOfPlayers());
+		        		game.setUsernames(usernames);
+		        		game.setTokens(selectedTokens);
+		        		game.setNumberOfPlayers(getNumberOfPlayers());
+		        		game.initializePlayers(Game.getGame().getPlayers());
 		        		game.initializeBoard();
 						BoardWindow board = BoardWindow.getBoardWindow();
 						board.initialize();
