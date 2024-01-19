@@ -114,6 +114,17 @@ public class Game {
 		System.out.println("curr player is "+currPlayer);
 	}
 	
+	public void updateHistory(String history, Player p) {
+		Game.getGame().getActionHistory().add(history);
+		Game.getGame().getPlayerTurnHistory().add(p);
+		if(p.getHistory() == null) {
+			p.setHistory("---------- New Action ----------\n" + history);
+		} else {
+			p.setHistory(p.getHistory() + "\n\n---------- New Action ----------\n" + history);
+		}
+		
+	}
+	
 	/**
 	 * Increases round number
 	 * Makes all players turn number 3

@@ -310,6 +310,7 @@ public class BoardWindow extends JFrame {
             for (int i = 0; i < Game.getGame().getNumberOfPlayers(); i++) {
             	Player player = Game.getGame().getPlayers()[i];
             	playerInfoLabels[i].setText(player.getPlayerInfo());
+            	rewriteHistory(player); 
     		}
     	}
 
