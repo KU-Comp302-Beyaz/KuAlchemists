@@ -24,12 +24,24 @@ private static ArtifactController ArtifactControllerSingleton = new ArtifactCont
 				player.setTurnNumber(player.getTurnNumber() - 1);
 				player.setGoldBalance(player.getGoldBalance() - 3);
 				useArtifact(artifact, player);
+				
+				///// Add action and player to history
+				Game.getGame().getActionHistory().add("Buy artifact\n"
+						+ "-3 Gold Balance: " + player.getGoldBalance());
+				Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
+				
 			}
 			
 			else{
 				player.setGoldBalance(player.getGoldBalance() - 3); 
 				player.addArtifact(artifact);
 				//update the lastUsed field of the artifact
+				
+				
+				///// Add action and player to history
+				Game.getGame().getActionHistory().add("Buy artifact\n"
+						+ "-3 Gold Balance: " + player.getGoldBalance());
+				Game.getGame().getPlayerTurnHistory().add(Game.getGame().getCurrPlayer());
 			}
 		}
 	}
