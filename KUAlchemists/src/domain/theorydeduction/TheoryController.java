@@ -41,9 +41,15 @@ public class TheoryController {
 		
 		boolean result = currPlayer.getPlayerDeductionBoard().publishTheory(alchemical, ingretientType);
 		if (result) {
-			this.currPlayer.updateGoldBalance(-1);
-			this.currPlayer.updateReputationPoints(2);
+			if (currPlayer.getArtifacts().containsKey("printingpress") && currPlayer.getArtifacts().get("printingpress").isConditionSatisfied() == true) {
+				//this.currPlayer.updateGoldBalance(-1);
+				this.currPlayer.updateReputationPoints(2);
+			}
 			
+			else {
+				this.currPlayer.updateGoldBalance(-1);
+				this.currPlayer.updateReputationPoints(2);
+			}
 			///// Add action and player to history
 			/*
 			Game.getGame().getActionHistory().add("Publish Theory\n"
@@ -99,15 +105,28 @@ public class TheoryController {
 		String history = "Debunk Theory\n";
 		
 		if (debunkResult) {
+			
 			Player theoryOwner = theory.getOwner();
 			theoryOwner.getTheories().remove(theory);
 			pt.getPublishedTheories().remove(theory);
-			theoryOwner.updateReputationPoints(-2);
+			if (currPlayer.getArtifacts().containsKey("wisdomidol") && currPlayer.getArtifacts().get("wisdomidol").isConditionSatisfied() == true) {
+			//theoryOwner.updateReputationPoints(-2);
+			}
+			
+			else {
+				theoryOwner.updateReputationPoints(-2);
+			}
 			currPlayer.updateReputationPoints(2);
 			
 			/// update action history
-			history += "Theory Owner " + theoryOwner.getUsername() + " -1 Theories: " + theoryOwner.getTheories().size() + " -2 Reputation Point: " + theoryOwner.getReputationPoints()
+			if (currPlayer.getArtifacts().containsKey("wisdomidol") && currPlayer.getArtifacts().get("wisdomidol").isConditionSatisfied() == true) {
+			history += "Theory Owner " + theoryOwner.getUsername() + " -1 Theories: " + theoryOwner.getTheories().size() + " -0 Reputation Point (effect of wisdom idol): " + theoryOwner.getReputationPoints()
 					+ " +2 Reputation Point: " + currPlayer.getReputationPoints();
+			}
+			else {
+				history += "Theory Owner " + theoryOwner.getUsername() + " -1 Theories: " + theoryOwner.getTheories().size() + " -2 Reputation Point: " + theoryOwner.getReputationPoints()
+				+ " +2 Reputation Point: " + currPlayer.getReputationPoints();
+			}
 		}
 		else {
 			currPlayer.updateReputationPoints(-1);
