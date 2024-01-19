@@ -232,14 +232,13 @@ public class BoardWindow extends JFrame {
         endTurnButton.setBounds(190, 600, 244, 60);
         contentPane_1.add(endTurnButton);
   		endTurnButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {			
-				if (Game.getGame().getGameRound() <= 3) {
-					Game.getGame().endTurn();
-				}
-				else {
+			public void actionPerformed(ActionEvent e) {
+				Game.getGame().endTurn();
+				if (Game.getGame().getGameRound() > 3) {
 					setVisible(false);
 					EndGameDisplay.getInstance().displayWinner();
 				}
+				
 			}
 		});
   		
@@ -611,6 +610,7 @@ public class BoardWindow extends JFrame {
     
     public void initialize() {
     	initializeDashboard();
+    	//updateHistory();
 		setVisible(true);
 	}
 }
