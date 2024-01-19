@@ -21,6 +21,8 @@ public abstract class Artifact {
 
 
 
+	public abstract void setActive(boolean b);
+	
 	public abstract boolean isConditionSatisfied();
 	
 	
@@ -34,6 +36,9 @@ public abstract class Artifact {
 
 	
 	
+	public abstract String getDescription();
+	
+	public abstract String getImagePath();
 	
 
 }

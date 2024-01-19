@@ -1,11 +1,11 @@
 package domain;
 
 import java.util.ArrayList;
+import domain.artifact.*;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Stack;
 
-import javax.swing.ImageIcon;
 
 import domain.artifact.ArtifactController;
 import domain.artifact.ElixirOfInsight;
@@ -19,12 +19,7 @@ import domain.publication.PublicationCard;
 import domain.publication.PublicationTrack;
 import domain.theorydeduction.AlchemyMarker;
 import domain.theorydeduction.TheoryController;
-import ui.BoardWindow;
-import ui.EndGameDisplay;
-import ui.IngredientStorageDisplay;
 import ui.LogInWindow;
-import ui.PotionBrewingAreaDisplay;
-import ui.PublicationTrackDisplay;
 
 public class Game {
 
@@ -36,6 +31,7 @@ public class Game {
 	private int gameRound;
 	private Stack<String> actionHistory = new Stack<String>(); // add action at the end and get the latest action 
 	private Stack<Player> playerTurnHistory = new Stack<Player>(); // add which user take action at the end and get the which user take latest action   
+	private ArtifactFactory artifactfactory = new ArtifactFactory();
 	
 	private Player[] players = new Player[4];
 	private String[] usernames = new String[4];
@@ -51,7 +47,11 @@ public class Game {
 		SELL_POTION,
 		PUBLISH_THEORY,
 		CLAIM_CARD,
-		DEBUNK_THEORY
+		DEBUNK_THEORY,
+		BUY_WISDOM_IDOL,
+		BUY_PRINTING_PRESS,
+		BUY_MAGIC_MORTAR,
+		USE_ARTIFACT
 	};
 	
 	//Singleton implementation
@@ -239,6 +239,18 @@ public class Game {
 			TheoryController.getInstance().setCurrPlayer(currPlayer);
 		case DEBUNK_THEORY:
 			TheoryController.getInstance().setCurrPlayer(currPlayer);
+			break;
+		case BUY_WISDOM_IDOL:
+			ArtifactController.getArtifactController().buyArtifact(artifactfactory.getArtifact("wisdomidol") , currPlayer);
+			break;
+		case BUY_PRINTING_PRESS:
+			ArtifactController.getArtifactController().buyArtifact(artifactfactory.getArtifact("printingpress") , currPlayer);
+			break;
+		case BUY_MAGIC_MORTAR:
+			ArtifactController.getArtifactController().buyArtifact(artifactfactory.getArtifact("magicmortar") , currPlayer);
+			break;
+		case USE_ARTIFACT:
+			ArtifactController.getArtifactController().useArtifact(currPlayer.getCurrArtifact() , currPlayer);
 		default:
 			break;
 		}
