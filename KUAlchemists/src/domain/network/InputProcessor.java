@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import javax.swing.JFrame;
+
 public class InputProcessor extends Thread {
 	
 	public enum InputTypes {
@@ -25,8 +27,8 @@ public class InputProcessor extends Thread {
 	
 	public Object processInput(Object input) {
 		
-		
-		return null;
+		JFrame f = (JFrame) input;
+		return f;
 		
 	}
 

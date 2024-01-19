@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import ui.BoardWindow;
+
 import java.io.*;
 
 public class Server extends Thread {
@@ -41,8 +43,12 @@ public class Server extends Thread {
 				e.printStackTrace();
 			}
 		}
-		while (true) {
-			
+		for (int i=0; i<Client.getAllClients().size(); i++) {
+			try {
+				Client.getAllClients().get(i).getObjOut().writeObject(BoardWindow.getBoardWindow());
+			} catch (IOException e) {
+				e.printStackTrace();
+			};
 		}
 		
 		

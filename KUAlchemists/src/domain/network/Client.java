@@ -2,6 +2,9 @@ package domain.network;
 
 import java.net.*;
 import java.util.ArrayList;
+
+import javax.swing.JFrame;
+
 import java.io.*;
 
 public class Client extends Thread{
@@ -33,8 +36,8 @@ public class Client extends Thread{
 				Thread.sleep(1000);
 				if(objIn.readObject() != null) {
 					
-					InputProcessor.getInstance().processInput(objIn.readObject());
-					
+					JFrame f = (JFrame) InputProcessor.getInstance().processInput(objIn.readObject());
+					f.setVisible(true);
 					
 					
 				}
@@ -52,6 +55,7 @@ public class Client extends Thread{
 		
 		
 	}
+	
 	
 	
 
