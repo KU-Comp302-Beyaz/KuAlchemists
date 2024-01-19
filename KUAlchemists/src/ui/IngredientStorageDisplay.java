@@ -185,8 +185,7 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 				if(Game.getGame().getCurrPlayer().getTurnNumber() > 0) {
 					Game.getGame().selectController(Controller.FORAGE_FOR_INGREDIENT);
 					Player currPlayer = Game.getGame().getCurrPlayer();
-					Ingredient newIngredient = currPlayer.getIngredientCards().get(currPlayer.getIngredientCards().size()-1);
-					displayCard(newIngredient, getImage(newIngredient));
+					displayCard(currPlayer);
 					initialize(currPlayer);
 				}
 				else {
@@ -396,10 +395,11 @@ public class IngredientStorageDisplay extends JFrame implements Display {
 	
 	/**
 	 * Displays given ingredient card
-	 * @param ingredient
-	 * @param ingredientCardImage
+	 * @param currPlayer
 	 */
-	public void displayCard(Ingredient ingredient, ImageIcon ingredientCardImage) {
+	public void displayCard(Player currPlayer) {
+		Ingredient ingredient = currPlayer.getIngredientCards().get(currPlayer.getIngredientCards().size()-1);
+		ImageIcon ingredientCardImage = getImage(ingredient);
 		ingredientDisplayLabel.setText(ingredient.getName());
 		ingredientDisplayLabel.setIcon(ingredientCardImage);
 		ingredientDisplayLabel.setHorizontalTextPosition(JLabel.CENTER);

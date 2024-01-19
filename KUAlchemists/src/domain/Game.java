@@ -38,6 +38,8 @@ public class Game {
 	private Stack<Player> playerTurnHistory = new Stack<Player>(); // add which user take action at the end and get the which user take latest action   
 	
 	private Player[] players = new Player[4];
+	private String[] usernames = new String[4];
+	private int[] tokens = new int[4];
 	
 	//Controller as enum
 	public enum Controller {
@@ -69,17 +71,16 @@ public class Game {
 	 * Initializes players for OFFLINE mode using numberOfPlayers.
 	 * Gives players 2 ingredient cards from ingredients deck.
 	 * Gives players 10 gold.
-	 * @param loginWindow
 	 * @param players
 	 * @param numberOfPlayers
 	 */
-	public void initializePlayers(Player[] players, int numberOfPlayers) {
+	public void initializePlayers(Player[] players) {
 		String username;
 		int chosenAvatarIndex;
 		int j = 0;
-		for (int i = 0; i < numberOfPlayers; i++) {
-			username = LogInWindow.getUsernames()[i];
-			chosenAvatarIndex = LogInWindow.getSelectedTokens()[i];
+		for (int i = 0; i < getNumberOfPlayers(); i++) {
+			username = getUsernames()[i];
+			chosenAvatarIndex = getTokens()[i];
 			players[i] = new Player(username,chosenAvatarIndex);
 			
 			players[i].setProfilePhoto("src/images/avatar-icons/avatar"+(chosenAvatarIndex+1)+".png");
@@ -91,10 +92,7 @@ public class Game {
 			
 		}
 		currPlayerIndex = 0;
-		currPlayer = players[currPlayerIndex];
-		
-		setNumberOfPlayers(numberOfPlayers);
-		
+		currPlayer = players[currPlayerIndex];	
 	}
 	
 	public void endTurn() {
@@ -294,6 +292,19 @@ public class Game {
 	public void setPlayerTurnHistory(Stack<Player> playerTurnHistory) {
 		this.playerTurnHistory = playerTurnHistory;
 	}
+	public String[] getUsernames() {
+		return usernames;
+	}
+	public void setUsernames(String[] usernames) {
+		this.usernames = usernames;
+	}
+	public int[] getTokens() {
+		return tokens;
+	}
+	public void setTokens(int[] tokens) {
+		this.tokens = tokens;
+	}
+	
 	
 	
 	
