@@ -1,80 +1,56 @@
 package domain.network;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.net.*;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 
-import domain.Player;
+import javax.swing.JFrame;
 
+import java.io.*;
 
 public class Server extends Thread {
 	
+	private static Server instance;
 	private ServerSocket serverSocket;
-    private List<Client> players;
-    private List<ClientHandler> clientHandlers;
-    private Thread thread;
-    private String threadd;
+	private String ipAddress = "INSERT_IP_ADDRESS";
+	private int host = 6080;
+	private int playerNumber; //ToDo: Game'den ip address ve player number çekmen lazım.
 	
-	private static final int max_players = 4;
-	private static final int min_players = 2;
-
-	public void startServer() {
-	    try {
-            serverSocket = new ServerSocket(6068);
-            clientHandlers = new ArrayList<>();
-
-            while (true) {
-                Socket clientSocket = serverSocket.accept();
-                if (clientHandlers.size() < max_players) {
-                    ClientHandler clientHandler = new ClientHandler(clientSocket, this);
-                    clientHandlers.add(clientHandler);
-                    clientHandler.start();
-                } else {
-                    //  client server is full
-                    clientSocket.close();
-
-                }
-            }
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public static synchronized Server getInstance() throws IOException {
+		
+		if (instance==null)
+			instance = new Server(6080);
+		return instance;
 		
 	}
 	
-    public void close() {
-        try {
-            serverSocket.close();
-        } catch (IOException e) {
-        }
-        }
-    
-    @Override
-    public void start() {
-		if (thread == null) {
-            thread = new Thread(this, threadd);
-            thread.start();
-        }
-    }
-    
-	
-    @Override
-    public void run() {
-        startServer();
-    }
 
-	public static String next() {
-		// TODO Auto-generated method stub
-		return null;
+	private Server(int port) throws IOException {
+		serverSocket = new ServerSocket(port);
 	}
+	
+	@Override
+	public void run() {
+		
+		while (Client.getAllClients().size() != playerNumber) {
+			Socket socket;
+			try {
+				socket = serverSocket.accept();
+				Client c = new Client(socket,ipAddress,host);
+				Client.getAllClients().add(c);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		while (true) {
+			
+		}
+		
+		
+		
+		
+	}
+	
+	
+	
+	
 }
