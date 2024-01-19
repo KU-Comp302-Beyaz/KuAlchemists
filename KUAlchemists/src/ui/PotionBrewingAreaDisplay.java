@@ -277,7 +277,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
         makePotionIcon.setHorizontalAlignment(SwingConstants.CENTER);
         //makePotionIcon.setBounds(43, 95, 420, 406);
         ImageIcon witchCauldron = new ImageIcon("src/images/witchCauldron.jpg");
-        //ImageIcon witchCauldron = new ImageIcon("src/images/witch_cauldron.jpeg");
         Image witchCauldronImage = witchCauldron.getImage().getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_HEIGHT); // size picture disabling cutting it
         witchCauldron = new ImageIcon(witchCauldronImage);
         makePotionIcon.setIcon(witchCauldron);
@@ -449,10 +448,9 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           			//Game.setController(Game.Controller.MAKE_EXPERIMENT);
           			Game.getGame().selectController(Controller.MAKE_EXPERIMENT);
           			Potion potion = Game.getGame().getCurrPlayer().getPotions().get(Game.getGame().getCurrPlayer().getPotions().size() - 1);
+          			updateIngredient(Game.getGame().getCurrPlayer());
           			//JOptionPane.showMessageDialog(contentPane,
             			//    "" + potion.getRecipe()[0].getName() + " + "+ potion.getRecipe()[1].getName() + " = " + new ImageIcon("src/images/bottle-icons/blue+bottle.png")); 
-          		
-          			
           			
           			/////////// Message Dialog Result Token
           	        // Create a panel with a label for text and an image
@@ -467,7 +465,8 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
           	        // Show the option pane with the custom panel
           	        
           	        JOptionPane.showMessageDialog(null, panel, "Custom Image Dialog", JOptionPane.INFORMATION_MESSAGE);
-          	    }
+          	    
+          		}
           		
           		
           		//Action handler for Adventurer's Potion Reuqest
@@ -658,33 +657,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		return requestAccepted;
 	}
 
-		/**
-	 * Gets the selected indexes by player from JList
-	 * @return chosen Ingredient
-	 */
-	/*
-	public Ingredient[] getChosenIngredients() {
-		
-        int[] selectedIndices = ingredientList.getSelectedIndices();
-        
-        System.out.println(selectedIndices.length);
-        
-        ArrayList<Ingredient> selectedIngredients = new ArrayList<>();
-
-        	for (int index : selectedIndices) {
-                JLabel label = (JLabel) ingredientList.getModel().getElementAt(index).getComponent(0);
-                Ingredient ingredient = PlayerIngredientList.getIngredientCardLabels().get(label);
-                selectedIngredients.add(ingredient);
-            }
-
-            // Convert ArrayList to an array
-            Ingredient[] resultArray = new Ingredient[selectedIngredients.size()];
-            return selectedIngredients.toArray(resultArray);
-   
-        
-    }
-    */
-	
 	
 	/**
 	 * Initialize UI, player cards are updated every time this is called (every button click)
@@ -692,15 +664,16 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 	 */
 	public void updateIngredient(Player player) {
 
+		/*
 		if (player.getIngredientCards() == null || player.getIngredientCards().isEmpty()) {
 			System.out.println("Player Ingredient Cards null");
 			return;			
-		}
+		}*/
 	
 
 		JPanel[] ingredientCardPanelsArray = PlayerIngredientList.createIngredientArray(player);
 		ingredientList.setListData(ingredientCardPanelsArray);
-		 /*
+		 
 		ingredientList.setLayoutOrientation(JList.VERTICAL_WRAP);
 		ingredientList.setFixedCellHeight(IMAGE_HEIGHT+50);
 		ingredientList.setFixedCellWidth(IMAGE_WIDTH);
@@ -710,6 +683,6 @@ public class PotionBrewingAreaDisplay extends JFrame implements Display {
 		ingredientList.setVisibleRowCount((player.getIngredientCards().size()+numberOfImagesInRow-1)/numberOfImagesInRow);
 		ingredientList.setSelectedIndex(0);
 		scrollPane_ingredients.setViewportView(ingredientList);
-		*/
+		
 	}
 }
