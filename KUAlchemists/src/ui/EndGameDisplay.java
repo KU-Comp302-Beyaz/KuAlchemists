@@ -104,7 +104,7 @@ public class EndGameDisplay extends JFrame{
 		        JLabel lblPlayerUserName_1 = new JLabel("Username: " + players[0].getUsername());
 		        lblPlayerUserName_1.setFont(new Font("Cochin", Font.PLAIN, 20));
 		        lblPlayerUserName_1.setLocation(250, 350);
-		        lblPlayerUserName_1.setSize(150, 25);
+		        lblPlayerUserName_1.setSize(187, 25);
 		        lblPlayer_1.setFont(new Font("Cochin", Font.PLAIN, 20));
 		        contentPane.add(lblPlayerUserName_1);
 		        
@@ -116,7 +116,7 @@ public class EndGameDisplay extends JFrame{
 		        contentPane.add(lblPlayerProfilePhoto_1);
 		        
 		        JLabel lblScore_1 = new JLabel("Final Score: " + players[0].getScorePoints());
-		        lblScore_1.setBounds(500, 350, 116, 23);
+		        lblScore_1.setBounds(500, 350, 187, 23);
 		        lblScore_1.setFont(new Font("Cochin", Font.PLAIN, 20));
 		        contentPane.add(lblScore_1);
 		        
@@ -130,7 +130,7 @@ public class EndGameDisplay extends JFrame{
 		        JLabel lblPlayerUserName_2 = new JLabel("Username: " + players[1].getUsername());
 		        lblPlayerUserName_2.setFont(new Font("Cochin", Font.PLAIN, 20));
 		        lblPlayerUserName_2.setLocation(250, 525);
-		        lblPlayerUserName_2.setSize(150, 25);
+		        lblPlayerUserName_2.setSize(187, 25);
 		        lblPlayer_1.setFont(new Font("Cochin", Font.PLAIN, 20));
 		        contentPane.add(lblPlayerUserName_2);		      
 		        
@@ -142,7 +142,7 @@ public class EndGameDisplay extends JFrame{
 		        contentPane.add(lblPlayerProfilePhoto_2); 
 		        
 		        JLabel lblScore_2 = new JLabel("Final Score: " + players[1].getScorePoints());
-		        lblScore_2.setBounds(500, 525, 116, 23);
+		        lblScore_2.setBounds(500, 525, 187, 23);
 		        lblScore_2.setFont(new Font("Cochin", Font.PLAIN, 20));
 		        contentPane.add(lblScore_2);
 		        
@@ -151,12 +151,13 @@ public class EndGameDisplay extends JFrame{
 		        	// PLAYER 3		        	
 		        	
 			        JLabel lblPlayer_3 = new JLabel("Player 3");
-			        lblPlayer_3.setBounds(100, 675, 69, 23);
+			        lblPlayer_3.setBounds(783, 300, 69, 23);
 			        lblPlayer_3.setFont(new Font("Cochin", Font.PLAIN, 20));
 			        contentPane.add(lblPlayer_3);
 			        
 			        JLabel lblPlayerUserName_3 = new JLabel("Username: " + players[2].getUsername());
-			        lblPlayerUserName_3.setLocation(250, 725);
+			        lblPlayerUserName_3.setFont(new Font("Cochin", Font.PLAIN, 20));
+			        lblPlayerUserName_3.setLocation(947, 336);
 			        lblPlayerUserName_3.setSize(150, 25);
 			        lblPlayer_3.setFont(new Font("Cochin", Font.PLAIN, 20));
 			        contentPane.add(lblPlayerUserName_3);
@@ -165,11 +166,11 @@ public class EndGameDisplay extends JFrame{
 			        Image scaledImage3 = image_Player3.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 			        ImageIcon scaledIcon3 = new ImageIcon(scaledImage3);
 			        JLabel lblPlayerProfilePhoto_3 = new JLabel(scaledIcon3);
-			        lblPlayerProfilePhoto_3.setBounds(100, 725, 100, 100);
+			        lblPlayerProfilePhoto_3.setBounds(783, 350, 100, 100);
 			        contentPane.add(lblPlayerProfilePhoto_3); 
 			        
 			        JLabel lblScore_3 = new JLabel("Final Score: " + players[2].getScorePoints());
-			        lblScore_3.setBounds(1241, 459, 254, 25);
+			        lblScore_3.setBounds(1161, 334, 254, 25);
 			        lblScore_3.setFont(new Font("Cochin", Font.PLAIN, 20));
 			        contentPane.add(lblScore_3);
 		        	
@@ -179,12 +180,13 @@ public class EndGameDisplay extends JFrame{
 		        	
 		        	// PLAYER 4
 			        JLabel lblPlayer_4 = new JLabel("Player 4");
-			        lblPlayer_4.setBounds(100, 775, 69, 23);
+			        lblPlayer_4.setBounds(783, 475, 69, 23);
 			        lblPlayer_4.setFont(new Font("Cochin", Font.PLAIN, 20));
 			        contentPane.add(lblPlayer_4);
 			        
 			        JLabel lblPlayerUserName_4 = new JLabel("Username: " + players[3].getUsername());
-			        lblPlayerUserName_4.setLocation(250, 825);
+			        lblPlayerUserName_4.setFont(new Font("Cochin", Font.PLAIN, 20));
+			        lblPlayerUserName_4.setLocation(947, 527);
 			        lblPlayerUserName_4.setSize(150, 25);
 			        lblPlayer_4.setFont(new Font("Cochin", Font.PLAIN, 20));
 			        contentPane.add(lblPlayerUserName_4);
@@ -193,11 +195,11 @@ public class EndGameDisplay extends JFrame{
 			        Image scaledImage4 = image_Player4.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 			        ImageIcon scaledIcon4 = new ImageIcon(scaledImage4);
 			        JLabel lblPlayerProfilePhoto_4 = new JLabel(scaledIcon4);
-			        lblPlayerProfilePhoto_4.setBounds(100, 825, 100, 100);
+			        lblPlayerProfilePhoto_4.setBounds(783, 525, 100, 100);
 			        contentPane.add(lblPlayerProfilePhoto_4); 
 			        
 			        JLabel lblScore_4 = new JLabel("Final Score: " + players[3].getScorePoints());
-			        lblScore_4.setBounds(1241, 459, 254, 25);
+			        lblScore_4.setBounds(1161, 525, 254, 25);
 			        lblScore_4.setFont(new Font("Cochin", Font.PLAIN, 20));
 			        contentPane.add(lblScore_4);
 		        	
@@ -215,7 +217,7 @@ public class EndGameDisplay extends JFrame{
 		        		
 
 		      			/////////// Message Dialog Result Token
-		      			JFrame frame = new JFrame("ResultToken Dialog");
+//		      			JFrame frame = new JFrame("ResultToken Dialog");
 		      	        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		      	        // Create a panel with a label for text and an image
@@ -247,28 +249,19 @@ public class EndGameDisplay extends JFrame{
 		      	        }
 
 		      	        // Show the option pane 
-		      	        JOptionPane.showMessageDialog(frame, panel, "", JOptionPane.INFORMATION_MESSAGE);
+		      	        JOptionPane.showMessageDialog(null, panel, "", JOptionPane.INFORMATION_MESSAGE);
 
 		      	        // Optional: Set frame size and make it visible
-		      	        frame.setSize(300, 200);
-		      	        frame.setLocationRelativeTo(null); // Center on screen
-		      	        frame.setVisible(true);
+//		      	        frame.setSize(300, 200);
+//		      	        frame.setLocationRelativeTo(null); // Center on screen
+//		      	        frame.setVisible(true);
 		        	}
 		        });
 		           
 		        contentPane.add(btnShowResult);
 		        
 		        
-		        JButton btnNewGame = new JButton("New Game");
-		        btnNewGame.setBounds(700, 700, 150, 50);
-		        //Event handler of the accept button
-		        btnNewGame.addActionListener(new ActionListener() {
-		        	public void actionPerformed(ActionEvent e) {
-		        		//game = new Game();		        		
-		        	}
-		        });
-		        btnNewGame.setFont(new Font("Cochin", Font.PLAIN, 20));
-		        contentPane.add(btnNewGame);
+
 
 		}
 		
