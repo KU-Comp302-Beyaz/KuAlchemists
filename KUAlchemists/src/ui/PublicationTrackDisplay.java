@@ -59,6 +59,7 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 	private JMenu fileMenu = new JMenu("Menu");
 	private JMenuItem openDialogMenuItem = new JMenuItem("Open Menu");
 	private JButton backToBoardButton = new JButton("Back to Board");
+	private TheoryController TController= TheoryController.getInstance();
 	
 	private static final int IMAGE_WIDTH = 200, IMAGE_HEIGHT = 200;
 	
@@ -69,7 +70,6 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		setResizable(false);
 		setTitle("KuAlchemists");
 		setBounds(0, 0, 1440, 800);
-		
 		// Add background image
         try {
             BufferedImage backgroundImage1 = ImageIO.read(new File("src/images/board.png"));
@@ -86,8 +86,6 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
-		
-		
 		
 		
 		titleLabel.setFont(new Font("Cochin", Font.PLAIN, 30));
@@ -142,12 +140,19 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 			if (theoryList.getSelectedValue() == null) {
 				JOptionPane.showMessageDialog(this, "Please select a theory to debunk!","Select Theory",JOptionPane.ERROR_MESSAGE);
 			}
+
+			else if (TController.checkRoundAndTurnForDebunk().equals(TheoryController.TCReturnMessage.ROUND_ERROR_FINAL))
+				JOptionPane.showMessageDialog(this, "You can only debunk a theory in the final round!","Round Error",JOptionPane.ERROR_MESSAGE);
+
+			else if (TController.checkRoundAndTurnForDebunk().equals(TheoryController.TCReturnMessage.TURN_ERROR))
+				JOptionPane.showMessageDialog(this, "You have no turns left! Please end your turn.","Turn Error",JOptionPane.ERROR_MESSAGE);
 			else {
+				
 				JLabel ingredientFromTheoryLabel = (JLabel) ((JPanel) theoryList.getSelectedValue()).getComponent(0);
 				ImageIcon selectedIcon = (ImageIcon) ingredientFromTheoryLabel.getIcon();
-				Ingredient selectedIngredient = findIngredientFromPhoto(selectedIcon.getDescription());
-				Theory selectedTheory = findTheory(selectedIngredient);
-				if (selectedTheory.getOwner().equals(Game.getGame().getCurrPlayer())) {
+				Ingredient selectedIngredient = pt.findIngredientFromPhoto(selectedIcon.getDescription());
+				Theory selectedTheory = pt.findTheory(selectedIngredient);
+				if (TController.lookTheoryOwner(selectedTheory).equals(TheoryController.TCReturnMessage.SELF_DEBUNK_ERROR)) {
 					JOptionPane.showMessageDialog(this, "You cannot debunk your own theory!","Debunk Theory Error",JOptionPane.ERROR_MESSAGE);
 				}
 				else {
@@ -171,18 +176,22 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 			}
 			else {
 				PublicationCard selectedCard = getSelectedCard();
-				if (selectedCard.isClaimed())
+				TheoryController.TCReturnMessage result = TController.initClaimCard(selectedCard);
+				if (result.equals(TheoryController.TCReturnMessage.NULL_ERROR))
+					JOptionPane.showMessageDialog(this, "Null Pointer Error!","Something Wrong!",JOptionPane.ERROR_MESSAGE);
+				else if (result.equals(TheoryController.TCReturnMessage.CARD_ALREADY_CLAIMED_ERROR))
 					JOptionPane.showMessageDialog(this, "This Publication Card is already claimed.","Card Already Claimed",JOptionPane.ERROR_MESSAGE);
+				else if(result.equals(TheoryController.TCReturnMessage.TURN_ERROR))
+					JOptionPane.showMessageDialog(this, "You have no turns left! Please end your turn.","Turn Error",JOptionPane.ERROR_MESSAGE);
 				else {
-					boolean result = TheoryController.getInstance().initClaimCard(selectedCard);
-					if (result) {
+					if (result.equals(TheoryController.TCReturnMessage.SUCCESS_CARD)) {
 						JPanel selectedPanel = (JPanel) publicationList.getSelectedValue();
 						JLabel l = new JLabel();
 						l.setIcon(new ImageIcon(new ImageIcon("src/images/claimed.png").getImage().getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT/2, Image.SCALE_SMOOTH)));
 						selectedPanel.add(l);
 						JOptionPane.showMessageDialog(this, Game.getGame().getCurrPlayer().getUsername()+" successfully claimed the publication card! "+selectedCard.getGoldReward()+" amount(s) of gold and "+selectedCard.getReputationReward()+" amount(s) of reputation points are added to the "+Game.getGame().getCurrPlayer().getUsername(),"Card Successfully Claimed",JOptionPane.PLAIN_MESSAGE);
 					}
-					else {
+					else if (result.equals(TheoryController.TCReturnMessage.NO_SUFFICENT_THEORIES_ERROR)){
 						JOptionPane.showMessageDialog(this, "You don't have required theories to claim this publication card.","Cannot Claim Card",JOptionPane.ERROR_MESSAGE);
 					}
 				}
@@ -244,15 +253,15 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		ImageIcon photo2 = (ImageIcon) ingredientPanel2.getIcon();
 		ImageIcon photo3 = (ImageIcon) ingredientPanel3.getIcon();
 		
-		Ingredient ing1 = findIngredientFromPhoto(photo1.getDescription());
-		Ingredient ing2 = findIngredientFromPhoto(photo2.getDescription());
-		Ingredient ing3 = findIngredientFromPhoto(photo3.getDescription());
+		Ingredient ing1 = pt.findIngredientFromPhoto(photo1.getDescription());
+		Ingredient ing2 = pt.findIngredientFromPhoto(photo2.getDescription());
+		Ingredient ing3 = pt.findIngredientFromPhoto(photo3.getDescription());
 		
 		ArrayList<Ingredient> ingredients = new ArrayList<>();
 		ingredients.add(ing1);
 		ingredients.add(ing2);
 		ingredients.add(ing3);
-		PublicationCard card = findPublicationCard(ingredients);
+		PublicationCard card = pt.findPublicationCard(ingredients);
 		return card;
 		
 		
@@ -309,7 +318,7 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 			if (alchemyMarkerList.getSelectedValue()!= null) {
 				JLabel selectedPanel = (JLabel) ((JPanel) alchemyMarkerList.getSelectedValue()).getComponent(0);
 				ImageIcon photo = (ImageIcon) selectedPanel.getIcon();
-				AlchemyMarker alm = findAlchemyMarker(photo.getDescription(),t.getAlchemical().getAspects());
+				AlchemyMarker alm = pt.findAlchemyMarker(photo.getDescription(),t.getAlchemical().getAspects());
 				photoSelectionFrame.dispose();
 				revealAlchemyMarker(t,alm);
 			}
@@ -324,54 +333,45 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 	private void revealAlchemyMarker(Theory theory ,AlchemyMarker alm) {
 		
 		Game.getGame().selectController(Controller.DEBUNK_THEORY);
-		Boolean result = TheoryController.getInstance().initDebunkTheory(theory, alm);
-		String resultMessage;
-		if (result) {
-			resultMessage="<html>Player "+Game.getGame().getCurrPlayer().getUsername()+" succesfully debunked the theory!</br> 2 reputation points is added to "+Game.getGame().getCurrPlayer().getUsername()+" , and"
-					+ " 2 reputation points is deducted from "+theory.getOwner().getUsername()+" .</html>";
-			theoryPanels.clear();
-			getTheoryListItems();
-			theoryList.setListData(theoryPanels.toArray());
+		TheoryController.TCReturnMessage result = TController.initDebunkTheory(theory, alm);
+		String resultMessage="";
+		if (result.equals(TheoryController.TCReturnMessage.NULL_ERROR))
+			JOptionPane.showMessageDialog(this, "Null Pointer Error!","Something Wrong!",JOptionPane.ERROR_MESSAGE);
+		else {
+			if (result.equals(TheoryController.TCReturnMessage.SUCCESS_DEBUNK_DONE)) {
+				resultMessage="<html>Player "+Game.getGame().getCurrPlayer().getUsername()+" succesfully debunked the theory!</br> 2 reputation points is added to "+Game.getGame().getCurrPlayer().getUsername()+" , and"
+						+ " 2 reputation points is deducted from "+theory.getOwner().getUsername()+" .</html>";
+				theoryPanels.clear();
+				getTheoryListItems();
+				theoryList.setListData(theoryPanels.toArray());
+			}
+			else if (result.equals(TheoryController.TCReturnMessage.SUCCESS_DEBUNK_FAILED))
+				resultMessage="<html>Player "+Game.getGame().getCurrPlayer().getUsername()+" failed to debunk the theory!</br> 1 reputation point is deducted from player "+Game.getGame().getCurrPlayer().getUsername()+" .</html>";
+			JFrame resultFrame = new JFrame();
+			resultFrame.setBounds(100, 100, 800, 600);
+			resultFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			resultFrame.getContentPane().setLayout(null);
+			
+			JLabel titleLabel = new JLabel("Result");
+			titleLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+			titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			titleLabel.setBounds(323, 56, 146, 47);
+			resultFrame.getContentPane().add(titleLabel);
+			
+			JPanel alchemyMarkerPanel = new JPanel();
+			alchemyMarkerPanel.setBounds(196, 125, 404, 306);
+			resultFrame.getContentPane().add(alchemyMarkerPanel);
+			
+			JLabel descriptionLabel = new JLabel(resultMessage);
+			descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			descriptionLabel.setBounds(50, 464, 698, 77);
+			resultFrame.getContentPane().add(descriptionLabel);
+			
+			JLabel revealedAlchemyMarkerLabel = new JLabel();
+			revealedAlchemyMarkerLabel.setIcon(new ImageIcon(new ImageIcon(pt.returnCorrespondingAlchemyMarker(theory, alm).getIcon()).getImage().getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH)));
+			alchemyMarkerPanel.add(revealedAlchemyMarkerLabel);
+			resultFrame.setVisible(true);
 		}
-		else
-			resultMessage="<html>Player "+Game.getGame().getCurrPlayer().getUsername()+" failed to debunk the theory!</br> 1 reputation point is deducted from player "+Game.getGame().getCurrPlayer().getUsername()+" .</html>";
-		
-		JFrame resultFrame = new JFrame();
-		resultFrame.setBounds(100, 100, 800, 600);
-		resultFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		resultFrame.getContentPane().setLayout(null);
-		
-		JLabel titleLabel = new JLabel("Result");
-		titleLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		titleLabel.setBounds(323, 56, 146, 47);
-		resultFrame.getContentPane().add(titleLabel);
-		
-		JPanel alchemyMarkerPanel = new JPanel();
-		alchemyMarkerPanel.setBounds(196, 125, 404, 306);
-		resultFrame.getContentPane().add(alchemyMarkerPanel);
-		
-		JLabel descriptionLabel = new JLabel(resultMessage);
-		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		descriptionLabel.setBounds(50, 464, 698, 77);
-		resultFrame.getContentPane().add(descriptionLabel);
-		
-		JLabel revealedAlchemyMarkerLabel = new JLabel();
-		revealedAlchemyMarkerLabel.setIcon(new ImageIcon(new ImageIcon(pt.returnCorrespondingAlchemyMarker(theory, alm).getIcon()).getImage().getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH)));
-		alchemyMarkerPanel.add(revealedAlchemyMarkerLabel);
-		resultFrame.setVisible(true);
-		
-	}
-
-
-	private AlchemyMarker findAlchemyMarker(String photo, List<AlchemyMarker> aspects) {
-		
-		for (AlchemyMarker alcm : aspects) {
-			if(alcm.getIcon().equals(photo))
-				return alcm;
-		}
-		return null;
-		
 	}
 
 
@@ -418,34 +418,6 @@ public class PublicationTrackDisplay extends JFrame implements Display {
 		}
 	}
 	
-	private Ingredient findIngredientFromPhoto(String path) {
-    	
-    	for (Ingredient i : IngredientStorage.getInstance().getAllingredientcardsarray()) {
-    		if (i.getPhoto().equals(path)) {
-    			return i;
-    		}
-    	}
-    	return null;
-    }
-	
-	private PublicationCard findPublicationCard(List<Ingredient> ingredients) {
-		
-		for (PublicationCard pc : pt.getPublicationCards()) {
-			
-			if (pc.getRequiredTheories().containsAll(ingredients))
-				return pc;
-		}
-		return null;
-		
-	}
-	
-	private Theory findTheory(Ingredient ing) {
-		for (Theory t : pt.getPublishedTheories()) {
-			if (Ingredient.checkEquality(t.getIngredientType(), ing))
-				return t;
-		}
-		return null;
-	}
 
 	public void openDialog() {
         // Create a small dialog
