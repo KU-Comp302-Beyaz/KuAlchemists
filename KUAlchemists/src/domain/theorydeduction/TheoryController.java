@@ -33,6 +33,7 @@ public class TheoryController {
 		SELF_DEBUNK_ERROR
 	}
 	
+
 	
 	public static synchronized TheoryController getInstance() {
 		if (TheoryControllerInstance == null)
