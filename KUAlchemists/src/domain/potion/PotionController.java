@@ -23,7 +23,16 @@ public class PotionController {
 	private static Potion potion;
 	private static int updatedAmount;
 	private static PotionController potionControllerInstance;
+	private Player currPlayer;
 	
+	public Player getCurrPlayer() {
+		return currPlayer;
+	}
+
+	public void setCurrPlayer(Player currPlayer) {
+		this.currPlayer = currPlayer;
+	}
+
 	private PotionController() {}
 
 	/**
