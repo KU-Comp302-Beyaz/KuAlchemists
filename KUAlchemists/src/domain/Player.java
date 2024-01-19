@@ -30,6 +30,7 @@ public class Player {
 	private String profilePhoto;
 	private String history;
 	private Artifact currArtifact;
+	private ArrayList activatedArtifacts = new ArrayList<String>();
 
 	
 	// constructor
@@ -47,7 +48,16 @@ public class Player {
 	}
 	
 	
+	public ArrayList<String> getActivatedArtifacts() {
+		return this.activatedArtifacts;
+	}
+	public void addActivatedArtifacts(Artifact artifact) {
+		this.activatedArtifacts.add(artifact.getName());
+	}
 	
+	public void removeActivatedArtifact(String name) {
+		this.activatedArtifacts.remove(name);
+	}
 	// getter - setter
 	public String getUsername() {
 		return username;

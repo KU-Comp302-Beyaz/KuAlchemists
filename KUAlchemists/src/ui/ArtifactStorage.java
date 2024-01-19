@@ -16,6 +16,7 @@ import domain.Game.Controller;
 import domain.artifact.Artifact;
 import domain.artifact.ArtifactController;
 import domain.artifact.WisdomIdol;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class ArtifactStorage extends JFrame {
 
@@ -58,6 +59,7 @@ public class ArtifactStorage extends JFrame {
             		Game.getGame().getCurrPlayer().setCurrArtifact(artifact);	
             		Game.getGame().selectController(Controller.USE_ARTIFACT);
             		panel.remove(artifactButton);
+            		showMessageDialog(null, artifact.name + "activated!");
     			}
     		});
            
@@ -70,12 +72,4 @@ public class ArtifactStorage extends JFrame {
         
     }
 
-    public static void main(String[] args) {
-        // Use EventQueue.invokeLater to ensure GUI updates are done on the EDT
-        javax.swing.SwingUtilities.invokeLater(() -> {
-            ArtifactStorage frame = new ArtifactStorage();
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setVisible(true);
-        });
-    }
 }

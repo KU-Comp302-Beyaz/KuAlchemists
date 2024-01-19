@@ -110,13 +110,16 @@ public class PotionController {
 		//pbad.display();
 		
 		//Ingredient[] ingredients = pbad.getIngredients(); // Player Choose 2 Ingredients
-		if (p.getArtifacts().containsKey("magicmortar") && p.getArtifacts().get("magicmortar").isConditionSatisfied() == true) {
+		if (p.getActivatedArtifacts().contains("magicmortar")) {
 			Ingredient ing_1 = ingredients[0];
 			//p.getIngredientCards().remove(ing_1); // if the magic mortar is active player keeps the ingredient
 			Ingredient ing_2 = ingredients[1];
 			p.getIngredientCards().remove(ing_2); //remove chosen ingredient
 		
 			potion = pba.makePotion(ing_1, ing_2);
+			
+			//remove artifact from usable artifacts
+			p.removeActivatedArtifact("magicmortar");
 		}
 		else {
 		Ingredient ing_1 = ingredients[0];

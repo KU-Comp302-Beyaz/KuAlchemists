@@ -41,9 +41,10 @@ public class TheoryController {
 		
 		boolean result = currPlayer.getPlayerDeductionBoard().publishTheory(alchemical, ingretientType);
 		if (result) {
-			if (currPlayer.getArtifacts().containsKey("printingpress") && currPlayer.getArtifacts().get("printingpress").isConditionSatisfied() == true) {
+			if (currPlayer.getActivatedArtifacts().contains("printingpress")) {
 				//this.currPlayer.updateGoldBalance(-1);
 				this.currPlayer.updateReputationPoints(2);
+				//currPlayer.removeActivatedArtifact("printingpress");
 			}
 			
 			else {
@@ -58,9 +59,19 @@ public class TheoryController {
 			Game.getGame().getPlayerTurnHistory().add(currPlayer);
 			*/
 			
-			Game.getGame().updateHistory("Publish Theory\n"
-					+ "-1 Gold Balance: " + currPlayer.getGoldBalance()
+			if (currPlayer.getActivatedArtifacts().contains("printingpress")) {
+				Game.getGame().updateHistory("Publish Theory\n"
+					+ "Gold Balance unchanged (Printing Press): " + currPlayer.getGoldBalance()
 					+ "\n+2 Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);
+				// removes the artifact from the usable artifacts of the user
+				currPlayer.removeActivatedArtifact("printingpress");
+			}
+			
+			else {
+				Game.getGame().updateHistory("Publish Theory\n"
+						+ "-1 Gold Balance: " + currPlayer.getGoldBalance()
+						+ "\n+2 Reputation Point: " + currPlayer.getReputationPoints(), currPlayer);
+			}
 	
 			
 		}

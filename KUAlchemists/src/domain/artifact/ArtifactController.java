@@ -40,6 +40,7 @@ private static ArtifactController ArtifactControllerSingleton = new ArtifactCont
 		if(artifact.usage == "one-time") {
 			// cannot do anything for this yet as there is no way to know what round the player is currently in
 			artifact.setActive(true);
+			Game.getGame().getCurrPlayer().addActivatedArtifacts(artifact);
 			player.getArtifacts().remove(artifact.name);
 		}
 		else {
